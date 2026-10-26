@@ -145,6 +145,18 @@ rules above (vanilla JS, no framework, no build step). That means:
   (MediaRecorder, needs microphone permission once). Stored on the device in
   IndexedDB as audio blobs and played back offline.
   - Not wanted: text-to-speech (reading questions aloud) and voice dictation.
+- **Drawing and handwriting** (professional, like a note-taking app): a canvas per
+  question for drawing and writing with finger or stylus (Apple Pencil / S Pen).
+  Pressure-sensitive pen, highlighter, eraser, colors and sizes, undo/redo,
+  zoom/pan, palm rejection (use Pointer Events, `pointerType === "pen"`).
+  Save strokes as vector data in IndexedDB (small, sharp at any zoom), not as images.
+- **"Ask GPT" button** on each question: opens ChatGPT (the app if installed,
+  otherwise the website) with the question, choices and the user's answer
+  pre-filled, via a link like `https://chatgpt.com/?q=<encoded text>`.
+  - No API, no key, no cost. Needs internet; hide or disable it when offline.
+  - Fallback: copy the prompt to the clipboard, then open ChatGPT.
+  - Show a short note that ChatGPT is an outside source and may not match the
+    app's sources. This button is for the user only; it never feeds question writing.
 - **Images**: still to be decided by the owner (images inside questions from the
   owner's sources, and/or images the user adds).
 - All of this user data lives on the device and must be included in the backup
