@@ -602,7 +602,7 @@ wide `≥ 1000px` (player shows question and explanation side by side).
 bookmark-filled flag pen highlighter eraser undo redo mic stop play pause trash chevron-left
 chevron-right chevron-down close check x clock share download upload sparkles list grid info
 alert refresh moon sun text-size note image more target flame layers lasso zoom-in zoom-out
-hand eye eye-off filter shuffle timer star`.
+hand eye eye-off filter shuffle timer star volume`.
 
 ### 6.3 `ui/components.js`
 ```js
