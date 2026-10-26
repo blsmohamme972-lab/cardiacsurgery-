@@ -282,9 +282,11 @@ async function main(argv) {
     const tabs = await page.$$eval('#tabbar .tab', (els) => els.map((el) => el.getAttribute('data-route') || ''));
     for (const route of tabs) {
       // Mark the current screen, so the wait below sees the new one, not the old one.
-      await page.evaluate(() => {
+      // (Tapping the tab of the screen already shown keeps that screen.)
+      await page.evaluate((r) => {
+        if ((location.hash.replace(/^#/, '') || '/').split('?')[0] === r) return;
         for (const el of document.getElementById('main')?.children ?? []) el.setAttribute('data-smoke-old', '');
-      });
+      }, route);
       await page.click(`#tabbar .tab[data-route="${route}"]`);
       let ok = true;
       try {
@@ -310,7 +312,7 @@ async function main(argv) {
       check(ok && !t.routeError, `#${route} mounts${t.stub ? ' (stub)' : ''}${t.routeError ? ` — error state: "${t.routeError}"` : ''}`);
       check(current === 'page', `#${route} tab is marked current`);
       check(t.overflowX <= 0, `#${route} has no horizontal page scroll (${t.overflowX}px extra)`);
-      if (shotsDir) await page.screenshot({ path: path.join(shotsDir, `smoke-tab${route.replace(/\//g, '-') || '-home'}.png`) });
+      if (shotsDir) await page.screenshot({ path: path.join(shotsDir, `smoke-tab${route === '/' ? '-home' : route.replace(/\//g, '-')}.png`) });
     }
     await page.click('#tabbar .tab[data-route="/"]');
     await waitForBoot(page).catch(() => {});

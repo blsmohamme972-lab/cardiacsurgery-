@@ -686,18 +686,21 @@ export function initHighlights(root, question, { onOrphans } = {}) {
         h('span', { class: 'hl-dot', 'aria-hidden': 'true' }, isCurrent ? icon('check', { size: 16 }) : null),
       );
     });
-    el.replaceChildren(
+    const children = [
       ...swatches,
       h('span', { class: 'hl-sep', 'aria-hidden': 'true' }),
       h('button', { type: 'button', class: 'hl-action hl-copy', onClick: onCopy }, 'Copy'),
-      editing
-        ? h(
-            'button',
-            { type: 'button', class: 'hl-action hl-remove', 'aria-label': 'Remove highlight', title: 'Remove highlight', onClick: onRemove },
-            icon('trash', { size: 20 }),
-          )
-        : null,
-    );
+    ];
+    if (editing) {
+      children.push(
+        h(
+          'button',
+          { type: 'button', class: 'hl-action hl-remove', 'aria-label': 'Remove highlight', title: 'Remove highlight', onClick: onRemove },
+          icon('trash', { size: 20 }),
+        ),
+      );
+    }
+    el.replaceChildren(...children);
     const buttons = /** @type {HTMLElement[]} */ ([...el.querySelectorAll('button')]);
     buttons.forEach((b, i) => (b.tabIndex = i === 0 ? 0 : -1));
   }

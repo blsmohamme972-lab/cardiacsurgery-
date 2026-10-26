@@ -102,10 +102,12 @@ data/
 scripts/                   Dev-only (Node 20+, no dependencies). Never loaded by the app.
   validate.mjs             Validates data + precache list + version consistency. Exit 1 on error.
   bump-version.mjs         Sets a new version in sw.js and js/version.js.
+  lint.mjs                 Static checks (imports, CSS vars, no innerHTML/console.log, relative URLs, @module, APP_SHELL).
 tests/                     Dev-only.
   unit/*.test.mjs          Node unit tests for pure modules (node:test + node:assert). Run: node --test tests/unit/*.test.mjs
   e2e.mjs                  Playwright end-to-end tests (uses the pre-installed playwright).
   serve.mjs                Tiny static file server used by e2e (serves repo under /cardiacsurgery-/).
+  smoke.mjs                Playwright boot smoke test (stubs missing files in memory).
 docs/ARCHITECTURE.md       This file.
 ```
 
@@ -1021,3 +1023,4 @@ export function createListenButton(question, getContext /* () => {choiceOrder, r
   search finds a demo question, backup export → reset → import round trip, offline reload works, update banner appears
   after a version bump. Exit code 1 on any failure.
 - `node scripts/validate.mjs` — data + precache + version checks.
+- `node scripts/lint.mjs` — static code checks; `node tests/smoke.mjs` — boot smoke test.

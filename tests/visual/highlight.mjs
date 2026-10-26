@@ -18,10 +18,13 @@
  * @module tests/visual/highlight
  */
 
-import { chromium } from 'playwright';
+import { createRequire } from 'node:module';
 import path from 'node:path';
 import { mkdir } from 'node:fs/promises';
 import { startServer } from '../serve.mjs';
+
+// The pre-installed Playwright is a global package: resolve it the CommonJS way (NODE_PATH).
+const { chromium } = createRequire(import.meta.url)('playwright');
 
 const shotsArg = process.argv.indexOf('--shots');
 const SHOTS = shotsArg !== -1 ? path.resolve(process.argv[shotsArg + 1]) : null;
@@ -165,6 +168,7 @@ async function main() {
     const order = await page.$$eval('.hl-bar .hl-swatch', (els) => els.map((e) => e.dataset.color));
     check(order[0] === 'yellow' && order.length === 4, `bar shows 4 colours, remembered first (${order.join(',')})`);
     check(await page.$('.hl-bar .hl-copy') !== null, 'bar has Copy');
+    check(!(await page.textContent('.hl-bar')).includes('null'), 'bar has no stray text');
     // Mouse: bar above the selection.
     const geo = await page.evaluate(() => {
       const r = getSelection().getRangeAt(0).getBoundingClientRect();
@@ -278,9 +282,10 @@ async function main() {
     await page.waitForSelector(barVisible);
     await page.keyboard.press('Tab');
     check(await page.evaluate(() => document.activeElement?.classList.contains('hl-swatch')), 'Tab moves focus into the bar');
+    const before = await page.evaluate(() => document.activeElement?.dataset.color);
     await page.keyboard.press('ArrowRight');
-    check(await page.evaluate(() => document.activeElement?.dataset.color === 'blue' || document.activeElement?.classList.contains('hl-swatch')),
-      'ArrowRight moves within the bar');
+    const after = await page.evaluate(() => document.activeElement?.dataset.color);
+    check(Boolean(after) && after !== before, `ArrowRight moves within the bar (${before} → ${after})`);
     await page.keyboard.press('Enter');
     await page.waitForSelector('[data-block="c1"] mark.uhl');
     check(true, 'Enter on a colour saves the highlight');

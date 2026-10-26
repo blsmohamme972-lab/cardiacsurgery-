@@ -628,7 +628,7 @@ ol.xb-list-items ol.xb-list-items {
   text-decoration: none;
 }
 
-.xb-mm-branches {
+.xb-mm > .xb-mm-branches {
   display: flex;
   flex-direction: column;
   gap: var(--mm-vgap);
@@ -709,10 +709,10 @@ ol.xb-list-items ol.xb-list-items {
 
 /* Wide: branches in two columns around a tall centre hub. */
 @container xbmm (min-width: 36rem) {
-  .xb-mm {
+  /* The block itself is the container, so the variables live on its children. */
+  .xb-mm > * {
     --mm-mid: clamp(8rem, 24cqi, 12rem);
     --mm-gap: var(--sp-5);
-    position: relative;
   }
 
   .xb-mm-center {
@@ -730,7 +730,7 @@ ol.xb-list-items ol.xb-list-items {
     font-size: var(--fs-l);
   }
 
-  .xb-mm-branches {
+  .xb-mm > .xb-mm-branches {
     display: grid;
     grid-template-columns: minmax(0, 1fr) calc(var(--mm-mid) + 2 * var(--mm-gap)) minmax(0, 1fr);
     grid-template-rows: repeat(var(--rows), auto);
