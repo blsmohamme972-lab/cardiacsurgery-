@@ -205,8 +205,10 @@
   font-weight: 650;
 }
 
-.home-continue-link:hover .home-continue-cta {
-  background: var(--primary-hover);
+@media (hover: hover) {
+  .home-continue-link:hover .home-continue-cta {
+    background: var(--primary-hover);
+  }
 }
 
 .home-continue-discard {

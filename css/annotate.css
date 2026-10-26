@@ -119,8 +119,10 @@ mark.uhl.is-active {
   transition: background-color var(--dur-fast) var(--ease);
 }
 
-.hl-bar button:hover {
-  background: var(--surface-2);
+@media (hover: hover) {
+  .hl-bar button:hover {
+    background: var(--surface-2);
+  }
 }
 
 .hl-bar button:active {
