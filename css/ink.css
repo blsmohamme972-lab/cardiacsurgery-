@@ -80,8 +80,9 @@
   z-index: var(--z-float);
   display: flex;
   align-items: center;
-  gap: var(--sp-1);
-  padding: var(--sp-1) max(var(--sp-2), var(--safe-right)) calc(var(--sp-1) + var(--safe-bottom)) max(var(--sp-2), var(--safe-left));
+  justify-content: space-between;
+  gap: 2px;
+  padding: var(--sp-1) max(6px, var(--safe-right)) calc(var(--sp-1) + var(--safe-bottom)) max(6px, var(--safe-left));
   background: var(--surface);
   color: var(--text);
   border-top: 1px solid var(--border);
@@ -94,13 +95,12 @@
 .ink-tb-group {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 0;
   flex: none;
 }
 
 .ink-tb-history {
-  padding-left: var(--sp-1);
-  margin-left: var(--sp-1);
+  padding-left: 2px;
   border-left: 1px solid var(--border);
 }
 
@@ -120,12 +120,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 2px;
+  gap: 0;
   flex: none;
   min-width: var(--tap);
   height: var(--tap);
-  padding: 0 var(--sp-1) 0 var(--sp-2);
-  margin-left: var(--sp-1);
+  padding: 0 2px 0 6px;
   border-radius: var(--r-full);
   border: 1px solid var(--border);
   background: var(--surface-2);
@@ -135,6 +134,8 @@
 }
 
 .ink-tb-style svg {
+  width: 14px;
+  height: 14px;
   transition: transform var(--dur-fast) var(--ease);
 }
 
@@ -298,7 +299,8 @@
   gap: 6px;
   flex: none;
   min-height: var(--tap);
-  padding: 0 var(--sp-4);
+  min-width: var(--tap);
+  padding: 0 14px;
   border-radius: var(--r-full);
   background: var(--primary);
   color: var(--primary-contrast);
@@ -320,20 +322,10 @@
   }
 }
 
-/* Small phones: tighter, Done without its icon. */
-@media (max-width: 389px) {
-  .ink-toolbar {
-    gap: 0;
-    padding-left: max(var(--sp-1), var(--safe-left));
-    padding-right: max(var(--sp-1), var(--safe-right));
-  }
-
-  .ink-tb-group {
-    gap: 0;
-  }
-
+/* Phones: "Done" as text only (fits 360px wide screens). */
+@media (max-width: 699px) {
   .ink-tb-done {
-    padding: 0 var(--sp-3);
+    padding: 0 12px;
   }
 
   .ink-tb-done svg {
@@ -341,8 +333,57 @@
   }
 }
 
+/* Very small phones: Done as a check icon (its accessible name stays "Done"). */
+@media (max-width: 349px) {
+  .ink-toolbar {
+    gap: 0;
+    padding-left: max(2px, var(--safe-left));
+    padding-right: max(2px, var(--safe-right));
+  }
+
+  .ink-tb-done {
+    padding: 0;
+  }
+
+  .ink-tb-done svg {
+    display: block;
+  }
+
+  .ink-tb-done span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}
+
 /* Tablet: a floating pill, centred above the bottom edge. */
 @media (min-width: 700px) {
+  .ink-toolbar {
+    gap: var(--sp-1);
+  }
+
+  .ink-tb-group {
+    gap: 2px;
+  }
+
+  .ink-tb-history {
+    padding-left: var(--sp-1);
+    margin-left: var(--sp-1);
+  }
+
+  .ink-tb-style {
+    gap: 2px;
+    padding: 0 var(--sp-1) 0 var(--sp-2);
+    margin-left: var(--sp-1);
+  }
+
+  .ink-tb-done {
+    padding: 0 var(--sp-4);
+  }
+
   .ink-toolbar:not(.ink-toolbar--embedded) {
     left: 50%;
     right: auto;

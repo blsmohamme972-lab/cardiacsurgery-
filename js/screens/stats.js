@@ -2,26 +2,38 @@
  * Stats screen (`#/stats`, docs/ARCHITECTURE.md §8, §7.4).
  *
  * Overview tiles (answered, accuracy, average time, due, streak), a 30-day
- * activity chart (inline SVG with a text summary and a screen-reader table),
- * accuracy by chapter, and weak topics (100% topics labelled "Strong").
- * Before the first answer it shows a friendly empty state with a Start button.
+ * activity chart (inline SVG: a text summary for everyone, a `<title>` per
+ * bar for pointer users and a visually hidden table for screen readers),
+ * accuracy by chapter, topics to work on (topics at 100% are listed apart as
+ * "Strong"), and the learner's own study aids.
+ *
+ * States: loading (skeleton), error (plain message + Try again), empty (no
+ * answer yet → one-tap Start practice) and demo mode (a calm note on top).
+ * The numbers refresh in place when an answer is saved (`qstate:change`) or
+ * a note/highlight/voice note changes, without losing the scroll position.
  *
  * @module screens/stats
  */
 
-import { h, svg } from '../core/dom.js';
+import { h, svg, clear } from '../core/dom.js';
+import { bus } from '../core/events.js';
 import { navigate } from '../core/router.js';
-import { formatDuration, formatNumber, plural, pct } from '../core/util.js';
+import { debounce, formatDuration, formatNumber, plural, pct } from '../core/util.js';
 import { setHeader } from '../ui/shell.js';
-import { button, emptyState, progressBar, chip, toast, listItem } from '../ui/components.js';
+import { button, emptyState, progressBar, chip, toast, listItem, skeleton } from '../ui/components.js';
 import { computeStats } from '../features/stats.js';
 
 /** @typedef {import('../features/stats.js').Stats} Stats */
+/** @typedef {import('../features/stats.js').TopicStats} TopicStats */
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const CHART_W = 300;
-const CHART_H = 96;
+const CHART_H = 100;
 const BAR_GAP = 2;
+/** Wait this long after the last change before recomputing (answers come in bursts). */
+const REFRESH_DELAY_MS = 400;
+/** Stores whose changes alter the numbers on this screen. */
+const WATCHED_STORES = new Set(['qstate', 'attempts', 'notes', 'voice', 'highlights']);
 
 /**
  * "2026-10-26" → "26 Oct".
@@ -36,7 +48,6 @@ function dayLabel(day) {
 
 /**
  * Starts a quiz through `quiz/start.js` (loaded on demand) and opens it.
- * Falls back to Home when the module can't load.
  * @param {Record<string, any>} options
  * @returns {Promise<void>}
  */
@@ -46,21 +57,23 @@ async function startAndOpen(options) {
     mod = await import('../features/quiz/start.js');
   } catch (err) {
     console.warn('[stats] Quiz starter unavailable:', err);
-    navigate('/');
+    toast("Couldn't start a quiz right now. Please reload the app.", { kind: 'danger' });
     return;
   }
   try {
     const id = await mod.startQuiz(options);
     navigate(`/quiz/${encodeURIComponent(id)}`);
   } catch (err) {
-    const msg = /** @type {any} */ (err)?.userMessage || "Couldn't start the quiz. Please try again.";
-    if (!(/** @type {any} */ (err)?.userMessage)) console.error('[stats] startQuiz failed:', err);
-    toast(msg, { kind: /** @type {any} */ (err)?.name === 'NoQuestionsError' ? 'info' : 'danger' });
+    const e = /** @type {any} */ (err);
+    if (!e?.userMessage) console.error('[stats] startQuiz failed:', err);
+    toast(e?.userMessage || "Couldn't start the quiz. Please try again.", {
+      kind: e?.name === 'NoQuestionsError' ? 'info' : 'danger',
+    });
   }
 }
 
 /**
- * One overview tile.
+ * One overview tile (a button when it has an action).
  * @param {{ label: string, value: string, sub?: string, icon?: string, onClick?: () => void, tone?: string }} t
  * @returns {HTMLElement}
  */
@@ -85,8 +98,8 @@ function overview(s) {
   const due = s.dueCount;
   return h(
     'section',
-    { class: 'stats-section', 'aria-labelledby': 'stats-overview-h' },
-    h('h2', { class: 'stats-h2 visually-hidden', id: 'stats-overview-h' }, 'Overview'),
+    { class: 'misc-section', 'aria-labelledby': 'stats-overview-h' },
+    h('h2', { class: 'visually-hidden', id: 'stats-overview-h' }, 'Overview'),
     h(
       'div',
       { class: 'stat-tiles' },
@@ -96,11 +109,11 @@ function overview(s) {
         sub: `of ${plural(s.totalQuestions, 'question')}`,
       }),
       tile({ label: 'Accuracy', value: `${s.correctPct}%`, sub: plural(s.attempts, 'answer') }),
-      tile({ label: 'Avg time', value: formatDuration(s.avgMs), sub: 'per answer' }),
+      tile({ label: 'Avg time', value: s.avgMs > 0 ? formatDuration(s.avgMs) : '—', sub: 'per answer' }),
       tile({
         label: 'Due',
         value: formatNumber(due),
-        sub: due > 0 ? 'Review now' : 'Nothing due',
+        sub: due > 0 ? 'Review now ›' : 'Nothing due',
         tone: due > 0 ? 'primary' : undefined,
         onClick: due > 0 ? () => void startAndOpen({ filter: 'due', mode: 'tutor' }) : undefined,
       }),
@@ -108,6 +121,7 @@ function overview(s) {
         label: 'Streak',
         value: plural(s.streak, 'day'),
         sub: `Best: ${plural(s.bestStreak, 'day')}`,
+        tone: s.streak > 0 ? 'streak' : undefined,
       }),
     ),
   );
@@ -124,24 +138,25 @@ function activity(s) {
   const active = days.filter((d) => d.n > 0).length;
   const right = days.reduce((a, d) => a + d.correct, 0);
   const today = days.at(-1);
-  const max = Math.max(1, ...days.map((d) => d.n));
+  const peak = Math.max(0, ...days.map((d) => d.n));
+  const max = Math.max(1, peak);
   const slot = CHART_W / Math.max(1, days.length);
   const barW = Math.max(1, slot - BAR_GAP);
 
   const summaryText =
     total === 0
       ? 'No answers in the last 30 days.'
-      : `${plural(total, 'answer')} on ${plural(active, 'day')} in the last 30 days, ${pct(right, total)}% right. Today: ${plural(today?.n ?? 0, 'answer')}.`;
+      : `${plural(total, 'answer')} on ${plural(active, 'day')}, ${pct(right, total)}% right. Today: ${plural(today?.n ?? 0, 'answer')}.`;
 
   const bars = days.map((d, i) => {
-    const hgt = d.n > 0 ? Math.max(3, (d.n / max) * (CHART_H - 4)) : 0;
+    const hgt = d.n > 0 ? Math.max(4, (d.n / max) * (CHART_H - 6)) : 0;
     const x = i * slot + BAR_GAP / 2;
     const tip = `${dayLabel(d.day)}: ${plural(d.n, 'answer')}${d.n ? `, ${d.correct} right` : ''}`;
     return svg(
       'g',
       { class: ['act-bar', i === days.length - 1 && 'is-today'] },
       svg('title', {}, tip),
-      // Invisible full-height hit area so the tooltip works on tiny bars too.
+      // Invisible full-height hit area so the tooltip works on short bars too.
       svg('rect', { class: 'act-hit', x: i * slot, y: 0, width: slot, height: CHART_H }),
       d.n > 0
         ? svg('rect', { class: 'act-fill', x, y: CHART_H - hgt, width: barW, height: hgt, rx: Math.min(2, barW / 2) })
@@ -176,12 +191,12 @@ function activity(s) {
 
   return h(
     'section',
-    { class: 'stats-section card-section', 'aria-labelledby': 'stats-act-h' },
+    { class: 'misc-section misc-card', 'aria-labelledby': 'stats-act-h' },
     h(
       'div',
-      { class: 'stats-section-head' },
-      h('h2', { class: 'stats-h2', id: 'stats-act-h' }, 'Last 30 days'),
-      h('span', { class: 'stats-peak tabular', 'aria-hidden': 'true' }, `Peak ${formatNumber(max === 1 && total === 0 ? 0 : max)}`),
+      { class: 'misc-section-head' },
+      h('h2', { class: 'misc-h2', id: 'stats-act-h' }, 'Last 30 days'),
+      peak > 0 ? h('span', { class: 'stats-peak tabular', 'aria-hidden': 'true' }, `Best day: ${formatNumber(peak)}`) : null,
     ),
     h('p', { class: 'stats-summary' }, summaryText),
     h('div', { class: 'act-wrap' }, chart),
@@ -205,14 +220,16 @@ function byChapter(s) {
   if (rows.length === 0) return null;
   return h(
     'section',
-    { class: 'stats-section', 'aria-labelledby': 'stats-ch-h' },
-    h('h2', { class: 'stats-h2', id: 'stats-ch-h' }, 'Accuracy by chapter'),
+    { class: 'misc-section', 'aria-labelledby': 'stats-ch-h' },
+    h('h2', { class: 'misc-h2', id: 'stats-ch-h' }, 'Accuracy by chapter'),
     h(
       'ul',
       { class: 'list stats-chapters' },
       rows.map((c) => {
         const started = c.answered > 0;
-        const detail = started ? `${c.pct}% right · ${formatNumber(c.answered)} of ${formatNumber(c.total)} answered` : `Not started · ${plural(c.total, 'question')}`;
+        const detail = started
+          ? `${formatNumber(c.answered)} of ${formatNumber(c.total)} answered · last answer right on ${formatNumber(c.correct)}`
+          : `Not started · ${plural(c.total, 'question')}`;
         return h(
           'li',
           {},
@@ -225,7 +242,7 @@ function byChapter(s) {
               h('span', { class: 'stats-chapter-name' }, c.short || c.title),
               h('span', { class: 'stats-chapter-pct tabular' }, started ? `${c.pct}%` : '—'),
             ),
-            progressBar(started ? c.pct : 0, { label: `${c.title}: accuracy` }),
+            progressBar(started ? c.pct : 0, { label: `${c.title}: ${started ? `${c.pct}% right` : 'not started'}` }),
             h('span', { class: 'stats-chapter-detail' }, detail),
           ),
         );
@@ -235,44 +252,56 @@ function byChapter(s) {
 }
 
 /**
- * Weak topics (weakest first). Topics at 100% are labelled "Strong".
+ * One topic row.
+ * @param {TopicStats} t
+ * @param {Map<string, string>} chapterNames
+ * @returns {HTMLElement}
+ */
+function topicRow(t, chapterNames) {
+  const strong = t.pct >= 100;
+  const kind = strong ? 'success' : t.pct < 50 ? 'danger' : t.pct < 75 ? 'warning' : 'neutral';
+  const sub = [chapterNames.size > 1 && t.chapterId ? chapterNames.get(t.chapterId) : null, `${t.correct} of ${plural(t.n, 'answer')} right`]
+    .filter(Boolean)
+    .join(' · ');
+  return h(
+    'li',
+    { class: 'stats-topic' },
+    h('span', { class: 'stats-topic-text' }, h('span', { class: 'stats-topic-name' }, t.topic), h('span', { class: 'stats-topic-sub' }, sub)),
+    strong ? chip('Strong', { kind: 'success', icon: 'check' }) : chip(`${t.pct}%`, { kind }),
+  );
+}
+
+/**
+ * Topics to work on (weakest first). Topics at 100% are never called "weak":
+ * they are listed apart as "Strong", or the section says nothing is weak yet.
  * @param {Stats} s
  * @returns {HTMLElement}
  */
 function weakTopics(s) {
   const rows = s.weakTopics || [];
-  const short = new Map((s.byChapter || []).map((c) => [c.id, c.short || c.title]));
-  const body =
-    rows.length === 0
-      ? h('p', { class: 'stats-note' }, 'Answer at least 3 questions on a topic to see how you do on it.')
-      : h(
-          'ul',
-          { class: 'list' },
-          rows.map((t) => {
-            const strong = t.pct >= 100;
-            const kind = strong ? 'success' : t.pct < 50 ? 'danger' : t.pct < 75 ? 'warning' : 'neutral';
-            return h(
-              'li',
-              { class: 'stats-topic' },
-              h(
-                'span',
-                { class: 'stats-topic-text' },
-                h('span', { class: 'stats-topic-name' }, t.topic),
-                h(
-                  'span',
-                  { class: 'stats-topic-sub' },
-                  [t.chapterId && short.get(t.chapterId), `${t.correct} of ${plural(t.n, 'answer')} right`].filter(Boolean).join(' · '),
-                ),
-              ),
-              strong ? chip('Strong', { kind: 'success', icon: 'check' }) : chip(`${t.pct}%`, { kind }),
-            );
-          }),
-        );
+  const names = new Map((s.byChapter || []).map((c) => [c.id, c.short || c.title]));
+  const weak = rows.filter((t) => t.pct < 100);
+  const strong = rows.filter((t) => t.pct >= 100);
+
+  /** @type {Node[]} */
+  const body = [];
+  if (rows.length === 0) {
+    body.push(h('p', { class: 'misc-note' }, 'Answer at least 3 questions on a topic to see how you do on it.'));
+  } else {
+    if (weak.length) body.push(h('ul', { class: 'list' }, weak.map((t) => topicRow(t, names))));
+    else body.push(h('p', { class: 'misc-note is-good' }, 'Nothing weak so far: every topic you answered 3 or more times is at 100%.'));
+    if (strong.length) {
+      body.push(
+        h('h3', { class: 'misc-h3' }, 'Strong topics'),
+        h('ul', { class: 'list' }, strong.map((t) => topicRow(t, names))),
+      );
+    }
+  }
   return h(
     'section',
-    { class: 'stats-section', 'aria-labelledby': 'stats-topics-h' },
-    h('h2', { class: 'stats-h2', id: 'stats-topics-h' }, 'Topics to work on'),
-    body,
+    { class: 'misc-section', 'aria-labelledby': 'stats-topics-h' },
+    h('h2', { class: 'misc-h2', id: 'stats-topics-h' }, 'Topics to work on'),
+    ...body,
   );
 }
 
@@ -284,8 +313,8 @@ function weakTopics(s) {
 function studyAids(s) {
   return h(
     'section',
-    { class: 'stats-section', 'aria-labelledby': 'stats-aids-h' },
-    h('h2', { class: 'stats-h2', id: 'stats-aids-h' }, 'Your study aids'),
+    { class: 'misc-section', 'aria-labelledby': 'stats-aids-h' },
+    h('h2', { class: 'misc-h2', id: 'stats-aids-h' }, 'Your study aids'),
     h(
       'div',
       { class: 'list' },
@@ -301,61 +330,125 @@ function studyAids(s) {
 function demoNote() {
   return h(
     'p',
-    { class: 'stats-demo-note', role: 'note' },
+    { class: 'misc-banner', role: 'note' },
     h('strong', {}, 'Demo mode. '),
     'These stats count the demo questions. Real chapters appear here once they are published.',
   );
 }
 
+/**
+ * The content for a stats result.
+ * @param {Stats} s
+ * @returns {Node[]}
+ */
+function content(s) {
+  /** @type {Node[]} */
+  const out = [];
+  if (s.demoMode) out.push(demoNote());
+  if (!s.attempts) {
+    out.push(
+      emptyState({
+        icon: 'stats',
+        title: 'Answer a few questions to see your stats',
+        text: 'Your accuracy, daily streak and the topics to work on will appear here as you study.',
+        action: button({
+          label: 'Start practice',
+          icon: 'play',
+          variant: 'primary',
+          size: 'l',
+          onClick: () => void startAndOpen({ mode: 'tutor' }),
+        }),
+      }),
+    );
+    return out;
+  }
+  out.push(overview(s), activity(s));
+  const chapters = byChapter(s);
+  if (chapters) out.push(chapters);
+  out.push(weakTopics(s), studyAids(s));
+  return out;
+}
+
+/**
+ * Error state with a retry.
+ * @param {unknown} err
+ * @param {() => void} retry
+ * @returns {HTMLElement}
+ */
+function errorState(err, retry) {
+  return emptyState({
+    icon: 'alert',
+    title: "Your stats couldn't load",
+    text: /** @type {any} */ (err)?.userMessage || 'Please try again. Your progress is safe on this device.',
+    action: button({ label: 'Try again', icon: 'refresh', variant: 'primary', onClick: retry }),
+  });
+}
+
 export default {
   /**
-   * @returns {Promise<HTMLElement>}
+   * @returns {Promise<{ el: HTMLElement, destroy: () => void }>}
    */
   async render() {
     setHeader({ title: 'Stats' });
-    const page = h('div', { class: 'screen-stats misc-page' }, h('h1', { class: 'visually-hidden', tabindex: '-1' }, 'Your stats'));
+    const body = h('div', { class: 'misc-stack', 'aria-live': 'off' });
+    const page = h(
+      'div',
+      { class: 'misc-page screen-stats' },
+      h('h1', { class: 'visually-hidden', tabindex: '-1' }, 'Your stats'),
+      body,
+    );
 
-    /** @type {Stats} */
-    let s;
-    try {
-      s = await computeStats();
-    } catch (err) {
-      console.error('[stats] Could not compute stats:', err);
-      page.append(
-        emptyState({
-          icon: 'alert',
-          title: "Your stats couldn't load",
-          text: /** @type {any} */ (err)?.userMessage || 'Please try again. Your progress is safe on this device.',
-          action: button({ label: 'Try again', icon: 'refresh', variant: 'primary', onClick: () => navigate('/stats', { replace: true }) }),
-        }),
-      );
-      return page;
-    }
+    let alive = true;
+    let seq = 0;
 
-    if (s.demoMode) page.append(demoNote());
+    /**
+     * Computes and shows the stats. The first load replaces the skeleton;
+     * later loads swap content only when they succeed (keeps what is shown).
+     * @param {boolean} first
+     */
+    const load = async (first) => {
+      const mine = ++seq;
+      if (first) {
+        page.setAttribute('aria-busy', 'true');
+        clear(body);
+        body.append(skeleton(4));
+      }
+      try {
+        const s = await computeStats();
+        if (!alive || mine !== seq) return;
+        clear(body);
+        body.append(...content(s));
+      } catch (err) {
+        if (!alive || mine !== seq) return;
+        console.error('[stats] Could not compute stats:', err);
+        if (first) {
+          clear(body);
+          body.append(errorState(err, () => void load(true)));
+        }
+      } finally {
+        if (mine === seq) page.removeAttribute('aria-busy');
+      }
+    };
 
-    if (!s.attempts) {
-      page.append(
-        emptyState({
-          icon: 'stats',
-          title: 'Answer a few questions to see your stats',
-          text: 'Your accuracy, daily streak and the topics to work on will appear here as you study.',
-          action: button({
-            label: 'Start practice',
-            icon: 'play',
-            variant: 'primary',
-            size: 'l',
-            onClick: () => void startAndOpen({ mode: 'tutor' }),
-          }),
-        }),
-      );
-      return page;
-    }
+    const refresh = debounce(() => {
+      if (alive) void load(false);
+    }, REFRESH_DELAY_MS);
+    const offs = [
+      bus.on('qstate:change', () => refresh()),
+      bus.on('store:change', (p) => {
+        if (p && WATCHED_STORES.has(p.store)) refresh();
+      }),
+    ];
 
-    page.append(overview(s), activity(s));
-    const chapters = byChapter(s);
-    if (chapters) page.append(chapters);
-    page.append(weakTopics(s), studyAids(s));
-    return page;
+    await load(true);
+
+    return {
+      el: page,
+      destroy() {
+        alive = false;
+        /** @type {any} */ (refresh).cancel?.();
+        for (const off of offs) off();
+      },
+    };
   },
 };

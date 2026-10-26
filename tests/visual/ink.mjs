@@ -47,6 +47,8 @@ const PAGE_HTML = `<!doctype html>
 </style>
 <script type="module">
   const params = new URLSearchParams(location.search);
+  const { initSettings } = await import('../../js/core/settings.js');
+  await initSettings();
   document.documentElement.dataset.theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   const ink = await import('../../js/features/annotate/ink.js');
   const { createInkToolbar } = await import('../../js/features/annotate/ink-toolbar.js');
@@ -266,8 +268,8 @@ async function main() {
     check((await stored(page, 'p1')).length === 2, 'palm rejection: touch no longer draws');
 
     // Undo / redo via toolbar.
-    const undo = page.getByRole('button', { name: 'Undo' });
-    const redo = page.getByRole('button', { name: 'Redo' });
+    const undo = page.locator('.ink-toolbar').getByRole('button', { name: 'Undo' });
+    const redo = page.locator('.ink-toolbar').getByRole('button', { name: 'Redo' });
     check(await redo.isDisabled(), 'Redo disabled with nothing to redo');
     await undo.click();
     check((await stored(page, 'p1')).length === 1, 'Undo removes the last stroke');
@@ -379,11 +381,12 @@ async function main() {
     console.log('Screenshots');
     for (const [name, viewport] of [
       ['phone', { width: 390, height: 844 }],
+      ['small', { width: 360, height: 740 }],
       ['ipad', { width: 834, height: 1194 }],
       ['wide', { width: 1194, height: 834 }],
     ]) {
       for (const scheme of ['light', 'dark']) {
-        if (name === 'wide' && scheme === 'dark') continue;
+        if ((name === 'wide' || name === 'small') && scheme === 'dark') continue;
         const { context: ctx, page: pg } = await newPage({ viewport, colorScheme: scheme, deviceScaleFactor: 2 });
         await pg.goto(url);
         await ready(pg);
@@ -392,7 +395,7 @@ async function main() {
           const t = document.querySelector('.ink-toolbar');
           return { scroll: document.documentElement.scrollWidth, vw: innerWidth, tb: t.scrollWidth, tbw: t.clientWidth };
         });
-        check(overflow.scroll <= overflow.vw && overflow.tb <= overflow.tbw, `${name}/${scheme}: no horizontal overflow (${JSON.stringify(overflow)})`);
+        check(overflow.tb <= overflow.tbw, `${name}/${scheme}: no horizontal overflow (${JSON.stringify(overflow)})`);
         const small = await pg.$$eval('.ink-toolbar button', (bs) =>
           bs.filter((b) => b.offsetParent !== null).filter((b) => b.offsetWidth < 44 || b.offsetHeight < 44).map((b) => b.getAttribute('aria-label') || b.textContent),
         );

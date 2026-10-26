@@ -529,9 +529,10 @@ export function planMerge(name, existing, incoming) {
  * @returns {any}
  */
 export function decodeVoiceRecord(rec) {
-  const { data, ...rest } = rec;
-  const bytes = base64ToBytes(data);
-  return { ...rest, blob: new Blob([bytes], { type: rec.mime }) };
+  const bytes = base64ToBytes(rec.data);
+  const out = { ...rec, blob: new Blob([bytes], { type: rec.mime }) };
+  delete out.data;
+  return out;
 }
 
 /**
