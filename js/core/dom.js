@@ -344,3 +344,90 @@ export function listen(target, type, fn, options) {
   target.addEventListener(type, fn, options);
   return () => target.removeEventListener(type, fn, options);
 }
+
+// ---------------------------------------------------------------------------
+// Removal watching
+// ---------------------------------------------------------------------------
+
+/** Default grace period before a detached element counts as removed (it may just be moving). */
+export const DISCONNECT_GRACE_MS = 500;
+
+/**
+ * @typedef {object} DisconnectWatch
+ * @property {Element} el
+ * @property {() => void} fn
+ * @property {(() => void) | undefined} onDetach
+ * @property {number} graceMs
+ * @property {boolean} seen    The element has been in the document at least once.
+ * @property {ReturnType<typeof setTimeout> | null} timer
+ */
+
+/** @type {Set<DisconnectWatch>} */
+const disconnectWatches = new Set();
+/** @type {MutationObserver | null} */
+let disconnectObserver = null;
+
+/** @param {DisconnectWatch} w */
+function stopDisconnectWatch(w) {
+  if (w.timer) clearTimeout(w.timer);
+  w.timer = null;
+  disconnectWatches.delete(w);
+  if (!disconnectWatches.size && disconnectObserver) {
+    disconnectObserver.disconnect();
+    disconnectObserver = null;
+  }
+}
+
+/** @param {DisconnectWatch} w */
+function checkDisconnectWatch(w) {
+  if (w.el.isConnected) {
+    w.seen = true;
+    if (w.timer) clearTimeout(w.timer);
+    w.timer = null;
+    return;
+  }
+  if (!w.seen || w.timer) return;
+  try {
+    w.onDetach?.();
+  } catch (err) {
+    console.error('[dom] onDetach failed.', err);
+  }
+  w.timer = setTimeout(() => {
+    w.timer = null;
+    if (w.el.isConnected || !disconnectWatches.has(w)) return;
+    stopDisconnectWatch(w);
+    w.fn();
+  }, w.graceMs);
+}
+
+function onDocumentMutation() {
+  for (const w of Array.from(disconnectWatches)) checkDisconnectWatch(w);
+}
+
+/**
+ * Calls `fn` once `el` has been in the document and then stays out of it for
+ * `graceMs` (a quick move between containers is not a removal). `onDetach`
+ * runs right away on every detach (e.g. to flush a pending save).
+ *
+ * All watchers share one `MutationObserver` on `document` (subtree), which is
+ * connected only while at least one watch is active. `fn` runs at most once;
+ * the watch then ends by itself. An element that is never attached never
+ * fires. Without `MutationObserver` (old browsers, Node) this is a no-op.
+ * @param {Element} el
+ * @param {() => void} fn
+ * @param {{ graceMs?: number, onDetach?: () => void }} [options]
+ *   graceMs: default {@link DISCONNECT_GRACE_MS} (500 ms).
+ * @returns {() => void} Stops watching (idempotent; cancels a pending call).
+ * @example const off = onDisconnect(panel, () => player.stop());
+ */
+export function onDisconnect(el, fn, { graceMs = DISCONNECT_GRACE_MS, onDetach } = {}) {
+  if (typeof MutationObserver !== 'function' || typeof document === 'undefined') return () => {};
+  /** @type {DisconnectWatch} */
+  const w = { el, fn, onDetach, graceMs, seen: el.isConnected, timer: null };
+  disconnectWatches.add(w);
+  if (!disconnectObserver) {
+    disconnectObserver = new MutationObserver(onDocumentMutation);
+    disconnectObserver.observe(document, { childList: true, subtree: true });
+  }
+  return () => stopDisconnectWatch(w);
+}

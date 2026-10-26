@@ -521,8 +521,9 @@ export function createQuestionView(question, opts = {}) {
       }
       if (drawing || isLocked()) return;
       // A mouse drag that selected text inside the choice is a highlight, not an answer.
+      // A tap that ends a text selection (inside or into this choice) is a highlight, not an answer.
       const sel = getSelection();
-      if (sel && !sel.isCollapsed && sel.rangeCount && btn.contains(sel.getRangeAt(0).commonAncestorContainer)) return;
+      if (sel && !sel.isCollapsed && sel.rangeCount && (btn.contains(sel.anchorNode) || btn.contains(sel.focusNode))) return;
       choose(cid);
     });
     strike.addEventListener('click', () => strikeChoice(cid));

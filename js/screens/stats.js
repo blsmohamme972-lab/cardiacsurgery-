@@ -220,7 +220,7 @@ function byChapter(s) {
   if (rows.length === 0) return null;
   return h(
     'section',
-    { class: 'misc-section', 'aria-labelledby': 'stats-ch-h' },
+    { class: 'misc-section stats-half', 'aria-labelledby': 'stats-ch-h' },
     h('h2', { class: 'misc-h2', id: 'stats-ch-h' }, 'Accuracy by chapter'),
     h(
       'ul',
@@ -299,7 +299,7 @@ function weakTopics(s) {
   }
   return h(
     'section',
-    { class: 'misc-section', 'aria-labelledby': 'stats-topics-h' },
+    { class: 'misc-section stats-half', 'aria-labelledby': 'stats-topics-h' },
     h('h2', { class: 'misc-h2', id: 'stats-topics-h' }, 'Topics to work on'),
     ...body,
   );

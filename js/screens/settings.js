@@ -653,14 +653,14 @@ function helpSection(isAlive) {
     icon: 'play',
     onClick: () => void startAndOpen({ chapters: ['demo'], mode: 'tutor', count: 'all' }),
   });
-  demoItem.hidden = true; // shown only outside demo mode (in demo mode the demo is the whole bank)
+  demoItem.hidden = true; // shown once the index confirms the demo exists
   const list = h('div', { class: 'list' }, tourItem, demoItem);
 
   (async () => {
     try {
       const data = await import('../core/data.js');
       const index = await data.loadIndex();
-      if (isAlive() && index && !index.demoMode && index.demo) demoItem.hidden = false;
+      if (isAlive() && index && index.demo) demoItem.hidden = false;
     } catch (err) {
       console.warn('[settings] Could not check demo mode:', err);
     }

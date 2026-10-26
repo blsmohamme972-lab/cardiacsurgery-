@@ -24,6 +24,8 @@ import { APP_VERSION } from '../version.js';
 export const UPDATE_CHECK_INTERVAL_MS = 30 * 60 * 1000;
 /** After a failed check, wait at least this long before an automatic retry. */
 const RETRY_AFTER_FAILURE_MS = 2 * 60 * 1000;
+/** How long a manual check waits for a found update to finish installing. */
+const MANUAL_CHECK_WAIT_MS = 8000;
 /** How long to wait for the worker to answer GET_VERSION. */
 const VERSION_TIMEOUT_MS = 2000;
 /** Reload anyway if `controllerchange` never fires after the new worker activated (old Safari). */
@@ -335,14 +337,83 @@ export async function applyUpdate() {
 }
 
 /**
- * Checks for a new version now (Settings → "Check for update"). When an
- * update is ready, `sw:update-ready` is emitted again so the banner shows.
- * @returns {Promise<UpdateStatus>}
- *   'update-ready' (banner shown), 'downloading' (banner shows when done),
- *   'up-to-date', 'offline', 'unsupported' (no service worker here) or 'error'.
+ * Waits until `worker` leaves the installing state.
+ * @param {ServiceWorker} worker
+ * @param {number} timeoutMs
+ * @returns {Promise<'installed'|'redundant'|'timeout'>}
  */
-export function checkForUpdate() {
-  return runUpdateCheck({ force: true, reannounce: true });
+function waitInstalled(worker, timeoutMs) {
+  return new Promise((resolve) => {
+    /** @type {ReturnType<typeof setTimeout> | undefined} */
+    let timer;
+    /** @param {'installed'|'redundant'|'timeout'} result */
+    const finish = (result) => {
+      clearTimeout(timer);
+      worker.removeEventListener('statechange', onState);
+      resolve(result);
+    };
+    const onState = () => {
+      if (worker.state === 'redundant') finish('redundant');
+      else if (worker.state !== 'installing') finish('installed');
+    };
+    timer = setTimeout(() => finish('timeout'), timeoutMs);
+    worker.addEventListener('statechange', onState);
+    onState();
+  });
+}
+
+/**
+ * Checks for a new version now (Settings → About → "Check for update").
+ * Ignores the automatic-check throttle, asks the browser for a new `sw.js`
+ * and, when one is found, waits (up to `timeoutMs`) for it to finish
+ * installing. A ready update is (re)announced with `sw:update-ready`, so the
+ * "Update available" banner shows. Reuses the registration and listeners set
+ * up by {@link initServiceWorker}; never throws.
+ * @param {{ timeoutMs?: number }} [options] timeoutMs: default 8000.
+ * @returns {Promise<UpdateStatus>}
+ *   'update-ready' (a new version is installed and waiting; banner shown),
+ *   'up-to-date', 'offline', 'unsupported' (no service worker here),
+ *   'error' (the check or the download failed), or — only when the download
+ *   is still running after `timeoutMs` — 'downloading' (the banner shows
+ *   by itself when it finishes).
+ */
+export async function checkForUpdate({ timeoutMs = MANUAL_CHECK_WAIT_MS } = {}) {
+  try {
+    const status = await runUpdateCheck({ force: true, reannounce: true });
+    if (status !== 'downloading' && status !== 'update-ready') return status;
+    const reg = await getRegistration();
+    if (!reg) return 'error';
+    // A newer version may be installing even while an older update waits: wait for the newest.
+    const worker = reg.installing;
+    if (!worker || !hasActiveWorker(reg)) return settled(reg);
+    const outcome = await waitInstalled(worker, timeoutMs);
+    if (outcome === 'installed') return settled(reg);
+    if (reg.waiting && hasActiveWorker(reg)) return readyNow(reg);
+    return outcome === 'timeout' ? 'downloading' : 'error';
+  } catch (err) {
+    console.warn('[sw-client] Manual update check failed.', err);
+    return 'error';
+  }
+}
+
+/**
+ * Final status once nothing is installing any more.
+ * @param {ServiceWorkerRegistration} reg
+ * @returns {UpdateStatus}
+ */
+function settled(reg) {
+  if (reg.waiting && hasActiveWorker(reg)) return readyNow(reg);
+  return reg.installing && hasActiveWorker(reg) ? 'downloading' : 'up-to-date';
+}
+
+/**
+ * Makes sure the waiting worker was announced (the normal flow usually did it already).
+ * @param {ServiceWorkerRegistration} reg
+ * @returns {'update-ready'}
+ */
+function readyNow(reg) {
+  if (reg.waiting) announce(reg.waiting);
+  return 'update-ready';
 }
 
 /**

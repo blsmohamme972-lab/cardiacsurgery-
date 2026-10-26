@@ -434,6 +434,10 @@ export function svg(tag, attrs?, ...children): SVGElement
 export function $(sel, root = document), $$(sel, root = document) /* array */
 export function clear(el)
 export function frag(...children): DocumentFragment
+export const DISCONNECT_GRACE_MS = 500
+export function onDisconnect(el, fn, { graceMs = DISCONNECT_GRACE_MS, onDetach } = {}) → off()
+// fn runs once after el was attached and then stays detached for graceMs (quick moves don't count);
+// onDetach runs at once on every detach; one shared MutationObserver; no-op without a DOM.
 ```
 
 ### 5.2 `core/events.js`
@@ -555,6 +559,10 @@ export function initServiceWorker(): void
   `controllerchange` reload once (guard against loops).
 - Online/offline: emits `net:change`; the shell shows a small, calm "Offline — everything still works" banner (auto-hides when online).
 - Never touches IndexedDB. User data survives every update.
+- `export function checkForUpdate({ timeoutMs = 8000 } = {}) → Promise<'update-ready'|'downloading'|'up-to-date'|'offline'|'unsupported'|'error'>`
+  (Settings > About; never throws; bypasses the 30-min throttle; waits up to `timeoutMs` for an installing
+  worker; `'downloading'` = still installing after the timeout, the banner follows by itself;
+  `'update-ready'` re-emits `sw:update-ready`).
 
 ### 5.8 `sw.js`
 - `const VERSION = 'YYYY.MM.DD-N';` cache `cmcq-shell-${VERSION}` (app files) and

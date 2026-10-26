@@ -27,7 +27,7 @@
  * @module features/tts
  */
 
-import { h, svg } from '../core/dom.js';
+import { h, svg, onDisconnect } from '../core/dom.js';
 import { bus } from '../core/events.js';
 import { getSetting } from '../core/settings.js';
 import { clamp } from '../core/util.js';
@@ -887,43 +887,6 @@ export function createReader() {
 // Listen button
 // ---------------------------------------------------------------------------
 
-/** Grace period before a detached element counts as removed (it may just be moving). */
-const REMOVAL_GRACE_MS = 500;
-
-/**
- * Calls `fn` once `el` has been in the document and then stays out of it for
- * {@link REMOVAL_GRACE_MS}.
- * @param {Element} el
- * @param {() => void} fn
- * @returns {() => void} Stops watching.
- */
-function whenRemoved(el, fn) {
-  if (typeof MutationObserver !== 'function') return () => {};
-  let seen = el.isConnected;
-  /** @type {ReturnType<typeof setTimeout> | null} */
-  let timer = null;
-  const mo = new MutationObserver(() => {
-    if (el.isConnected) {
-      seen = true;
-      if (timer) clearTimeout(timer);
-      timer = null;
-      return;
-    }
-    if (!seen || timer) return;
-    timer = setTimeout(() => {
-      timer = null;
-      if (el.isConnected) return;
-      mo.disconnect();
-      fn();
-    }, REMOVAL_GRACE_MS);
-  });
-  mo.observe(document, { childList: true, subtree: true });
-  return () => {
-    if (timer) clearTimeout(timer);
-    mo.disconnect();
-  };
-}
-
 /**
  * Speaker icon (falls back to a local drawing until icons.js has "volume").
  * @returns {SVGElement}
@@ -1045,7 +1008,7 @@ export function createListenButton(question, getContext) {
     reader.stop();
     for (const off of offs.splice(0)) off();
   }
-  offs.push(whenRemoved(el, destroy));
+  offs.push(onDisconnect(el, destroy));
   el.stop = () => reader.stop();
   el.destroy = destroy;
 

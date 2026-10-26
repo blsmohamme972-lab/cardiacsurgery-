@@ -21,7 +21,7 @@
  * @module features/askgpt
  */
 
-import { h } from '../core/dom.js';
+import { h, onDisconnect } from '../core/dom.js';
 import { bus } from '../core/events.js';
 import { getSetting, setSetting } from '../core/settings.js';
 import { uid } from '../core/util.js';
@@ -237,43 +237,6 @@ function openExternal(url) {
   }
 }
 
-/** Grace period before a detached element counts as removed (it may just be moving). */
-const REMOVAL_GRACE_MS = 500;
-
-/**
- * Calls `fn` once `el` has been in the document and then stays out of it for
- * {@link REMOVAL_GRACE_MS}.
- * @param {Element} el
- * @param {() => void} fn
- * @returns {() => void} Stops watching.
- */
-function whenRemoved(el, fn) {
-  if (typeof MutationObserver !== 'function') return () => {};
-  let seen = el.isConnected;
-  /** @type {ReturnType<typeof setTimeout> | null} */
-  let timer = null;
-  const mo = new MutationObserver(() => {
-    if (el.isConnected) {
-      seen = true;
-      if (timer) clearTimeout(timer);
-      timer = null;
-      return;
-    }
-    if (!seen || timer) return;
-    timer = setTimeout(() => {
-      timer = null;
-      if (el.isConnected) return;
-      mo.disconnect();
-      fn();
-    }, REMOVAL_GRACE_MS);
-  });
-  mo.observe(document, { childList: true, subtree: true });
-  return () => {
-    if (timer) clearTimeout(timer);
-    mo.disconnect();
-  };
-}
-
 /** @returns {boolean} */
 function isOnline() {
   return typeof navigator === 'undefined' || navigator.onLine !== false;
@@ -324,7 +287,7 @@ export function createAskGptButton(question, getContext) {
     () => window.removeEventListener('online', onOnline),
     () => window.removeEventListener('offline', onOffline),
   ];
-  offs.push(whenRemoved(el, () => {
+  offs.push(onDisconnect(el, () => {
     for (const off of offs.splice(0)) off();
   }));
 
