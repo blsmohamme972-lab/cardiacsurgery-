@@ -12,6 +12,10 @@ A cardiac surgery MCQ (multiple-choice question) study app for board-level exam 
 Planning only. The app has **not** been built yet. Do not add app code, data,
 icons or scripts until the owner asks for them.
 
+The current `index.html`, `manifest.webmanifest`, `sw.js` and `icons/` are a
+throwaway **install test** (does the PWA install and open offline on iPad/Android).
+Replace them when the real app is built.
+
 ## Communication
 
 - Talk to the owner in **Arabic**.

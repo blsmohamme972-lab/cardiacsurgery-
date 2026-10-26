@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Cardiac MCQ</title>
+  <meta name="theme-color" content="#b01e2d">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Cardiac MCQ">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <style>
+    :root { --bg: #ffffff; --fg: #1d1d1f; --muted: #6e6e73; --accent: #b01e2d; --card: #f5f5f7; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #000000; --fg: #f5f5f7; --muted: #a1a1a6; --card: #1c1c1e; }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
+      background: var(--bg); color: var(--fg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Tahoma, sans-serif;
+      text-align: center;
+    }
+    main { max-width: 420px; width: 100%; }
+    img { width: 96px; height: 96px; border-radius: 22px; }
+    h1 { font-size: 1.6rem; margin: 16px 0 8px; }
+    p { color: var(--muted); line-height: 1.6; margin: 8px 0; }
+    ul { list-style: none; padding: 0; margin: 20px 0 0; }
+    li { background: var(--card); border-radius: 12px; padding: 12px 16px; margin: 8px 0; display: flex; justify-content: space-between; gap: 12px; }
+    .ok { color: #1f8a3b; font-weight: 600; }
+    .no { color: var(--accent); font-weight: 600; }
+  </style>
+</head>
+<body>
+  <main>
+    <img src="icons/icon-192.png" alt="">
+    <h1>تجربة التثبيت</h1>
+    <p>صفحة اختبار فقط. التطبيق الحقيقي لم يُبنَ بعد.</p>
+    <ul>
+      <li><span>يعمل كتطبيق مثبّت</span><span id="standalone">…</span></li>
+      <li><span>العمل بدون إنترنت</span><span id="offline">…</span></li>
+      <li><span>الاتصال الآن</span><span id="online">…</span></li>
+    </ul>
+    <p style="margin-top:20px;font-size:.85rem">test v1</p>
+  </main>
+  <script>
+    function set(id, ok, yes, no) {
+      var el = document.getElementById(id);
+      el.textContent = ok ? yes : no;
+      el.className = ok ? 'ok' : 'no';
+    }
+    var standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    set('standalone', standalone, 'نعم', 'لا (متصفح)');
+    function updateOnline() { set('online', navigator.onLine, 'متصل', 'غير متصل'); }
+    updateOnline();
+    window.addEventListener('online', updateOnline);
+    window.addEventListener('offline', updateOnline);
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').then(function () {
+        return navigator.serviceWorker.ready;
+      }).then(function () {
+        set('offline', true, 'جاهز', '');
+      }).catch(function () {
+        set('offline', false, '', 'غير جاهز');
+      });
+    } else {
+      set('offline', false, '', 'غير مدعوم');
+    }
+  </script>
+</body>
+</html>
