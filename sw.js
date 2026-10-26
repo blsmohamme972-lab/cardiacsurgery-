@@ -1,5 +1,5 @@
 /**
- * Cardiac Surgery MCQ: service worker (docs/ARCHITECTURE.md §5.8).
+ * KirKlin (cardiac surgery MCQ): service worker (docs/ARCHITECTURE.md §5.8).
  *
  * - Precaches every app file (APP_SHELL) and the question data the app can
  *   show (published chapters + the demo) at install, so the app works 100%

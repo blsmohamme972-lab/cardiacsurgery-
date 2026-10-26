@@ -7,6 +7,11 @@ Read this first. These decisions are fixed unless the owner changes them.
 
 A cardiac surgery MCQ (multiple-choice question) study app for board-level exam preparation.
 
+**App name: KirKlin** (owner decision, 2026-10-26; exact spelling and capitals). It is the
+display name everywhere (title, home-screen name, header, splash). Internal identifiers stay
+unchanged so existing progress and backups keep working: database `cardiac-mcq`, cache prefix
+`cmcq-`, backup type `cardiac-mcq-backup`, file names `cardiac-mcq-*.json`.
+
 ## Status
 
 **Building v1** (owner said "start building", 2026-10-26). The full design

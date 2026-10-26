@@ -330,13 +330,13 @@ const validated = new WeakSet();
  * @returns {{ data: BackupData, summary: BackupSummary }}
  */
 export function validateBackup(obj) {
-  if (!isObj(obj)) throw new BackupError('not-json', `This isn't a Cardiac MCQ backup file. ${PICK_BACKUP}`);
+  if (!isObj(obj)) throw new BackupError('not-json', `This isn't a KirKlin backup file. ${PICK_BACKUP}`);
   const o = /** @type {any} */ (obj);
   if (o.type !== BACKUP_TYPE) {
     if (o.type === 'cardiac-mcq-review') {
       throw new BackupError('wrong-type', `This is a review file, not a backup. ${PICK_BACKUP}`);
     }
-    throw new BackupError('wrong-type', `This isn't a Cardiac MCQ backup file. ${PICK_BACKUP}`);
+    throw new BackupError('wrong-type', `This isn't a KirKlin backup file. ${PICK_BACKUP}`);
   }
   if (!Number.isInteger(o.formatVersion) || o.formatVersion < 1) {
     throw corrupt(['formatVersion']);
@@ -735,7 +735,7 @@ export async function readBackupFile(file) {
   }
   if (text.charCodeAt(0) === 0xfeff) text = text.slice(1);
   const start = text.trimStart()[0];
-  if (start !== '{') throw new BackupError('not-json', `This isn't a Cardiac MCQ backup file. ${PICK_BACKUP}`);
+  if (start !== '{') throw new BackupError('not-json', `This isn't a KirKlin backup file. ${PICK_BACKUP}`);
   let parsed;
   try {
     parsed = JSON.parse(text);
@@ -748,7 +748,7 @@ export async function readBackupFile(file) {
         { cause: err },
       );
     }
-    throw new BackupError('not-json', `This isn't a Cardiac MCQ backup file. ${PICK_BACKUP}`, { cause: err });
+    throw new BackupError('not-json', `This isn't a KirKlin backup file. ${PICK_BACKUP}`, { cause: err });
   }
   text = '';
   return validateBackup(parsed);

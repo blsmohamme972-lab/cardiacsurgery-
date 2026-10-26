@@ -252,7 +252,7 @@ try {
     for (const [content, expect] of [
       ['{"type":"cardiac-mcq-backup","formatVersion":1,"stores":{"notes":[{"qid":', /incomplete or damaged/],
       [JSON.stringify({ type: 'cardiac-mcq-review', formatVersion: 1, reviews: [], reports: [] }), /review file/],
-      ['not json at all', /isn't a Cardiac MCQ backup/],
+      ['not json at all', /isn't a KirKlin backup/],
     ]) {
       await closeSheets(page);
       await openDialog(content);

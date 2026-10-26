@@ -482,7 +482,7 @@ function mountPlayer(initial, byId) {
     const answered = answeredCount(s);
     progressFill.style.width = `${Math.round((answered / Math.max(1, total)) * 100)}%`;
     progressBtn.setAttribute('aria-label', `Question ${n} of ${total}, ${answered} answered. Open the question list.`);
-    document.title = `${n} / ${total} · ${s.title} · Cardiac MCQ`;
+    document.title = `${n} / ${total} · ${s.title} · KirKlin`;
     const qid = currentQid();
     const marked = s.marked[qid] === true;
     markBtn.setAttribute('aria-pressed', String(marked));

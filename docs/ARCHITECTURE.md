@@ -4,6 +4,9 @@ The contract for every module in the app. Code must match these names, shapes
 and behaviours exactly. If a contract has to change, change this file in the
 same commit.
 
+App display name: **KirKlin** (CLAUDE.md); internal ids (`cardiac-mcq` DB, `cmcq-` caches,
+`cardiac-mcq-backup` type) never change.
+
 Read `CLAUDE.md` first for the product rules (free, offline, English only,
 source-only content, very advanced code, extreme user-friendliness).
 

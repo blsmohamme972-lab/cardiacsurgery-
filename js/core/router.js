@@ -421,7 +421,7 @@ async function renderError(route, kind, error, token) {
   firstRender = false;
   try {
     const shell = await import('../ui/shell.js');
-    if (token === seq) shell.setHeader?.({ title: 'Cardiac MCQ', back: isHome ? null : true });
+    if (token === seq) shell.setHeader?.({ title: 'KirKlin', back: isHome ? null : true });
   } catch {
     /* header is cosmetic here */
   }
