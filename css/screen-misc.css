@@ -3,6 +3,11 @@
  * Owners: js/screens/{stats,search,settings,reviewer}.js.
  * (The first-run tour is styled in components.css next to the components it uses.)
  * Tokens only (css/tokens.css); light + dark; touch targets >= 44px; reduce motion via --dur vars.
+ *
+ * Look ("Cardiac OR"): crisp clinical cards; overview numbers read like
+ * vital-sign readouts (small-caps label, big Manrope number); the streak is a
+ * small venous-navy "monitor" strip with a heart and an ECG trace; charts use
+ * the chart tokens (--chart-1 on --chart-track) with recessive chrome.
  */
 
 /* ===================================================================== */
@@ -37,11 +42,13 @@
   min-width: 0;
 }
 
+/* A crisp clinical card. */
 .misc-card {
   padding: var(--sp-4);
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--r-l);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--venous) 5%, transparent);
 }
 
 .misc-section-head {
@@ -54,15 +61,38 @@
 
 .misc-h2 {
   margin: 0;
-  font-size: var(--fs-s);
+  font-family: var(--font-sans);
+  font-size: var(--fs-xs);
   font-weight: 700;
-  letter-spacing: 0.02em;
+  line-height: 1.3;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-3);
 }
 
+/* Section heading with an icon badge (Settings). */
+.misc-h2.has-icon {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding-left: 2px;
+}
+
+.misc-h2-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: var(--r-s);
+  background: var(--primary-soft);
+  color: var(--primary);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--primary) 14%, transparent);
+}
+
 .misc-h3 {
   margin: var(--sp-2) 0 0;
+  font-family: var(--font-sans);
   font-size: var(--fs-s);
   font-weight: 650;
   color: var(--text-2);
@@ -79,72 +109,127 @@
   padding: var(--sp-3) var(--sp-4);
   border-radius: var(--r-m);
   background: var(--success-soft);
+  box-shadow: inset 3px 0 0 var(--success);
   color: var(--text);
 }
 
+/* Calm notice (demo mode): info tint with a thin accent edge. */
 .misc-banner {
   margin: 0;
   padding: var(--sp-3) var(--sp-4);
   border-radius: var(--r-m);
   background: var(--info-soft);
+  box-shadow: inset 3px 0 0 var(--info);
   color: var(--text);
   font-size: var(--fs-s);
   line-height: 1.5;
 }
 
 /* ===================================================================== */
-/* Stat tiles (Stats overview + Reviewer counts)                          */
+/* Stat tiles: vital-sign readouts (Stats overview + Reviewer counts)     */
 /* ===================================================================== */
 
 .stat-tiles {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--sp-3);
 }
 
-@media (max-width: 420px) {
+@media (min-width: 600px) {
   .stat-tiles {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
 .stat-tile {
+  --tile-accent: var(--chart-1);
+  position: relative;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 2px;
   min-width: 0;
-  min-height: 92px;
-  padding: var(--sp-3) var(--sp-4);
+  min-height: 108px;
+  padding: var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-4);
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--r-l);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--venous) 5%, transparent);
   color: var(--text);
   font: inherit;
   text-align: left;
+  overflow: hidden;
+}
+
+/* The parameter tick: a short accent at the top edge, like a monitor channel colour. */
+.stat-tile::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: var(--sp-4);
+  width: 22px;
+  height: 3px;
+  border-radius: 0 0 3px 3px;
+  background: var(--tile-accent);
+}
+
+.stat-tile-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  min-width: 0;
+  min-height: 24px;
 }
 
 .stat-tile-label {
-  font-size: var(--fs-xs);
-  font-weight: 600;
+  min-width: 0;
+  font-size: var(--fs-s);
+  font-weight: 650;
+  line-height: 1.2;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.07em;
   color: var(--text-2);
-}
-
-.stat-tile-value {
-  font-size: var(--fs-xl);
-  font-weight: 700;
-  line-height: var(--lh-tight);
   overflow-wrap: anywhere;
 }
 
+.stat-tile-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  color: var(--tile-icon, var(--text-3));
+}
+
+.stat-tile-value {
+  margin-top: var(--sp-1);
+  font-size: calc(1.875rem * var(--font-scale));
+  line-height: 1.05;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+.stat-tile-unit {
+  margin-left: 1px;
+  font-size: 0.56em;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: var(--text-2);
+}
+
 .stat-tile-sub {
+  margin-top: auto;
+  padding-top: var(--sp-1);
   font-size: var(--fs-xs);
+  line-height: 1.35;
   color: var(--text-3);
 }
 
 .stat-tile.is-action {
   cursor: pointer;
-  transition: background-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease),
+    transform var(--dur-fast) var(--ease);
 }
 
 .stat-tile.is-action:active {
@@ -158,9 +243,11 @@
   }
 }
 
+/* Due → soft crimson call to action. */
 .stat-tile.tone-primary {
+  --tile-icon: var(--primary);
   background: var(--primary-soft);
-  border-color: transparent;
+  border-color: color-mix(in srgb, var(--primary) 22%, transparent);
 }
 
 .stat-tile.tone-primary .stat-tile-value,
@@ -169,27 +256,159 @@
 }
 
 .stat-tile.tone-primary .stat-tile-sub {
-  font-weight: 650;
+  font-weight: 700;
 }
 
-.stat-tile.tone-streak .stat-tile-value {
-  color: var(--warning);
+.stat-tile.is-action.tone-primary:active {
+  background: color-mix(in srgb, var(--primary) 14%, var(--primary-soft));
 }
 
-.stat-tile.tone-success .stat-tile-value {
-  color: var(--success);
+@media (hover: hover) {
+  .stat-tile.is-action.tone-primary:hover {
+    background: color-mix(in srgb, var(--primary) 9%, var(--primary-soft));
+  }
 }
 
-.stat-tile.tone-warning .stat-tile-value {
-  color: var(--warning);
+/* Status tones (Reviewer counts): the tick and the icon carry the state, the number stays ink. */
+.stat-tile.tone-success {
+  --tile-accent: var(--success);
+  --tile-icon: var(--success);
 }
 
-.stat-tile.tone-danger .stat-tile-value {
-  color: var(--danger);
+.stat-tile.tone-warning {
+  --tile-accent: var(--warning);
+  --tile-icon: var(--warning);
+}
+
+.stat-tile.tone-danger {
+  --tile-accent: var(--danger);
+  --tile-icon: var(--danger);
+}
+
+.stat-tile.tone-neutral {
+  --tile-accent: var(--border-strong);
+}
+
+/* ---------- Streak "monitor" strip ---------- */
+
+.stat-monitor {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: auto auto minmax(var(--sp-6), 1fr) auto;
+  align-items: center;
+  column-gap: var(--sp-3);
+  min-height: 84px;
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--venous);
+  background-image: var(--hero-grad);
+  border-color: transparent;
+  color: var(--on-venous);
+  box-shadow: var(--shadow-2);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--on-venous) 8%, transparent),
+    var(--shadow-2);
+}
+
+.stat-monitor::before {
+  content: none;
+}
+
+.stat-monitor-heart {
+  grid-column: 1;
+  grid-row: 1;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-full);
+  background: color-mix(in srgb, var(--on-venous) 8%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--on-venous) 14%, transparent);
+  color: var(--on-venous-2);
+}
+
+.stat-monitor-text {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.stat-monitor .stat-tile-label {
+  color: var(--on-venous-2);
+}
+
+.stat-monitor .stat-tile-value {
+  margin-top: 0;
+  color: var(--on-venous);
+}
+
+.stat-monitor .stat-tile-unit {
+  color: var(--on-venous-2);
+}
+
+.stat-monitor .stat-tile-sub {
+  grid-column: 4;
+  grid-row: 1;
+  margin: 0;
+  padding: 0;
+  text-align: right;
+  font-size: var(--fs-s);
+  font-weight: 600;
+  color: var(--on-venous-2);
+}
+
+.stat-monitor-ecg {
+  grid-column: 3;
+  grid-row: 1;
+  width: 100%;
+  min-width: 0;
+  opacity: 0.4;
+}
+
+/* Alive: a solid heart in the trace colour that beats a few times, then rests. */
+.stat-monitor.tone-streak .stat-monitor-heart {
+  background: color-mix(in srgb, var(--ecg) 16%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ecg) 34%, transparent);
+  color: var(--ecg);
+}
+
+.stat-monitor.tone-streak .stat-monitor-heart .icon {
+  fill: currentColor;
+  transform-origin: 50% 55%;
+  animation: stat-heartbeat 1.3s var(--ease) 0.2s 3 both;
+}
+
+.stat-monitor.tone-streak .stat-monitor-ecg {
+  opacity: 0.75;
+}
+
+@keyframes stat-heartbeat {
+  0%,
+  42%,
+  100% {
+    transform: scale(1);
+  }
+  12% {
+    transform: scale(1.18);
+  }
+  24% {
+    transform: scale(0.98);
+  }
+  32% {
+    transform: scale(1.1);
+  }
+}
+
+/* Very narrow phones: the trace yields its space to the text. */
+@media (max-width: 359.98px) {
+  .stat-monitor-ecg {
+    display: none;
+  }
 }
 
 /* ===================================================================== */
-/* Stats: activity chart                                                  */
+/* Stats: 30-day activity chart                                           */
 /* ===================================================================== */
 
 .stats-summary {
@@ -201,52 +420,125 @@
 
 .stats-peak {
   font-size: var(--fs-xs);
+  font-weight: 600;
   color: var(--text-3);
 }
 
+.act-figure {
+  position: relative;
+  min-width: 0;
+}
+
 .act-wrap {
-  height: 120px;
+  position: relative;
+  margin-top: var(--sp-1);
+  border-radius: var(--r-s);
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.act-wrap:focus-visible {
+  outline-offset: 4px;
+}
+
+.act-plot {
+  width: 100%;
+  min-width: 0;
 }
 
 .act-chart {
   display: block;
   width: 100%;
-  height: 100%;
+  height: auto;
   overflow: visible;
 }
 
 .act-hit {
   fill: transparent;
+  transition: fill var(--dur-fast) var(--ease);
+}
+
+.act-bar.is-active .act-hit {
+  fill: color-mix(in srgb, var(--chart-1) 8%, transparent);
 }
 
 .act-fill {
-  fill: var(--primary);
-  opacity: 0.55;
+  fill: var(--chart-1);
+  transition: opacity var(--dur-fast) var(--ease);
 }
 
-.act-bar.is-today .act-fill {
-  opacity: 1;
-}
-
-.act-zero {
-  fill: var(--border-strong);
+/* Focus on one day: the others step back. */
+.act-chart.has-active .act-bar:not(.is-active) .act-fill {
+  opacity: 0.35;
 }
 
 .act-base {
-  stroke: var(--border);
+  stroke: var(--border-strong);
   stroke-width: 1;
-  vector-effect: non-scaling-stroke;
+  shape-rendering: crispEdges;
 }
 
-@media (hover: hover) {
-  .act-bar:hover .act-fill {
-    opacity: 1;
-  }
+/* Direct labels wear text ink, never the series colour. */
+.act-val {
+  fill: var(--text-2);
+  font-family: var(--font-sans);
+  font-size: min(var(--fs-xs), 14px);
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tooltip: value leads, the day follows; navy like toasts in both themes. */
+.act-tip {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 6px 10px 7px;
+  border-radius: var(--r-s);
+  background: var(--inverse-bg);
+  color: var(--inverse-text);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--inverse-text) 9%, transparent),
+    var(--shadow-2);
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translateY(-100%);
+}
+
+.act-tip-value {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-s);
+  font-weight: 750;
+  line-height: 1.25;
+}
+
+/* Line key for the single series. */
+.act-tip-value::before {
+  content: "";
+  flex: none;
+  width: 10px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--inverse-action);
+}
+
+.act-tip-label {
+  font-size: var(--fs-xs);
+  line-height: 1.3;
+  color: color-mix(in srgb, var(--inverse-text) 76%, var(--inverse-bg));
 }
 
 .act-axis {
   display: flex;
   justify-content: space-between;
+  margin-top: 6px;
   font-size: var(--fs-xs);
   color: var(--text-3);
 }
@@ -295,7 +587,11 @@
 }
 
 .stats-chapter-pct {
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--fs-l);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
 }
 
 .stats-chapter-detail {
@@ -367,31 +663,51 @@
   place-items: center;
   color: var(--text-3);
   pointer-events: none;
+  transition: color var(--dur-fast) var(--ease);
 }
 
+.search-form:focus-within .search-icon {
+  color: var(--primary);
+}
+
+/* Big field; focus = a crimson ring (border + soft halo), no blue double ring. */
 .search-input {
   width: 100%;
-  min-height: 56px;
+  min-height: 60px;
   padding: var(--sp-3) calc(var(--tap) + var(--sp-3)) var(--sp-3) calc(var(--sp-4) + 22px + var(--sp-3));
-  border: 1.5px solid var(--border-strong);
+  border: 2px solid var(--border-strong);
   border-radius: var(--r-l);
   background: var(--surface);
   color: var(--text);
   font: inherit;
   font-size: max(16px, var(--fs-l)); /* ≥ 16px: no iOS zoom on focus */
+  font-weight: 500;
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--venous) 6%, transparent);
   -webkit-appearance: none;
   appearance: none;
-  transition: border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+  transition:
+    border-color var(--dur-fast) var(--ease),
+    box-shadow var(--dur-fast) var(--ease);
 }
 
 .search-input::placeholder {
   color: var(--text-3);
+  font-weight: 400;
 }
 
 .search-input:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px var(--focus);
+  box-shadow:
+    0 0 0 4px color-mix(in srgb, var(--primary) 20%, transparent),
+    0 1px 2px color-mix(in srgb, var(--venous) 6%, transparent);
+}
+
+@media (forced-colors: active) {
+  .search-input:focus {
+    outline: 3px solid CanvasText;
+    outline-offset: 2px;
+  }
 }
 
 .search-input::-webkit-search-cancel-button,
@@ -412,6 +728,7 @@
 .search-status {
   margin: calc(-1 * var(--sp-2)) 0 0;
   min-height: 1.4em;
+  padding-left: 2px;
   font-size: var(--fs-s);
   color: var(--text-2);
 }
@@ -433,6 +750,9 @@
   gap: var(--sp-2);
   padding: var(--sp-5) var(--sp-2);
   text-align: center;
+  /* Own stacking context for the badge's ECG trace (see .empty-ecg). */
+  isolation: isolate;
+  overflow-x: clip;
 }
 
 .search-tips {
@@ -467,18 +787,24 @@
 .search-chip {
   min-height: var(--tap);
   padding: 0 var(--sp-4);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   border-radius: var(--r-full);
   background: var(--surface);
   color: var(--text);
   font: inherit;
   font-size: var(--fs-s);
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color var(--dur-fast) var(--ease);
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease);
 }
 
 .search-chip:active {
-  background: var(--surface-2);
+  background: var(--primary-soft);
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 @media (hover: hover) {
@@ -492,10 +818,12 @@
   flex-direction: column;
   gap: var(--sp-1);
   min-height: var(--tap);
-  padding: var(--sp-3) var(--sp-4);
+  padding: var(--sp-3) var(--sp-4) var(--sp-3) var(--sp-4);
   color: var(--text);
   text-decoration: none;
-  transition: background-color var(--dur-fast) var(--ease);
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    box-shadow var(--dur-fast) var(--ease);
 }
 
 .search-hit:active {
@@ -505,6 +833,7 @@
 @media (hover: hover) {
   .search-hit:hover {
     background: var(--surface-2);
+    box-shadow: inset 3px 0 0 var(--primary);
     color: var(--text);
   }
 }
@@ -514,28 +843,34 @@
 }
 
 .search-hit-title {
-  font-weight: 600;
+  font-weight: 650;
   line-height: var(--lh-tight);
   overflow-wrap: anywhere;
 }
 
 .search-hit-snippet {
   font-size: var(--fs-s);
-  line-height: 1.5;
+  line-height: 1.55;
   color: var(--text-2);
   overflow-wrap: anywhere;
 }
 
+/* Matches: a soft crimson marker with an underline in the brand colour. */
 .search-mark {
-  padding: 0 1px;
+  padding: 0 2px;
   border-radius: 3px;
-  background: var(--hl-yellow);
+  background: var(--primary-soft);
+  box-shadow: inset 0 -2px 0 var(--primary);
   color: var(--text);
-  font-weight: 600;
+  font-weight: 650;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 .search-hit-meta {
   font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.01em;
   color: var(--text-3);
   font-variant-numeric: tabular-nums;
 }
@@ -544,12 +879,22 @@
 /* Settings                                                               */
 /* ===================================================================== */
 
+.screen-settings {
+  gap: var(--sp-6);
+}
+
+.screen-settings .misc-section {
+  gap: var(--sp-2);
+}
+
+/* Grouped clinical card. */
 .set-group {
   display: flex;
   flex-direction: column;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--r-l);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--venous) 5%, transparent);
   overflow: hidden;
 }
 
@@ -612,7 +957,7 @@
 
 .set-label {
   font-size: var(--fs-m);
-  font-weight: 550;
+  font-weight: 600;
   line-height: var(--lh-tight);
   color: var(--text);
 }
@@ -624,7 +969,9 @@
 }
 
 .set-value {
-  font-weight: 650;
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.01em;
   color: var(--text);
 }
 
@@ -656,11 +1003,13 @@
   border-radius: var(--r-s);
 }
 
+/* Live text-size preview: a "reading" sample with a crimson margin rule. */
 .set-preview {
   margin: 0;
   padding: var(--sp-3) var(--sp-4);
   border-radius: var(--r-m);
   background: var(--surface-2);
+  box-shadow: inset 3px 0 0 var(--primary);
   font-size: var(--fs-m);
   line-height: var(--lh-body);
   color: var(--text);
@@ -676,6 +1025,11 @@
   color: var(--text);
   font: inherit;
   font-size: max(16px, var(--fs-m));
+  accent-color: var(--primary);
+}
+
+.set-select:focus-visible {
+  border-color: var(--primary);
 }
 
 .set-select:disabled {
@@ -686,14 +1040,15 @@
   display: inline-flex;
   align-items: center;
   gap: var(--sp-1);
-  border-radius: var(--r-m);
+  border-radius: var(--r-full);
   background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--border);
 }
 
 .set-step-value {
   min-width: 6.5em;
   text-align: center;
-  font-weight: 650;
+  font-weight: 700;
 }
 
 .set-actions {
@@ -751,7 +1106,7 @@
   display: flex;
   align-items: center;
   min-height: var(--tap);
-  font-weight: 600;
+  font-weight: 650;
   color: var(--primary);
   cursor: pointer;
   list-style: none;
@@ -793,6 +1148,7 @@
 .set-inner-list {
   border: 0;
   border-radius: 0;
+  box-shadow: none;
 }
 
 .set-inner-list[hidden] {
@@ -884,7 +1240,9 @@
   padding: var(--sp-3) var(--sp-4);
   color: var(--text);
   text-decoration: none;
-  transition: background-color var(--dur-fast) var(--ease);
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    box-shadow var(--dur-fast) var(--ease);
 }
 
 .rv-item:active {
@@ -894,6 +1252,7 @@
 @media (hover: hover) {
   .rv-item:hover {
     background: var(--surface-2);
+    box-shadow: inset 3px 0 0 var(--primary);
     color: var(--text);
   }
 }

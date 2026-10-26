@@ -49,6 +49,8 @@ const WATCHED_STORES = new Set(['qstate', 'sessions', 'attempts']);
  * @property {number} mistakes
  * @property {number} bookmarks
  * @property {number} studyTotal Questions in the study chapters (from the index counts).
+ * @property {number} answered Study questions answered at least once (capped at studyTotal).
+ * @property {number | null} accuracy Percent right on the last try, or null before the first answer.
  * @property {boolean} recordsFailed
  */
 
@@ -109,9 +111,20 @@ async function loadModel() {
   const studyTotal = index.demoMode
     ? Number(index.demo?.count) || 0
     : index.chapters.reduce((a, c) => a + (Number(c.count) || 0), 0);
+  let answered = 0;
+  let correct = 0;
+  for (const cid of study) {
+    const p = progress.get(cid);
+    if (!p) continue;
+    answered += p.answered;
+    correct += p.correct;
+  }
   return {
     index,
     studyTotal,
+    // Records of retired questions can outnumber the bank; never show "12 / 10".
+    answered: studyTotal > 0 ? Math.min(answered, studyTotal) : answered,
+    accuracy: answered > 0 ? pct(correct, answered) : null,
     session: sessionRes.ok ? sessionRes.v : null,
     progress,
     due,
@@ -164,27 +177,36 @@ function continueCard(s, refresh) {
   });
   discard.classList.add('home-continue-discard');
 
+  // The mode chip only when the title doesn't already say it.
+  let modeChip = null;
+  if (title !== (exam ? 'Exam' : 'Practice')) {
+    modeChip = chip(exam ? 'Exam' : 'Practice', { kind: exam ? 'warning' : 'primary', icon: exam ? 'timer' : 'target' });
+    modeChip.classList.add(exam ? 'home-chip-exam' : 'home-chip-practice');
+  }
+  const value = pct(done, total);
+
   return h(
     'section',
-    { class: 'home-card home-continue', 'aria-labelledby': 'home-continue-h' },
+    { class: ['home-card', 'home-continue', exam ? 'is-exam' : 'is-practice'], 'aria-labelledby': 'home-continue-h' },
     h(
       'a',
       { class: 'home-continue-link', href },
       h(
         'span',
         { class: 'home-card-top' },
+        h('span', { class: 'home-live-dot', 'aria-hidden': 'true' }),
         h('span', { class: 'home-eyebrow', id: 'home-continue-h' }, 'Continue where you left off'),
       ),
       h('span', { class: 'home-continue-title' }, title),
       h(
         'span',
         { class: 'home-continue-meta' },
-        // The mode chip only when the title doesn't already say it.
-        title === (exam ? 'Exam' : 'Practice') ? null : chip(exam ? 'Exam' : 'Practice', { kind: exam ? 'warning' : 'info', icon: exam ? 'timer' : 'target' }),
+        modeChip,
         h('span', { class: 'tabular' }, `${formatNumber(done)} / ${formatNumber(total)}`),
         when ? h('span', { class: 'home-continue-when' }, `· ${when}`) : null,
+        h('span', { class: 'home-continue-pct num-display', 'aria-hidden': 'true' }, `${value}%`),
       ),
-      progressBar(pct(done, total), { label: `${done} of ${total} answered` }),
+      progressBar(value, { label: `${done} of ${total} answered` }),
       h('span', { class: 'home-continue-cta' }, icon('play', { size: 18 }), h('span', {}, 'Resume')),
     ),
     discard,
@@ -253,7 +275,7 @@ function quickActions(m) {
       'div',
       { class: 'home-qa-grid' },
       quickAction({ label: `Practice ${n}`, sub: 'Explanation after each answer', iconName: 'target', tone: 'primary', opts: { mode: 'tutor', count: n } }),
-      quickAction({ label: 'Exam', sub: `${n} questions · ${minutes} min`, iconName: 'timer', tone: 'warning', opts: { mode: 'exam', count: n } }),
+      quickAction({ label: 'Exam', sub: `${n} questions · ${minutes} min`, iconName: 'timer', tone: 'teal', opts: { mode: 'exam', count: n } }),
       quickAction({
         label: 'Mistakes',
         sub: m.mistakes ? `${formatNumber(m.mistakes)} to redo` : 'Redo what you got wrong',
@@ -300,13 +322,15 @@ function chapterRow(c, p) {
       ? `${formatNumber(answered)} of ${plural(total, 'question')} · ${accuracy}% right`
       : `${plural(total, 'question')} · Not started`;
   const label = c.demo ? c.title : `${c.number}. ${c.title}`;
+  const meter = ring(value, { size: 44, label: `${value}% answered` });
+  meter.classList.add('home-chapter-ring');
   return h(
     'li',
     {},
     h(
       'a',
-      { class: 'home-chapter', href: `#/chapter/${encodeURIComponent(c.id)}` },
-      ring(value, { size: 44, label: `${value}% answered` }),
+      { class: ['home-chapter', answered > 0 ? 'is-started' : 'is-new'], href: `#/chapter/${encodeURIComponent(c.id)}` },
+      meter,
       h(
         'span',
         { class: 'home-chapter-text' },
@@ -334,10 +358,15 @@ function chaptersSection(m) {
           'div',
           { class: 'home-demo' },
           h(
-            'p',
-            { class: 'home-demo-note' },
-            h('strong', {}, 'Demo mode. '),
-            'Real chapters appear here as soon as they are published. Until then, try every feature with these sample questions about using the app.',
+            'div',
+            { class: 'home-demo-head' },
+            h('span', { class: 'home-demo-icon', 'aria-hidden': 'true' }, icon('info', { size: 20 })),
+            h(
+              'p',
+              { class: 'home-demo-note' },
+              h('strong', {}, 'Demo mode. '),
+              'Real chapters appear here as soon as they are published. Until then, try every feature with these sample questions about using the app.',
+            ),
           ),
           h('ul', { class: 'home-chapters' }, chapterRow(index.demo, m.progress.get(index.demo.id))),
         ),
@@ -364,11 +393,24 @@ function chaptersSection(m) {
     const chapters = part.chapters.map((id) => byId.get(id)).filter(Boolean);
     if (chapters.length === 0) continue;
     const hid = `home-part-${part.id}`;
+    const questions = chapters.reduce((a, c) => a + (Number(c.count) || 0), 0);
     section.append(
       h(
         'div',
         { class: 'home-part', role: 'group', 'aria-labelledby': hid },
-        h('h3', { class: 'home-part-title', id: hid }, h('span', { class: 'home-part-num' }, `Part ${part.number}`), ' ', part.title),
+        h(
+          'div',
+          { class: 'home-part-head' },
+          h('span', { class: 'home-part-badge num-display', 'aria-hidden': 'true' }, String(part.number)),
+          h(
+            'h3',
+            { class: 'home-part-title', id: hid },
+            h('span', { class: 'home-part-num' }, `Part ${part.number}`),
+            h('span', { class: 'visually-hidden' }, ': '),
+            h('span', { class: 'home-part-name' }, part.title),
+          ),
+          h('span', { class: 'home-part-meta' }, `${plural(chapters.length, 'chapter')} · ${plural(questions, 'question')}`),
+        ),
         h('ul', { class: 'home-chapters' }, chapters.map((c) => chapterRow(c, m.progress.get(c.id)))),
       ),
     );
@@ -403,15 +445,79 @@ function body(m, refresh) {
   return out;
 }
 
-/** @returns {HTMLElement} */
-function header() {
-  const hour = new Date().getHours();
+/** Date line above the greeting ("Monday, October 26"); empty if Intl fails. */
+function todayLine() {
+  try {
+    return new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  } catch {
+    return '';
+  }
+}
+
+/**
+ * One "vital sign" reading of the hero panel.
+ * @param {string} kind Modifier class (`answered` | `accuracy` | `due`).
+ * @param {string} label
+ * @param {Node[]} value
+ * @returns {HTMLElement}
+ */
+function vital(kind, label, value) {
   return h(
     'div',
-    { class: 'home-hello' },
-    h('h1', { class: 'home-greeting', tabindex: '-1' }, greeting(hour)),
-    h('p', { class: 'home-tagline' }, 'Pick up where you left off, or start something new.'),
+    { class: ['home-vital', `home-vital-${kind}`] },
+    h('dt', { class: 'home-vital-label' }, label),
+    h('dd', { class: 'home-vital-value' }, ...value),
   );
+}
+
+/**
+ * The greeting as a calm "monitor" panel: date, greeting, an ECG trace and
+ * three readings (answered, accuracy, due) from data Home loads anyway.
+ * @returns {{ el: HTMLElement, update: (m: HomeModel | null) => void }}
+ */
+function hero() {
+  const hour = new Date().getHours();
+  const date = todayLine();
+  const vitals = h('dl', { class: 'home-vitals', 'aria-label': 'Your progress', hidden: true });
+  const el = h(
+    'div',
+    { class: 'home-hello home-hero' },
+    h(
+      'div',
+      { class: 'home-hero-text' },
+      date ? h('p', { class: 'home-hero-date' }, date) : null,
+      h('h1', { class: 'home-greeting', tabindex: '-1' }, greeting(hour)),
+      h('p', { class: 'home-tagline' }, 'Pick up where you left off, or start something new.'),
+    ),
+    h('div', { class: 'ecg-line ecg-line--sweep home-ecg', 'aria-hidden': 'true' }),
+    vitals,
+  );
+  return {
+    el,
+    update(m) {
+      if (!m || m.recordsFailed) {
+        vitals.hidden = true;
+        vitals.replaceChildren();
+        return;
+      }
+      vitals.replaceChildren(
+        vital('answered', 'Answered', [
+          h('span', { class: 'home-vital-num num-display' }, formatNumber(m.answered)),
+          m.studyTotal > 0 ? h('span', { class: 'home-vital-of', 'aria-hidden': 'true' }, `/${formatNumber(m.studyTotal)}`) : null,
+          m.studyTotal > 0 ? h('span', { class: 'visually-hidden' }, ` of ${formatNumber(m.studyTotal)}`) : null,
+        ]),
+        vital(
+          'accuracy',
+          'Accuracy',
+          m.accuracy === null
+            ? [h('span', { class: 'home-vital-num num-display', 'aria-hidden': 'true' }, '—'), h('span', { class: 'visually-hidden' }, 'No answers yet')]
+            : [h('span', { class: 'home-vital-num num-display' }, String(m.accuracy)), h('span', { class: 'home-vital-unit' }, '%')],
+        ),
+        vital('due', 'Due', [h('span', { class: 'home-vital-num num-display' }, formatNumber(m.due))]),
+      );
+      vitals.hidden = false;
+    },
+  };
 }
 
 export default {
@@ -421,7 +527,8 @@ export default {
   async render() {
     setHeader({});
     const content = h('div', { class: 'home-content' });
-    const page = h('div', { class: 'screen-home' }, header(), content);
+    const top = hero();
+    const page = h('div', { class: 'screen-home' }, top.el, content);
 
     let alive = true;
     /** @type {ReturnType<typeof setTimeout> | null} */
@@ -433,10 +540,12 @@ export default {
       try {
         const m = await loadModel();
         if (!alive || mine !== seq) return;
+        top.update(m);
         content.replaceChildren(...body(m, refresh));
       } catch (err) {
         if (!alive || mine !== seq) return;
         console.error('[home] Could not load the chapters:', err);
+        top.update(null);
         content.replaceChildren(
           emptyState({
             icon: 'alert',

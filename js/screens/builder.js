@@ -283,7 +283,7 @@ export default {
       });
       return h(
         'label',
-        { class: 'nb-mode' },
+        { class: ['nb-mode', `nb-mode-${value}`] },
         input,
         h('span', { class: 'nb-mode-icon', 'aria-hidden': 'true' }, icon(iconName, { size: 22 })),
         h('span', { class: 'nb-mode-text' }, h('span', { class: 'nb-mode-title' }, title), h('span', { class: 'nb-mode-desc' }, desc)),
@@ -325,6 +325,7 @@ export default {
     const availLine = h('p', { class: 'nb-available', 'aria-live': 'polite' }, 'Counting questions…');
     const reasonLine = h('p', { class: 'nb-reason', hidden: true });
     const startBtn = button({ label: 'Start', icon: 'play', variant: 'primary', size: 'l', block: true });
+    startBtn.classList.add('nb-start');
     startBtn.addEventListener('click', () => {
       const n = wantedCount();
       if (n === null) return;

@@ -192,7 +192,7 @@
   margin: var(--sp-5) 0 0;
   padding: var(--sp-4);
   border: 1px solid var(--border);
-  border-left: 4px solid var(--info);
+  border-left: 4px solid var(--teal);
   border-radius: var(--r-m);
   background: var(--surface);
   box-shadow: var(--shadow-1);
@@ -220,13 +220,14 @@
   align-items: center;
   gap: var(--sp-2);
   margin: 0;
-  font-size: var(--fs-m);
-  font-weight: 700;
   color: var(--text);
+  font-family: var(--font-display);
+  font-size: var(--fs-m);
+  font-weight: 750;
 }
 
 .rv-panel-title .icon {
-  color: var(--info);
+  color: var(--teal);
 }
 
 .rv-status-text {
@@ -372,11 +373,13 @@
 
 .bk-count dd {
   margin: 0;
-  font-size: var(--fs-l);
-  font-weight: 700;
-  line-height: var(--lh-tight);
   color: var(--text);
+  font-family: var(--font-display);
+  font-size: var(--fs-l);
+  font-weight: 800;
   font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+  line-height: var(--lh-tight);
 }
 
 .bk-empty {
@@ -468,9 +471,10 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--sp-2);
-  font-size: var(--fs-m);
-  font-weight: 700;
   color: var(--text);
+  font-family: var(--font-display);
+  font-size: var(--fs-m);
+  font-weight: 750;
 }
 
 .bk-option-text {
@@ -501,9 +505,10 @@
 
 .bk-error-title {
   margin: var(--sp-2) 0 0;
-  font-size: var(--fs-l);
-  font-weight: 700;
   color: var(--text);
+  font-family: var(--font-display);
+  font-size: var(--fs-l);
+  font-weight: 750;
 }
 
 .bk-error-text {

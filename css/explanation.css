@@ -4,10 +4,19 @@
  *
  * - Every block is `.xb.xb-<type>` with `position: relative`, so ink layers
  *   (annotate/ink.js) can sit on top of it.
- * - All text stays real DOM text; decoration is CSS or aria-hidden SVG.
- * - Tokens from tokens.css only. Light + dark come from the tokens.
+ * - All text stays real DOM text; decoration is CSS (pseudo-elements,
+ *   backgrounds) or aria-hidden SVG with data-anchor-skip.
+ * - Tokens from tokens.css only. Light + dark come from the tokens; the few
+ *   theme-specific picks are local variables set once below.
  * - Responsive pieces (flow branch rows, mind maps) use container queries,
  *   so they adapt to the column they sit in (phone, iPad two-pane, sheet).
+ *
+ * Identity ("Cardiac OR"), built for fast, memorable reading:
+ * headings with a crimson rule · tables with a navy header row and zebra
+ * rows · flows as clinical cards joined by crimson arrows · mind maps with a
+ * crimson centre and teal / venous-blue branches · callouts per kind
+ * (key crimson, pearl teal, pitfall red, mnemonic amber) · quotes on a
+ * crimson rule.
  */
 
 /* ---------- Inline mini-markup (§3.5), used everywhere text is rendered ---------- */
@@ -59,7 +68,14 @@ mark.key {
 
 .explain {
   --xb-gap: var(--sp-4);
-  --xb-line: color-mix(in srgb, var(--primary) 42%, var(--border-strong));
+  /* Crimson accents (rules, arrows, connectors). */
+  --xb-accent: var(--primary);
+  --xb-line: color-mix(in srgb, var(--primary) 70%, var(--surface));
+  --xb-line-soft: color-mix(in srgb, var(--primary) 32%, var(--border-strong));
+  /* Navy table header ("monitor" band). */
+  --xb-head: var(--venous);
+  --xb-head-text: var(--on-venous);
+  --xb-head-rule: color-mix(in srgb, var(--on-venous) 16%, transparent);
   max-width: var(--maxw);
   color: var(--text);
   font-size: var(--fs-m);
@@ -67,9 +83,22 @@ mark.key {
   overflow-wrap: break-word;
 }
 
+/* Dark: the deepest navy disappears into the night surface; lift it a step. */
+:root[data-theme="dark"] .explain {
+  --xb-head: var(--venous-2);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .explain {
+    --xb-head: var(--venous-2);
+  }
+}
+
 @supports not (color: color-mix(in srgb, red 50%, blue)) {
   .explain {
-    --xb-line: var(--border-strong);
+    --xb-line: var(--primary);
+    --xb-line-soft: var(--border-strong);
+    --xb-head-rule: var(--venous-2);
   }
 }
 
@@ -89,17 +118,27 @@ mark.key {
 
 /* ---------- Heading + paragraph ---------- */
 
+/* Display face over a hairline with a short crimson rule at its start. */
 .xb-heading {
-  font-size: var(--fs-l);
-  line-height: var(--lh-tight);
-  font-weight: 700;
-  letter-spacing: -0.012em;
+  padding-bottom: 10px;
+  background:
+    linear-gradient(var(--xb-accent), var(--xb-accent)) 0 100% / 2.25rem 3px no-repeat,
+    linear-gradient(var(--border), var(--border)) 0 calc(100% - 1px) / 100% 1px no-repeat;
   color: var(--text);
+  font-family: var(--font-display);
+  font-size: var(--fs-l);
+  font-weight: 800;
+  letter-spacing: -0.016em;
+  line-height: var(--lh-tight);
   text-wrap: balance;
 }
 
 .explain > .xb + .xb-heading {
   margin-top: var(--sp-6);
+}
+
+.explain > .xb-heading + .xb {
+  margin-top: var(--sp-3);
 }
 
 .xb-p {
@@ -122,11 +161,12 @@ mark.key {
 }
 
 .xb-list-items li::marker {
-  color: var(--primary);
+  color: var(--xb-accent);
 }
 
 ol.xb-list-items > li::marker {
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-weight: 800;
   font-variant-numeric: tabular-nums;
 }
 
@@ -136,7 +176,7 @@ ol.xb-list-items > li::marker {
 }
 
 .xb-list-items .xb-list-items li::marker {
-  color: var(--text-3);
+  color: var(--teal);
 }
 
 ul.xb-list-items ul.xb-list-items {
@@ -151,15 +191,30 @@ ol.xb-list-items ol.xb-list-items {
 
 .xb-table-caption {
   margin-bottom: var(--sp-2);
+  color: var(--text);
+  font-family: var(--font-display);
   font-size: var(--fs-s);
-  font-weight: 650;
+  font-weight: 750;
   line-height: var(--lh-tight);
-  color: var(--text-2);
+}
+
+/* A tiny table glyph: navy header over a grey body. */
+.xb-table-caption::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-inline-end: var(--sp-2);
+  border-radius: 3px;
+  vertical-align: 0;
+  background:
+    linear-gradient(var(--xb-head), var(--xb-head)) 0 0 / 100% 40% no-repeat,
+    linear-gradient(var(--border-strong), var(--border-strong)) 0 100% / 100% 40% no-repeat;
 }
 
 .xb-table-frame {
   position: relative;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   border-radius: var(--r-m);
   background: var(--surface);
   box-shadow: var(--shadow-1);
@@ -204,7 +259,7 @@ ol.xb-list-items ol.xb-list-items {
 
 .xb-table-grid th,
 .xb-table-grid td {
-  padding: var(--sp-2) var(--sp-3);
+  padding: 10px var(--sp-3);
   min-width: 7.5rem;
   max-width: 22rem;
   text-align: start;
@@ -221,17 +276,29 @@ ol.xb-list-items ol.xb-list-items {
   border-bottom: 0;
 }
 
+/* Navy header row. */
 .xb-table-grid thead th {
-  background: var(--surface-3);
-  color: var(--text);
-  font-weight: 700;
-  border-bottom: 1px solid var(--border-strong);
+  background: var(--xb-head);
+  color: var(--xb-head-text);
+  font-family: var(--font-display);
+  font-weight: 750;
+  letter-spacing: 0.005em;
+  border-bottom: 0;
   vertical-align: bottom;
 }
 
+.xb-table-grid thead th + th {
+  border-inline-start-color: var(--xb-head-rule);
+}
+
+.xb-table-grid thead :is(mark.key, .arrow, a) {
+  color: inherit;
+}
+
+/* Row headers (first column when the body has <th>). */
 .xb-table-grid tbody th {
-  font-weight: 650;
   color: var(--text);
+  font-weight: 700;
 }
 
 /* Zebra rows (opaque, so the sticky column never shows content behind it). */
@@ -239,7 +306,7 @@ ol.xb-list-items ol.xb-list-items {
   background: var(--surface-2);
 }
 
-/* Emphasis: one column and/or one row. */
+/* Emphasis: one column and/or one row, in crimson. */
 .xb-table-grid .is-em {
   background: color-mix(in srgb, var(--primary-soft) 70%, var(--surface));
 }
@@ -249,9 +316,9 @@ ol.xb-list-items ol.xb-list-items {
 }
 
 .xb-table-grid thead th.is-em {
-  color: var(--primary);
-  background: color-mix(in srgb, var(--primary-soft) 80%, var(--surface-3));
-  box-shadow: inset 0 3px 0 var(--primary);
+  color: var(--inverse-action);
+  background: var(--xb-head);
+  box-shadow: inset 0 -3px 0 var(--primary);
 }
 
 .xb-table-grid tbody tr.is-em > * {
@@ -288,7 +355,7 @@ ol.xb-list-items ol.xb-list-items {
   }
 }
 
-/* ---------- Flow ---------- */
+/* ---------- Flow: clinical cards joined by crimson arrows ---------- */
 
 .xb-flow {
   container: xbflow / inline-size;
@@ -296,9 +363,10 @@ ol.xb-list-items ol.xb-list-items {
 
 .xb-flow-title {
   margin-bottom: var(--sp-3);
+  color: var(--text);
+  font-family: var(--font-display);
   font-size: var(--fs-s);
-  font-weight: 700;
-  color: var(--text-2);
+  font-weight: 750;
   text-align: center;
   text-wrap: balance;
 }
@@ -320,24 +388,27 @@ ol.xb-list-items ol.xb-list-items {
   min-width: min(13rem, 100%);
   max-width: min(34rem, 100%);
   padding: var(--sp-3) var(--sp-4);
-  border: 1px solid var(--xb-line);
+  border: 1px solid var(--border-strong);
   border-radius: var(--r-m);
   background: var(--surface);
   box-shadow: var(--shadow-1);
-  text-align: center;
+  font-weight: 500;
   line-height: 1.45;
+  text-align: center;
   text-wrap: balance;
 }
 
-.xb-flow-step:first-child > .xb-flow-box,
-.xb-flow-step:last-child > .xb-flow-box {
-  border-color: var(--primary);
-  border-width: 1.5px;
+/* Start: crimson outline. Outcome: crimson-tinted card, bold. */
+.xb-flow-step:first-child > .xb-flow-box {
+  border-color: var(--xb-accent);
+  box-shadow: inset 0 0 0 0.5px var(--xb-accent), var(--shadow-1);
 }
 
 .xb-flow-step:last-child:not(:first-child) > .xb-flow-box {
+  border-color: var(--xb-accent);
   background: var(--primary-soft);
-  font-weight: 600;
+  box-shadow: inset 0 0 0 0.5px var(--xb-accent), var(--shadow-1);
+  font-weight: 700;
 }
 
 /* Connector: arrow centred, its label to the right. */
@@ -356,18 +427,21 @@ ol.xb-list-items ol.xb-list-items {
   grid-column: 2;
   width: 16px;
   height: 28px;
+  stroke-width: 2.25;
 }
 
+/* Arrow labels: small teal tags "on the arrow". */
 .xb-flow-label {
   grid-column: 3;
   justify-self: start;
   max-width: 100%;
   padding: 1px var(--sp-2);
-  border-radius: var(--r-s);
-  background: var(--surface-2);
-  color: var(--text-2);
+  border: 1px solid color-mix(in srgb, var(--teal) 26%, transparent);
+  border-radius: var(--r-full);
+  background: var(--teal-soft);
+  color: var(--teal);
   font-size: var(--fs-xs);
-  font-weight: 600;
+  font-weight: 650;
   line-height: 1.35;
 }
 
@@ -397,7 +471,7 @@ ol.xb-list-items ol.xb-list-items {
   gap: var(--sp-2);
   width: min(34rem, 100%);
   padding: var(--sp-3);
-  border: 1.5px dashed var(--xb-line);
+  border: 1.5px dashed var(--xb-line-soft);
   border-radius: var(--r-l);
   background: var(--surface-2);
 }
@@ -583,7 +657,7 @@ ol.xb-list-items ol.xb-list-items {
   }
 }
 
-/* ---------- Mind map ---------- */
+/* ---------- Mind map: crimson centre, teal / venous-blue branches ---------- */
 
 .xb-mindmap {
   container: xbmm / inline-size;
@@ -601,12 +675,16 @@ ol.xb-list-items ol.xb-list-items {
   width: fit-content;
   max-width: 100%;
   margin-bottom: var(--mm-vgap);
-  padding: var(--sp-2) var(--sp-4);
+  padding: 10px var(--sp-4);
   border-radius: var(--r-m);
   background: var(--primary);
   color: var(--primary-contrast);
-  box-shadow: var(--shadow-2);
-  font-weight: 700;
+  box-shadow:
+    0 0 0 4px var(--primary-soft),
+    0 10px 22px -10px color-mix(in srgb, var(--primary) 75%, transparent);
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.01em;
   line-height: var(--lh-tight);
   text-wrap: balance;
 }
@@ -636,7 +714,7 @@ ol.xb-list-items ol.xb-list-items {
 }
 
 .xb-mm-branch {
-  --c: var(--text-2);
+  --c: var(--teal);
   position: relative;
   padding: var(--sp-3) var(--sp-3) var(--sp-3) calc(var(--sp-3) + 4px);
   border: 1px solid var(--border);
@@ -645,7 +723,7 @@ ol.xb-list-items ol.xb-list-items {
   box-shadow: inset 4px 0 0 var(--c), var(--shadow-1);
 }
 
-/* Outline connectors (narrow): trunk segment + tick per branch. */
+/* Outline connectors (narrow): crimson trunk + a tick in the branch colour. */
 .xb-mm-branch::before,
 .xb-mm-branch::after {
   content: "";
@@ -669,12 +747,14 @@ ol.xb-list-items ol.xb-list-items {
   top: calc(var(--mm-anchor) - 1px);
   width: calc(var(--mm-indent) - var(--mm-trunk) + 1px);
   height: 2px;
+  background: var(--c);
 }
 
 .xb-mm-node {
-  font-weight: 650;
-  line-height: 1.35;
   color: var(--text);
+  font-family: var(--font-display);
+  font-weight: 750;
+  line-height: 1.35;
 }
 
 .xb-mm-leaves {
@@ -686,24 +766,25 @@ ol.xb-list-items ol.xb-list-items {
 
 .xb-mm-leaf {
   padding: 2px 10px;
-  border: 1px solid color-mix(in srgb, var(--c) 30%, transparent);
-  border-radius: var(--r-s);
-  background: color-mix(in srgb, var(--c) 9%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--c) 32%, transparent);
+  border-radius: var(--r-full);
+  background: color-mix(in srgb, var(--c) 10%, var(--surface));
   color: var(--text);
   font-size: var(--fs-s);
   line-height: 1.4;
 }
 
-.xb-mm-c0 { --c: var(--primary); }
-.xb-mm-c1 { --c: var(--info); }
-.xb-mm-c2 { --c: var(--success); }
-.xb-mm-c3 { --c: var(--warning); }
-.xb-mm-c4 { --c: color-mix(in srgb, var(--info) 50%, var(--success)); }
-.xb-mm-c5 { --c: color-mix(in srgb, var(--primary) 45%, var(--info)); }
+/* Alternate scrub teal and venous blue so neighbours never share a colour. */
+.xb-mm-c0,
+.xb-mm-c2 { --c: var(--teal); }
+.xb-mm-c1,
+.xb-mm-c3 { --c: var(--info); }
+.xb-mm-c4 { --c: color-mix(in srgb, var(--teal) 60%, var(--info)); }
+.xb-mm-c5 { --c: color-mix(in srgb, var(--info) 70%, var(--venous-2)); }
 
 @supports not (color: color-mix(in srgb, red 50%, blue)) {
-  .xb-mm-c4 { --c: var(--info); }
-  .xb-mm-c5 { --c: var(--primary); }
+  .xb-mm-c4 { --c: var(--teal); }
+  .xb-mm-c5 { --c: var(--info); }
   .xb-mm-leaf { background: var(--surface-2); border-color: var(--border); }
 }
 
@@ -726,16 +807,9 @@ ol.xb-list-items ol.xb-list-items {
     padding: var(--sp-3);
     align-items: center;
     justify-content: center;
+    border-radius: var(--r-l);
     text-align: center;
     font-size: var(--fs-l);
-    border: 2px solid var(--primary);
-    background: var(--primary-soft);
-    color: var(--text);
-    box-shadow: var(--shadow-1);
-  }
-
-  .xb-mm-center :is(mark.key, .arrow) {
-    color: var(--primary);
   }
 
   .xb-mm > .xb-mm-branches {
@@ -795,33 +869,63 @@ ol.xb-list-items ol.xb-list-items {
   --c: var(--primary);
   --c-soft: var(--primary-soft);
   padding: var(--sp-3) var(--sp-4) var(--sp-4);
-  border: 1px solid color-mix(in srgb, var(--c) 24%, transparent);
+  border: 1px solid color-mix(in srgb, var(--c) 26%, transparent);
   border-inline-start: 4px solid var(--c);
   border-radius: var(--r-m);
-  background: var(--c-soft);
+  background: linear-gradient(135deg, var(--c-soft) 0%, color-mix(in srgb, var(--c-soft) 45%, var(--surface)) 100%);
+  box-shadow: var(--shadow-1);
 }
 
 .xb-callout-key { --c: var(--primary); --c-soft: var(--primary-soft); }
-.xb-callout-pearl { --c: var(--info); --c-soft: var(--info-soft); }
+.xb-callout-pearl { --c: var(--teal); --c-soft: var(--teal-soft); }
 .xb-callout-pitfall { --c: var(--danger); --c-soft: var(--danger-soft); }
 .xb-callout-mnemonic { --c: var(--warning); --c-soft: var(--warning-soft); }
 
+/* Pitfall: its edge is a "hazard tape" stripe, so it never reads as a key point. */
+.xb-callout-pitfall {
+  padding-inline-start: calc(var(--sp-4) + 4px);
+  border-inline-start-width: 0;
+  overflow: hidden;
+}
+
+.xb-callout-pitfall::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 6px;
+  background: repeating-linear-gradient(-45deg, var(--c) 0 5px, color-mix(in srgb, var(--c) 30%, var(--c-soft)) 5px 10px);
+  pointer-events: none;
+}
+
 @supports not (color: color-mix(in srgb, red 50%, blue)) {
-  .xb-callout { border-color: var(--border); border-inline-start-color: var(--c); }
+  .xb-callout {
+    border-color: var(--border);
+    border-inline-start-color: var(--c);
+    background: var(--c-soft);
+  }
+
+  .xb-callout-pitfall::before {
+    background: var(--c);
+  }
 }
 
 .xb-callout-head {
   display: flex;
-  align-items: flex-start;
-  gap: var(--sp-2);
+  align-items: center;
+  gap: var(--sp-3);
 }
 
+/* Icon in a filled round badge (soft tint on the kind colour). */
 .xb-callout-icon {
   flex: none;
-  width: 20px;
-  height: 20px;
-  margin-top: 1px;
-  color: var(--c);
+  width: 32px;
+  height: 32px;
+  padding: 6px;
+  border-radius: var(--r-full);
+  background: var(--c);
+  color: var(--c-soft);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 16%, transparent);
 }
 
 .xb-callout-titles {
@@ -831,34 +935,36 @@ ol.xb-list-items ol.xb-list-items {
 .xb-callout-kind {
   display: block;
   color: var(--c);
+  font-family: var(--font-display);
   font-size: var(--fs-xs);
-  font-weight: 750;
-  letter-spacing: 0.07em;
-  line-height: 22px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  line-height: 18px;
   text-transform: uppercase;
 }
 
 .xb-callout-title {
-  margin-top: 2px;
+  margin-top: 1px;
   color: var(--text);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-weight: 750;
   line-height: var(--lh-tight);
 }
 
 .xb-callout-mnemonic .xb-callout-title {
   font-size: var(--fs-l);
-  letter-spacing: 0.03em;
+  font-weight: 800;
+  letter-spacing: 0.08em;
 }
 
 .xb-callout-text,
 .xb-callout-items {
-  margin-top: var(--sp-2);
-  margin-inline-start: 28px;
+  margin-top: var(--sp-3);
   color: var(--text);
 }
 
 .xb-callout-items {
-  padding-inline-start: 1.15em;
+  padding-inline-start: 1.25em;
 }
 
 .xb-callout-items li + li {
@@ -869,14 +975,7 @@ ol.xb-list-items ol.xb-list-items {
   color: var(--c);
 }
 
-@media (max-width: 380px) {
-  .xb-callout-text,
-  .xb-callout-items {
-    margin-inline-start: 0;
-  }
-}
-
-/* ---------- Quote ---------- */
+/* ---------- Quote: the source's own words on a crimson rule ---------- */
 
 .xb-quote {
   margin: 0;
@@ -885,8 +984,8 @@ ol.xb-list-items ol.xb-list-items {
 .xb-quote-text {
   position: relative;
   margin: 0;
-  padding: var(--sp-3) var(--sp-4) var(--sp-3) calc(var(--sp-4) + 18px);
-  border-inline-start: 4px solid var(--xb-line);
+  padding: var(--sp-3) var(--sp-4) var(--sp-3) calc(var(--sp-4) + 20px);
+  border-inline-start: 4px solid var(--xb-accent);
   border-radius: 0 var(--r-m) var(--r-m) 0;
   background: var(--surface-2);
   color: var(--text);
@@ -896,12 +995,13 @@ ol.xb-list-items ol.xb-list-items {
 .xb-quote-text::before {
   content: "\201C";
   position: absolute;
-  top: 2px;
+  top: 4px;
   left: var(--sp-2);
-  color: var(--xb-line);
-  font-size: 2.2em;
+  color: var(--xb-accent);
+  font-family: var(--font-display);
+  font-size: 2.3em;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1;
 }
 
@@ -919,12 +1019,12 @@ ol.xb-list-items ol.xb-list-items {
 
 .xb-quote-ref::before {
   content: "\2014\00a0";
-  color: var(--text-3);
+  color: var(--xb-accent);
 }
 
 .xb-quote-ref cite {
   font-style: normal;
-  font-weight: 600;
+  font-weight: 650;
 }
 
 /* ---------- Image ---------- */

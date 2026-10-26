@@ -39,6 +39,8 @@ const APP_SHELL = [
   'icons/icon-180.png',
   'icons/icon-192.png',
   'icons/icon-512.png',
+  'icons/icon-maskable-512.png',
+  'icons/icon.svg',
   'fonts/inter-latin-wght.woff2',
   'fonts/inter-greek-wght.woff2',
   'fonts/manrope-latin-wght.woff2',

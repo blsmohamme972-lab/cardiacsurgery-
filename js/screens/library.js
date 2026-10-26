@@ -424,6 +424,7 @@ export default {
         const p = pct(right, total);
         meta = `${modePrefix}${right} / ${total} right · ${when}`;
         status = chip(`${p}%`, { kind: p >= 75 ? 'success' : p >= 50 ? 'warning' : 'danger' });
+        status.classList.add('lib-score');
       } else {
         meta = `${modePrefix}${answered} / ${total} answered · ${when}`;
         status = chip('In progress', { kind: 'info', icon: 'play' });
@@ -456,6 +457,7 @@ export default {
         h(
           'a',
           { class: 'lib-row', href, 'aria-label': `${title}. ${meta}. ${finished ? 'Open results' : 'Resume'}` },
+          h('span', { class: ['lib-row-icon', exam ? 'is-exam' : 'is-practice'], 'aria-hidden': 'true' }, icon(exam ? 'timer' : 'target', { size: 20 })),
           h(
             'span',
             { class: 'lib-row-text' },

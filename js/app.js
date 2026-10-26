@@ -223,8 +223,9 @@ function showFatal(err) {
           padding: '0 20px',
           borderRadius: '12px',
           border: '0',
-          background: '#b01e2d',
-          color: '#fff',
+          // Brand tokens; the fallbacks cover a page whose stylesheets did not load.
+          background: 'var(--primary, #a6192e)',
+          color: 'var(--primary-contrast, #fff)',
           fontSize: '1rem',
           fontWeight: '600',
         },

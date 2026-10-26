@@ -3,19 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Cardiac MCQ</title>
+  <title>KirKlin</title>
   <meta name="description" content="Board-level cardiac surgery MCQs for residents. Works offline.">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#f5f6f8" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#0e1014" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f3f5f9" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#070c16" media="(prefers-color-scheme: dark)">
   <meta name="format-detection" content="telephone=no">
 
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
   <link rel="apple-touch-icon" href="icons/icon-180.png">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="Cardiac MCQ">
+  <meta name="apple-mobile-web-app-title" content="KirKlin">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
   <!-- Bundled fonts (offline): fetch early so text never re-flows. -->
@@ -55,15 +56,14 @@
 <body aria-busy="true">
   <button type="button" class="skip-link">Skip to content</button>
 
+  <!-- Boot splash: inline and request-free (the mark is a CSS mask in css/shell.css). -->
   <div id="boot" class="boot">
-    <div class="boot-logo" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" focusable="false">
-        <path d="M12 20.2 4.9 13.1a4.6 4.6 0 0 1 6.5-6.5l.6.6.6-.6a4.6 4.6 0 0 1 6.5 6.5z" fill="currentColor" fill-opacity="0.16"/>
-        <path d="M2.8 12.6h4.3l1.6-2.6 2.2 5 2.1-6.4 1.7 4h6.5"/>
-      </svg>
+    <div class="boot-stage">
+      <div class="boot-logo brand-badge" aria-hidden="true"><span class="brand-mark brand-mark--full"></span></div>
+      <p class="boot-name">Kir<span class="wordmark-accent">Klin</span></p>
+      <p class="boot-tagline">Cardiac surgery board review</p>
+      <div class="boot-monitor" aria-hidden="true"><span class="ecg-line ecg-line--sweep"></span></div>
     </div>
-    <p class="boot-name">Cardiac MCQ</p>
-    <p class="boot-tagline">Cardiac surgery board review</p>
     <p class="boot-slow">Still loading… <a href="./">Reload</a> or reopen the app.</p>
   </div>
 
@@ -86,7 +86,7 @@
 
   <noscript>
     <div class="noscript">
-      <h1>Cardiac MCQ</h1>
+      <h1>KirKlin</h1>
       <p>This app needs JavaScript. Please turn it on in your browser settings, then reload the page.</p>
     </div>
   </noscript>

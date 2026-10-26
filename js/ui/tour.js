@@ -87,7 +87,7 @@ function artPractice() {
       choice('B', 'wrong', 82),
       choice('C', 'correct', 64),
     ),
-    floatAt(h('span', { class: 'mock-float' }, icon('timer', { size: 14 }), '1:30'), { top: '18px', right: '22px' }),
+    floatAt(h('span', { class: 'mock-float is-teal' }, icon('timer', { size: 14 }), '1:30'), { top: '18px', right: '22px' }),
   );
 }
 
@@ -158,11 +158,16 @@ function artNotes() {
 
 /** @returns {HTMLElement} */
 function artOffline() {
-  const row = (iconName, label) =>
+  /**
+   * @param {string} iconName
+   * @param {string} label
+   * @param {'teal' | 'brand'} [tone] Badge colour (default: soft crimson).
+   */
+  const row = (iconName, label, tone) =>
     h(
       'div',
       { class: 'mock-row' },
-      h('span', { class: 'mock-badge' }, icon(iconName, { size: 16 })),
+      h('span', { class: ['mock-badge', tone && `is-${tone}`] }, icon(iconName, { size: 16 })),
       label,
       h('span', { class: 'mock-ok' }, icon('check', { size: 16 })),
     );
@@ -172,8 +177,8 @@ function artOffline() {
     h(
       'div',
       { class: 'mock-card' },
-      row('wifi-off', 'Works offline'),
-      row('heart', 'Saved on this device'),
+      row('wifi-off', 'Works offline', 'teal'),
+      row('heart', 'Saved on this device', 'brand'),
       row('download', 'Backup file'),
     ),
   );

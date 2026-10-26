@@ -1,6 +1,7 @@
 /*
  * App shell layout: boot splash, skip link, sticky header, banner slot,
- * main area, tab bar (phone) / side rail (≥ 700px) / labelled rail (≥ 1280px).
+ * main area, tab bar (phone) / side rail (≥ 700px) / labelled rail (≥ 1280px),
+ * the KirKlin brand mark, and the shell's banners.
  * Markup: index.html + js/ui/shell.js.
  *
  * Breakpoints (docs/ARCHITECTURE.md §6.1): phone < 700px, tablet ≥ 700px,
@@ -14,10 +15,97 @@
   --page-max: 1200px;
   scroll-padding-top: calc(var(--header-h) + var(--safe-top) + var(--sp-2));
   scroll-padding-bottom: calc(var(--tabbar-h) + var(--safe-bottom) + var(--sp-2));
+
+  /* Brand mark: the white heart (with its ECG cut) on the crimson --brand-grad tile, both themes. */
+  --brand-ink: var(--on-venous);
+  /*
+   * Alpha masks of the mark, same geometry as icons/icon.svg (512 frame).
+   * Heart only, cut a little wider so it stays crisp at 18–28 px:
+   */
+  --brand-mask-heart: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='96 101 320 320'%3E%3Cmask id='c'%3E%3Crect x='0' y='0' width='512' height='512' fill='%23fff'/%3E%3Cpath d='M58 262H178L212 166L254 340L282 262H430' fill='none' stroke='%23000' stroke-width='34' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/mask%3E%3Cpath mask='url(%23c)' d='M256 404C234 388 104 302 104 206C104 154 144 118 191 118C222 118 244 136 256 160C268 136 290 118 321 118C368 118 408 154 408 206C408 302 278 388 256 404Z'/%3E%3C/svg%3E");
+  /* Full mark as on the app icon: heart + ECG cut + fading trail + sweep head (fills its tile). */
+  --brand-mask-full: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='t' gradientUnits='userSpaceOnUse' x1='44' y1='0' x2='200' y2='0'%3E%3Cstop offset='0' stop-opacity='.35'/%3E%3Cstop offset='1'/%3E%3C/linearGradient%3E%3Cmask id='c'%3E%3Crect width='512' height='512' fill='%23fff'/%3E%3Cpath d='M58 262H178L212 166L254 340L282 262H430' fill='none' stroke='%23000' stroke-width='28' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/mask%3E%3Cmask id='o'%3E%3Crect width='512' height='512' fill='%23fff'/%3E%3Cpath d='M256 404C234 388 104 302 104 206C104 154 144 118 191 118C222 118 244 136 256 160C268 136 290 118 321 118C368 118 408 154 408 206C408 302 278 388 256 404Z'/%3E%3C/mask%3E%3C/defs%3E%3Cpath mask='url(%23c)' d='M256 404C234 388 104 302 104 206C104 154 144 118 191 118C222 118 244 136 256 160C268 136 290 118 321 118C368 118 408 154 408 206C408 302 278 388 256 404Z'/%3E%3Cg mask='url(%23o)'%3E%3Cpath d='M58 262H178L212 166L254 340L282 262H430' fill='none' stroke='url(%23t)' stroke-width='28' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='446' cy='262' r='22'/%3E%3C/g%3E%3C/svg%3E");
+
+  /* Translucent "steel" chrome (header, tab bar). */
+  --chrome-bg: linear-gradient(180deg, color-mix(in srgb, var(--surface) 80%, transparent), color-mix(in srgb, var(--bg) 86%, transparent));
+  --chrome-line: color-mix(in srgb, var(--border-strong) 55%, transparent);
+}
+
+/* ===================================================================== */
+/* Brand mark                                                             */
+/* ===================================================================== */
+
+/*
+ * <span class="brand-badge"><span class="brand-mark"></span></span>
+ * The badge is the crimson tile; the mark is a mask filled with --brand-ink
+ * (a soft white-to-blush gradient, like the app icon). Decorative only:
+ * always aria-hidden.
+ */
+.brand-badge {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: var(--badge-size, 32px);
+  height: var(--badge-size, 32px);
+  border-radius: calc(var(--badge-size, 32px) * 0.26);
+  background: var(--brand-grad);
+  box-shadow:
+    0 calc(var(--badge-size, 32px) * 0.1) calc(var(--badge-size, 32px) * 0.3) calc(var(--badge-size, 32px) * -0.08) color-mix(in srgb, var(--primary) 45%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--brand-ink) 22%, transparent);
+  isolation: isolate;
+}
+
+/* Soft top-left sheen, as on the icon. */
+.brand-badge::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(85% 85% at 18% 8%, color-mix(in srgb, var(--brand-ink) 20%, transparent), transparent 70%);
+  pointer-events: none;
+}
+
+.brand-mark {
+  position: relative;
+  display: block;
+  width: 66%;
+  height: 66%;
+  filter: drop-shadow(0 1px 1.5px color-mix(in srgb, var(--venous) 35%, transparent));
+}
+
+.brand-mark::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, var(--brand-ink) 30%, color-mix(in srgb, var(--brand-ink) 86%, var(--primary)));
+  -webkit-mask: var(--brand-mask-heart) center / contain no-repeat;
+  mask: var(--brand-mask-heart) center / contain no-repeat;
+}
+
+/* Full mark (heart + trail + sweep head) fills the whole tile, like the app icon. */
+.brand-mark--full {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  filter: drop-shadow(0 3px 5px color-mix(in srgb, var(--venous) 40%, transparent));
+}
+
+.brand-mark--full::before {
+  -webkit-mask-image: var(--brand-mask-full);
+  mask-image: var(--brand-mask-full);
+}
+
+@media (forced-colors: active) {
+  .brand-badge {
+    forced-color-adjust: none;
+  }
 }
 
 /* ===================================================================== */
 /* Boot splash (removed by js/app.js after the first screen renders)      */
+/* Shown before settings load: colours follow prefers-color-scheme.       */
 /* ===================================================================== */
 
 .boot {
@@ -25,50 +113,65 @@
   inset: 0;
   z-index: var(--z-boot);
   display: grid;
-  place-content: center;
+  grid-template-rows: 1fr auto;
   justify-items: center;
-  gap: var(--sp-3);
-  padding: calc(var(--safe-top) + var(--sp-5)) var(--sp-5) calc(var(--safe-bottom) + var(--sp-5));
-  background: var(--bg);
+  padding: calc(var(--safe-top) + var(--sp-5)) var(--sp-5) calc(var(--safe-bottom) + var(--sp-6));
+  background:
+    radial-gradient(60% 42% at 50% 42%, color-mix(in srgb, var(--primary) 10%, transparent) 0%, transparent 72%),
+    var(--bg);
   color: var(--text);
   text-align: center;
 }
 
+.boot-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: center;
+}
+
 .boot-logo {
-  display: grid;
-  place-items: center;
-  width: 80px;
-  height: 80px;
-  margin-bottom: var(--sp-2);
-  border-radius: 24px;
-  background: linear-gradient(150deg, #c92a3c 0%, #b01e2d 45%, #8c1220 100%);
-  color: #ffffff;
+  --badge-size: 104px;
   box-shadow:
-    0 12px 32px rgba(176, 30, 45, 0.32),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    0 22px 48px -16px color-mix(in srgb, var(--primary) 62%, transparent),
+    0 3px 10px -2px color-mix(in srgb, var(--primary) 28%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--brand-ink) 24%, transparent);
   animation: boot-beat 1.6s var(--ease) infinite;
 }
 
-.boot-logo svg {
-  width: 48px;
-  height: 48px;
-}
-
 .boot-name {
-  font-size: 1.375rem;
-  font-weight: 750;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
+  margin-top: var(--sp-5);
+  font-family: var(--font-display);
+  font-size: 2.375rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
 }
 
 .boot-tagline {
+  margin-top: var(--sp-2);
   color: var(--text-3);
-  font-size: 0.9375rem;
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.16em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+/* Monitor sweep under the name; the edges fade out like a monitor trace. */
+.boot-monitor {
+  width: min(248px, 66vw);
+  margin-top: var(--sp-6);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, var(--text) 22%, var(--text) 78%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, var(--text) 22%, var(--text) 78%, transparent 100%);
+}
+
+.boot-monitor .ecg-line {
+  height: 32px;
 }
 
 .boot-slow {
   max-width: 22rem;
-  margin-top: var(--sp-4);
   color: var(--text-2);
   font-size: 0.9375rem;
   opacity: 0;
@@ -86,10 +189,10 @@
     transform: scale(1);
   }
   18% {
-    transform: scale(1.07);
+    transform: scale(1.05);
   }
   36% {
-    transform: scale(0.985);
+    transform: scale(0.99);
   }
 }
 
@@ -97,6 +200,11 @@
   to {
     opacity: 1;
   }
+}
+
+/* Wordmark: the second capital starts the accent ("Kir" + "Klin"). */
+.wordmark-accent {
+  color: var(--primary);
 }
 
 .noscript {
@@ -145,15 +253,18 @@
   top: 0;
   z-index: var(--z-header);
   padding-top: var(--safe-top);
-  background: var(--bg-translucent);
+  background: var(--chrome-bg);
   -webkit-backdrop-filter: saturate(180%) blur(18px);
   backdrop-filter: saturate(180%) blur(18px);
-  border-bottom: 1px solid transparent;
-  transition: border-color var(--dur) var(--ease);
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+  transition:
+    border-color var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
 }
 
 .app-header.is-scrolled {
-  border-bottom-color: var(--border);
+  border-bottom-color: var(--chrome-line);
+  box-shadow: 0 10px 24px -20px color-mix(in srgb, var(--venous) 55%, transparent);
 }
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
@@ -203,9 +314,10 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  font-family: var(--font-display);
   font-size: min(var(--fs-l), 1.4rem);
-  font-weight: 700;
-  letter-spacing: -0.016em;
+  font-weight: 750;
+  letter-spacing: -0.018em;
   line-height: 1.2;
 }
 
@@ -226,29 +338,18 @@
 }
 
 .hdr-logo {
-  display: grid;
-  place-items: center;
-  flex: none;
-  width: 30px;
-  height: 30px;
-  border-radius: 9px;
-  background: linear-gradient(150deg, #c92a3c 0%, #b01e2d 50%, #8c1220 100%);
-  color: #ffffff;
-  box-shadow: 0 2px 6px rgba(176, 30, 45, 0.28);
-}
-
-.hdr-logo .icon {
-  fill: currentColor;
-  stroke-width: 1.5;
+  --badge-size: 32px;
 }
 
 .hdr-brand-name {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  font-size: min(var(--fs-l), 1.35rem);
-  font-weight: 750;
-  letter-spacing: -0.02em;
+  font-family: var(--font-display);
+  font-size: min(var(--fs-l), 1.4rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
 }
 
 .hdr-actions {
@@ -276,6 +377,56 @@
 
 .banner-slot:not(:empty) {
   padding-top: var(--sp-2);
+}
+
+/*
+ * The shell's banners (update, offline, reload): base look in
+ * css/components.css; here each kind gets a calm tint of its palette colour.
+ */
+.banner-slot .banner {
+  --banner-accent: var(--text-3);
+  border-color: color-mix(in srgb, var(--banner-accent) 26%, var(--border));
+  background: linear-gradient(100deg, color-mix(in srgb, var(--banner-accent) 9%, var(--surface)) 0%, var(--surface) 62%);
+}
+
+.banner-slot .banner-update {
+  --banner-accent: var(--primary);
+}
+
+.banner-slot .banner-neutral {
+  --banner-accent: var(--teal);
+}
+
+.banner-slot .banner-info {
+  --banner-accent: var(--info);
+}
+
+.banner-slot .banner-success {
+  --banner-accent: var(--success);
+}
+
+.banner-slot .banner-warning {
+  --banner-accent: var(--warning);
+}
+
+.banner-slot .banner-danger {
+  --banner-accent: var(--danger);
+}
+
+.banner-slot .banner-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.banner-slot .banner-update .banner-icon {
+  background: var(--brand-grad);
+  color: var(--brand-ink);
+  box-shadow: 0 4px 10px -4px color-mix(in srgb, var(--primary) 60%, transparent);
+}
+
+.banner-slot .banner-neutral .banner-icon {
+  background: var(--teal-soft);
+  color: var(--teal);
 }
 
 /* ===================================================================== */
@@ -315,10 +466,10 @@ html[data-tabbar="hidden"] #main {
   align-items: stretch;
   height: calc(var(--tabbar-h) + var(--safe-bottom));
   padding: 0 var(--safe-right) var(--safe-bottom) var(--safe-left);
-  background: var(--bg-translucent);
+  background: var(--chrome-bg);
   -webkit-backdrop-filter: saturate(180%) blur(18px);
   backdrop-filter: saturate(180%) blur(18px);
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--chrome-line);
   transition:
     transform var(--dur) var(--ease),
     visibility 0s linear 0s;
@@ -357,6 +508,7 @@ html[data-tabbar="hidden"] .tabbar {
 }
 
 .tab-icon {
+  position: relative;
   display: grid;
   place-items: center;
   width: 58px;
@@ -365,6 +517,27 @@ html[data-tabbar="hidden"] .tabbar {
   transition:
     background-color var(--dur) var(--ease),
     transform var(--dur-fast) var(--ease);
+}
+
+/* Active pill: grows out from the icon when the tab becomes current. */
+.tab-icon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: color-mix(in srgb, var(--primary) 13%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--primary) 18%, transparent);
+  opacity: 0;
+  transform: scaleX(0.45);
+  transition:
+    transform var(--dur) var(--ease-out),
+    opacity var(--dur-fast) var(--ease);
+}
+
+.tab-icon > svg {
+  position: relative;
+  stroke-width: 1.85;
+  transition: stroke-width var(--dur-fast) var(--ease);
 }
 
 .tab-label {
@@ -378,8 +551,13 @@ html[data-tabbar="hidden"] .tabbar {
   color: var(--primary);
 }
 
-.tab[aria-current="page"] .tab-icon {
-  background: var(--primary-soft);
+.tab[aria-current="page"] .tab-icon::before {
+  opacity: 1;
+  transform: none;
+}
+
+.tab[aria-current="page"] .tab-icon > svg {
+  stroke-width: 2.25;
 }
 
 .tab:active .tab-icon {
@@ -402,6 +580,12 @@ html[data-tabbar="hidden"] .tabbar {
 
   .tab[aria-current="page"]:hover {
     color: var(--primary);
+  }
+}
+
+@media (forced-colors: active) {
+  .tab[aria-current="page"] .tab-icon::before {
+    border: 2px solid Highlight;
   }
 }
 
@@ -461,8 +645,8 @@ html[data-tabbar="hidden"] .tabbar {
     gap: var(--sp-1);
     padding: calc(var(--safe-top) + var(--sp-3)) 0 calc(var(--safe-bottom) + var(--sp-4)) var(--safe-left);
     border-top: 0;
-    border-right: 1px solid var(--border);
-    background: var(--surface);
+    border-right: 1px solid var(--chrome-line);
+    background: linear-gradient(180deg, var(--surface) 0%, color-mix(in srgb, var(--surface) 55%, var(--bg)) 100%);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
@@ -475,18 +659,11 @@ html[data-tabbar="hidden"] .tabbar {
     display: grid;
     place-items: center;
     flex: none;
-    width: 46px;
-    height: 46px;
-    margin: var(--sp-1) 0 var(--sp-4);
-    border-radius: 14px;
-    background: linear-gradient(150deg, #c92a3c 0%, #b01e2d 50%, #8c1220 100%);
-    color: #ffffff;
-    box-shadow: 0 4px 12px rgba(176, 30, 45, 0.28);
+    margin: var(--sp-1) 0 var(--sp-5);
   }
 
-  .rail-brand .icon {
-    fill: currentColor;
-    stroke-width: 1.5;
+  .rail-logo {
+    --badge-size: 46px;
   }
 
   .rail-brand-name {
@@ -563,21 +740,31 @@ html[data-tabbar="hidden"] .tabbar {
     align-items: center;
     justify-content: flex-start;
     gap: var(--sp-3);
-    width: auto;
-    height: auto;
     margin: var(--sp-1) 0 var(--sp-5);
-    padding: var(--sp-2) var(--sp-3);
-    background: none;
-    box-shadow: none;
-    color: var(--primary);
+    padding: var(--sp-2) var(--sp-2);
+  }
+
+  .rail-logo {
+    --badge-size: 38px;
+  }
+
+  /* The labelled rail already shows the wordmark: keep the home header's copy for screen readers only. */
+  .app-header.is-brand .hdr-brand {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
   .rail-brand-name {
     display: inline;
     color: var(--text);
-    font-size: var(--fs-m);
-    font-weight: 750;
-    letter-spacing: -0.015em;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
   }
 
   .tab {
@@ -598,8 +785,13 @@ html[data-tabbar="hidden"] .tabbar {
     background: none !important;
   }
 
+  .tab-icon::before {
+    display: none;
+  }
+
   .tab[aria-current="page"] {
-    background: var(--primary-soft);
+    background: color-mix(in srgb, var(--primary) 12%, transparent);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--primary) 16%, transparent);
   }
 
   @media (hover: hover) {

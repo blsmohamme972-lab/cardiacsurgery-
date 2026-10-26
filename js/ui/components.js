@@ -792,7 +792,8 @@ export function confirmSheet({ title = 'Are you sure?', text, confirmLabel = 'Co
 /* ------------------------------------------------------------------ */
 
 /**
- * A friendly empty state that teaches what will appear here.
+ * A friendly empty state that teaches what will appear here. The icon sits in
+ * a soft badge with a faint, decorative heartbeat trace behind it (aria-hidden).
  * @param {object} opts
  * @param {string | Node} [opts.icon]
  * @param {string | Node} [opts.title]
@@ -804,7 +805,14 @@ export function emptyState({ icon, title, text, action } = {}) {
   return h(
     'div',
     { class: 'empty-state' },
-    icon ? h('div', { class: 'empty-icon' }, iconNode(icon, 28)) : null,
+    icon
+      ? h(
+          'div',
+          { class: 'empty-icon' },
+          iconNode(icon, 28),
+          h('span', { class: 'empty-ecg', 'aria-hidden': 'true' }, h('span', { class: 'ecg-line' })),
+        )
+      : null,
     title ? h('h2', { class: 'empty-title' }, title) : null,
     text ? h('p', { class: 'empty-text' }, text) : null,
     action ? h('div', { class: 'empty-action' }, action) : null,
@@ -883,7 +891,8 @@ export function ring(value, { size = 48, label } = {}) {
  * A small status label.
  * @param {string | Node} label
  * @param {object} [opts]
- * @param {'neutral'|'success'|'danger'|'warning'|'info'|'primary'} [opts.kind='neutral']
+ * @param {'neutral'|'success'|'danger'|'warning'|'info'|'primary'|'teal'} [opts.kind='neutral']
+ *   `teal` (scrub teal) is the secondary accent, e.g. for exam/timer labels.
  * @param {string | Node} [opts.icon]
  * @returns {HTMLElement}
  */

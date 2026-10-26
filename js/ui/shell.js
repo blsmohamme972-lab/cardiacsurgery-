@@ -8,7 +8,8 @@
  * - reactions to bus events: `route:change`, `sw:update-ready`, `net:change`,
  *   `db:versionchange`, `storage:error`.
  *
- * Styles: css/shell.css (layout) and css/components.css (banners).
+ * Styles: css/shell.css (layout, brand mark, banner tints) and
+ * css/components.css (banner base).
  * Importing this module has no side effects.
  *
  * @module ui/shell
@@ -20,7 +21,7 @@ import { navigate, back as routerBack } from '../core/router.js';
 import { icon } from './icons.js';
 import { button, iconButton, toast } from './components.js';
 
-const APP_NAME = 'Cardiac MCQ';
+const APP_NAME = 'KirKlin';
 
 /** Tab bar entries (paths match the router). */
 const TABS = Object.freeze([
@@ -160,6 +161,29 @@ function setButtonBusy(btn, label) {
   };
 }
 
+/**
+ * The brand badge: the white heart mark (with its ECG cut) on the crimson
+ * tile. Purely decorative; drawn by CSS (css/shell.css `.brand-badge`).
+ * @param {string} className Extra class for size/placement.
+ * @returns {HTMLElement}
+ */
+function brandBadge(className) {
+  return h('span', { class: `${className} brand-badge`, 'aria-hidden': 'true' }, h('span', { class: 'brand-mark' }));
+}
+
+/**
+ * The app name as a wordmark: the second capital starts the accent
+ * ("Kir" + "Klin"). Its text content stays exactly the app name.
+ * @param {string} className
+ * @returns {HTMLElement}
+ */
+function wordmark(className) {
+  const m = /^(.[^A-Z]*)([A-Z].*)$/.exec(APP_NAME);
+  return m
+    ? h('span', { class: className }, m[1], h('span', { class: 'wordmark-accent' }, m[2]))
+    : h('span', { class: className }, APP_NAME);
+}
+
 /* ------------------------------------------------------------------ */
 /* Setup                                                               */
 /* ------------------------------------------------------------------ */
@@ -214,9 +238,7 @@ function setupTabbar() {
     link.addEventListener('click', onTabClick);
   }
   if (!tabbar.querySelector('.rail-brand')) {
-    tabbar.prepend(
-      h('div', { class: 'rail-brand', 'aria-hidden': 'true' }, icon('heart', { size: 26 }), h('span', { class: 'rail-brand-name' }, APP_NAME)),
-    );
+    tabbar.prepend(h('div', { class: 'rail-brand', 'aria-hidden': 'true' }, brandBadge('rail-logo'), wordmark('rail-brand-name')));
   }
 }
 
@@ -443,14 +465,7 @@ export function setHeader({ title, back, actions, subtitle } = {}) {
     e.titles.append(h('div', { class: 'hdr-title' }, title));
     if (subtitle) e.titles.append(h('div', { class: 'hdr-subtitle' }, subtitle));
   } else {
-    e.titles.append(
-      h(
-        'div',
-        { class: 'hdr-brand' },
-        h('span', { class: 'hdr-logo', 'aria-hidden': 'true' }, icon('heart', { size: 18 })),
-        h('span', { class: 'hdr-brand-name' }, APP_NAME),
-      ),
-    );
+    e.titles.append(h('div', { class: 'hdr-brand' }, brandBadge('hdr-logo'), wordmark('hdr-brand-name')));
   }
   e.header.classList.toggle('is-brand', !hasTitle);
 

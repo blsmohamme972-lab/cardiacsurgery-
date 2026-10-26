@@ -414,6 +414,8 @@ export function createQuestionView(question, opts = {}) {
     { class: 'qv-side-hint', 'aria-hidden': 'true' },
     h('span', { class: 'qv-side-hint-icon' }, icon('info', { size: 22 })),
     h('p', null, 'Pick an answer to see the explanation here.'),
+    // Decorative "standby monitor" trace (the whole hint is aria-hidden).
+    h('span', { class: 'ecg-line qv-side-hint-ecg' }),
   );
 
   const el = h(

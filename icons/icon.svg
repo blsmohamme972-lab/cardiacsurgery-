@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!--
+    KirKlin app icon: master artwork (also the SVG favicon).
+    White heart with an ECG trace cut through it; the trace leaves the heart as a
+    monitor sweep (fading trail on the left, bright sweep head on the right).
+    Crimson tile = the --brand-grad of css/tokens.css. No text, no hairlines:
+    the thinnest part is a 28-unit stroke (2.6 px at 48 px).
+    PNG variants are rendered from this file: icon-192/512 (#tile as is),
+    icon-180 (apple-touch: full-bleed square, #tile rx=0) and
+    icon-maskable-512 (full-bleed, #mark scaled 0.86 into the 80% safe zone).
+  -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#c22a40"/>
+      <stop offset="0.55" stop-color="#a6192e"/>
+      <stop offset="1" stop-color="#7a0d22"/>
+    </linearGradient>
+    <radialGradient id="sheen" cx="0.2" cy="0.1" r="0.8">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ink" x1="0.2" y1="0.15" x2="0.75" y2="1">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#ffe1e6"/>
+    </linearGradient>
+    <linearGradient id="trail" gradientUnits="userSpaceOnUse" x1="44" y1="0" x2="200" y2="0">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#fff"/>
+    </linearGradient>
+    <filter id="lift" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#4a0614" flood-opacity="0.35"/>
+    </filter>
+    <path id="heart" d="M256 404C234 388 104 302 104 206C104 154 144 118 191 118C222 118 244 136 256 160C268 136 290 118 321 118C368 118 408 154 408 206C408 302 278 388 256 404Z"/>
+    <path id="trace" d="M58 262H178L212 166L254 340L282 262H430" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <mask id="cut" maskUnits="userSpaceOnUse" x="0" y="0" width="512" height="512">
+      <rect width="512" height="512" fill="#fff"/>
+      <use href="#trace" stroke="#000" stroke-width="28"/>
+    </mask>
+    <mask id="outside" maskUnits="userSpaceOnUse" x="0" y="0" width="512" height="512">
+      <rect width="512" height="512" fill="#fff"/>
+      <use href="#heart" fill="#000"/>
+    </mask>
+  </defs>
+  <rect id="tile" width="512" height="512" rx="112" fill="url(#bg)"/>
+  <rect id="tile-sheen" width="512" height="512" rx="112" fill="url(#sheen)"/>
+  <g id="mark" filter="url(#lift)">
+    <use href="#heart" fill="url(#ink)" mask="url(#cut)"/>
+    <g fill="#fff" mask="url(#outside)">
+      <use href="#trace" stroke="url(#trail)" stroke-width="28"/>
+      <circle cx="446" cy="262" r="22"/>
+    </g>
+  </g>
+</svg>

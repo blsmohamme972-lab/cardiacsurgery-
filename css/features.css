@@ -145,9 +145,10 @@
   height: 22px;
   padding: 0 6px;
   border-radius: var(--r-full);
-  background: var(--surface-3);
-  color: var(--text-2);
+  background: var(--teal-soft);
+  color: var(--teal);
   font-size: var(--fs-xs);
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
 
@@ -233,10 +234,12 @@
 
 .voice-timer {
   margin-left: auto;
-  font-size: var(--fs-xl);
-  font-weight: 700;
   color: var(--text);
-  letter-spacing: -0.01em;
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
 }
 
 .voice-timer.is-warning {
@@ -362,6 +365,7 @@
   border-radius: var(--r-full);
   background: var(--primary);
   color: var(--primary-contrast);
+  box-shadow: 0 4px 12px -6px color-mix(in srgb, var(--primary) 70%, transparent);
   cursor: pointer;
   touch-action: manipulation;
   transition: transform var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease);
@@ -559,10 +563,12 @@
   display: inline-flex;
 }
 
+/* Reading aloud: the scrub-teal secondary accent (crimson stays for primary actions). */
 .listen[data-state="speaking"] .listen-btn,
 .listen[data-state="paused"] .listen-btn {
-  border-color: color-mix(in srgb, var(--primary) 55%, var(--border-strong));
-  color: var(--primary);
+  border-color: color-mix(in srgb, var(--teal) 55%, var(--border-strong));
+  background: var(--teal-soft);
+  color: var(--teal);
 }
 
 .listen-progress {

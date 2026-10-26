@@ -80,22 +80,22 @@ function stat(label, value, sub) {
   return h(
     'div',
     { class: 'ch-stat' },
-    h('span', { class: 'ch-stat-value tabular' }, value),
     h('span', { class: 'ch-stat-label' }, label),
+    h('span', { class: 'ch-stat-value tabular num-display' }, value),
     sub ? h('span', { class: 'ch-stat-sub' }, sub) : null,
   );
 }
 
 /**
  * A big action button that starts a quiz.
- * @param {{ label: string, sub: string, iconName: string, variant: string, opts: Record<string, any> }} a
+ * @param {{ label: string, sub: string, iconName: string, variant: string, tone: string, opts: Record<string, any> }} a
  * @returns {HTMLButtonElement}
  */
-function action({ label, sub, iconName, variant, opts }) {
+function action({ label, sub, iconName, variant, tone, opts }) {
   const btn = /** @type {HTMLButtonElement} */ (
     h(
       'button',
-      { type: 'button', class: ['ch-action', `ch-action-${variant}`] },
+      { type: 'button', class: ['ch-action', `ch-action-${variant}`, `tone-${tone}`] },
       h('span', { class: 'ch-action-icon', 'aria-hidden': 'true' }, icon(iconName, { size: 22 })),
       h('span', { class: 'ch-action-text' }, h('span', { class: 'ch-action-label' }, label), h('span', { class: 'ch-action-sub' }, sub)),
     )
@@ -153,14 +153,29 @@ export default {
     setHeader({ title: chapter.short || chapter.title, back: '/', subtitle: chapter.demo ? undefined : `Chapter ${chapter.number}` });
 
     const content = h('div', { class: 'ch-content' });
+    /** Slot in the hero for the progress summary (filled once the questions load). */
+    const heroStats = h('div', { class: 'ch-hero-stats' });
+    const badge = chapter.demo
+      ? h('span', { class: 'ch-badge is-demo', 'aria-hidden': 'true' }, icon('sparkles', { size: 22 }))
+      : h('span', { class: 'ch-badge num-display', 'aria-hidden': 'true' }, part ? String(part.number) : String(chapter.number));
     const page = h(
       'div',
       { class: 'screen-chapter' },
       h(
         'div',
         { class: 'ch-hero' },
-        partLine ? h('p', { class: 'ch-part' }, partLine) : null,
-        h('h1', { class: 'ch-title', tabindex: '-1' }, chapter.demo ? chapter.title : `${chapter.number}. ${chapter.title}`),
+        h(
+          'div',
+          { class: 'ch-hero-head' },
+          badge,
+          h(
+            'div',
+            { class: 'ch-hero-text' },
+            partLine ? h('p', { class: 'ch-part' }, partLine) : null,
+            h('h1', { class: 'ch-title', tabindex: '-1' }, chapter.demo ? chapter.title : `${chapter.number}. ${chapter.title}`),
+          ),
+        ),
+        heroStats,
       ),
       content,
     );
@@ -178,6 +193,7 @@ export default {
       } catch (err) {
         if (!alive || mine !== seq) return;
         console.error('[chapter] Could not load the questions:', err);
+        heroStats.replaceChildren();
         content.replaceChildren(
           emptyState({
             icon: 'alert',
@@ -211,6 +227,7 @@ export default {
     function view(questions, states, statesFailed) {
       const s = summarize(questions, states, Date.now());
       if (s.total === 0) {
+        heroStats.replaceChildren();
         return [
           emptyState({
             icon: 'layers',
@@ -232,7 +249,7 @@ export default {
         h(
           'div',
           { class: 'ch-ring' },
-          ring(progress, { size: 76, label: `${progress}% of the chapter answered` }),
+          ring(progress, { size: 84, label: `${progress}% of the chapter answered` }),
           h('span', { class: 'ch-ring-caption' }, 'answered'),
         ),
         h(
@@ -253,6 +270,7 @@ export default {
           sub: `${plural(n, 'question')} · explanation after each answer`,
           iconName: 'target',
           variant: 'primary',
+          tone: 'practice',
           opts: { chapters, mode: 'tutor', count: n },
         }),
         action({
@@ -260,6 +278,7 @@ export default {
           sub: `${plural(n, 'question')} · ${Math.max(1, Math.round((n * secs) / 60))} min, results at the end`,
           iconName: 'timer',
           variant: 'secondary',
+          tone: 'exam',
           opts: { chapters, mode: 'exam', count: n },
         }),
         action({
@@ -267,6 +286,7 @@ export default {
           sub: s.mistakes ? `${plural(s.mistakes, 'question')} to redo` : 'No mistakes yet',
           iconName: 'x',
           variant: 'secondary',
+          tone: 'mistakes',
           opts: { chapters, mode: 'tutor', filter: 'incorrect', count: 'all' },
         }),
       );
@@ -315,7 +335,8 @@ export default {
       if (statesFailed) {
         out.push(h('p', { class: 'home-warning', role: 'status' }, icon('alert', { size: 18 }), h('span', {}, "Your progress couldn't be read just now. It is still saved; reload the app to see it.")));
       }
-      out.push(h('div', { class: 'ch-grid' }, h('div', { class: 'ch-main' }, summary, actions, more), topics));
+      heroStats.replaceChildren(summary);
+      out.push(h('div', { class: 'ch-grid' }, h('div', { class: 'ch-main' }, actions, more), topics));
       return out;
     }
 

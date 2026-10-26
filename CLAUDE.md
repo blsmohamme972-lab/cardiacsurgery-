@@ -36,7 +36,8 @@ iPad/iPhone not tested yet.
   read aloud (device voice), Ask GPT, report a problem, reviewer mode, "not yet reviewed" badge,
   shuffled choices, resume, first-run tour, backup export/import.
 - **Images**: supported inside questions/explanations (from the owner's
-  sources). User-added images are not in v1.
+  sources). **User-added images: yes, in the scratchpad** (owner request 2026-10-26:
+  add, resize and draw on images; stored on the device, included in backups with media).
 - **Board**: general cardiac surgery board level; no single board's format is assumed.
 - **Sources**: the owner uploads them in the chat (PDF or text). They are not committed.
 - **Content comes later.** The owner said: build the app first; chapter content starts afterwards.
@@ -316,8 +317,9 @@ earlier 13-chapter plan.
   - Fallback: copy the prompt to the clipboard, then open ChatGPT.
   - Show a short note that ChatGPT is an outside source and may not match the
     app's sources. This button is for the user only; it never feeds question writing.
-- **Images**: still to be decided by the owner (images inside questions from the
-  owner's sources, and/or images the user adds).
+- **Scratchpad v2** (owner request 2026-10-26): a very advanced, user-friendly workspace that
+  opens over the question with one tap; add images, resize them and draw on them; shapes, text,
+  select/move, undo/redo, zoom/pan (contract: `docs/ARCHITECTURE.md` §7.16).
 - All of this user data lives on the device and must be included in the backup
   export/import, with an option to export without media to keep the file small.
 

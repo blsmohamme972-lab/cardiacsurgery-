@@ -9,9 +9,16 @@
 /* Buttons                                                                */
 /* ===================================================================== */
 
+/*
+ * Primary = arterial crimson with a soft brand-gradient sheen and a crisp
+ * press (sinks 1px, shadow tucks in). In dark mode the fill stays light
+ * enough for the dark label (the light-mode --brand-grad ends too dark for
+ * it), built from the same tokens. Labels are >= 4.5:1 on every stop.
+ */
 .btn {
   --btn-h: var(--tap);
   position: relative;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -38,16 +45,18 @@
     color var(--dur-fast) var(--ease),
     box-shadow var(--dur-fast) var(--ease),
     transform var(--dur-fast) var(--ease),
+    filter var(--dur-fast) var(--ease),
     opacity var(--dur-fast) var(--ease);
 }
 
 .btn:active:not(:disabled) {
-  transform: scale(0.97);
+  transform: translateY(1px) scale(0.985);
 }
 
 .btn:disabled {
   opacity: 0.48;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 .btn-label {
@@ -55,16 +64,53 @@
   text-overflow: ellipsis;
 }
 
-.btn-primary {
-  background: var(--primary);
-  color: var(--primary-contrast);
+.btn-primary,
+.icon-btn-primary {
+  --btn-fill: var(--brand-grad);
+  /* Sheen: a faint light wash on the top half. */
+  --btn-sheen: linear-gradient(180deg, color-mix(in srgb, var(--on-venous) 13%, transparent) 0%, transparent 55%);
   box-shadow: var(--shadow-1);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--on-venous) 20%, transparent),
+    0 1px 2px color-mix(in srgb, var(--venous) 16%, transparent),
+    0 6px 14px -6px color-mix(in srgb, var(--primary) 75%, transparent);
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  background-image: var(--btn-sheen), var(--btn-fill);
+  color: var(--primary-contrast);
+}
+
+:root[data-theme="dark"] .btn-primary,
+:root[data-theme="dark"] .icon-btn-primary {
+  --btn-fill: linear-gradient(135deg, var(--primary-hover) 0%, var(--primary) 55%, color-mix(in srgb, var(--primary) 86%, var(--venous)) 100%);
+  --btn-sheen: linear-gradient(180deg, color-mix(in srgb, var(--on-venous) 10%, transparent) 0%, transparent 55%);
+}
+
+.btn-primary:active:not(:disabled),
+.icon-btn-primary:active:not(:disabled) {
+  filter: brightness(0.94);
+  box-shadow:
+    inset 0 1px 2px color-mix(in srgb, var(--venous) 30%, transparent),
+    0 1px 1px color-mix(in srgb, var(--venous) 12%, transparent);
 }
 
 .btn-secondary {
   background: var(--surface);
   color: var(--text);
   border-color: var(--border-strong);
+  box-shadow: 0 1px 1px color-mix(in srgb, var(--venous) 6%, transparent);
+}
+
+/* Secondary buttons carry the brand in their icon only. */
+.btn-secondary > .icon {
+  color: var(--primary);
+}
+
+.btn-secondary:active:not(:disabled) {
+  background: var(--surface-3);
+  box-shadow: none;
 }
 
 .btn-ghost {
@@ -72,26 +118,39 @@
   color: var(--text);
 }
 
+.btn-ghost:active:not(:disabled) {
+  background: var(--surface-3);
+}
+
 .btn-danger {
   background: var(--danger);
   color: var(--danger-contrast);
   box-shadow: var(--shadow-1);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--on-venous) 16%, transparent),
+    0 1px 2px color-mix(in srgb, var(--venous) 16%, transparent);
+}
+
+.btn-danger:active:not(:disabled) {
+  filter: brightness(0.94);
+  box-shadow: inset 0 1px 2px color-mix(in srgb, var(--venous) 30%, transparent);
 }
 
 @media (hover: hover) {
-  .btn-primary:hover:not(:disabled) {
-    background: var(--primary-hover);
+  .btn-primary:hover:not(:disabled):not(:active) {
+    filter: brightness(1.05) saturate(1.04);
   }
 
-  .btn-secondary:hover:not(:disabled) {
+  .btn-secondary:hover:not(:disabled):not(:active) {
+    background: var(--surface-2);
+    border-color: color-mix(in srgb, var(--border-strong) 70%, var(--text-3));
+  }
+
+  .btn-ghost:hover:not(:disabled):not(:active) {
     background: var(--surface-2);
   }
 
-  .btn-ghost:hover:not(:disabled) {
-    background: var(--surface-2);
-  }
-
-  .btn-danger:hover:not(:disabled) {
+  .btn-danger:hover:not(:disabled):not(:active) {
     filter: brightness(1.06);
   }
 }
@@ -115,6 +174,7 @@
   padding: 0 var(--sp-5);
   border-radius: var(--r-m);
   font-size: var(--fs-m);
+  letter-spacing: -0.01em;
 }
 
 .btn-block {
@@ -156,11 +216,18 @@
   transition:
     background-color var(--dur-fast) var(--ease),
     color var(--dur-fast) var(--ease),
+    box-shadow var(--dur-fast) var(--ease),
+    filter var(--dur-fast) var(--ease),
     transform var(--dur-fast) var(--ease);
 }
 
 .icon-btn:active:not(:disabled) {
   transform: scale(0.92);
+}
+
+.icon-btn-ghost:active:not(:disabled) {
+  background: var(--surface-3);
+  color: var(--text);
 }
 
 .icon-btn:disabled {
@@ -174,25 +241,28 @@
   box-shadow: var(--shadow-1);
 }
 
+/* Declared after .icon-btn so its colors win (custom props + shadow: see Buttons). */
 .icon-btn-primary {
-  background: var(--primary);
+  background-color: var(--primary);
+  background-image: var(--btn-sheen), var(--btn-fill);
   color: var(--primary-contrast);
 }
 
 .icon-btn[aria-pressed="true"] {
   background: var(--primary-soft);
   color: var(--primary);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--primary) 28%, transparent);
 }
 
 @media (hover: hover) {
-  .icon-btn-ghost:hover:not(:disabled),
-  .icon-btn-secondary:hover:not(:disabled) {
+  .icon-btn-ghost:hover:not(:disabled):not(:active),
+  .icon-btn-secondary:hover:not(:disabled):not(:active) {
     background: var(--surface-2);
     color: var(--text);
   }
 
-  .icon-btn-primary:hover:not(:disabled) {
-    background: var(--primary-hover);
+  .icon-btn-primary:hover:not(:disabled):not(:active) {
+    filter: brightness(1.05) saturate(1.04);
   }
 
   .icon-btn[aria-pressed="true"]:hover:not(:disabled) {
@@ -205,6 +275,7 @@
 /* Chips                                                                  */
 /* ===================================================================== */
 
+/* kinds: neutral (default) | primary | teal | success | warning | danger | info */
 .chip {
   display: inline-flex;
   align-items: center;
@@ -216,10 +287,13 @@
   font-size: var(--fs-xs);
   font-weight: 650;
   line-height: 1.2;
+  letter-spacing: 0.005em;
   white-space: nowrap;
   vertical-align: middle;
   background: var(--surface-3);
   color: var(--text-2);
+  /* A hairline in the chip's own ink keeps it crisp on any surface. */
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 14%, transparent);
 }
 
 .chip-label {
@@ -236,9 +310,10 @@
 .chip-warning { background: var(--warning-soft); color: var(--warning); }
 .chip-info { background: var(--info-soft); color: var(--info); }
 .chip-primary { background: var(--primary-soft); color: var(--primary); }
+.chip-teal { background: var(--teal-soft); color: var(--teal); }
 
 /* ===================================================================== */
-/* Lists                                                                  */
+/* Lists (grouped clinical cards)                                          */
 /* ===================================================================== */
 
 .list {
@@ -247,6 +322,7 @@
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--r-l);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--venous) 5%, transparent);
   overflow: hidden;
   padding: 0;
   margin: 0;
@@ -290,6 +366,11 @@
     background: var(--surface-2);
     color: var(--text);
   }
+
+  .list-item.is-interactive:hover .li-chevron {
+    color: var(--primary);
+    transform: translateX(2px);
+  }
 }
 
 .list-item:focus-visible {
@@ -305,10 +386,12 @@
   border-radius: 10px;
   background: var(--primary-soft);
   color: var(--primary);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--primary) 12%, transparent);
 }
 
 .li-icon-custom {
   background: transparent;
+  box-shadow: none;
   width: auto;
   height: auto;
 }
@@ -340,6 +423,7 @@
   align-items: center;
   gap: var(--sp-2);
   font-size: var(--fs-s);
+  font-weight: 600;
   color: var(--text-2);
   font-variant-numeric: tabular-nums;
 }
@@ -348,6 +432,9 @@
   flex: none;
   color: var(--text-3);
   margin-right: -6px;
+  transition:
+    color var(--dur-fast) var(--ease),
+    transform var(--dur-fast) var(--ease);
 }
 
 /* ===================================================================== */
@@ -397,7 +484,11 @@ html.is-scroll-locked body {
   background: var(--surface);
   color: var(--text);
   border-radius: var(--r-l) var(--r-l) 0 0;
+  /* The inner top highlight gives the edge definition on dark surfaces too. */
   box-shadow: var(--shadow-3);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--on-venous) 7%, transparent),
+    var(--shadow-3);
   padding-bottom: var(--safe-bottom);
   transform: translateY(100%);
   transition: transform var(--dur) var(--ease-out);
@@ -432,10 +523,18 @@ html.is-scroll-locked body {
 
 .sheet-handle::before {
   content: "";
-  width: 40px;
+  width: 36px;
   height: 5px;
-  border-radius: 3px;
+  border-radius: var(--r-full);
   background: var(--border-strong);
+  transition:
+    width var(--dur-fast) var(--ease),
+    background-color var(--dur-fast) var(--ease);
+}
+
+.sheet.is-dragging .sheet-handle::before {
+  width: 44px;
+  background: var(--text-3);
 }
 
 .sheet-header {
@@ -452,12 +551,16 @@ html.is-scroll-locked body {
   flex: 1 1 auto;
   min-width: 0;
   font-size: var(--fs-l);
-  font-weight: 700;
-  letter-spacing: -0.015em;
+  font-weight: 750;
+  letter-spacing: -0.018em;
 }
 
 .sheet-title-spacer {
   flex: 1 1 auto;
+}
+
+.sheet-close {
+  margin-right: calc(-1 * var(--sp-1));
 }
 
 .sheet-body {
@@ -561,6 +664,10 @@ html.is-scroll-locked body {
     touch-action: auto;
   }
 
+  .sheet-footer {
+    background: color-mix(in srgb, var(--surface-2) 45%, var(--surface));
+  }
+
   .sheet-footer > .btn {
     flex: 0 0 auto;
     min-width: 112px;
@@ -586,6 +693,7 @@ html.is-scroll-locked body {
   pointer-events: none;
 }
 
+/* Venous navy in both themes: reads as the app's "monitor" voice. */
 .toast {
   display: flex;
   align-items: center;
@@ -598,16 +706,16 @@ html.is-scroll-locked body {
   background: var(--inverse-bg);
   color: var(--inverse-text);
   box-shadow: var(--shadow-3);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--inverse-text) 9%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--inverse-text) 8%, transparent),
+    var(--shadow-3);
   pointer-events: auto;
   touch-action: pan-y;
   animation: toast-in var(--dur) var(--ease-out) backwards;
   transition:
     transform var(--dur-fast) var(--ease),
     opacity var(--dur-fast) var(--ease);
-}
-
-:root[data-theme="dark"] .toast {
-  border: 1px solid var(--border-strong);
 }
 
 .toast.is-dragging {
@@ -653,7 +761,7 @@ html.is-scroll-locked body {
   border-radius: var(--r-s);
   color: var(--inverse-action);
   font-size: var(--fs-s);
-  font-weight: 700;
+  font-weight: 750;
   letter-spacing: 0.01em;
 }
 
@@ -668,10 +776,15 @@ html.is-scroll-locked body {
   opacity: 0.75;
 }
 
+.toast-action:active,
+.toast-close:active {
+  background: color-mix(in srgb, var(--inverse-text) 14%, transparent);
+}
+
 @media (hover: hover) {
   .toast-action:hover,
   .toast-close:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: color-mix(in srgb, var(--inverse-text) 10%, transparent);
     opacity: 1;
   }
 }
@@ -791,6 +904,7 @@ html.is-scroll-locked body {
   padding: var(--seg-pad);
   border-radius: var(--r-m);
   background: var(--surface-3);
+  box-shadow: inset 0 1px 2px color-mix(in srgb, var(--venous) 7%, transparent);
   isolation: isolate;
 }
 
@@ -804,6 +918,10 @@ html.is-scroll-locked body {
   border-radius: calc(var(--r-m) - 3px);
   background: var(--surface);
   box-shadow: var(--shadow-1);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--border-strong) 55%, transparent),
+    0 1px 2px color-mix(in srgb, var(--venous) 14%, transparent),
+    0 2px 6px color-mix(in srgb, var(--venous) 8%, transparent);
   transform: translateX(calc(100% * var(--seg-index)));
   transition: transform var(--dur) var(--ease-out);
   opacity: 0;
@@ -813,9 +931,17 @@ html.is-scroll-locked body {
   opacity: 1;
 }
 
-:root[data-theme="dark"] .seg-indicator {
+/* Dark: a lifted (lighter) pill on a recessed track. */
+:root[data-theme="dark"] .segmented {
   background: var(--surface-2);
-  box-shadow: inset 0 0 0 1px var(--border-strong);
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+
+:root[data-theme="dark"] .seg-indicator {
+  background: var(--surface-3);
+  box-shadow:
+    inset 0 0 0 1px var(--border-strong),
+    inset 0 1px 0 color-mix(in srgb, var(--on-venous) 6%, transparent);
 }
 
 .seg-option {
@@ -844,7 +970,8 @@ html.is-scroll-locked body {
 }
 
 .seg-option[aria-checked="true"] {
-  color: var(--text);
+  color: var(--primary);
+  font-weight: 700;
 }
 
 .seg-option:disabled {
@@ -867,6 +994,12 @@ html.is-scroll-locked body {
   padding: 0;
   background: transparent;
   border-radius: 0;
+  box-shadow: none;
+}
+
+:root[data-theme="dark"] .segmented-wrap {
+  background: transparent;
+  box-shadow: none;
 }
 
 .segmented-wrap .seg-option {
@@ -876,6 +1009,7 @@ html.is-scroll-locked body {
   border: 1px solid var(--border-strong);
   background: var(--surface);
   color: var(--text);
+  font-weight: 600;
 }
 
 .segmented-wrap .seg-option::after {
@@ -886,6 +1020,7 @@ html.is-scroll-locked body {
   background: var(--primary-soft);
   border-color: var(--primary);
   color: var(--primary);
+  font-weight: 700;
 }
 
 @media (hover: hover) {
@@ -965,16 +1100,37 @@ html.is-scroll-locked body {
   border-radius: 50%;
   background: #ffffff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25), 0 2px 6px rgba(0, 0, 0, 0.12);
+  transition:
+    transform var(--dur) var(--ease-out),
+    width var(--dur-fast) var(--ease);
+}
+
+/* A small crimson tick on the thumb when on: the state never relies on colour alone. */
+.toggle-thumb::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 5px;
+  height: 10px;
+  border: solid var(--primary);
+  border-width: 0 2px 2px 0;
+  transform: translate(-50%, -62%) rotate(45deg) scale(0);
   transition: transform var(--dur) var(--ease-out);
 }
 
+/* Arterial crimson when on (contrast with the white thumb >= 3:1 in both themes). */
 .toggle-input:checked + .toggle-track {
   background: var(--primary);
-  box-shadow: none;
+  box-shadow: inset 0 1px 2px color-mix(in srgb, var(--venous) 28%, transparent);
 }
 
 .toggle-input:checked + .toggle-track .toggle-thumb {
   transform: translateX(20px);
+}
+
+.toggle-input:checked + .toggle-track .toggle-thumb::after {
+  transform: translate(-50%, -62%) rotate(45deg) scale(1);
 }
 
 .toggle-input:focus-visible + .toggle-track {
@@ -995,7 +1151,7 @@ html.is-scroll-locked body {
 }
 
 /* ===================================================================== */
-/* Progress bar & ring                                                    */
+/* Progress bar & ring (chart tokens: --chart-1 on --chart-track)          */
 /* ===================================================================== */
 
 .progress {
@@ -1003,7 +1159,7 @@ html.is-scroll-locked body {
   width: 100%;
   height: 8px;
   border-radius: var(--r-full);
-  background: var(--surface-3);
+  background: var(--chart-track);
   overflow: hidden;
 }
 
@@ -1011,12 +1167,12 @@ html.is-scroll-locked body {
   height: 100%;
   min-width: 0;
   border-radius: inherit;
-  background: var(--progress-color, var(--primary));
+  background: var(--progress-color, var(--chart-1));
   transition: width var(--dur) var(--ease-out);
 }
 
 .ring {
-  --ring-color: var(--primary);
+  --ring-color: var(--chart-1);
   position: relative;
   display: inline-grid;
   place-items: center;
@@ -1030,7 +1186,7 @@ html.is-scroll-locked body {
 }
 
 .ring-track {
-  stroke: var(--surface-3);
+  stroke: var(--chart-track);
 }
 
 .ring-value {
@@ -1038,19 +1194,23 @@ html.is-scroll-locked body {
   transition: stroke-dasharray var(--dur) var(--ease-out);
 }
 
+/* The number uses the display face (same recipe as .num-display in base.css). */
 .ring-text {
   grid-area: 1 / 1;
-  font-size: calc(var(--ring-size, 48px) * 0.27);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: calc(var(--ring-size, 48px) * 0.28);
+  font-weight: 800;
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   line-height: 1;
   color: var(--text);
 }
 
 .ring-pct {
-  font-size: 0.68em;
-  font-weight: 600;
+  margin-left: 0.04em;
+  font-size: 0.62em;
+  font-weight: 700;
+  letter-spacing: 0;
   color: var(--text-2);
 }
 
@@ -1071,10 +1231,17 @@ html.is-scroll-locked body {
   flex: none;
   width: 22px;
   height: 22px;
-  border: 2.5px solid var(--surface-3);
+  border: 2.5px solid var(--chart-track);
   border-top-color: var(--primary);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
+}
+
+/* On filled buttons the ring follows the label colour. */
+.btn-primary .spinner-ring,
+.btn-danger .spinner-ring {
+  border-color: color-mix(in srgb, currentColor 30%, transparent);
+  border-top-color: currentColor;
 }
 
 @keyframes spin {
@@ -1105,9 +1272,15 @@ html.is-scroll-locked body {
 .skeleton-line {
   display: block;
   height: 0.9em;
-  border-radius: 6px;
+  border-radius: var(--r-full);
   background: linear-gradient(90deg, var(--surface-3) 0%, var(--surface-2) 40%, var(--surface-3) 80%) 0 0 / 300% 100%;
   animation: shimmer 1.4s ease-in-out infinite;
+}
+
+/* The first line reads as a heading. */
+.skeleton-line:first-child {
+  height: 1.15em;
+  margin-bottom: 4px;
 }
 
 @keyframes shimmer {
@@ -1132,17 +1305,46 @@ html.is-scroll-locked body {
   max-width: 420px;
   margin: var(--sp-6) auto;
   padding: var(--sp-5) var(--sp-4);
+  /* Own stacking context: the ECG trace sits behind the badge, never behind a card. */
+  isolation: isolate;
+  overflow-x: clip;
 }
 
+/* The badge: soft crimson, with a faint heartbeat trace running through it. */
 .empty-icon {
+  position: relative;
   display: grid;
   place-items: center;
   width: 64px;
   height: 64px;
-  margin-bottom: var(--sp-2);
+  margin-bottom: var(--sp-3);
   border-radius: 20px;
   background: var(--primary-soft);
   color: var(--primary);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--primary) 14%, transparent),
+    0 0 0 6px color-mix(in srgb, var(--primary-soft) 45%, transparent);
+}
+
+/* Decorative (aria-hidden). Fades out at both ends; the QRS spikes fall either side of the badge. */
+.empty-ecg {
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  top: 50%;
+  width: min(320px, 100vw - 2 * var(--sp-6));
+  height: 32px;
+  transform: translate(-50%, -50%);
+  opacity: 0.55;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, currentColor 22%, currentColor 78%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, currentColor 22%, currentColor 78%, transparent 100%);
+}
+
+.empty-ecg .ecg-line {
+  width: 100%;
+  -webkit-mask-position: -44px center;
+  mask-position: -44px center;
 }
 
 .empty-title {
@@ -1150,6 +1352,7 @@ html.is-scroll-locked body {
 }
 
 .empty-text {
+  max-width: 36ch;
   color: var(--text-2);
   font-size: var(--fs-s);
   line-height: 1.5;
@@ -1209,10 +1412,18 @@ html.is-scroll-locked body {
   height: 188px;
   margin-bottom: var(--sp-3);
   border-radius: var(--r-l);
+  /* ECG paper (light) / monitor grid (dark): a faint --ecg grid with a stronger line every 5 squares. */
+  --tour-grid: color-mix(in srgb, var(--ecg) 8%, transparent);
+  --tour-grid-major: color-mix(in srgb, var(--ecg) 14%, transparent);
   background:
-    radial-gradient(120% 90% at 20% 0%, var(--primary-soft) 0%, transparent 60%),
-    radial-gradient(120% 90% at 100% 100%, var(--info-soft) 0%, transparent 55%),
+    linear-gradient(var(--tour-grid-major) 1px, transparent 1px) -1px -1px / 70px 70px,
+    linear-gradient(90deg, var(--tour-grid-major) 1px, transparent 1px) -1px -1px / 70px 70px,
+    linear-gradient(var(--tour-grid) 1px, transparent 1px) -1px -1px / 14px 14px,
+    linear-gradient(90deg, var(--tour-grid) 1px, transparent 1px) -1px -1px / 14px 14px,
+    radial-gradient(120% 90% at 15% 0%, color-mix(in srgb, var(--primary) 9%, transparent) 0%, transparent 60%),
+    radial-gradient(120% 90% at 100% 100%, color-mix(in srgb, var(--teal) 10%, transparent) 0%, transparent 55%),
     var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--border);
   overflow: hidden;
 }
 
@@ -1383,6 +1594,11 @@ html.is-scroll-locked body {
   color: var(--primary);
 }
 
+/* Exam / timer = scrub teal accent. */
+.mock-float.is-teal .icon {
+  color: var(--teal);
+}
+
 .mock-hl {
   position: relative;
   display: block;
@@ -1468,6 +1684,17 @@ html.is-scroll-locked body {
   border-radius: 8px;
   background: var(--primary-soft);
   color: var(--primary);
+}
+
+.mock-badge.is-teal {
+  background: var(--teal-soft);
+  color: var(--teal);
+}
+
+/* The brand tile (crimson gradient, white glyph), as on the app icon. */
+.mock-badge.is-brand {
+  background: var(--brand-grad);
+  color: var(--brand-ink);
 }
 
 .mock-row .mock-ok {

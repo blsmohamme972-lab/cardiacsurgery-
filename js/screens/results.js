@@ -212,18 +212,29 @@ export default {
       button({ label: 'Home', icon: 'home', variant: 'ghost', onClick: () => navigate('/') }),
     );
 
+    // The score sits on a navy "monitor" panel with a decorative ECG trace.
+    const monitor = h(
+      'div',
+      { class: 'res-monitor' },
+      ring(sum.pct, { size: 128, label: `Score ${sum.pct}%` }),
+      h(
+        'div',
+        { class: 'res-headline' },
+        h('h1', { tabindex: '-1' }, heading),
+        h(
+          'p',
+          { class: 'res-sub' },
+          `${sum.correct} of ${plural(sum.total, 'question')} correct`,
+          exam ? ' · Exam' : ' · Practice',
+          sum.timeMs ? ` · ${formatDuration(sum.timeMs)}` : '',
+        ),
+      ),
+      h('span', { class: 'ecg-line ecg-line--sweep res-ecg', 'aria-hidden': 'true' }),
+    );
     const hero = h(
       'section',
       { class: 'res-hero', 'aria-label': 'Score' },
-      ring(sum.pct, { size: 128, label: `Score ${sum.pct}%` }),
-      h('h1', { tabindex: '-1' }, heading),
-      h(
-        'p',
-        { class: 'res-sub' },
-        `${sum.correct} of ${plural(sum.total, 'question')} correct`,
-        exam ? ' · Exam' : ' · Practice',
-        sum.timeMs ? ` · ${formatDuration(sum.timeMs)}` : '',
-      ),
+      monitor,
       h(
         'div',
         { class: 'res-counts' },

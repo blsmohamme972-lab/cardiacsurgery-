@@ -356,7 +356,8 @@ API:
 
 ## 4. Storage (IndexedDB)
 
-Database `cardiac-mcq`, version `1`. Only `store/repo.js` uses `store/db.js`.
+Database `cardiac-mcq`, version `2` (v2 adds `media`, owner request 2026-10-26: images in the scratchpad).
+Only `store/repo.js` uses `store/db.js`.
 
 | store | keyPath | indexes | record |
 |---|---|---|---|
@@ -370,6 +371,7 @@ Database `cardiac-mcq`, version `1`. Only `store/repo.js` uses `store/db.js`.
 | `reports` | `id` | `qid` | `{id, qid, qversion, reason, text, ts}` |
 | `reviews` | `qid` | — | `{qid, qversion, status: 'ok'\|'fix', comment, ts}` |
 | `sessions` | `id` | `updatedAt` | Session |
+| `media` | `id` | `qid`, `ts` | `{id, qid, blob, mime, width, height, bytes, ts}` — images the user adds (scratchpad), already downscaled |
 
 QState:
 ```js
@@ -382,6 +384,18 @@ Highlight:
 { id, qid, qversion, block, quote, prefix, suffix, start, color, ts }
 // block: "stem" | "choice-<choiceId>" | "note-<choiceId>" | <explanation block id>
 // color: 'yellow' | 'green' | 'blue' | 'pink'
+```
+
+Scratchpad record (ink store, `block: 'scratch'`, id `${qid}|scratch`) — v2 adds `scene`; a v1 record
+(only `strokes`, fractions of 2000×3000) is converted to a scene on first open and saved back:
+```js
+{ id, qid, block: 'scratch', qversion, updated, strokes: [] /* legacy */,
+  scene: { v: 2, page: { w: 2000, h: 3000, bg: 'plain'|'dots'|'grid'|'lines' }, items: Item[] /* z-order */ } }
+// Item (page units, rounded to 1 decimal; ids from util.uid()):
+//  { id, type: 'stroke', tool: 'pen'|'hl', color, size /* page units */, pts: [x, y, p, ...] }
+//  { id, type: 'image', media /* media.id */, x, y, w, h, rot /* radians */ }
+//  { id, type: 'text', x, y, w, text, color, size /* font px in page units */ }
+//  { id, type: 'shape', shape: 'line'|'arrow'|'rect'|'ellipse', x1, y1, x2, y2, color, size, fill: false }
 ```
 
 Stroke (all coordinates are fractions of the layer's width/height, rounded to 4 decimals):
@@ -421,7 +435,10 @@ export const voiceRepo     = { byQid(qid), add({qid, blob, mime, durationMs}) /*
 export const reportsRepo   = { add(r), byQid(qid), remove(id), all() }
 export const reviewsRepo   = { get(qid), set(qid, {qversion, status, comment}), remove(qid), all() }
 export const sessionsRepo  = { get(id), put(s), remove(id), all(), latestUnfinished() }
-export const ALL_STORES    = ['settings','qstate','attempts','notes','highlights','ink','voice','reports','reviews','sessions']
+export const mediaRepo     = { get(id), byQid(qid), add({qid, blob, mime, width, height}) /* assigns id, ts, bytes */,
+                               remove(id), prune(qid, keepIds /* Set|string[] */) /* removes the qid's media not kept */, all() }
+export const ALL_STORES    = ['settings','qstate','attempts','notes','highlights','ink','voice','reports','reviews','sessions','media']
+// inkRepo.set keeps a record while it has strokes OR scene items (deletes only when both are empty).
 export async function dumpStore(name) / replaceStore(name, records) / mergeStore(name, records)
 ```
 Every write emits `bus.emit('store:change', {store, key})`.
@@ -504,7 +521,9 @@ Defaults:
   autoAdvance: false, showTimer: true, drawInput: 'auto' /* 'finger'|'pen' */,
   highlightColor: 'yellow', inkTool: 'pen', inkColor: '#1d4ed8', inkSize: 0.006,
   reviewerMode: false, tourDone: false, askGptNoticeSeen: false, lastRoute: null,
-  ttsRate: 1 /* 0.8–1.4 */, ttsVoice: null /* voiceURI */ }
+  ttsRate: 1 /* 0.8–1.4 */, ttsVoice: null /* voiceURI */,
+  scratchView: 'over' /* 'over'|'split'|'full' */, scratchTool: 'pen', scratchColor: '#1d4ed8', scratchSize: 1 /* 0|1|2 */,
+  scratchBg: 'dots', scratchOpacity: 0 /* paper opacity in 'over' view, 0–0.9 */ }
 ```
 ```js
 export async function initSettings()     // loads from settingsRepo, applies
@@ -944,8 +963,8 @@ export async function storageInfo() → { usage, quota, persisted }
 export async function requestPersistence() → boolean
 ```
 Backup: `{ type: 'cardiac-mcq-backup', formatVersion: 1, appVersion, exportedAt, includesMedia,
-stores: { [storeName]: records[] } }` — voice blobs as `{..., blob: null, data: base64, mime}`; without media the
-voice store is omitted. Merge: per store, newer `updated/ts` wins; attempts deduplicated by `(qid, ts)`.
+stores: { [storeName]: records[] } }` — voice and media blobs as `{..., blob: null, data: base64, mime}`; without
+media the `voice` and `media` stores are omitted (scratchpad images then show a calm "image not in this backup" placeholder). Merge: per store, newer `updated/ts` wins; attempts deduplicated by `(qid, ts)`.
 Replace: clears every store first (after the user confirms). Import never touches settings `lastRoute`.
 Replace with a backup that has no media keeps the device's voice notes (recordings can't be recovered).
 Everything is validated and decoded before any write; Replace snapshots each store and restores it if a write fails.
@@ -1040,6 +1059,35 @@ export async function previewVoice(voice | null, rate?) // speaks a short sample
   Android: Settings > Accessibility > Text-to-speech > Google > install voice data (English, high quality).
 - Stops when the question changes, the screen changes, or the app goes to the background.
 - Hidden when `speechSynthesis` is missing. Never sends text anywhere.
+
+### 7.16 Scratchpad v2 (owner request 2026-10-26)
+A professional, note-taking-grade workspace per question that opens **over the question with one tap**
+(a visible "Scratchpad" button in the player and browse bottom bars, plus the More menu and the ink toolbar).
+```js
+// features/annotate/scratchpad.js (entry, unchanged name)
+export function openScratchpad(question, { view } = {}) → Promise<void>   // resolves when closed (saved)
+// features/scratch/scene.js (pure)   — model, commands, undo/redo, serialize, migrateV1(strokes)
+// features/scratch/geometry.js (pure) — bounds, hit tests, transforms, snapping
+// features/scratch/render.js         — canvas renderer (cached scene layer + live layer; reuses ink strokeToPath)
+// features/scratch/tools.js          — pointer tools: select (move/resize/rotate), lasso, pen, highlighter,
+//                                      eraser (whole stroke), shapes, text, hand/pan
+// features/scratch/media.js          — image import (file/camera/paste/drop), EXIF-aware decode, downscale to
+//                                      ≤ 2048 px long side (JPEG/WebP ~0.85; PNG kept when transparent), mediaRepo
+```
+- **Views** (setting `scratchView`, remembered): `over` (default — transparent layer on top of the question, the
+  question stays visible beneath; a paper-opacity control), `split` (read-only question copy on top, pad below,
+  draggable divider; side by side on wide screens), `full` (opaque paper with template `page.bg`).
+- **Tools**: select (tap → handles: move, 8-point resize (images keep aspect unless a free-resize toggle), rotate,
+  Delete, Duplicate, Front/Back), lasso (strokes/items → move/delete/recolor), pen (pressure), highlighter, eraser,
+  shapes (line, arrow, rectangle, ellipse), text box, image (Photos/Camera/Files, paste, drop), hand. Draw on
+  top of images (z-order). 8 colours, 3 sizes; last tool/colour/size remembered (`scratchTool`, `scratchColor`,
+  `scratchSize`). Undo/redo (every command), Clear page (undoable), Export as PNG (share/download).
+- **Canvas**: page 2000×3000 units; default zoom **fit width**; pinch zoom 0.25–5×, two-finger pan, wheel/ctrl-zoom,
+  buttons (−, %, +, Fit). Palm rejection + `drawInput` as in §7.7. 60 fps via rAF; DPR-aware; bitmap cache for images.
+- Autosave (debounced 400 ms + on close/pagehide/hidden) to `inkRepo` (`scene`) and `mediaRepo`; on close,
+  `mediaRepo.prune(qid, referenced ids)` (after undo history is gone). Missing media → placeholder box.
+- Keyboard: V select, P pen, H highlighter, E eraser, S shapes, T text, I image, Space/hand, Ctrl/Cmd+Z / Shift+Z / Y,
+  Delete/Backspace, Esc (deselect → close). Every gesture has a visible button.
 
 ## 8. Screens (summary of required UX)
 
