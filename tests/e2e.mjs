@@ -27,7 +27,7 @@
  * user sees (roles, accessible names, visible text). No fixed sleeps: every
  * wait is for a condition.
  *
- * Usage: node tests/e2e.mjs [--only <substring>] [--viewport phone|ipad] [--headed]
+ * Usage: node tests/e2e.mjs [--only <substring>] [--viewport phone|ipad] [--headed] [--verbose]
  * Exit code 1 on any failure.
  *
  * @module tests/e2e
@@ -53,6 +53,7 @@ const argValue = (name) => {
 const ONLY = argValue('--only');
 const ONLY_VIEWPORT = argValue('--viewport');
 const HEADED = args.includes('--headed');
+const VERBOSE = args.includes('--verbose');
 
 /** Default timeout for every Playwright wait (ms). */
 const TIMEOUT = 15000;
@@ -367,7 +368,8 @@ const TESTS = [
         await page.mouse.move(b.x + b.width * (0.1 + 0.07 * i), b.y + b.height * (0.5 + 0.3 * Math.sin(i / 2)));
       }
       await page.mouse.up();
-      await page.getByRole('button', { name: 'Done' }).click();
+      // Scoped to the ink toolbar (one run once saw a second "Done" button on iPad; not reproducible).
+      await page.locator('.ink-toolbar').getByRole('button', { name: 'Done' }).click();
       await page.locator('.ink-toolbar').waitFor({ state: 'detached' });
       const hasInk = async () =>
         (await idbAll(page, 'ink')).some((r) => r.qid === qid && Array.isArray(r.strokes) && r.strokes.length > 0);
@@ -583,7 +585,7 @@ try {
       try {
         await test.run({ page, context, server, vp });
       } catch (err) {
-        error = err instanceof Error ? err.message.split('\n')[0] : String(err);
+        error = err instanceof Error ? (VERBOSE ? err.message : err.message.split('\n')[0]) : String(err);
       } finally {
         server.clearOverrides();
         await context.close().catch(() => {});
