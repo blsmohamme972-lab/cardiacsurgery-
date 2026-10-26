@@ -1,8 +1,9 @@
 /**
  * Cardiac Surgery MCQ: service worker (docs/ARCHITECTURE.md §5.8).
  *
- * - Precaches every app file (APP_SHELL) and all question data at install,
- *   so the app works 100% offline after the first load.
+ * - Precaches every app file (APP_SHELL) and the question data the app can
+ *   show (published chapters + the demo) at install, so the app works 100%
+ *   offline after the first load. Unpublished chapters are never fetched.
  * - Two caches per release: `cmcq-shell-<VERSION>` (app files) and
  *   `cmcq-data-<VERSION>` (question data + images).
  * - Install is all-or-nothing: if any app file or data file is missing or
@@ -325,9 +326,46 @@ async function precacheShell() {
   await cacheStrict(cache, APP_SHELL.map(toUrl), { cacheMode: 'reload' });
 }
 
+/** @param {unknown} v */
+function isObject(v) {
+  return v !== null && typeof v === 'object' && !Array.isArray(v);
+}
+
 /**
- * Downloads data/index.json, data/retired.json, every chapter file listed in
- * the index (all must be valid JSON), then question images (best effort).
+ * The data files to precache, from the parsed index: data/retired.json, the
+ * file of every chapter with `"published": true`, and the demo file.
+ * Unpublished chapters are hidden in the app, so their files are never
+ * fetched by the worker. Every entry is still checked, so a malformed index
+ * fails the install (and never reaches installed apps).
+ * @param {any} index Parsed data/index.json.
+ * @returns {string[]} Absolute URLs, without duplicates.
+ * @throws {Error} When the index, a chapter entry or the demo entry is malformed.
+ */
+function dataFilesOf(index) {
+  if (!isObject(index)) throw new Error(DATA_INDEX + ' is not a JSON object');
+  if (!Array.isArray(index.chapters)) throw new Error(DATA_INDEX + ' has no "chapters" list');
+
+  const files = new Set([toUrl(DATA_RETIRED)]);
+  index.chapters.forEach((chapter, i) => {
+    const at = DATA_INDEX + ' chapters[' + i + ']';
+    if (!isObject(chapter)) throw new Error(at + ' is not an object');
+    const url = safeAppUrl(chapter.file);
+    if (!url) throw new Error(at + ' has an invalid chapter file: ' + JSON.stringify(chapter.file));
+    if (chapter.published === true) files.add(url);
+  });
+
+  if (!isObject(index.demo)) throw new Error(DATA_INDEX + ' has no "demo" entry');
+  const demoUrl = safeAppUrl(index.demo.file);
+  if (!demoUrl) throw new Error(DATA_INDEX + ' has an invalid demo file: ' + JSON.stringify(index.demo.file));
+  files.add(demoUrl);
+
+  return [...files];
+}
+
+/**
+ * Downloads data/index.json, data/retired.json, the file of every published
+ * chapter and the demo file (all must be valid JSON), then the images those
+ * files use (best effort). The index is stored last.
  * Data uses `cache: 'no-cache'`: always revalidated with the server, but an
  * unchanged multi-megabyte chapter is not downloaded again.
  */
@@ -336,20 +374,10 @@ async function precacheData() {
 
   const indexUrl = toUrl(DATA_INDEX);
   const indexResponse = await fetchForCache(indexUrl, 'no-cache');
-  const index = await readJson(indexUrl, indexResponse);
-  if (!index || !Array.isArray(index.chapters)) {
-    throw new Error(DATA_INDEX + ' has no "chapters" list');
-  }
-
-  const files = new Set([toUrl(DATA_RETIRED)]);
-  for (const chapter of index.chapters) {
-    const url = safeAppUrl(chapter && chapter.file);
-    if (!url) throw new Error(DATA_INDEX + ' has an invalid chapter file: ' + JSON.stringify(chapter && chapter.file));
-    files.add(url);
-  }
+  const files = dataFilesOf(await readJson(indexUrl, indexResponse));
 
   const images = new Set();
-  await cacheStrict(cache, [...files], {
+  await cacheStrict(cache, files, {
     cacheMode: 'no-cache',
     inspect: async (url, response) => {
       const json = await readJson(url, response);
