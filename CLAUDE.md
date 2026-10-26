@@ -46,6 +46,22 @@ iPad/iPhone not tested yet.
   can later be wrapped with Capacitor (Android APK; iOS IPA only if the owner
   ever accepts the Apple fee).
 
+## Code quality: very advanced
+
+The owner requires **very advanced, professional code** everywhere, within the
+rules above (vanilla JS, no framework, no build step). That means:
+
+- Modern JavaScript: ES modules, `async`/`await`, no global variables, small focused modules.
+- Robust storage: **IndexedDB** for user data (with schema versions and migrations),
+  Cache Storage for app files; call `navigator.storage.persist()`.
+- Careful service worker: versioned caches, safe updates, no data loss.
+- Fast: load chapters on demand, keep the first load small, smooth on old phones.
+- Accessible: semantic HTML, keyboard and screen-reader friendly, good contrast,
+  light and dark mode.
+- Handle every error and edge case (offline, storage full, corrupt backup file).
+- Validate all question data before it ships.
+- Clean, consistent, well-structured code that is easy to extend.
+
 ## Hosting and deployment
 
 - **GitHub Pages** from this repo (the repo is **public** for this reason).
