@@ -179,6 +179,16 @@ Questions are made with a **highly precise, rigorous process**, not freehand wri
   (MediaRecorder, needs microphone permission once). Stored on the device in
   IndexedDB as audio blobs and played back offline.
   - Not wanted: text-to-speech (reading questions aloud) and voice dictation.
+- **Highlights and drawing on the explanation too**, including on top of tables,
+  flows and mind maps. Saved on the device per question.
+  - Highlights anchor to the explanation block ID + the highlighted text (with a
+    little text before/after), so they survive screen size changes and small
+    explanation edits.
+  - Drawing is a transparent layer over each explanation block, with stroke
+    coordinates relative to that block's size, so ink stays on the right spot
+    after rotation, a different screen, or a font-size change.
+  - If an explanation is edited a lot later, flag highlights/ink that no longer
+    match instead of silently losing them.
 - **Drawing and handwriting** (professional, like a note-taking app): a canvas per
   question for drawing and writing with finger or stylus (Apple Pencil / S Pen).
   Pressure-sensitive pen, highlighter, eraser, colors and sizes, undo/redo,
