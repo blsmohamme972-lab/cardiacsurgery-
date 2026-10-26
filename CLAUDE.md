@@ -138,6 +138,18 @@ rules above (vanilla JS, no framework, no build step). That means:
 - Stored **on the device** only.
 - **Export and import** as a JSON backup file.
 
+## User features (planned)
+
+- **Highlights** on question text, saved per question ID.
+- **Voice notes**: the user records a short audio note on a question
+  (MediaRecorder, needs microphone permission once). Stored on the device in
+  IndexedDB as audio blobs and played back offline.
+  - Not wanted: text-to-speech (reading questions aloud) and voice dictation.
+- **Images**: still to be decided by the owner (images inside questions from the
+  owner's sources, and/or images the user adds).
+- All of this user data lives on the device and must be included in the backup
+  export/import, with an option to export without media to keep the file small.
+
 ## Security
 
 - **Never commit secrets or keys.** The app needs none.
