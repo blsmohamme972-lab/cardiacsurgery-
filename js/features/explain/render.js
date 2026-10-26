@@ -460,23 +460,23 @@ function renderCallout(b, ctx) {
   ic.setAttribute('data-anchor-skip', '');
   ic.classList.add('xb-callout-icon');
   return h(
+    'div',
+    { role: 'note', class: `xb-callout-${kind}` },
+    h(
       'div',
-      { role: 'note', class: `xb-callout-${kind}` },
+      { class: 'xb-callout-head' },
+      ic,
       h(
         'div',
-        { class: 'xb-callout-head' },
-        ic,
-        h(
-          'div',
-          { class: 'xb-callout-titles' },
-          // The kind label is UI text, not content: anchoring skips it, screen readers read it.
-          h('span', { class: 'xb-callout-kind', 'data-anchor-skip': '' }, meta.label),
-          hasText(b.title) ? h('p', { class: 'xb-callout-title' }, renderInline(b.title)) : null,
-        ),
+        { class: 'xb-callout-titles' },
+        // The kind label is UI text, not content: anchoring skips it, screen readers read it.
+        h('span', { class: 'xb-callout-kind', 'data-anchor-skip': '' }, meta.label),
+        hasText(b.title) ? h('p', { class: 'xb-callout-title' }, renderInline(b.title)) : null,
       ),
-      hasText(b.text) ? h('p', { class: 'xb-callout-text' }, renderInline(b.text)) : null,
-      items.length ? h('ul', { class: 'xb-callout-items' }, items.map((t) => h('li', {}, renderInline(t)))) : null,
-    );
+    ),
+    hasText(b.text) ? h('p', { class: 'xb-callout-text' }, renderInline(b.text)) : null,
+    items.length ? h('ul', { class: 'xb-callout-items' }, items.map((t) => h('li', {}, renderInline(t)))) : null,
+  );
 }
 
 /** @param {Record<string, any>} b @param {Ctx} ctx */

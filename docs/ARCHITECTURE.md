@@ -108,6 +108,8 @@ tests/                     Dev-only.
   e2e.mjs                  Playwright end-to-end tests (uses the pre-installed playwright).
   serve.mjs                Tiny static file server used by e2e (serves repo under /cardiacsurgery-/).
   smoke.mjs                Playwright boot smoke test (stubs missing files in memory).
+  visual/*.mjs             Playwright visual/behaviour checks per feature (screenshots phone + iPad, light + dark).
+  fixtures/explain.html    Dev gallery of every explanation block type.
 docs/ARCHITECTURE.md       This file.
 ```
 
@@ -796,6 +798,8 @@ export function renderBlocks(blocks, { qid }) → HTMLElement  // <div class="ex
                                                           //   data-block="<id>" and class "xb xb-<type>"
 export function renderStem(q) → HTMLElement               // data-block="stem"
 export function renderImage(img) → HTMLElement            // lazy, tap to zoom
+export function isSafeImageSrc(src) → boolean             // pure: relative data/ image paths only
+export const CALLOUT_KINDS                                // ['key','pearl','pitfall','mnemonic']
 ```
 - Tables: horizontally scrollable wrapper, sticky first column on phones, zebra rows, optional emphasis.
 - Flow: vertical chain of rounded step boxes joined by arrows (HTML/CSS + inline SVG arrow),
