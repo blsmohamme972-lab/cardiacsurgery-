@@ -17,8 +17,9 @@
  *   (CH22-0001, DEMO-0001), globally unique, not retired; version, topic,
  *   tags, difficulty, reviewed, stem, image, 4–5 choices (ids a–e), answer,
  *   choice notes, source, demo flag (demo file only); every explanation
- *   block (§3.4) with unique, non-reserved ids; inline mini-markup balance
- *   (§3.5, warnings).
+ *   block (§3.4) with unique, non-reserved ids; inline mini-markup checked
+ *   with the app's own parser (§3.5, warnings: markers that would show
+ *   literally, empty visible text, HTML-looking tags).
  * - Duplicate questions (error), identical or near-identical stems
  *   (warnings), answer-position balance per chapter (warning when a chapter
  *   has ≥ 20 questions and one position holds > 40% of the answers).
@@ -45,6 +46,8 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
+
+import { inlineToPlain, parseInline } from '../js/features/explain/inline.js';
 
 /** Repository root (this file lives in scripts/). */
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -430,33 +433,83 @@ export function normalizeText(s) {
     .trim();
 }
 
+/** Characters a backslash escapes in inline markup (same set as features/explain/inline.js). */
+const INLINE_ESCAPE_RE = /\\([\\*_=^~`\-<>])/g;
+/** Stands in for an escaped character while checking: never a marker, never whitespace. */
+const ESCAPED_SENTINEL = '';
+const WORD_CHAR_RE = /[\p{L}\p{N}\p{M}_]/u;
+
 /**
- * Inline mini-markup problems (§3.5) in one string. Escaped characters and
- * code spans are ignored; arrows are not markers.
+ * Inline mini-markup problems (§3.5) in one string, judged by the real parser
+ * (`parseInline`/`inlineToPlain` from js/features/explain/inline.js), so a
+ * warning means the app really shows a marker as literal text. Escaped
+ * characters (`\*`) and code spans are literal on purpose and never flagged.
+ *
+ * Flags: unpaired or wrong-length `**` / `==` / `_` runs, an unclosed `^` or
+ * `~` glued to a word (`x^2`, `CO~2`), any stray backtick, long arrows that
+ * stay literal (`-->`, `==>`, `<--`), text that renders empty, HTML-looking
+ * tags, leading or trailing spaces. A lone `~5 mm` (approx.) is fine.
+ *
  * @param {string} s
  * @returns {string[]}
  */
 export function inlineIssues(s) {
   /** @type {string[]} */
   const issues = [];
-  let t = s.replace(/\\[\s\S]/g, '  ');
-  if ((t.match(/`/g) || []).length % 2) issues.push('unbalanced ` (code) marker; write \\` for a literal backtick');
-  t = t.replace(/`[^`]*`/g, ' ').replace(/<->|<-|->|=>/g, '  ');
-  /** @type {Array<[RegExp, string, string]>} */
-  const markers = [
-    [/\*\*/g, '**', 'bold'],
-    [/==/g, '==', 'mark'],
-    [/\^/g, '^', 'superscript'],
-    [/~/g, '~', 'subscript'],
-  ];
-  for (const [re, marker, name] of markers) {
-    if ((t.match(re) || []).length % 2) {
-      issues.push(`unbalanced ${marker} (${name}) marker; it will show literally (write \\${marker[0]} for a literal character)`);
+  /** @param {string} msg */
+  const add = (msg) => {
+    if (!issues.includes(msg)) issues.push(msg);
+  };
+  const plain = inlineToPlain(s);
+  if (s.trim() !== '' && plain.trim() === '') add('renders as empty text');
+
+  // Parse a copy with each escaped character replaced by a sentinel: what is
+  // left as a marker character in a text token was not escaped and not used.
+  const masked = s.replace(INLINE_ESCAPE_RE, ESCAPED_SENTINEL);
+  for (const text of literalTexts(parseInline(masked))) {
+    for (const m of text.matchAll(/\*{2,}/g)) {
+      add(m[0].length === 2
+        ? 'unpaired ** (bold) marker shows literally; close it, or write \\*\\* for literal stars'
+        : `"${m[0]}" shows literally (bold is exactly **…**); write \\* for literal stars`);
     }
+    for (const m of text.matchAll(/(?<![-<])={2,}(?!>)/g)) {
+      add(m[0].length === 2
+        ? 'unpaired == (mark) marker shows literally; close it, or write \\=\\= for literal equals signs'
+        : `"${m[0]}" shows literally (mark is exactly ==…==); write \\= for literal equals signs`);
+    }
+    for (const m of text.matchAll(/_+/g)) {
+      const i = /** @type {number} */ (m.index);
+      const inWord = i > 0 && WORD_CHAR_RE.test(text[i - 1]) && WORD_CHAR_RE.test(text[i + m[0].length] ?? '');
+      if (!inWord) add('unpaired _ (italic) marker shows literally; close it, or write \\_ for a literal underscore');
+    }
+    for (const [ch, name] of /** @type {const} */ ([['^', 'superscript'], ['~', 'subscript']])) {
+      for (let i = text.indexOf(ch); i !== -1; i = text.indexOf(ch, i + 1)) {
+        const glued = i > 0 && WORD_CHAR_RE.test(text[i - 1]) && i + 1 < text.length && !/\s/.test(text[i + 1]);
+        const doubled = text[i + 1] === ch || text[i - 1] === ch;
+        if (glued || doubled) add(`unclosed ${ch} (${name}) marker shows literally; write x${ch}2${ch} (no spaces inside), or \\${ch} for a literal ${ch}`);
+      }
+    }
+    if (text.includes('`')) add('unpaired ` (code) marker shows literally; close it, or write \\` for a literal backtick');
+    if (/<?[-=]{2,}>|<[-=]{2,}/.test(text)) add('long arrow (-->, ==>, <--) shows literally; use ->, =>, <-, <-> or a typed arrow (→)');
   }
-  if (/<\/?[a-z][a-z0-9]*(\s[^<>]*)?\/?>/i.test(t)) issues.push('looks like HTML; HTML is shown as plain text, use inline markup instead');
-  if (s !== s.trim()) issues.push('has leading or trailing spaces');
+  if (/<\/?[a-z][a-z0-9]*(\s[^<>]*)?\/?>/i.test(plain)) add('looks like HTML; HTML is shown as plain text, use inline markup instead');
+  if (s !== s.trim()) add('has leading or trailing spaces');
   return issues;
+}
+
+/**
+ * The literal text runs of a token tree, outside code spans (code content is
+ * literal by design).
+ * @param {import('../js/features/explain/inline.js').Token[]} tokens
+ * @param {string[]} [out]
+ * @returns {string[]}
+ */
+function literalTexts(tokens, out = []) {
+  for (const tok of tokens) {
+    if (tok.t === 'text') out.push(tok.v);
+    else if (tok.t !== 'code' && 'c' in tok) literalTexts(tok.c, out);
+  }
+  return out;
 }
 
 /**
