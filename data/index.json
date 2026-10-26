@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "chapters": [
+    {
+      "id": "cpb",
+      "prefix": "CPB",
+      "title": "CPB & myocardial protection",
+      "short": "CPB",
+      "file": "data/ch01-cpb.json",
+      "order": 1,
+      "count": 0
+    },
+    {
+      "id": "cabg",
+      "prefix": "CABG",
+      "title": "CABG",
+      "short": "CABG",
+      "file": "data/ch02-cabg.json",
+      "order": 2,
+      "count": 0
+    },
+    {
+      "id": "valves",
+      "prefix": "VALV",
+      "title": "Valves",
+      "short": "Valves",
+      "file": "data/ch03-valves.json",
+      "order": 3,
+      "count": 0
+    },
+    {
+      "id": "aorta",
+      "prefix": "AORT",
+      "title": "Aorta",
+      "short": "Aorta",
+      "file": "data/ch04-aorta.json",
+      "order": 4,
+      "count": 0
+    },
+    {
+      "id": "congenital",
+      "prefix": "CONG",
+      "title": "Congenital",
+      "short": "Congenital",
+      "file": "data/ch05-congenital.json",
+      "order": 5,
+      "count": 0
+    },
+    {
+      "id": "hf",
+      "prefix": "HFTX",
+      "title": "HF/VAD/transplant",
+      "short": "HF/VAD/Tx",
+      "file": "data/ch06-hf-vad-tx.json",
+      "order": 6,
+      "count": 0
+    },
+    {
+      "id": "arrhythmia",
+      "prefix": "ARRH",
+      "title": "Arrhythmia surgery",
+      "short": "Arrhythmia",
+      "file": "data/ch07-arrhythmia.json",
+      "order": 7,
+      "count": 0
+    },
+    {
+      "id": "pericardium",
+      "prefix": "PERI",
+      "title": "Pericardium & tumors",
+      "short": "Pericardium",
+      "file": "data/ch08-pericardium-tumors.json",
+      "order": 8,
+      "count": 0
+    },
+    {
+      "id": "thoracic",
+      "prefix": "THOR",
+      "title": "Thoracic basics",
+      "short": "Thoracic",
+      "file": "data/ch09-thoracic.json",
+      "order": 9,
+      "count": 0
+    },
+    {
+      "id": "icu",
+      "prefix": "ICU",
+      "title": "Postop ICU",
+      "short": "Postop ICU",
+      "file": "data/ch10-postop-icu.json",
+      "order": 10,
+      "count": 0
+    },
+    {
+      "id": "anatomy",
+      "prefix": "ANAT",
+      "title": "Anatomy & physiology",
+      "short": "Anatomy",
+      "file": "data/ch11-anatomy-physiology.json",
+      "order": 11,
+      "count": 0
+    },
+    {
+      "id": "pharm",
+      "prefix": "PHAR",
+      "title": "Pharmacology",
+      "short": "Pharmacology",
+      "file": "data/ch12-pharmacology.json",
+      "order": 12,
+      "count": 0
+    },
+    {
+      "id": "trauma",
+      "prefix": "TRAU",
+      "title": "Trauma",
+      "short": "Trauma",
+      "file": "data/ch13-trauma.json",
+      "order": 13,
+      "count": 0
+    },
+    {
+      "id": "demo",
+      "prefix": "DEMO",
+      "title": "App tour (demo)",
+      "short": "Demo",
+      "file": "data/demo.json",
+      "order": 99,
+      "count": 10,
+      "demo": true
+    }
+  ]
+}

@@ -8,12 +8,12 @@
     "node": ">=20"
   },
   "scripts": {
-    "test": "node --test tests/unit/",
+    "test": "node --test tests/unit/*.test.mjs",
     "test:e2e": "node tests/e2e.mjs",
     "validate": "node scripts/validate.mjs",
     "bump": "node scripts/bump-version.mjs",
     "serve": "node tests/serve.mjs",
-    "check": "node scripts/validate.mjs && node --test tests/unit/",
-    "release": "node scripts/bump-version.mjs && node scripts/validate.mjs && node --test tests/unit/"
+    "check": "node scripts/validate.mjs && node --test tests/unit/*.test.mjs",
+    "release": "node scripts/bump-version.mjs && node scripts/validate.mjs && node --test tests/unit/*.test.mjs"
   }
 }

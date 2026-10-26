@@ -1,75 +1,87 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Cardiac MCQ</title>
-  <meta name="theme-color" content="#b01e2d">
+  <meta name="description" content="Board-level cardiac surgery MCQs for residents. Works offline.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f5f6f8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0e1014" media="(prefers-color-scheme: dark)">
+  <meta name="format-detection" content="telephone=no">
+
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
   <link rel="apple-touch-icon" href="icons/icon-180.png">
-  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Cardiac MCQ">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <style>
-    :root { --bg: #ffffff; --fg: #1d1d1f; --muted: #6e6e73; --accent: #b01e2d; --card: #f5f5f7; }
-    @media (prefers-color-scheme: dark) {
-      :root { --bg: #000000; --fg: #f5f5f7; --muted: #a1a1a6; --card: #1c1c1e; }
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
-      padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
-      background: var(--bg); color: var(--fg);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Tahoma, sans-serif;
-      text-align: center;
-    }
-    main { max-width: 420px; width: 100%; }
-    img { width: 96px; height: 96px; border-radius: 22px; }
-    h1 { font-size: 1.6rem; margin: 16px 0 8px; }
-    p { color: var(--muted); line-height: 1.6; margin: 8px 0; }
-    ul { list-style: none; padding: 0; margin: 20px 0 0; }
-    li { background: var(--card); border-radius: 12px; padding: 12px 16px; margin: 8px 0; display: flex; justify-content: space-between; gap: 12px; }
-    .ok { color: #1f8a3b; font-weight: 600; }
-    .no { color: var(--accent); font-weight: 600; }
-  </style>
+
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/shell.css">
+  <link rel="stylesheet" href="css/explanation.css">
+  <link rel="stylesheet" href="css/annotate.css">
+  <link rel="stylesheet" href="css/screen-player.css">
+  <link rel="stylesheet" href="css/screen-home.css">
+  <link rel="stylesheet" href="css/screen-misc.css">
+
+  <!-- Fetch the startup modules in parallel instead of one import at a time. -->
+  <link rel="modulepreload" href="js/app.js">
+  <link rel="modulepreload" href="js/core/events.js">
+  <link rel="modulepreload" href="js/core/dom.js">
+  <link rel="modulepreload" href="js/core/util.js">
+  <link rel="modulepreload" href="js/core/settings.js">
+  <link rel="modulepreload" href="js/core/router.js">
+  <link rel="modulepreload" href="js/core/store/db.js">
+  <link rel="modulepreload" href="js/core/store/repo.js">
+  <link rel="modulepreload" href="js/ui/icons.js">
+  <link rel="modulepreload" href="js/ui/components.js">
+  <link rel="modulepreload" href="js/ui/shell.js">
+
+  <noscript><style>.boot { display: none !important; }</style></noscript>
+
+  <script type="module" src="js/app.js"></script>
 </head>
-<body>
-  <main>
-    <img src="icons/icon-192.png" alt="">
-    <h1>تجربة التثبيت</h1>
-    <p>صفحة اختبار فقط. التطبيق الحقيقي لم يُبنَ بعد.</p>
-    <ul>
-      <li><span>يعمل كتطبيق مثبّت</span><span id="standalone">…</span></li>
-      <li><span>العمل بدون إنترنت</span><span id="offline">…</span></li>
-      <li><span>الاتصال الآن</span><span id="online">…</span></li>
-    </ul>
-    <p style="margin-top:20px;font-size:.85rem">test v1</p>
-  </main>
-  <script>
-    function set(id, ok, yes, no) {
-      var el = document.getElementById(id);
-      el.textContent = ok ? yes : no;
-      el.className = ok ? 'ok' : 'no';
-    }
-    var standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-    set('standalone', standalone, 'نعم', 'لا (متصفح)');
-    function updateOnline() { set('online', navigator.onLine, 'متصل', 'غير متصل'); }
-    updateOnline();
-    window.addEventListener('online', updateOnline);
-    window.addEventListener('offline', updateOnline);
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').then(function () {
-        return navigator.serviceWorker.ready;
-      }).then(function () {
-        set('offline', true, 'جاهز', '');
-      }).catch(function () {
-        set('offline', false, '', 'غير جاهز');
-      });
-    } else {
-      set('offline', false, '', 'غير مدعوم');
-    }
-  </script>
+<body aria-busy="true">
+  <button type="button" class="skip-link">Skip to content</button>
+
+  <div id="boot" class="boot">
+    <div class="boot-logo" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+        <path d="M12 20.2 4.9 13.1a4.6 4.6 0 0 1 6.5-6.5l.6.6.6-.6a4.6 4.6 0 0 1 6.5 6.5z" fill="currentColor" fill-opacity="0.16"/>
+        <path d="M2.8 12.6h4.3l1.6-2.6 2.2 5 2.1-6.4 1.7 4h6.5"/>
+      </svg>
+    </div>
+    <p class="boot-name">Cardiac MCQ</p>
+    <p class="boot-tagline">Cardiac surgery board review</p>
+    <p class="boot-slow">Still loading… <a href="./">Reload</a> or reopen the app.</p>
+  </div>
+
+  <header id="app-header" class="app-header"></header>
+
+  <nav id="tabbar" class="tabbar" aria-label="Main">
+    <a class="tab" href="#/" data-route="/" data-icon="home"><span class="tab-icon" aria-hidden="true"></span><span class="tab-label">Home</span></a>
+    <a class="tab" href="#/library" data-route="/library" data-icon="library"><span class="tab-icon" aria-hidden="true"></span><span class="tab-label">Library</span></a>
+    <a class="tab" href="#/stats" data-route="/stats" data-icon="stats"><span class="tab-icon" aria-hidden="true"></span><span class="tab-label">Stats</span></a>
+    <a class="tab" href="#/search" data-route="/search" data-icon="search"><span class="tab-icon" aria-hidden="true"></span><span class="tab-label">Search</span></a>
+    <a class="tab" href="#/settings" data-route="/settings" data-icon="settings"><span class="tab-icon" aria-hidden="true"></span><span class="tab-label">Settings</span></a>
+  </nav>
+
+  <div id="banner-slot" class="banner-slot" aria-live="polite"></div>
+
+  <main id="main" tabindex="-1"></main>
+
+  <div id="toast-slot" class="toast-slot" aria-live="polite"></div>
+  <div id="sheet-slot"></div>
+
+  <noscript>
+    <div class="noscript">
+      <h1>Cardiac MCQ</h1>
+      <p>This app needs JavaScript. Please turn it on in your browser settings, then reload the page.</p>
+    </div>
+  </noscript>
 </body>
 </html>

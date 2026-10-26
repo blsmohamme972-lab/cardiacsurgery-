@@ -88,15 +88,15 @@ js/
     library.js stats.js search.js settings.js reviewer.js
 
 data/
-  index.json               Chapter list.
+  index.json               Parts + chapters (+ demo) with published flags.
   retired.json             Retired question IDs (never reuse).
-  ch01-cpb.json ... ch13-trauma.json, demo.json
+  ch01.json ... ch55.json, demo.json
 
 scripts/                   Dev-only (Node 20+, no dependencies). Never loaded by the app.
   validate.mjs             Validates data + precache list + version consistency. Exit 1 on error.
   bump-version.mjs         Sets a new version in sw.js and js/version.js.
 tests/                     Dev-only.
-  unit/*.test.mjs          Node unit tests for pure modules (node:test + node:assert). Run: node --test tests/unit/
+  unit/*.test.mjs          Node unit tests for pure modules (node:test + node:assert). Run: node --test tests/unit/*.test.mjs
   e2e.mjs                  Playwright end-to-end tests (uses the pre-installed playwright).
   serve.mjs                Tiny static file server used by e2e (serves repo under /cardiacsurgery-/).
 docs/ARCHITECTURE.md       This file.
@@ -106,36 +106,107 @@ docs/ARCHITECTURE.md       This file.
 
 ### 3.1 `data/index.json`
 
+The book structure (owner-provided table of contents, 2026-10-26): **7 parts, 55 chapters**.
+It replaces the earlier 13-chapter plan. Every chapter starts **unpublished** and
+is **completely hidden** in the app (home, chapter list, builder, stats, search,
+library counts) until the owner approves it and `published` is set to `true`.
+A part is hidden while it has no published chapter. The demo chapter is always
+loadable, but only offered on Home when no real chapter is published (and from
+Settings > Help at any time).
+
 ```json
 {
   "schemaVersion": 1,
+  "parts": [ { "id": "p1", "number": "I", "title": "General Considerations", "volume": 1 } ],
   "chapters": [
-    { "id": "cpb", "prefix": "CPB", "title": "CPB & myocardial protection",
-      "short": "CPB", "file": "data/ch01-cpb.json", "order": 1, "count": 0 }
-  ]
+    { "id": "ch01", "number": 1, "part": "p1", "prefix": "CH01", "title": "Anatomy and Dimensions",
+      "file": "data/ch01.json", "page": 1, "published": false, "count": 0 }
+  ],
+  "demo": { "id": "demo", "prefix": "DEMO", "title": "App tour (demo)", "file": "data/demo.json", "count": 10 }
 }
 ```
 
-Chapters, ids, prefixes and files (fixed):
+- `page` = first page of the chapter in the owner's book (used in source references).
+- `count` must equal the number of questions in the file (validated).
+- `data.js`: `loadIndex()` exposes `parts`, `chapters` (published only, sorted by number)
+  and `demo`; `loadIndex({ includeUnpublished: true })` is for dev tools only.
+  `getQuestion()` of an unpublished chapter returns `null`. Builder, stats, search
+  and home only ever see published chapters (+ demo where documented).
+- The service worker precaches only published chapter files + demo.
+- To publish a chapter: set `"published": true`, bump the version, validate, push.
 
-| order | id | prefix | file | title |
-|---|---|---|---|---|
-| 1 | cpb | CPB | data/ch01-cpb.json | CPB & myocardial protection |
-| 2 | cabg | CABG | data/ch02-cabg.json | CABG |
-| 3 | valves | VALV | data/ch03-valves.json | Valves |
-| 4 | aorta | AORT | data/ch04-aorta.json | Aorta |
-| 5 | congenital | CONG | data/ch05-congenital.json | Congenital |
-| 6 | hf | HFTX | data/ch06-hf-vad-tx.json | HF/VAD/transplant |
-| 7 | arrhythmia | ARRH | data/ch07-arrhythmia.json | Arrhythmia surgery |
-| 8 | pericardium | PERI | data/ch08-pericardium-tumors.json | Pericardium & tumors |
-| 9 | thoracic | THOR | data/ch09-thoracic.json | Thoracic basics |
-| 10 | icu | ICU | data/ch10-postop-icu.json | Postop ICU |
-| 11 | anatomy | ANAT | data/ch11-anatomy-physiology.json | Anatomy & physiology |
-| 12 | pharm | PHAR | data/ch12-pharmacology.json | Pharmacology |
-| 13 | trauma | TRAU | data/ch13-trauma.json | Trauma |
-| 99 | demo | DEMO | data/demo.json | App tour (demo) — has `"demo": true` |
+Parts (fixed):
 
-`count` must equal the number of questions in the file (validated).
+| id | number | volume | title |
+|---|---|---|---|
+| p1 | I | 1 | General Considerations |
+| p2 | II | 1 | Ischemic Heart Disease |
+| p3 | III | 1 | Acquired Valvar Heart Disease |
+| p4 | IV | 1 | Other Cardiac Conditions |
+| p5 | V | 1 | Advanced Heart Failure |
+| p6 | VI | 1 | Diseases of the Thoracic Arteries and Veins |
+| p7 | VII | 2 | Congenital Heart Disease |
+
+Chapters (fixed; ids, prefixes and files never change):
+
+| # | id | prefix | file | part | title | page |
+|---|---|---|---|---|---|---|
+| 1 | ch01 | CH01 | data/ch01.json | p1 | Anatomy and Dimensions | 1 |
+| 2 | ch02 | CH02 | data/ch02.json | p1 | Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass | 28 |
+| 3 | ch03 | CH03 | data/ch03.json | p1 | Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass | 84 |
+| 4 | ch04 | CH04 | data/ch04.json | p1 | Anesthesia and Postoperative Care | 105 |
+| 5 | ch05 | CH05 | data/ch05.json | p1 | Cardiac Reoperations: Considerations and Techniques | 186 |
+| 6 | ch06 | CH06 | data/ch06.json | p1 | Cardiac Imaging | 200 |
+| 7 | ch07 | CH07 | data/ch07.json | p1 | Generating Knowledge from Information, Data, and Analyses | 235 |
+| 8 | ch08 | CH08 | data/ch08.json | p1 | Quality Assurance | 353 |
+| 9 | ch09 | CH09 | data/ch09.json | p2 | Stenotic Arteriosclerotic Coronary Artery Disease | 384 |
+| 10 | ch10 | CH10 | data/ch10.json | p2 | Acute and Chronic Complications of Myocardial Infarction | 464 |
+| 11 | ch11 | CH11 | data/ch11.json | p3 | Mitral Valve Disease | 500 |
+| 12 | ch12 | CH12 | data/ch12.json | p3 | Aortic Valve | 552 |
+| 13 | ch13 | CH13 | data/ch13.json | p3 | Tricuspid Valve Disease | 637 |
+| 14 | ch14 | CH14 | data/ch14.json | p3 | Infective Endocarditis | 649 |
+| 15 | ch15 | CH15 | data/ch15.json | p4 | Cardiac Rhythm Disturbances | 685 |
+| 16 | ch16 | CH16 | data/ch16.json | p4 | Cardiac Trauma | 724 |
+| 17 | ch17 | CH17 | data/ch17.json | p4 | Cardiac Tumor | 732 |
+| 18 | ch18 | CH18 | data/ch18.json | p4 | Pericardial Disease | 748 |
+| 19 | ch19 | CH19 | data/ch19.json | p4 | Obstructive Hypertrophic Cardiomyopathy | 763 |
+| 20 | ch20 | CH20 | data/ch20.json | p5 | Mechanical Circulatory Support | 787 |
+| 21 | ch21 | CH21 | data/ch21.json | p5 | Cardiac Transplantation | 829 |
+| 22 | ch22 | CH22 | data/ch22.json | p6 | Acute Aortic Dissection | 898 |
+| 23 | ch23 | CH23 | data/ch23.json | p6 | Chronic Thoracic and Thoracoabdominal Aortic Disease | 927 |
+| 24 | ch24 | CH24 | data/ch24.json | p6 | Acute Traumatic Aortic Disruption | 971 |
+| 25 | ch25 | CH25 | data/ch25.json | p6 | Diseases of the Pulmonary Arteries and Systemic Veins | 986 |
+| 26 | ch26 | CH26 | data/ch26.json | p7 | Anatomic Considerations in Congenital Heart Disease | 1013 |
+| 27 | ch27 | CH27 | data/ch27.json | p7 | Nomenclature for Congenital Heart Disease | 1024 |
+| 28 | ch28 | CH28 | data/ch28.json | p7 | Patent Ductus Arteriosus | 1030 |
+| 29 | ch29 | CH29 | data/ch29.json | p7 | Atrial Septal Defect, Partial Anomalous Pulmonary Venous Connection, Unroofed Coronary Sinus | 1044 |
+| 30 | ch30 | CH30 | data/ch30.json | p7 | Total Anomalous Pulmonary Venous Connection | 1079 |
+| 31 | ch31 | CH31 | data/ch31.json | p7 | Cor Triatriatum | 1105 |
+| 32 | ch32 | CH32 | data/ch32.json | p7 | Atrioventricular Septal Defect | 1114 |
+| 33 | ch33 | CH33 | data/ch33.json | p7 | Ventricular Septal Defect | 1164 |
+| 34 | ch34 | CH34 | data/ch34.json | p7 | Ventricular Septal Defect with Pulmonary Stenosis | 1212 |
+| 35 | ch35 | CH35 | data/ch35.json | p7 | Ventricular Septal Defect with Pulmonary Atresia | 1288 |
+| 36 | ch36 | CH36 | data/ch36.json | p7 | Pulmonary Stenosis or Atresia with Intact Ventricular Septum | 1318 |
+| 37 | ch37 | CH37 | data/ch37.json | p7 | Congenital Sinus of Valsalva Aneurysm and Aortico Ventricular Tunnel | 1347 |
+| 38 | ch38 | CH38 | data/ch38.json | p7 | Congenital Anomalies of the Coronary Arteries | 1363 |
+| 39 | ch39 | CH39 | data/ch39.json | p7 | Vascular Rings and Pulmonary Artery Sling | 1397 |
+| 40 | ch40 | CH40 | data/ch40.json | p7 | Coarctation of the Aorta and Interrupted Aortic Arch | 1415 |
+| 41 | ch41 | CH41 | data/ch41.json | p7 | Aortopulmonary Window | 1468 |
+| 42 | ch42 | CH42 | data/ch42.json | p7 | Origin of the Right or Left Pulmonary Artery from the Ascending Aorta | 1476 |
+| 43 | ch43 | CH43 | data/ch43.json | p7 | Truncus Arteriosus | 1483 |
+| 44 | ch44 | CH44 | data/ch44.json | p7 | Transposition of the Great Arteries | 1509 |
+| 45 | ch45 | CH45 | data/ch45.json | p7 | Double Outlet Right Ventricle | 1562 |
+| 46 | ch46 | CH46 | data/ch46.json | p7 | Double Outlet Left Ventricle | 1587 |
+| 47 | ch47 | CH47 | data/ch47.json | p7 | Congenitally Corrected Transposition of the Great Arteries, Other Forms of Atrioventricular Discordant Connection, and Anatomically Corrected Malposition of the Great Arteries | 1596 |
+| 48 | ch48 | CH48 | data/ch48.json | p7 | Ebstein Anomaly | 1635 |
+| 49 | ch49 | CH49 | data/ch49.json | p7 | Congenital and Pediatric Mitral Valve Disease | 1666 |
+| 50 | ch50 | CH50 | data/ch50.json | p7 | Congenital Aortic Stenosis | 1685 |
+| 51 | ch51 | CH51 | data/ch51.json | p7 | Hypoplastic Left Heart Syndrome | 1723 |
+| 52 | ch52 | CH52 | data/ch52.json | p7 | Functional Single Ventricle | 1756 |
+| 53 | ch53 | CH53 | data/ch53.json | p7 | Heterotaxy | 1833 |
+| 54 | ch54 | CH54 | data/ch54.json | p7 | Congenital Heart Disease in the Adult | 1846 |
+| 55 | ch55 | CH55 | data/ch55.json | p7 | Congenital Heart Surgery in Low-Resource Settings | 1941 |
+| — | demo | DEMO | data/demo.json | — | App tour (demo): questions about using the app, `"demo": true` | — |
 
 ### 3.2 Chapter file
 
@@ -666,7 +737,8 @@ Replace: clears every store first (after the user confirms). Import never touche
 
 - **Home**: greeting line, "Continue" card for the latest unfinished session (progress, mode), "Due for review" card
   (count, one tap to start), quick actions (Practice 20, Exam, Mistakes, Bookmarks — each one tap, uses defaults),
-  "Build custom quiz", chapter list with progress rings and counts ("Coming soon" when 0), demo card when the real bank is empty.
+  "Build custom quiz", **published** chapters grouped by part with progress rings and counts (unpublished chapters and empty parts
+  are never shown), demo card when no chapter is published.
 - **Chapter**: title, progress, accuracy, topics list, buttons: Practice (tutor), Exam, Mistakes in this chapter.
 - **Builder**: chapters (multi-select chips, "All"), filter (segmented), count (10/20/40/All + custom), mode
   (Practice: explanation after each answer / Exam: timed, results at the end), shuffle; live "N questions available";
@@ -693,7 +765,7 @@ Replace: clears every store first (after the user confirms). Import never touche
 
 ## 9. Testing
 
-- `node --test tests/unit/` — pure modules (one `*.test.mjs` file per module area): inline parser, anchor, srs, builder filterQids, engine reducers/summarize,
+- `node --test tests/unit/*.test.mjs` — pure modules (one `*.test.mjs` file per module area): inline parser, anchor, srs, builder filterQids, engine reducers/summarize,
   search tokenize/index/query, util, askgpt buildPrompt.
 - `node tests/e2e.mjs` — starts `tests/serve.mjs`, runs Chromium (phone and iPad viewports): boots offline-capable,
   home renders, demo practice flow (answer, explanation blocks render), bookmark persists across reload,

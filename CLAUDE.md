@@ -11,9 +11,10 @@ A cardiac surgery MCQ (multiple-choice question) study app for board-level exam 
 
 **Building v1** (owner said "start building", 2026-10-26). The full design
 contract is in `docs/ARCHITECTURE.md` — read it before touching code, and keep
-it in sync with any contract change.
+it in sync with any contract change. **Current progress and next steps:
+`docs/HANDOFF.md`** (update it whenever you stop mid-build).
 
-The question chapters are **empty** until the owner provides source material.
+The 55 book chapters are **empty and hidden** until the owner provides source material.
 `data/demo.json` holds an "App tour (demo)" chapter whose questions are about
 using the app (no medical facts), so every feature can be tried now.
 
@@ -33,6 +34,7 @@ iPad/iPhone not tested yet.
   sources). User-added images are not in v1.
 - **Board**: general cardiac surgery board level; no single board's format is assumed.
 - **Sources**: the owner uploads them in the chat (PDF or text). They are not committed.
+- **Content comes later.** The owner said: build the app first; chapter content starts afterwards.
 
 ## Communication
 
@@ -197,19 +199,77 @@ Questions are made with a **highly precise, rigorous process**, not freehand wri
 
 ## Chapters
 
-1. CPB & myocardial protection
-2. CABG
-3. Valves
-4. Aorta
-5. Congenital
-6. HF/VAD/transplant
-7. Arrhythmia surgery
-8. Pericardium & tumors
-9. Thoracic basics
-10. Postop ICU
-11. Anatomy & physiology
-12. Pharmacology
-13. Trauma
+The owner's book table of contents: **7 parts, 55 chapters** (full table with
+ids, prefixes, files and pages in `docs/ARCHITECTURE.md` §3.1). This replaces the
+earlier 13-chapter plan.
+
+- **Every chapter is hidden until it is complete.** A chapter appears in the app
+  only when the owner approves it and its `published` flag is set to `true`.
+  A part is hidden until one of its chapters is published.
+- Question IDs follow the book chapter: `CH22-0001` = chapter 22.
+
+- **Part I: General Considerations**
+  1. Anatomy and Dimensions
+  2. Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass
+  3. Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass
+  4. Anesthesia and Postoperative Care
+  5. Cardiac Reoperations: Considerations and Techniques
+  6. Cardiac Imaging
+  7. Generating Knowledge from Information, Data, and Analyses
+  8. Quality Assurance
+- **Part II: Ischemic Heart Disease**
+  9. Stenotic Arteriosclerotic Coronary Artery Disease
+  10. Acute and Chronic Complications of Myocardial Infarction
+- **Part III: Acquired Valvar Heart Disease**
+  11. Mitral Valve Disease
+  12. Aortic Valve
+  13. Tricuspid Valve Disease
+  14. Infective Endocarditis
+- **Part IV: Other Cardiac Conditions**
+  15. Cardiac Rhythm Disturbances
+  16. Cardiac Trauma
+  17. Cardiac Tumor
+  18. Pericardial Disease
+  19. Obstructive Hypertrophic Cardiomyopathy
+- **Part V: Advanced Heart Failure**
+  20. Mechanical Circulatory Support
+  21. Cardiac Transplantation
+- **Part VI: Diseases of the Thoracic Arteries and Veins**
+  22. Acute Aortic Dissection
+  23. Chronic Thoracic and Thoracoabdominal Aortic Disease
+  24. Acute Traumatic Aortic Disruption
+  25. Diseases of the Pulmonary Arteries and Systemic Veins
+- **Part VII: Congenital Heart Disease** (Volume 2)
+  26. Anatomic Considerations in Congenital Heart Disease
+  27. Nomenclature for Congenital Heart Disease
+  28. Patent Ductus Arteriosus
+  29. Atrial Septal Defect, Partial Anomalous Pulmonary Venous Connection, Unroofed Coronary Sinus
+  30. Total Anomalous Pulmonary Venous Connection
+  31. Cor Triatriatum
+  32. Atrioventricular Septal Defect
+  33. Ventricular Septal Defect
+  34. Ventricular Septal Defect with Pulmonary Stenosis
+  35. Ventricular Septal Defect with Pulmonary Atresia
+  36. Pulmonary Stenosis or Atresia with Intact Ventricular Septum
+  37. Congenital Sinus of Valsalva Aneurysm and Aortico Ventricular Tunnel
+  38. Congenital Anomalies of the Coronary Arteries
+  39. Vascular Rings and Pulmonary Artery Sling
+  40. Coarctation of the Aorta and Interrupted Aortic Arch
+  41. Aortopulmonary Window
+  42. Origin of the Right or Left Pulmonary Artery from the Ascending Aorta
+  43. Truncus Arteriosus
+  44. Transposition of the Great Arteries
+  45. Double Outlet Right Ventricle
+  46. Double Outlet Left Ventricle
+  47. Congenitally Corrected Transposition of the Great Arteries, Other Forms of Atrioventricular Discordant Connection, and Anatomically Corrected Malposition of the Great Arteries
+  48. Ebstein Anomaly
+  49. Congenital and Pediatric Mitral Valve Disease
+  50. Congenital Aortic Stenosis
+  51. Hypoplastic Left Heart Syndrome
+  52. Functional Single Ventricle
+  53. Heterotaxy
+  54. Congenital Heart Disease in the Adult
+  55. Congenital Heart Surgery in Low-Resource Settings
 
 ## Progress storage
 

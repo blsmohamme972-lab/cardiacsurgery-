@@ -111,9 +111,10 @@ const APPEARANCE_KEYS = new Set(['theme', 'fontScale', 'reduceMotion']);
 const values = { ...DEFAULTS };
 /** @type {Promise<Record<string, any>> | null} */
 let initPromise = null;
-let initialized = false;
-/** Keys set before init finished: the stored copy must not overwrite them. */
-const touchedBeforeInit = new Set();
+/** Max time the first screen waits for saved settings. */
+const INIT_TIMEOUT_MS = 2500;
+/** Keys set by setSetting() this session: a (late) stored copy must not overwrite them. */
+const touched = new Set();
 /** Keys currently being written by this module (to ignore our own store:change echo). */
 const ownWrites = new Map();
 
@@ -288,6 +289,25 @@ async function reloadFromStore(key) {
 }
 
 /**
+ * Applies saved settings that arrived after init gave up waiting.
+ * @param {Record<string, any>} stored
+ */
+function applyLateLoad(stored) {
+  /** @type {string[]} */
+  const changedKeys = [];
+  for (const [key, value] of Object.entries(stored || {})) {
+    if (touched.has(key)) continue;
+    const next = fromStorage(key, value);
+    if (!sameValue(values[key], next)) {
+      values[key] = next;
+      changedKeys.push(key);
+    }
+  }
+  if (changedKeys.some((k) => APPEARANCE_KEYS.has(k))) applySettings();
+  for (const k of changedKeys) bus.emit('settings:change', { key: k, value: values[k], source: 'store' });
+}
+
+/**
  * Loads saved settings (invalid values fall back to defaults), applies them,
  * and starts following OS theme / motion changes. Never rejects: if storage
  * is unavailable, defaults are used in memory. Safe to call more than once.
@@ -296,18 +316,29 @@ async function reloadFromStore(key) {
 export function initSettings() {
   if (initPromise) return initPromise;
   initPromise = (async () => {
+    const TIMED_OUT = Symbol('timeout');
+    const load = settingsRepo.all();
     try {
-      const stored = await settingsRepo.all();
-      for (const [key, value] of Object.entries(stored)) {
-        if (touchedBeforeInit.has(key)) continue;
-        values[key] = fromStorage(key, value);
+      const stored = await Promise.race([
+        load,
+        new Promise((resolve) => setTimeout(() => resolve(TIMED_OUT), INIT_TIMEOUT_MS)),
+      ]);
+      if (stored === TIMED_OUT) {
+        // A slow/hung database must not hold the first screen. Start with
+        // defaults and apply the saved values when they arrive.
+        // eslint-disable-next-line no-console
+        console.warn('[settings] Saved settings are slow to load; starting with defaults.');
+        load.then(applyLateLoad, () => {});
+      } else {
+        for (const [key, value] of Object.entries(/** @type {Record<string, any>} */ (stored))) {
+          if (touched.has(key)) continue;
+          values[key] = fromStorage(key, value);
+        }
       }
     } catch (err) {
       // eslint-disable-next-line no-console
       console.warn('[settings] Could not load saved settings; using defaults.', err);
     }
-    initialized = true;
-    touchedBeforeInit.clear();
     watchSystem();
     bus.on('store:change', (payload) => {
       if (!payload || payload.store !== 'settings') return;
@@ -359,7 +390,7 @@ export async function setSetting(key, value) {
   } else if (next === undefined) {
     throw new TypeError(`setSetting: value for "${key}" is undefined`);
   }
-  if (!initialized) touchedBeforeInit.add(key);
+  touched.add(key);
   if (sameValue(values[key], next)) return true;
 
   values[key] = next;

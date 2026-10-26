@@ -1,0 +1,1064 @@
+{
+  "schemaVersion": 1,
+  "chapter": "demo",
+  "questions": [
+    {
+      "id": "DEMO-0001",
+      "version": 1,
+      "topic": "Study modes",
+      "tags": [
+        "exam",
+        "practice"
+      ],
+      "difficulty": 1,
+      "reviewed": true,
+      "demo": true,
+      "stem": "You want a **timed** test that keeps every answer hidden until you tap _Finish_. Which mode do you pick?",
+      "choices": [
+        {
+          "id": "a",
+          "text": "Practice mode"
+        },
+        {
+          "id": "b",
+          "text": "Exam mode"
+        },
+        {
+          "id": "c",
+          "text": "Browse mode (opened from Search or Library)"
+        },
+        {
+          "id": "d",
+          "text": "Due for review"
+        },
+        {
+          "id": "e",
+          "text": "Mistakes"
+        }
+      ],
+      "answer": "b",
+      "explanation": [
+        {
+          "id": "two-modes",
+          "type": "heading",
+          "text": "Two ways to answer"
+        },
+        {
+          "id": "difference",
+          "type": "p",
+          "text": "Both modes use the same questions. The only real difference is ==when you see the answer==."
+        },
+        {
+          "id": "compare",
+          "type": "table",
+          "caption": "Practice vs Exam",
+          "head": [
+            "",
+            "Practice",
+            "Exam"
+          ],
+          "rows": [
+            [
+              "Answer shown",
+              "Right after each tap",
+              "Only after _Finish_"
+            ],
+            [
+              "Change your choice",
+              "No, locked once tapped",
+              "Yes, until you finish"
+            ],
+            [
+              "Time limit",
+              "None",
+              "90 s per question by default"
+            ],
+            [
+              "Explanation",
+              "Slides in below the question",
+              "In the results review"
+            ],
+            [
+              "Best for",
+              "Learning a topic",
+              "Testing yourself under pressure"
+            ]
+          ],
+          "emphasis": {
+            "col": 2
+          }
+        },
+        {
+          "id": "mix",
+          "type": "callout",
+          "kind": "pearl",
+          "title": "Use both",
+          "text": "Learn a chapter in **Practice**, then check yourself with an **Exam** a few days later."
+        },
+        {
+          "id": "time-setting",
+          "type": "p",
+          "text": "To change the time per question: _Settings_ -> _Study_ -> **Exam seconds per question**."
+        }
+      ],
+      "choiceNotes": {
+        "a": "Practice shows the answer and the explanation **right after each tap**. Great for learning, not for testing.",
+        "b": "Exam mode is timed and keeps answers hidden until you finish the set.",
+        "c": "Browse mode opens a question with the answer **already shown**.",
+        "d": "_Due for review_ starts a practice set of the questions your review schedule says are due.",
+        "e": "_Mistakes_ starts a practice set of questions you answered wrong before."
+      },
+      "source": [
+        {
+          "ref": "Cardiac MCQ app guide",
+          "loc": "Demo"
+        }
+      ]
+    },
+    {
+      "id": "DEMO-0002",
+      "version": 1,
+      "topic": "Annotations",
+      "tags": [
+        "highlights",
+        "privacy"
+      ],
+      "difficulty": 1,
+      "reviewed": false,
+      "demo": true,
+      "stem": "You highlight a key line in an explanation. **Where** is that highlight saved?",
+      "choices": [
+        {
+          "id": "a",
+          "text": "In your Google or Apple account, synced to the cloud"
+        },
+        {
+          "id": "b",
+          "text": "On the app's server, so it follows you everywhere"
+        },
+        {
+          "id": "c",
+          "text": "Nowhere: highlights vanish when you close the app"
+        },
+        {
+          "id": "d",
+          "text": "On this device only, in the app's own storage"
+        },
+        {
+          "id": "e",
+          "text": "Inside the question file that came with the app"
+        }
+      ],
+      "answer": "d",
+      "explanation": [
+        {
+          "id": "stay",
+          "type": "heading",
+          "text": "Your marks stay with you"
+        },
+        {
+          "id": "storage",
+          "type": "p",
+          "text": "Highlights, notes, ink and voice notes are saved in the browser's ==on-device storage== (`IndexedDB`). Nothing is uploaded, and there is no account to create."
+        },
+        {
+          "id": "anchor",
+          "type": "list",
+          "items": [
+            "Each highlight is saved with the **question ID**, which never changes.",
+            {
+              "text": "It also remembers _where_ it sits:",
+              "items": [
+                "the block it belongs to: the question, a choice, or one explanation block",
+                "the exact words you marked",
+                "a few words before and after, as a backup clue"
+              ]
+            },
+            "And its **color**: yellow, green, blue or pink."
+          ]
+        },
+        {
+          "id": "survive",
+          "type": "callout",
+          "kind": "key",
+          "title": "Anchored to words, not pixels",
+          "text": "Highlights stay in place after rotation, a bigger font or an app update. If an updated question no longer has your words, the app lists those highlights for you instead of dropping them."
+        },
+        {
+          "id": "one-device",
+          "type": "callout",
+          "kind": "pitfall",
+          "title": "One device only",
+          "text": "Clearing the browser's site data or removing the app also removes your marks. Export a backup first: _Settings_ -> _Data_."
+        }
+      ],
+      "choiceNotes": {
+        "a": "The app has **no accounts** and no cloud sync.",
+        "b": "There is **no server**. The app is a set of files that runs on your device.",
+        "c": "Highlights save **instantly** and stay until you remove them.",
+        "d": "Everything you add stays on this device, and only you can see it.",
+        "e": "Question files are read-only and get replaced by updates. Your marks are kept apart, so updates never touch them."
+      },
+      "source": [
+        {
+          "ref": "Cardiac MCQ app guide",
+          "loc": "Demo"
+        }
+      ]
+    },
+    {
+      "id": "DEMO-0003",
+      "version": 1,
+      "topic": "Data & updates",
+      "tags": [
+        "backup",
+        "new phone"
+      ],
+      "difficulty": 2,
+      "reviewed": false,
+      "demo": true,
+      "stem": "You are moving to a **new phone**. How do you bring your progress, notes and highlights with you?",
+      "choices": [
+        {
+          "id": "a",
+          "text": "Export a backup file, then import it on the new phone"
+        },
+        {
+          "id": "b",
+          "text": "Sign in with the same account on the new phone"
+        },
+        {
+          "id": "c",
+          "text": "Just install the app again; progress syncs by itself"
+        },
+        {
+          "id": "d",
+          "text": "Take screenshots of your statistics"
+        },
+        {
+          "id": "e",
+          "text": "Copy the app's question files to the new phone"
+        }
+      ],
+      "answer": "a",
+      "explanation": [
+        {
+          "id": "steps-title",
+          "type": "heading",
+          "text": "Move in four steps"
+        },
+        {
+          "id": "steps",
+          "type": "list",
+          "ordered": true,
+          "items": [
+            "Old phone: _Settings_ -> _Data_ -> **Export backup**.",
+            "Choose **with media** to include voice notes, or without to keep the file small.",
+            "Send the file to yourself (AirDrop, email or a cloud drive).",
+            "New phone: _Settings_ -> _Data_ -> **Import**, then pick the file."
+          ]
+        },
+        {
+          "id": "import-flow",
+          "type": "flow",
+          "title": "What happens on import",
+          "steps": [
+            {
+              "text": "You pick the backup file"
+            },
+            {
+              "label": "opens",
+              "text": "The app checks the file and shows what is inside"
+            },
+            {
+              "label": "looks good",
+              "text": "You choose how to import"
+            },
+            {
+              "branches": [
+                {
+                  "label": "Merge",
+                  "text": "Keeps both: for each item, the newer copy wins"
+                },
+                {
+                  "label": "Replace",
+                  "text": "Clears this device first, then restores the file"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "replace-warning",
+          "type": "callout",
+          "kind": "pitfall",
+          "title": "Replace means replace",
+          "text": "_Replace_ wipes everything on this device before restoring, so the app asks you to confirm. When unsure, pick **Merge**."
+        },
+        {
+          "id": "file-name",
+          "type": "p",
+          "text": "The file is named like `cardiac-mcq-backup-2026-10-26.json`. It works across devices too: iPad <-> phone, Android <-> iPhone."
+        }
+      ],
+      "choiceNotes": {
+        "a": "One file carries everything, and it never leaves your hands.",
+        "b": "There are no accounts. That is part of what keeps your data private.",
+        "c": "Nothing syncs on its own. A fresh install starts empty.",
+        "d": "Screenshots can't be imported. A backup file restores everything.",
+        "e": "Question files come with every install. Your **progress** lives elsewhere, and the backup is how you move it."
+      },
+      "source": [
+        {
+          "ref": "Cardiac MCQ app guide",
+          "loc": "Demo"
+        }
+      ]
+    },
+    {
+      "id": "DEMO-0004",
+      "version": 1,
+      "topic": "Data & updates",
+      "tags": [
+        "updates"
+      ],
+      "difficulty": 2,
+      "reviewed": false,
+      "demo": true,
+      "stem": "A banner says **Update available** and you tap _Update_. What happens to your notes, highlights and scores?",
+      "choices": [
+        {
+          "id": "a",
+          "text": "They are reset, so the new version starts clean"
+        },
+        {
+          "id": "b",
+          "text": "They are kept only if you exported a backup first"
+        },
+        {
+          "id": "c",
+          "text": "They are all kept; only the app's own files are replaced"
+        },
+        {
+          "id": "d",
+          "text": "They move to the cloud during the update"
+        }
+      ],
+      "answer": "c",
+      "explanation": [
+        {
+          "id": "safe",
+          "type": "heading",
+          "text": "Updates are safe"
+        },
+        {
+          "id": "rule",
+          "type": "quote",
+          "text": "User progress must survive updates. Never clear or overwrite progress storage when the service worker or cache changes.",
+          "ref": "Cardiac MCQ app guide, \"Updates\""
+        },
+        {
+          "id": "what-changes",
+          "type": "table",
+          "caption": "What an update touches",
+          "head": [
+            "Part",
+            "Stored in",
+            "On update"
+          ],
+          "rows": [
+            [
+              "Screens, styles and code",
+              "App cache",
+              "Replaced"
+            ],
+            [
+              "Questions and explanations",
+              "App cache",
+              "Replaced with new and fixed questions"
+            ],
+            [
+              "Your progress, notes, highlights, ink and voice notes",
+              "On-device storage",
+              "**Kept**, never touched"
+            ]
+          ],
+          "emphasis": {
+            "row": 2
+          }
+        },
+        {
+          "id": "later",
+          "type": "callout",
+          "kind": "key",
+          "title": "No rush",
+          "text": "_Update_ => the app reloads with the new version. _Later_ => keep studying; the update waits for you."
+        },
+        {
+          "id": "when",
+          "type": "p",
+          "text": "The app checks for a new version each time you open it while online. Offline, it simply runs the version you have."
+        }
+      ],
+      "choiceNotes": {
+        "a": "Updates never clear your data. That is a firm rule of this app.",
+        "b": "A backup is always wise, but an update does not need one.",
+        "c": "The app's files and your data are stored apart, so an update only swaps the app's files.",
+        "d": "Nothing goes to the cloud, ever."
+      },
+      "source": [
+        {
+          "ref": "Cardiac MCQ app guide",
+          "loc": "Demo"
+        }
+      ]
+    },
+    {
+      "id": "DEMO-0005",
+      "version": 1,
+      "topic": "Study modes",
+      "tags": [
+        "spaced repetition",
+        "review"
+      ],
+      "difficulty": 3,
+      "reviewed": false,
+      "demo": true,
+      "stem": "You answer a question **correctly** for the 1^st^ time. When will spaced repetition bring it back for review?",
+      "choices": [
+        {
+          "id": "a",
+          "text": "In 10 minutes"
+        },
+        {
+          "id": "b",
+          "text": "In 1 day"
+        },
+        {
+          "id": "c",
+          "text": "In 3 days"
+        },
+        {
+          "id": "d",
+          "text": "In about a week"
+        },
+        {
+          "id": "e",
+          "text": "Never; correct answers are done"
+        }
+      ],
+      "answer": "b",
+      "explanation": [
+        {
+          "id": "grow",
+          "type": "heading",
+          "text": "Gaps that grow"
+        },
+        {
+          "id": "idea",
+          "type": "p",
+          "text": "Each answer moves the question's next review date. Right answers ↑ the gap; a wrong answer ↓ it to minutes. ==You never grade yourself==: the app uses whether you were right and how long you took."
+        },
+        {
+          "id": "schedule",
+          "type": "table",
+          "caption": "Review schedule",
+          "head": [
+            "Your answer",
+            "Next review"
+          ],
+          "rows": [
+            [
+              "Wrong",
+              "In 10 minutes"
+            ],
+            [
+              "1^st^ correct",
+              "In 1 day"
+            ],
+            [
+              "2^nd^ correct in a row",
+              "In 3 days"
+            ],
+            [
+              "Each later correct answer",
+              "Last gap × ease"
+            ]
+          ],
+          "emphasis": {
+            "row": 1
+          }
+        },
+        {
+          "id": "example",
+          "type": "flow",
+          "title": "Example with the starting ease of 2.5",
+          "steps": [
+            {
+              "text": "Next review in **1 day**"
+            },
+            {
+              "label": "right",
+              "text": "**3 days**"
+            },
+            {
+              "label": "right",
+              "text": "**8 days** (3 × 2.5, rounded)"
+            },
+            {
+              "label": "wrong",
+              "text": "**10 minutes**, then the gaps start again"
+            }
+          ]
+        },
+        {
+          "id": "ease",
+          "type": "list",
+          "items": [
+            "Fast and right (under 20 s): ease **+0.05**, up to 3.0",
+            "Slow and right (over 90 s): ease **−0.05**",
+            "Wrong: ease **−0.2**, never below 1.3"
+          ]
+        },
+        {
+          "id": "daily",
+          "type": "callout",
+          "kind": "pearl",
+          "title": "Two minutes a day",
+          "text": "Tap **Due for review** on Home once a day. It is the fastest way to keep what you learned."
+        }
+      ],
+      "choiceNotes": {
+        "a": "10 minutes is for a **wrong** answer, so you see it again while it is fresh.",
+        "b": "The 1^st^ correct answer schedules the next review 1 day later.",
+        "c": "3 days comes after the 2^nd^ correct answer in a row.",
+        "d": "Longer gaps come later: from the 3^rd^ correct answer on, the gap grows by the question's _ease_.",
+        "e": "Every question keeps coming back, with longer and longer gaps."
+      },
+      "source": [
+        {
+          "ref": "Cardiac MCQ app guide",
+          "loc": "Demo"
+        }
+      ]
+    },
+    {
+      "id": "DEMO-0006",
+      "version": 1,
+      "topic": "Annotations",
+      "tags": [
+        "drawing",
+        "Apple Pencil",
+        "iPad"
+      ],
+      "difficulty": 2,
+      "reviewed": false,
+      "demo": true,
+      "stem": "You draw an arrow on an explanation table with Apple Pencil, then **rotate** your iPad. Where is the arrow now?",
+      "choices": [
+        {
+          "id": "a",
+          "text": "Gone: ink is cleared when the screen size changes"
+        },
+        {
+          "id": "b",
+          "text": "At the same spot on the screen, so it may now cover other text"
+        },
+        {
+          "id": "c",
+          "text": "Moved to the scratchpad"
+        },
+        {
+          "id": "d",
+          "text": "Saved as a picture in your photo library"
+        },
+        {
+          "id": "e",
+          "text": "On the same spot of the table, resized to fit"
+        }
+      ],
+      "answer": "e",
+      "explanation": [
+        {
+          "id": "sticks",
+          "type": "heading",
+          "text": "Ink that sticks to the content"
+        },
+        {
+          "id": "layers",
+          "type": "p",
+          "text": "Every explanation block has its own clear drawing layer. Each point of a stroke is saved as x~1~, y~1~, p~1~: the position as a **fraction** of the block's size, plus pen pressure. So `x = 0.5` means the middle of the block on any screen."
+        },
+        {
+          "id": "tools",
+          "type": "mindmap",
+          "center": "Draw tools",
+          "branches": [
+            {
+              "text": "Pen",
+              "children": [
+                "pressure-sensitive",
+                "6 colors",
+                "3 sizes"
+              ]
+            },
+            {
+              "text": "Highlighter",
+              "children": [
+                "wide",
+                "see-through"
+              ]
+            },
+            {
+              "text": "Eraser",
+              "children": [
+                "removes whole strokes"
+              ]
+            },
+            {
+              "text": "Undo / Redo",
+              "children": [
+                "also undoes Clear"
+              ]
+            },
+            {
+              "text": "Scratchpad",
+              "children": [
+                "full screen",
+                "pinch to zoom, 0.5–4×"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "palm",
+          "type": "callout",
+          "kind": "pearl",
+          "title": "Rest your hand",
+          "text": "Once the app sees your Apple Pencil, finger touches **scroll** instead of drawing. Two fingers always scroll."
+        },
+        {
+          "id": "start",
+          "type": "p",
+          "text": "Turn drawing on with the **Draw** button (or press `D` on a keyboard). The app remembers your last tool, color and size."
+        }
+      ],
+      "choiceNotes": {
+        "a": "Ink saves as you draw. Rotation never clears it.",
+        "b": "Ink is not tied to screen pixels. That is exactly what keeps it in place.",
+        "c": "The scratchpad is a separate full-screen page for rough work.",
+        "d": "Strokes are stored as small vector data inside the app, not as pictures.",
+        "e": "Each point is stored as a fraction of the block's width and height, so the drawing follows the table."
+      },
+      "source": [
+        {
+          "ref": "Cardiac MCQ app guide",
+          "loc": "Demo"
+        }
+      ]
+    },
+    {
+      "id": "DEMO-0007",
+      "version": 1,
+      "topic": "Ask GPT",
+      "tags": [
+        "Ask GPT",
+        "offline"
+      ],
+      "difficulty": 2,
+      "reviewed": false,
+      "demo": true,
+      "stem": "You are on a plane with **no internet** and tap _Ask GPT_ on a question. What happens?",
+      "choices": [
+        {
+          "id": "a",
+          "text": "The whole app stops working until you are back online"
+        },
+        {
+          "id": "b",
+          "text": "ChatGPT answers from a copy stored inside the app"
+        },
+        {
+          "id": "c",
+          "text": "The button is disabled with a hint; everything else keeps working"
+        },
+        {
+          "id": "d",
+          "text": "Your question is queued and sent by itself when you land"
+        },
+        {
+          "id": "e",
+          "text": "The app asks you for a paid API key"
+        }
+      ],
+      "answer": "c",
+      "explanation": [
+        {
+          "id": "what",
+          "type": "heading",
+          "text": "What Ask GPT does"
+        },
+        {
+          "id": "prompt",
+          "type": "p",
+          "text": "It writes a short prompt (the question, the choices in the order you saw them, your answer and the app's answer) and opens `chatgpt.com/?q=…` with it. No account, no API key, no cost."
+        },
+        {
+          "id": "cases",
+          "type": "list",
+          "items": [
+            "**Online** -> ChatGPT opens with the prompt filled in.",
+            "**Pop-up blocked** -> the prompt is copied; tap _Open ChatGPT_ in the message.",
+            "**Offline** -> the button is disabled and tells you why."
+          ]
+        },
+        {
+          "id": "outside",
+          "type": "callout",
+          "kind": "pitfall",
+          "title": "An outside source",
+          "text": "ChatGPT is an outside source and may not match your study sources. Trust the explanation in the app first."
+        }
+      ],
+      "choiceNotes": {
+        "a": "The app works **100% offline** after the first visit. Only Ask GPT needs the internet.",
+        "b": "There is no built-in AI. Ask GPT simply opens ChatGPT.",
+        "c": "Ask GPT needs a connection; questions, notes and drawing do not.",
+        "d": "Nothing is sent in the background. You decide when to open ChatGPT.",
+        "e": "No keys and no costs. It is a plain link to ChatGPT."
+      },
+      "source": [
+        {
+          "ref": "Cardiac MCQ app guide",
+          "loc": "Demo"
+        }
+      ]
+    },
+    {
+      "id": "DEMO-0008",
+      "version": 1,
+      "topic": "Study modes",
+      "tags": [
+        "keyboard",
+        "iPad",
+        "shortcuts"
+      ],
+      "difficulty": 1,
+      "reviewed": false,
+      "demo": true,
+      "stem": "You study on an iPad with a keyboard. Which key **bookmarks** the current question?",
+      "choices": [
+        {
+          "id": "a",
+          "text": "`B`"
+        },
+        {
+          "id": "b",
+          "text": "`M`"
+        },
+        {
+          "id": "c",
+          "text": "`S`"
+        },
+        {
+          "id": "d",
+          "text": "`Space`"
+        },
+        {
+          "id": "e",
+          "text": "`Enter`"
+        }
+      ],
+      "answer": "a",
+      "explanation": [
+        {
+          "id": "keys-title",
+          "type": "heading",
+          "text": "Keyboard shortcuts"
+        },
+        {
+          "id": "keys",
+          "type": "table",
+          "caption": "While answering questions",
+          "head": [
+            "Key",
+            "Action"
+          ],
+          "rows": [
+            [
+              "`1`–`5` or `A`–`E`",
+              "Choose an answer"
+            ],
+            [
+              "`←` / `→`",
+              "Previous / next question"
+            ],
+            [
+              "`B`",
+              "Bookmark"
+            ],
+            [
+              "`D`",
+              "Drawing on / off"
+            ]
+          ],
+          "emphasis": {
+            "row": 2
+          }
+        },
+        {
+          "id": "first-letter",
+          "type": "callout",
+          "kind": "mnemonic",
+          "title": "First letter wins",
+          "text": "**B**ookmark = `B`, **D**raw = `D`."
+        },
+        {
+          "id": "strike-title",
+          "type": "heading",
+          "text": "Striking out choices"
+        },
+        {
+          "id": "strike",
+          "type": "p",
+          "text": "Cross out the answers you have ruled out. Three ways do the same thing, so pick what feels natural:"
+        },
+        {
+          "id": "strike-ways",
+          "type": "list",
+          "items": [
+            "Long-press the choice",
+            "Swipe it to the left",
+            "Tap its small **strike** button"
+          ]
+        }
+      ],
+      "choiceNotes": {
+        "a": "**B** for **B**ookmark.",
+        "b": "`M` has no shortcut. In an exam, mark a question for later with the button in the top bar.",
+        "c": "`S` has no shortcut. To strike out a choice, long-press it, swipe it left, or tap its small strike button.",
+        "d": "`Space` has no shortcut in the app.",
+        "e": "`Enter` presses whichever button has focus. It does not bookmark."
+      },
+      "source": [
+        {
+          "ref": "Cardiac MCQ app guide",
+          "loc": "Demo"
+        }
+      ]
+    },
+    {
+      "id": "DEMO-0009",
+      "version": 1,
+      "topic": "Question quality",
+      "tags": [
+        "review",
+        "report a problem"
+      ],
+      "difficulty": 2,
+      "reviewed": false,
+      "demo": true,
+      "stem": "This question shows a small **Not yet reviewed** chip. What does it tell you?",
+      "choices": [
+        {
+          "id": "a",
+          "text": "You have not answered it yet"
+        },
+        {
+          "id": "b",
+          "text": "You skipped its explanation"
+        },
+        {
+          "id": "c",
+          "text": "It is new in the latest update"
+        },
+        {
+          "id": "d",
+          "text": "Other users reported it as wrong"
+        },
+        {
+          "id": "e",
+          "text": "It was written with AI help, and a specialist has not checked it yet"
+        }
+      ],
+      "answer": "e",
+      "explanation": [
+        {
+          "id": "journey-title",
+          "type": "heading",
+          "text": "From draft to checked"
+        },
+        {
+          "id": "journey",
+          "type": "flow",
+          "title": "A question's journey",
+          "steps": [
+            {
+              "text": "Written with AI help, only from the owner's study sources"
+            },
+            {
+              "label": "ships as",
+              "text": "`\"reviewed\": false` -> chip shown"
+            },
+            {
+              "label": "a specialist reads it",
+              "text": "Reviewer decision"
+            },
+            {
+              "branches": [
+                {
+                  "label": "Approve",
+                  "text": "`\"reviewed\": true`, chip gone"
+                },
+                {
+                  "label": "Needs fix",
+                  "text": "Corrected, then checked again"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "report",
+          "type": "callout",
+          "kind": "key",
+          "title": "Spotted a mistake?",
+          "items": [
+            "Open the **More** menu -> _Report a problem_.",
+            "Pick a reason: _Wrong answer_, _Unclear question_, _Typo or formatting_, _Explanation problem_ or _Other_.",
+            "Add a note if you like. The report is saved on your device."
+          ]
+        },
+        {
+          "id": "reviewers",
+          "type": "p",
+          "text": "Specialists can turn on **Reviewer mode** in _Settings_ to approve questions and export their decisions as a file."
+        }
+      ],
+      "choiceNotes": {
+        "a": "Your own progress shows in rings and stats, not in this chip.",
+        "b": "The app does not track whether you read explanations.",
+        "c": "New questions look like any other. The chip is about checking, not age.",
+        "d": "Reports stay on the device of the person who made them.",
+        "e": "Once a specialist approves it, the chip disappears in a later update."
+      },
+      "source": [
+        {
+          "ref": "Cardiac MCQ app guide",
+          "loc": "Demo"
+        }
+      ]
+    },
+    {
+      "id": "DEMO-0010",
+      "version": 1,
+      "topic": "Annotations",
+      "tags": [
+        "library",
+        "voice notes"
+      ],
+      "difficulty": 1,
+      "reviewed": false,
+      "demo": true,
+      "stem": "Last week you recorded a **voice note** on a question. What is the quickest way to find it again?",
+      "choices": [
+        {
+          "id": "a",
+          "text": "Stats -> Weak topics"
+        },
+        {
+          "id": "b",
+          "text": "Search, by saying the words aloud"
+        },
+        {
+          "id": "c",
+          "text": "Settings -> Data"
+        },
+        {
+          "id": "d",
+          "text": "Library -> Voice"
+        },
+        {
+          "id": "e",
+          "text": "Home -> Due for review"
+        }
+      ],
+      "answer": "d",
+      "explanation": [
+        {
+          "id": "one-place",
+          "type": "heading",
+          "text": "Everything you saved, in one place"
+        },
+        {
+          "id": "library-map",
+          "type": "mindmap",
+          "center": "Library",
+          "branches": [
+            {
+              "text": "Bookmarks",
+              "children": [
+                "questions you bookmarked"
+              ]
+            },
+            {
+              "text": "Notes",
+              "children": [
+                "your typed notes"
+              ]
+            },
+            {
+              "text": "Voice",
+              "children": [
+                "recordings, up to 5 min each"
+              ]
+            },
+            {
+              "text": "Highlights",
+              "children": [
+                "every line you marked"
+              ]
+            },
+            {
+              "text": "Flagged",
+              "children": [
+                "questions you reported"
+              ]
+            },
+            {
+              "text": "Sessions",
+              "children": [
+                "finished and unfinished quizzes"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "open",
+          "type": "p",
+          "text": "Tap any item to open its question with the answer shown."
+        },
+        {
+          "id": "media",
+          "type": "callout",
+          "kind": "pearl",
+          "title": "Keep your recordings safe",
+          "text": "Voice notes go into a backup only when you export **with media**. The first recording asks for the microphone once; after that, recording and playback work offline."
+        }
+      ],
+      "choiceNotes": {
+        "a": "Stats shows your scores and weak topics, not your notes.",
+        "b": "Search looks through question text. Voice notes are audio, so search can't read them.",
+        "c": "_Settings_ -> _Data_ is for backups and storage.",
+        "d": "Library has one tab for each kind of thing you save.",
+        "e": "_Due for review_ lists questions your schedule says are due, with or without notes."
+      },
+      "source": [
+        {
+          "ref": "Cardiac MCQ app guide",
+          "loc": "Demo"
+        }
+      ]
+    }
+  ]
+}

@@ -113,6 +113,19 @@ function afterMotion(el, maxMs) {
   });
 }
 
+/**
+ * Pointer capture that never throws (it fails for pointers that already ended).
+ * @param {Element} el
+ * @param {number} pointerId
+ */
+function capturePointer(el, pointerId) {
+  try {
+    el.setPointerCapture(pointerId);
+  } catch {
+    /* the gesture still works without capture */
+  }
+}
+
 /** @returns {boolean} Phone layout (bottom sheets, bottom tab bar). */
 function isPhoneLayout() {
   return typeof matchMedia === 'function' && matchMedia('(max-width: 699.98px)').matches;
@@ -379,7 +392,7 @@ function enableSwipeDismiss(el, onDismiss) {
     if (!drag.active) {
       if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy) * 1.5) {
         drag.active = true;
-        el.setPointerCapture?.(e.pointerId);
+        capturePointer(el, e.pointerId);
         el.classList.add('is-dragging');
       } else if (Math.abs(dy) > 10) {
         drag = null;
@@ -397,6 +410,7 @@ function enableSwipeDismiss(el, onDismiss) {
     if (!active) return;
     el.classList.remove('is-dragging');
     if (Math.abs(dx) > 90) {
+      el.classList.add('is-swiped');
       el.style.transform = `translateX(${dx > 0 ? 120 : -120}%)`;
       el.style.opacity = '0';
       onDismiss();
@@ -474,8 +488,12 @@ function inertBackground(host, keep) {
 function onViewportChange() {
   const vv = window.visualViewport;
   if (!vv) return;
-  const kb = Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop));
-  for (const s of openSheets) s.root.style.setProperty('--kb', `${kb}px`);
+  // Pinch zoom also shrinks the visual viewport; only a keyboard counts.
+  const kb = Math.abs(vv.scale - 1) > 0.01 ? 0 : Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop));
+  for (const s of openSheets) {
+    s.root.style.setProperty('--kb', `${kb}px`);
+    s.root.classList.toggle('has-kb', kb > 0);
+  }
 }
 
 /** @param {KeyboardEvent} e */
@@ -628,14 +646,14 @@ export function sheet({ title, content, actions, onClose, size = 'm' } = {}) {
       target?.focus?.({ preventScroll: true });
     }
 
+    closedPromise = afterMotion(panel, 420).then(() => root.remove());
+
     try {
       onClose?.(reason);
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error('[sheet] onClose failed', err);
     }
-
-    closedPromise = afterMotion(panel, 420).then(() => root.remove());
     return closedPromise;
   }
 
@@ -689,7 +707,7 @@ function enableSheetDrag(record, handle, header, backdrop, onDismiss) {
     if (!isPhoneLayout() || e.button > 0 || !panel.isConnected) return;
     if (/** @type {Element} */ (e.target).closest('button, a, input, textarea, select, [data-no-drag]')) return;
     drag = { id: e.pointerId, y0: e.clientY, y: e.clientY, t: performance.now(), v: 0, dy: 0, h: panel.offsetHeight };
-    /** @type {HTMLElement} */ (e.currentTarget).setPointerCapture?.(e.pointerId);
+    capturePointer(/** @type {HTMLElement} */ (e.currentTarget), e.pointerId);
     panel.classList.add('is-dragging');
   };
   /** @param {PointerEvent} e */

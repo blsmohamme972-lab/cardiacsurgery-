@@ -111,13 +111,18 @@ function parse(input) {
   if (s.startsWith('!')) s = s.slice(1);
   const qi = s.indexOf('?');
   const pathPart = qi === -1 ? s : s.slice(0, qi);
-  const queryPart = qi === -1 ? '' : s.slice(qi + 1);
-  const segs = pathPart.split('/').filter(Boolean);
+  // Canonical form, so '/q/A B' and '/q/A%20B' (as location.hash reports it) are equal.
+  const segs = pathPart
+    .split('/')
+    .filter(Boolean)
+    .map((seg) => (seg.startsWith(':') ? seg : encodeURIComponent(safeDecode(seg))));
   const path = `/${segs.join('/')}`;
+  const params = new URLSearchParams(qi === -1 ? '' : s.slice(qi + 1));
   /** @type {Record<string, string>} */
   const query = {};
-  for (const [k, v] of new URLSearchParams(queryPart)) query[k] = v;
-  return { path, segs, query, fullPath: queryPart ? `${path}?${queryPart}` : path };
+  for (const [k, v] of params) query[k] = v;
+  const queryString = params.toString();
+  return { path, segs, query, fullPath: queryString ? `${path}?${queryString}` : path };
 }
 
 /**
@@ -256,12 +261,24 @@ async function destroyScreen(screen) {
   }
 }
 
+/** True while the router (not e.g. an open sheet) made the mount inert. */
+let routerMadeInert = false;
+
 /** @param {boolean} busy */
 function setBusy(busy) {
   if (!mountEl) return;
   mountEl.setAttribute('aria-busy', busy ? 'true' : 'false');
-  // Stop taps on a torn-down screen while the next one loads.
-  if ('inert' in mountEl) /** @type {any} */ (mountEl).inert = busy;
+  if (!('inert' in mountEl)) return;
+  const el = /** @type {HTMLElement & { inert: boolean }} */ (mountEl);
+  // Stop taps on a torn-down screen while the next one loads. Only undo what
+  // we did, so an open sheet's inert background is never clobbered.
+  if (busy && !el.inert) {
+    el.inert = true;
+    routerMadeInert = true;
+  } else if (!busy && routerMadeInert) {
+    el.inert = false;
+    routerMadeInert = false;
+  }
 }
 
 /**
@@ -330,6 +347,11 @@ function announce(route, info) {
 async function renderError(route, kind, error, token) {
   // eslint-disable-next-line no-console
   console.error(`[router] Could not ${kind === 'load' ? 'load' : 'show'} "${route.fullPath}":`, error);
+  if (active) {
+    const prev = active;
+    active = null;
+    pendingDestroy = destroyScreen(prev);
+  }
   /** @type {any} */
   let ui = null;
   try {

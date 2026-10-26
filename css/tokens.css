@@ -15,7 +15,7 @@
 
   /* Surfaces & text */
   --bg: #f5f6f8;
-  --bg-translucent: rgba(245, 246, 248, 0.82);
+  --bg-translucent: rgba(245, 246, 248, 0.9);
   --surface: #ffffff;
   --surface-2: #f0f2f5;
   --surface-3: #e5e8ed;
@@ -125,7 +125,7 @@
   color-scheme: dark;
 
   --bg: #0e1014;
-  --bg-translucent: rgba(14, 16, 20, 0.8);
+  --bg-translucent: rgba(14, 16, 20, 0.88);
   --surface: #171a20;
   --surface-2: #1e2229;
   --surface-3: #282d36;
@@ -174,7 +174,7 @@
     color-scheme: dark;
 
     --bg: #0e1014;
-    --bg-translucent: rgba(14, 16, 20, 0.8);
+    --bg-translucent: rgba(14, 16, 20, 0.88);
     --surface: #171a20;
     --surface-2: #1e2229;
     --surface-3: #282d36;
