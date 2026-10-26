@@ -386,7 +386,7 @@ export function createQuestionView(question, opts = {}) {
     const strike = /** @type {HTMLButtonElement} */ (
       h(
         'button',
-        { type: 'button', class: 'qv-strike', 'aria-pressed': 'false', dataset: { choice: cid } },
+        { type: 'button', class: 'qv-strike', 'aria-pressed': 'false', 'data-anchor-skip': '', dataset: { choice: cid } },
         icon('eye-off', { size: 18 }),
       )
     );
@@ -907,7 +907,7 @@ export function createQuestionView(question, opts = {}) {
           'div',
           { class: 'qv-notice' },
           h('span', { class: 'qv-notice-icon', 'aria-hidden': 'true' }, icon('pen', { size: 18 })),
-          h('p', { class: 'qv-notice-text' }, 'This question was updated, so some of your drawings may sit in a slightly different place.'),
+          h('p', { class: 'qv-notice-text' }, 'Some drawings were made on an older version of this question, so they may sit in a slightly different place.'),
         ),
       );
     }

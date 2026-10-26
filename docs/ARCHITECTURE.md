@@ -929,6 +929,12 @@ Backup: `{ type: 'cardiac-mcq-backup', formatVersion: 1, appVersion, exportedAt,
 stores: { [storeName]: records[] } }` — voice blobs as `{..., blob: null, data: base64, mime}`; without media the
 voice store is omitted. Merge: per store, newer `updated/ts` wins; attempts deduplicated by `(qid, ts)`.
 Replace: clears every store first (after the user confirms). Import never touches settings `lastRoute`.
+Replace with a backup that has no media keeps the device's voice notes (recordings can't be recovered).
+Everything is validated and decoded before any write; Replace snapshots each store and restores it if a write fails.
+Extra API: `openImportDialog(file) → Promise<result|null>` (summary sheet, Merge (default) / Replace everything);
+`exportBackup` also returns `counts`, `skipped`; `saveFile → 'shared'|'downloaded'|'cancelled'`; `readBackupFile`
+summary also has `total, exportedAtMs, formatVersion, ignoredStores`; `importBackup → {mode, stores, added, updated,
+skipped, keptVoice}`; `BackupError` (`.code`, `.userMessage`). `openReportSheet → {close}`; `exportReviewFile` also returns `counts`.
 
 ### 7.13 Shared modules for screens (wave 2)
 
