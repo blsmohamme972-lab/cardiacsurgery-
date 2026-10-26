@@ -40,6 +40,8 @@ export const DEFAULTS = Object.freeze({
   tourDone: false,
   askGptNoticeSeen: false,
   lastRoute: null,
+  ttsRate: 1, // read-aloud speed, 0.8 – 1.4
+  ttsVoice: null, // voiceURI of the chosen device voice, or null = best available
 });
 
 /** Font scale bounds. */
@@ -101,6 +103,8 @@ const SANITIZERS = {
   reviewerMode: bool,
   tourDone: bool,
   askGptNoticeSeen: bool,
+  ttsRate: numberIn(0.8, 1.4, 2),
+  ttsVoice: (v) => (v === null || (typeof v === 'string' && v.length > 0 && v.length <= 512) ? v : INVALID),
   lastRoute: (v) => (v === null || (typeof v === 'string' && v.startsWith('/') && v.length <= 2048) ? v : INVALID),
 };
 

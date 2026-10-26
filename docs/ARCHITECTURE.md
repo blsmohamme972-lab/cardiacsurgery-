@@ -42,7 +42,10 @@ css/
   components.css           Buttons, cards, chips, lists, sheets, toasts, banners, tabs, toggles, progress.
   shell.css                Header, tab bar / side rail, page layout, responsive breakpoints.
   explanation.css          Explanation block renderer (tables, flows, mind maps, callouts, quotes).
-  annotate.css             Highlights, ink layer, ink toolbar, scratchpad.
+  annotate.css             Highlights (anchor + highlight UI).
+  ink.css                  Ink layers, ink toolbar, scratchpad.
+  features.css             Notes, voice notes, Ask GPT, read aloud.
+  review.css               Report sheet, reviewer panel, backup import dialog.
   screen-player.css        Question player + results.
   screen-home.css          Home, chapter, quiz builder, library.
   screen-misc.css          Stats, search, settings, reviewer dashboard, tour.
@@ -76,6 +79,10 @@ js/
     notes.js               Text note editor for a question (autosave).
     voice.js               Voice note recording/playback + UI.
     askgpt.js              "Ask GPT" button.
+    tts.js                 Read aloud with the device's own voices (§7.15).
+    lists.js               Shared question lists (library, browse prev/next) (§7.13).
+    question-view.js       Shared question rendering for player/browse/results (§7.13).
+    quiz/start.js          One place that starts a quiz (§7.13).
     review.js              Reports ("report a problem") + reviewer mode tools + review export.
     backup.js              Export / import backup.
   ui/
@@ -140,7 +147,9 @@ Settings > Help > "Try the demo". `data.js` exposes this as `demoMode` and
 - `scripts/validate.mjs` checks `parts` against the parts table (same order), every chapter
   against its row in the chapter table (id, number, part, prefix, file, title, page), and
   `demo` against the demo row; `published` must be `true`/`false`, and a published chapter
-  with 0 questions is an **error**. Every chapter file is validated, published or not.
+  with 0 questions is an **error**, as is an empty demo file. Every chapter file is validated,
+  published or not. A `data/` path in `sw.js` `APP_SHELL` is an error (data is precached from
+  the index only).
 - `data.js` (§5.6): `loadIndex()` exposes `parts`, `chapters` (published only, sorted by number),
   `demo` and `demoMode`; `loadIndex({ includeUnpublished: true })` is for dev tools only.
   `getQuestion()` of an unpublished chapter returns `null`. Builder, stats, search
@@ -286,24 +295,52 @@ All string fields use inline mini-markup.
 
 ### 3.5 Inline mini-markup (`features/explain/inline.js`)
 
-Safe, tiny, no HTML ever. Parsed into tokens, then rendered with DOM APIs.
+Safe, tiny, no HTML ever. Parsed into tokens (pure, linear time, never throws),
+then rendered with DOM APIs by `render.js`. Every string field of a question and
+of its explanation blocks uses it.
 
-| syntax | result |
-|---|---|
-| `**text**` | `<strong>` |
-| `_text_` | `<em>` (only when `_` is at a word boundary) |
-| `==text==` | `<mark class="key">` (author emphasis, not a user highlight) |
-| `^text^` | `<sup>` |
-| `~text~` | `<sub>` |
-| `` `text` `` | `<code>` |
-| `->` `<-` `<->` `=>` `↑` `↓` | arrows `→ ← ↔ ⇒` (rendered as text with class `arrow`) |
-| `\*` etc. | escaped literal |
+| syntax | result | rules and examples |
+|---|---|---|
+| `**text**` | `<strong>` | Exactly two `*`. `*a*`, `***a***`, `****` stay literal. Works inside words: `**B**ookmark`. |
+| `_text_` | `<em>` | A single `_` at a word boundary: no letter, digit or `_` right before the opening `_` or right after the closing `_`. `snake_case_words`, `file_1_2`, `?a_b=c_d` in URLs, `____` (blanks) and `__init__` stay literal; `_snake_case_` → em "snake_case". |
+| `==text==` | `<mark class="key">` | Exactly two `=` (author emphasis, not a user highlight). `a == b` and `===` stay literal. |
+| `^text^` | `<sup>` | A single `^`. Content non-empty, **no whitespace**, text and arrows only (other markers inside are literal): `x^2^`, `1^st^`, `Na^+^`, `^99m^Tc`, `10^-3^`. `x^2 3^` stays literal. |
+| `~text~` | `<sub>` | Same rules as sup: `CO~2~`, `P~a~O~2~`, `HCO~3~^-^`. `~5 mm to ~10 mm`, `5 ~ 10` and `~~a~~` stay literal. |
+| `` `text` `` | `<code>` | A single backtick. Content is literal: no markup, no arrows (`` `->` `` shows `->`). Escapes still apply (`` \` `` is a backtick inside code). Double backticks stay literal. |
+| `->` `<-` `<->` `=>` `<=>` | `→ ← ↔ ⇒ ⇔` | Arrow token, rendered as text with class `arrow`. Longest match first (`<->` is one ↔). |
+| `→ ← ↔ ⇒ ⇔ ↑ ↓` typed directly | the same character | Arrow token too (class `arrow`). |
+| `\*` `\_` `\=` `\^` `\~` `` \` `` `\\` `\-` `\<` `\>` | the character, literal | Works everywhere, inside code too. A backslash before any other character is kept (`C:\Data`, `\n`). |
 
-Unclosed markers render literally. Nesting allowed for strong/em/mark.
+Rules:
+1. **Flanking.** An opening marker must be followed by a non-space and a closing marker
+   preceded by a non-space (the start and end of the string count as space):
+   `a ** b`, `x == y`, `5 ~ 10`, `` ` a` `` stay literal.
+2. **Runs.** A marker is a run of exactly its length (`**`, `==`, or a single `_` `^` `~` or backtick);
+   any other run of the same character is literal text.
+3. **Precedence.** One left-to-right scan. Code, sup and sub spans are atomic: the first one to open
+   is closed by the next valid marker of its kind, and nothing inside pairs with anything outside
+   (`` **a `b** c` `` → `**a ` + code `b** c`). Then strong/em/mark pair like CommonMark: a closing
+   marker pairs with the nearest open marker of its kind; markers opened in between that are still
+   open become literal (`**a _b** c_` → strong `a _b` + ` c_`).
+4. **Nesting.** strong, em and mark nest in each other in any order (same kind too), up to
+   `MAX_NESTING` = 8 levels; deeper pairs render literally. sup/sub hold only text and arrows,
+   code only text.
+5. **No arrow** from a `-` or `=` inside a longer run (`-->`, `<--`, `<-->`, `==>` stay literal),
+   from `<-` right before a digit (`<-5` means "less than −5"), or from an escaped character (`\->`).
+6. Unclosed markers render literally. Adjacent text tokens are merged; no empty tokens or
+   containers. Non-string input → `[]` / `''`.
+
+Authoring tips: escape a marker character you mean literally when text nearby could pair with it
+(`\_`, `\*`, `\~`). Two `~` inside one word make a subscript (`~5-~10` → sub "5-"), so write
+`~5-\~10`. Write `->`, not `-->`.
 
 API:
-- `parseInline(text) → Token[]` (pure). Token = `{t:'text', v}` | `{t:'strong'|'em'|'mark'|'sup'|'sub'|'code', c: Token[]}` | `{t:'arrow', v}`.
-- `inlineToPlain(text) → string` (pure; the visible text, used for search, anchoring, GPT prompt).
+- `parseInline(text) → Token[]` (pure, fresh objects every call). Token = `{t:'text', v}` |
+  `{t:'strong'|'em'|'mark'|'sup'|'sub'|'code', c: Token[]}` | `{t:'arrow', v}` (`v` = the arrow
+  character). `code.c` is one text token; `sup.c`/`sub.c` hold only text and arrow tokens.
+- `inlineToPlain(text) → string` (pure; the visible text exactly as rendered: markers removed,
+  escapes resolved, arrows as their characters, whitespace kept; used for search, anchoring, GPT prompt).
+- `MAX_NESTING` (8).
 
 ### 3.6 `data/retired.json`
 
@@ -454,7 +491,8 @@ Defaults:
   shuffleChoices: true, defaultCount: 20, examSecondsPerQuestion: 90,
   autoAdvance: false, showTimer: true, drawInput: 'auto' /* 'finger'|'pen' */,
   highlightColor: 'yellow', inkTool: 'pen', inkColor: '#1d4ed8', inkSize: 0.006,
-  reviewerMode: false, tourDone: false, askGptNoticeSeen: false, lastRoute: null }
+  reviewerMode: false, tourDone: false, askGptNoticeSeen: false, lastRoute: null,
+  ttsRate: 1 /* 0.8–1.4 */, ttsVoice: null /* voiceURI */ }
 ```
 ```js
 export async function initSettings()     // loads from settingsRepo, applies
@@ -623,42 +661,128 @@ export async function countAvailable({ chapters, filter, includeDemo }) → numb
 export function filterQids(questions, states /* Map qid→QState */, extras /* {flagged:Set, notes:Set} */, filter, now) → qids[] // pure
 ```
 `'all'` chapters = `studyChapters()` (published chapters, or the demo in demo mode). `includeDemo`
-adds the demo outside demo mode (dev/tests only). Explicit ids are limited to published chapters + demo.
+adds the demo outside demo mode (dev/tests only; it never widens an explicit list). Explicit ids are
+limited to published chapters + demo; unknown and unpublished ids are ignored (their files are never
+fetched). Questions come in bank order (published chapters by number, then the demo) before `order`/`count` apply.
 
 ### 7.3 `features/quiz/engine.js`
 Session:
 ```js
 { id, title, mode: 'tutor' | 'exam', createdAt, updatedAt, finishedAt: null,
+  graded: false,                                       // answers are in qstate/attempts (tutor: at finish; exam: after grading)
   qids: [], choiceOrder: { [qid]: choiceId[] }, index: 0,
   answers: { [qid]: { choice, correct, ms, at } },   // tutor: locked once answered; exam: changeable until finish
   struck: { [qid]: choiceId[] }, marked: { [qid]: true },
   timeLimitMs: null | number, elapsedMs: 0, perQuestionMs: { [qid]: number },
-  options: { shuffleChoices, chapters, filter } }
+  options: { shuffleChoices, chapters, filter, secondsPerQuestion } }
 ```
-Pure reducers (no I/O, return new objects): `createSessionObject(opts, questions, now, seed)`,
-`applyAnswer(s, qid, choice, correct, ms, now)`, `toggleStrike(s, qid, choice)`, `toggleMark(s, qid)`,
-`goTo(s, index)`, `addTime(s, qid, ms)`, `finishSession(s, now)`, `summarize(s, questions)` →
-`{ total, answered, correct, incorrect, unanswered, pct, timeMs, avgMs, byChapter: [{chapterId, total, correct}], byTopic }`.
+Constants: `MODES`, `DEFAULT_SECONDS_PER_QUESTION` (90), `SAVE_DELAY_MS` (300), `DEFAULT_TITLES`
+(`Practice` / `Exam`), `class SessionError` (`.code` `'empty'|'invalid'`, `.userMessage`).
 
-Async API (uses repos): `createSession(opts)` → session (persisted), `loadSession(id)`,
-`saveSession(s)` (debounced 300ms internally + flush on `visibilitychange`),
-`recordAnswer(s, question, choice, ms)` → `{ session, correct }` (tutor: updates qstate + srs + attempts
-immediately; exam: only the session), `completeSession(s, questions)` (exam: grades and writes
-qstate/srs/attempts for all answers), `deleteSession(id)`, `latestUnfinished()`.
-Emits `qstate:change`.
+Pure reducers (no I/O, never mutate; return `s` itself when nothing changes):
+- `createSessionObject(opts, questions, now, seed)` — opts `{ title, mode = 'tutor', shuffleChoices = true,
+  secondsPerQuestion = 90, chapters = 'all', filter = 'all' }`. `qids` = question ids in the given order
+  (duplicates/malformed skipped). `choiceOrder[qid]` = choice ids shuffled with
+  `seededRandom(hashString(seed + '|' + qid))` (seed defaults to the new session id), or file order without
+  shuffle. `timeLimitMs` = exam ? `secondsPerQuestion × 1000 × qids.length` : null. Unknown mode → RangeError.
+- `applyAnswer(s, qid, choice, correct, ms, now)` — ignored when locked (see `isAnswerLocked`), for an unknown
+  question or choice, or when an exam answer is re-tapped unchanged. Choosing a struck choice removes its strike.
+- `toggleStrike(s, qid, choice)` (ignored when locked), `toggleMark(s, qid)` (ignored after finish),
+  `goTo(s, index)` (truncated + clamped; NaN ignored; allowed after finish),
+  `addTime(s, qid, ms)` (adds to `perQuestionMs[qid]` and `elapsedMs`; ignores ≤0/NaN/∞, unknown qid, finished),
+  `finishSession(s, now)` (idempotent).
+- `summarize(s, questions)` → `{ total, answered, correct, incorrect, unanswered, pct, timeMs, avgMs,
+  byChapter: [{chapterId, total, answered, correct, pct}] /* by id, unknown (null) last */,
+  byTopic: [{topic, total, answered, correct, pct}] /* by name */,
+  items: [{qid, status: 'correct'|'incorrect'|'unanswered', choice, ms, marked}] /* session order */ }`.
+  Tutor uses the recorded correctness; exam re-checks `choice === question.answer` (recorded value when the
+  question is missing). `pct = util.pct(correct, total)`; `timeMs = elapsedMs` (sum of answer times when no time
+  was tracked); `avgMs = timeMs / answered`. Missing question → chapter from the id prefix (`CH03-…` → `ch03`).
+
+Pure helpers: `isAnswerLocked(s, qid)` (tutor: answered → locked; exam: only after finish; unknown qid → locked),
+`remainingMs(s)` (null without a limit, never negative), `isTimeUp(s)`, `answeredCount(s)`, `unansweredCount(s)`,
+`firstUnansweredIndex(s, from = 0)` (wraps; −1 when none), `currentQid(s)`, `answerOf(s, qid)`, `isFinished(s)`,
+`isCorrectChoice(question, choice)`, `choiceOrderFor(s, question)` (stored order, robust to edited choices — the
+player renders choices with this), `nextQState(prev, {qid, choice, correct, ms, ts})` (seen/correct/incorrect/
+totalMs/last*/srs), `mergeForWrite(stored, incoming, now)`, `repairSession(raw)` (→ clean session or null).
+
+Async API (repo.js / data.js imported lazily):
+- `createSession({ qids, title, mode, shuffleChoices, secondsPerQuestion, chapters, filter, seed? })` → loads
+  `data.getQuestions(qids)` (order kept, missing dropped), stores immediately; none left → `SessionError('empty')`.
+- `loadSession(id)` → repaired session | null (writes a pending save of it first).
+- `saveSession(s)` → debounced 300 ms per id (latest snapshot wins); the promise resolves when stored (null if
+  deleted meanwhile) and rejects with `StorageError` (also logged). `flushSessions()` writes all pending saves now;
+  it runs automatically on `visibilitychange` → hidden and `pagehide` (log only there).
+- `recordAnswer(s, question, choice, ms)` → `{ session, correct, applied }`. The session is written **immediately**
+  (answers are never debounced). Tutor: also qstate (+srs via `nextSrs`) and one attempt
+  `{qid, choice, correct, ms, ts, mode, sessionId}`, then `qstate:change` `{qid}`. Exam: session only.
+  `applied: false` (session unchanged) when the answer was ignored.
+- `completeSession(s, questions?)` → finished session, stored immediately. Exam: stores "finished" first, then
+  grades every answered question (against `questions`, else the recorded correctness): one attempt + qstate/srs each,
+  `qstate:change` per graded qid, then `graded: true`. Idempotent: concurrent calls share one run, a finished+graded
+  session returns as is, and a question already having an attempt with this `sessionId` is skipped (safe retry after
+  a failure). Unanswered questions create no attempt. Tutor: just finishes (`graded: true`).
+- `deleteSession(id)` (drops a pending save; later saves of that id are ignored), `restoreSession(s)` (Undo),
+  `latestUnfinished()` (after flushing), `toggleBookmark(qid)` → new state, emits `qstate:change`.
+- Write safety: writes per session are serialized; a stored finished session is never replaced by an unfinished
+  snapshot, its first `finishedAt` is kept and `graded` never goes back to false.
+- Storage failures propagate as the repo's `StorageError`. `setTestBackend({repo, data} | null)` is a unit-test seam.
 
 ### 7.4 `features/stats.js`
-`export async function computeStats(now) → { totalQuestions, answeredUnique, attempts, correctPct,
-avgMs, dueCount, bookmarks, notes, voice, highlights, byChapter: [{id, title, total, answered, correct, pct}],
-weakTopics: [{topic, chapterId, n, pct}] (n ≥ 3, lowest pct first, max 8), daily: [{day, n, correct}] (last 30 days),
-streak, bestStreak, demoMode }` over `studyChapters()` (so the demo counts only in demo mode).
+```js
+export async function computeStats(now = Date.now()) → Stats   // loads data + repo lazily, then aggregateStats()
+export function aggregateStats({ chapters, questions, states, attempts, notes, voice, highlights, now, demoMode }) → Stats // pure
+export const DAILY_DAYS = 30, WEAK_TOPIC_MIN_ATTEMPTS = 3, WEAK_TOPIC_LIMIT = 8
+export function setTestBackend({ data, repo } | null)        // unit-test seam
+// Stats = { totalQuestions, answeredUnique, attempts, correctPct, avgMs, dueCount, bookmarks, notes, voice,
+//   highlights, byChapter: [{id, title, short, total, answered, correct, pct}],
+//   weakTopics: [{topic, chapterId, n, correct, pct}], daily: [{day, n, correct}], streak, bestStreak, demoMode }
+```
+- Over `studyChapters()` + `loadStudyBank()` (so the demo counts only in demo mode); `demoMode` comes from
+  `loadIndex()`. Only records whose `qid` is in the study bank count (qstate, attempts, notes, voice, highlights).
+  Voice records are reduced to their `qid` at once (no audio kept in memory). Failures reject with the
+  data module's `DataError` or the repo's `StorageError`.
+- `totalQuestions` = study questions; `answeredUnique` = questions with `seen > 0`; `attempts` = attempt count;
+  `correctPct = pct(right attempts, attempts)`; `avgMs` = mean `ms` of attempts with a valid time (rounded, 0 when
+  none); `dueCount` = study questions with `isDue(srs, now)`; `notes` = questions with a non-blank note.
+- `byChapter`: one row per study chapter in order; `total` = its loaded questions, `answered` = `seen > 0`,
+  `correct` = answered with `lastCorrect === true`, `pct = pct(correct, answered)`; `short` falls back to the title.
+- `weakTopics`: per (chapterId, topic) over attempts (questions without a topic skipped), `n ≥ 3`; sorted by exact
+  ratio `correct / n` ascending, then larger `n`, then chapter order, then topic name; max 8. Topics at 100% can
+  appear (the screen decides how to label them).
+- `daily`: the last 30 **local** days (`util.dayKey`), oldest first, today last, zero days included (DST-safe).
+- `streak`: consecutive local days with ≥ 1 attempt ending today, or yesterday when nothing was answered yet today;
+  else 0. `bestStreak`: the longest run ever (≥ `streak`).
 
 ### 7.5 `features/search.js`
-`export async function search(query, { limit = 50 } = {}) → [{ qid, chapterId, title /* stem start */, snippet: [{text, match}], score }]`
-over `studyChapters()` (the demo is searchable only in demo mode).
-Builds an inverted index lazily (memoized), tokenizes lowercase, strips punctuation,
-prefix match on the last term, all terms must match (AND), ranks stem/topic hits above explanation hits.
-Pure helpers exported for tests: `tokenize(text)`, `buildIndex(questions)`, `queryIndex(index, query)`.
+```js
+export async function search(query, { limit = 50 } = {}) → [{ qid, chapterId, title /* plain stem start, ≤ 90 chars + "…" */,
+                                                           snippet: [{text, match}], score }]
+export async function prepareSearchIndex()   // builds the index ahead (Search screen on open); rejects like search()
+export function clearSearchIndex()           // forget the memoized index; the next search rebuilds it
+export function tokenize(text) → string[]                                   // pure
+export function buildIndex(questions) → SearchIndex                         // pure
+export function queryIndex(index, query, { limit = 50 } = {}) → [{ qid, chapterId, score, pos }]   // pure
+export function makeSnippet(text, terms, maxLen = 160) → [{ text, match }]  // pure
+export const FIELD_WEIGHTS, MAX_COUNTED_REPEATS, PHRASE_BONUS, DEFAULT_LIMIT, MAX_QUERY_TERMS, SNIPPET_LENGTH, TITLE_LENGTH
+export function setTestBackend({ data } | null)                              // unit-test seam
+```
+- Over `loadStudyBank()` (= `studyChapters()`: the demo is searchable only in demo mode). Empty/blank query → `[]`
+  without loading anything. The index is memoized and rebuilt when the study chapters or their counts change
+  (key = study chapter ids + counts) or after `clearSearchIndex()`. The build runs in ~12 ms slices that yield
+  to the page. Load failures reject with `DataError`; a failed build is forgotten (next call retries).
+- Tokens: text folded (lowercase, accents removed, NFKD forms, Greek letters spelled out: "β" → "beta"); runs of
+  Unicode letters/digits; punctuation, arrows and inline markup characters separate tokens; 1-character tokens
+  dropped except digits; a hyphenated word gives its parts + the joined form ("kilo-lima" → kilo, lima, kilolima).
+- Query: AND of all terms; the **last** term also matches as a prefix (also with a trailing space); a hyphenated
+  query word matches its joined form or all its parts (scored alike); at most 16 terms.
+- Score = Σ terms Σ fields (weight × min(repeats, 3)) with weights stem 8, topic 8, tags 8, choices 4, choice notes 1,
+  explanation 1 (a stem hit always outranks explanation-only hits); +12 when a multi-word query is an exact phrase
+  in the stem (last word as prefix). Ties keep bank order.
+- Snippet: around the first match in the question's plain text (stem · choices · notes · explanation · topic · tags),
+  cut at word boundaries with "…" where text was left out; every word-start match in the cut is a `match: true`
+  segment (folded matching, original characters shown).
+- Performance (5000 rich questions, ~15 MB): build < 1.5 s, query < 30 ms (asserted in `tests/unit/search.test.mjs`).
 
 ### 7.6 `features/explain/render.js`
 ```js
@@ -685,6 +809,11 @@ export function findAnchor(blockText, anchor) → { start, end } | null         
 export function textOffsetsInElement(el, range) → { start, end }                       // DOM
 export function rangeFromOffsets(el, start, end) → Range                               // DOM
 ```
+**`[data-block]` rule (renderers ↔ annotations):** a `[data-block]` element contains only content
+text. UI chrome that must sit inside it (letter badges, strike buttons, ink canvases) carries
+`data-anchor-skip` (canvases are skipped by tag too), and anchoring/highlighting ignores those subtrees.
+Choices use `data-block="choice-<id>"` on the choice *text* element; choice notes `data-block="note-<id>"`.
+
 `annotate/highlight.js`:
 ```js
 export function initHighlights(root, question, { onOrphans }) → { destroy(), refresh() }
@@ -774,6 +903,80 @@ Backup: `{ type: 'cardiac-mcq-backup', formatVersion: 1, appVersion, exportedAt,
 stores: { [storeName]: records[] } }` — voice blobs as `{..., blob: null, data: base64, mime}`; without media the
 voice store is omitted. Merge: per store, newer `updated/ts` wins; attempts deduplicated by `(qid, ts)`.
 Replace: clears every store first (after the user confirms). Import never touches settings `lastRoute`.
+
+### 7.13 Shared modules for screens (wave 2)
+
+`features/quiz/start.js` — one place that starts a quiz (home quick actions, chapter, builder, results
+"Retry mistakes", settings "Try the demo").
+```js
+export class NoQuestionsError extends Error   // .userMessage: plain language ("No questions match. Try another filter.")
+export async function startQuiz({ chapters = 'all', filter = 'all', count /* default: setting defaultCount */,
+  mode = 'tutor', order = 'random', title /* default built from mode + chapters + filter */, qids /* optional explicit list */ })
+  → Promise<string>   // new session id; reads shuffleChoices / defaultCount / examSecondsPerQuestion from settings
+export function sessionTitle({ mode, chapters, filter, chapterTitles }) → string   // e.g. "Practice · Mitral valve · Mistakes"
+```
+The caller navigates to `/quiz/<id>`; `NoQuestionsError` → toast with the message (never a dead end).
+
+`features/lists.js` — the question lists shared by Library, the Question browse screen (prev/next) and Results.
+```js
+export const LIST_KINDS = ['bookmarks', 'notes', 'voice', 'highlights', 'flagged', 'session', 'chapter', 'search', 'mistakes']
+export async function getList(key) → { key, title, qids: string[] }
+// key: 'bookmarks' | 'notes' | 'voice' | 'highlights' | 'flagged' | 'mistakes' | 'session:<id>' |
+//      'chapter:<id>' | 'search:<encodeURIComponent(q)>'; only questions of studyChapters() (plus the session's own qids)
+export function listHref(qid, key) → string   // '#/q/<qid>?list=<encoded key>' (relative hash link)
+```
+
+`features/question-view.js` — renders one question in every state; used by the Player, the Question
+browse screen and the Results review. Owns choices, feedback, explanation section, "Your notes" section
+(text note + voice notes), Ask GPT, report, reviewer panel, highlights and ink layers.
+```js
+export function createQuestionView(question, {
+  mode,          // 'tutor' | 'exam' | 'browse'
+  choiceOrder,   // choice ids in display order (letters A–E assigned in this order)
+  selected,      // chosen choice id | null
+  struck,        // choice ids struck through
+  revealed,      // true → show correct/incorrect state + explanation
+  onChoose,      // (choiceId) => void
+  onStrike,      // (choiceId) => void
+}) → { el, update(partialState), setDrawing(on), isDrawing(), focusFirstChoice(), destroy() }
+```
+- Heavy tools are loaded with dynamic `import()` the first time they are needed (ink, toolbar,
+  scratchpad, voice, Ask GPT, reviewer panel) so the first load stays small; if one fails to load,
+  only that tool shows a plain-language toast ("This tool couldn't load. Reload the app.").
+- Highlights load right after the question renders (saved highlights must appear without a tap).
+
+### 7.14 CSS ownership
+| file | owner module(s) |
+|---|---|
+| `css/explanation.css` | explain/render.js |
+| `css/annotate.css` | annotate/anchor.js, annotate/highlight.js |
+| `css/ink.css` | annotate/ink.js, annotate/ink-toolbar.js, annotate/scratchpad.js |
+| `css/features.css` | notes.js, voice.js, askgpt.js |
+| `css/review.css` | review.js, backup.js (report sheet, reviewer panel, import dialog) |
+| `css/screen-player.css` | question-view.js, screens player/results/question |
+| `css/screen-home.css` | screens home/chapter/builder/library |
+| `css/screen-misc.css` | screens stats/search/settings/reviewer |
+
+### 7.15 `features/tts.js` — Read aloud (owner approved 2026-10-26)
+Device voices only (Web Speech API `speechSynthesis`): free, offline, no key, no server.
+```js
+export function isTtsSupported() → boolean
+export function pickBestVoice(voices /* SpeechSynthesisVoice[] */, { preferredURI } = {}) → voice | null  // pure
+  // English only; ranking: user's saved voice → name/URI contains Premium > Enhanced > Neural/Natural >
+  // Google/Siri/Samantha-class quality voices > localService en-US/en-GB > any en-*; never non-English
+export function questionSpeechText(question, { choiceOrder, includeExplanation = false }) → string[]  // pure
+  // ordered utterance chunks: stem, then "A. …", "B. …" in display order, then (optional) the correct
+  // answer line and the explanation blocks as plain text (arrows read as words: "→" → "leads to")
+export function createReader() → { speak(chunks), pause(), resume(), stop(), state /* idle|speaking|paused */,
+  on(event /* 'state'|'chunk' */, fn) }   // chunked to avoid the iOS/Chrome long-utterance cut-off
+export function createListenButton(question, getContext /* () => {choiceOrder, revealed} */) → HTMLElement
+```
+- Settings: `ttsRate` (0.8–1.4, default 1), `ttsVoice` (voiceURI | null). Settings > Read aloud shows the
+  voice picker (English voices only, best first, "Preview"), speed, and the tip: iPhone/iPad: Settings >
+  Accessibility > Spoken Content > Voices > English > pick one marked "Premium" or "Enhanced" and download it;
+  Android: Settings > Accessibility > Text-to-speech > Google > install voice data (English, high quality).
+- Stops when the question changes, the screen changes, or the app goes to the background.
+- Hidden when `speechSynthesis` is missing. Never sends text anywhere.
 
 ## 8. Screens (summary of required UX)
 

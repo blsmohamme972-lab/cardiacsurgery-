@@ -8,7 +8,8 @@
  *   order); all 55 `chapters` match the fixed chapter table exactly (id,
  *   number, part, prefix, file, title, page), sorted by number; `short`
  *   label; `published` flag (a published chapter must have questions);
- *   `count` equals the file contents; the `demo` entry matches DEMO.
+ *   `count` equals the file contents; the `demo` entry matches DEMO and the
+ *   demo file has at least one question.
  * - `data/retired.json`: shape, id format, known prefixes, no duplicates.
  * - Every chapter file, published or not, and the demo file:
  *   `schemaVersion`, chapter id, `questions` array.
@@ -26,7 +27,8 @@
  * - `sw.js` VERSION equals `js/version.js` APP_VERSION (format YYYY.MM.DD-N).
  * - Every file under js/, css/, icons/ plus index.html and
  *   manifest.webmanifest is in sw.js APP_SHELL, and every APP_SHELL entry
- *   exists on disk.
+ *   exists on disk and is not under data/ (data is precached from the index:
+ *   published chapters and the demo only).
  *
  * Usage:
  *   node scripts/validate.mjs               # everything
@@ -1319,6 +1321,10 @@ function checkAppShell(rep, root) {
       return;
     }
     const rel = entry.replace(/^\.\//, '').replace(/[?#].*$/, '');
+    if (rel === 'data' || rel.startsWith('data/')) {
+      rep.error('sw.js', at, `"${raw}" is question data; remove it from APP_SHELL (the install fetches data from data/index.json: published chapters and the demo only)`);
+      return;
+    }
     if (listed.has(rel)) rep.warn('sw.js', at, `"${raw}" is listed twice`);
     listed.add(rel);
     if (!isFile(path.join(root, rel))) rep.error('sw.js', at, `"${raw}" does not exist on disk (the service worker install would fail)`);
@@ -1351,7 +1357,7 @@ function checkAppShell(rep, root) {
  * @property {boolean} loaded     The file was read and has a `questions` array.
  * @property {number} total
  * @property {number} reviewed
- * @property {string} nextId
+ * @property {string} nextId     Next free question id ('' when the file could not be read, so it is unknown).
  * @property {number[]} positions  Answer count per position a–e.
  */
 
@@ -1377,7 +1383,7 @@ export function validate({ root = ROOT, dataOnly = false } = {}) {
     /** @type {ChapterSummary} */
     const summary = {
       id: t.id, number: t.number, title: t.title, prefix: t.prefix, demo: t.demo, published: false, loaded: false,
-      total: 0, reviewed: 0, nextId: `${t.prefix}-0001`, positions: [0, 0, 0, 0, 0],
+      total: 0, reviewed: 0, nextId: '', positions: [0, 0, 0, 0, 0],
     };
     chapters.push(summary);
     const data = readJson(rep, root, t.file);
@@ -1397,6 +1403,9 @@ export function validate({ root = ROOT, dataOnly = false } = {}) {
     counts.set(t.id, data.questions.length);
     summary.loaded = true;
     summary.total = data.questions.length;
+    if (t.demo && data.questions.length === 0) {
+      rep.error(f, 'questions', 'the demo needs at least one question: it is the whole study bank while no chapter is published, and Settings > Help > "Try the demo" opens it');
+    }
 
     let maxNum = 0;
     const sims = [];
@@ -1547,7 +1556,7 @@ export function summaryLines(chapters, { bold = (s) => s, dim = (s) => s } = {})
   }
   for (const c of shown) {
     const answers = c.total > 0 ? c.positions.join('/') : '–';
-    lines.push(`  ${String(c.number ?? c.id).padStart(4)}  ${fit(c.title).padEnd(titleW)}  ${status(c).padEnd(10)}  ${String(c.total).padStart(9)}  ${String(c.reviewed).padStart(8)}  ${answers.padEnd(17)}  ${c.nextId}`);
+    lines.push(`  ${String(c.number ?? c.id).padStart(4)}  ${fit(c.title).padEnd(titleW)}  ${status(c).padEnd(10)}  ${String(c.total).padStart(9)}  ${String(c.reviewed).padStart(8)}  ${answers.padEnd(17)}  ${c.nextId || '?'}`);
   }
   if (folded > 0) lines.push(dim(`  ${countOf(folded, 'unpublished empty chapter')} (hidden in the app)`));
 
