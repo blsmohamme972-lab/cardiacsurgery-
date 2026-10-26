@@ -78,10 +78,21 @@ iPad/iPhone not tested yet.
 
 ## Content
 
-- Target: **5000+ board-level MCQs**, written in **English**.
-- UI language: **Arabic and English**, with full **RTL** support for Arabic.
+- Audience: **cardiac surgery residents** preparing for the **cardiac surgery board**.
+- Target: **5000+ board-level MCQs**.
+- Language: **English only**, for both the UI and the questions. No Arabic UI, no RTL.
 - Questions are **AI-generated** and carry `"reviewed": false` until a specialist
   reviews them (then `"reviewed": true`).
+
+## Sources (strict)
+
+- Write questions **only from the source material the owner provides**, exactly as given.
+- **No external sources** and no outside knowledge: no other books, websites,
+  guidelines or memory. If the provided sources do not support a fact, do not use it.
+- Every question must say which provided source (and section/page) it comes from.
+- If the sources are unclear or not enough for a question, skip it or ask the owner.
+- The repo is public: do not commit the owner's source files (they may be
+  copyrighted) unless the owner explicitly says so.
 
 ## Data layout
 
