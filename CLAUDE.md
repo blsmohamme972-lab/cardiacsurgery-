@@ -17,12 +17,26 @@ icons or scripts until the owner asks for them.
 - Talk to the owner in **Arabic**.
 - Code, comments, commit messages and question content are in English.
 
+## Cost: 100% free
+
+- The whole project must cost **nothing**. Use only free services and free tiers.
+- Never add a paid service, paid plan, paid library or paid API.
+- If a feature would need payment, stop and ask the owner first.
+- Known limits that keep it free:
+  - Stay within the Cloudflare Pages free plan: max 20,000 files per deploy,
+    25 MB per file, 500 builds per month.
+  - An iOS App Store / IPA build needs a paid Apple Developer account, so it is
+    **out of scope**. iPhone/iPad use the PWA only.
+  - An Android APK can be built and installed directly (sideloaded) for free.
+    Publishing on Google Play needs a one-time fee, so ask first.
+
 ## Architecture
 
 - A **Progressive Web App (PWA)** made only of static files: HTML, CSS, vanilla JS and JSON.
 - **No** framework, **no** build step, **no** backend, **no** database, **no** API keys.
 - Use **relative paths** everywhere and **no server-only features**, so the same files
-  can later be wrapped with Capacitor (Android APK, maybe iOS IPA).
+  can later be wrapped with Capacitor (Android APK; iOS IPA only if the owner
+  ever accepts the Apple fee).
 
 ## Hosting and deployment
 
@@ -34,7 +48,8 @@ icons or scripts until the owner asks for them.
 
 - **iPad**: Safari > Share > Add to Home Screen.
 - **Android**: Chrome > Install app.
-- Possible later: Capacitor wrap (Android APK, maybe iOS IPA).
+- Possible later: Capacitor wrap for an Android APK (free when sideloaded).
+  No iOS IPA, because it needs a paid Apple account.
 
 ## Offline
 
