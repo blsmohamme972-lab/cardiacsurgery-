@@ -3,18 +3,22 @@
  *
  * - Labelled, auto-growing textarea that loads the saved note.
  * - Autosave: 500 ms after the last keystroke, and immediately on blur, when
- *   the page is hidden or closed (`visibilitychange` / `pagehide`) and when
- *   the screen changes (`route:change`, after the editor was removed).
+ *   the page is hidden or closed (`visibilitychange` / `pagehide`), when the
+ *   screen changes (`route:change`) and when the editor leaves the document.
  * - A calm "Saved" indicator in a polite live region.
  * - Clearing the text deletes the note (`notesRepo.set` does that).
  * - A failed save keeps the text, says so in plain language and offers
  *   "Try again"; the next keystroke or blur retries too.
  * - The character count appears only from 1,000 characters.
  * - Follows changes made elsewhere (another editor of the same question,
- *   a backup import) while the user is not typing.
+ *   a backup import). Text the user is typing is never replaced: while there
+ *   are unsaved keystrokes the user's words win; otherwise the new text is
+ *   shown and the caret is kept where it was.
  *
  * The returned element also has `flush(): Promise<void>` (saves a pending
- * change now), for a parent view that wants to save before it unmounts.
+ * change now) and `destroy()` (flushes and removes every listener), for a
+ * parent view that manages its own lifecycle. Both are optional: the editor
+ * cleans up by itself once it is removed from the document.
  *
  * Importing this module does not touch `document`.
  *
@@ -37,16 +41,38 @@ export const NOTE_COUNT_FROM = 1000;
 const SAVED_FADE_MS = 2500;
 
 /**
+ * Calls `fn` once `el` has been in the document and is then removed.
+ * @param {Element} el
+ * @param {() => void} fn
+ * @returns {() => void} Stops watching.
+ */
+function whenRemoved(el, fn) {
+  if (typeof MutationObserver !== 'function') return () => {};
+  let seen = el.isConnected;
+  const mo = new MutationObserver(() => {
+    if (el.isConnected) {
+      seen = true;
+    } else if (seen) {
+      mo.disconnect();
+      fn();
+    }
+  });
+  mo.observe(document, { childList: true, subtree: true });
+  return () => mo.disconnect();
+}
+
+/**
  * Creates the note editor for a question.
  *
  * @param {string} qid Question id (the note's key).
- * @returns {HTMLElement & { flush: () => Promise<void> }} `<section class="note-editor">`.
+ * @returns {HTMLElement & { flush: () => Promise<void>, destroy: () => void }} `<section class="note-editor">`.
  */
 export function createNoteEditor(qid) {
   if (typeof qid !== 'string' || qid === '') throw new TypeError('createNoteEditor: qid is required');
 
   const id = `note-${uid()}`;
   const statusId = `${id}-status`;
+  const countId = `${id}-count`;
 
   const textarea = /** @type {HTMLTextAreaElement} */ (
     h('textarea', {
@@ -54,7 +80,7 @@ export function createNoteEditor(qid) {
       class: 'note-input',
       rows: 3,
       placeholder: 'Loading your note…',
-      'aria-describedby': statusId,
+      'aria-describedby': `${statusId} ${countId}`,
       'aria-busy': 'true',
       spellcheck: true,
       autocapitalize: 'sentences',
@@ -68,9 +94,9 @@ export function createNoteEditor(qid) {
     h('span', { class: 'note-status-icon', 'aria-hidden': 'true' }, icon('check', { size: 16 })),
     statusText,
   );
-  const count = h('p', { class: 'note-count', hidden: true, 'aria-live': 'off' });
+  const count = h('p', { class: 'note-count', id: countId, hidden: true });
 
-  const el = /** @type {HTMLElement & { flush: () => Promise<void> }} */ (
+  const el = /** @type {HTMLElement & { flush: () => Promise<void>, destroy: () => void }} */ (
     h(
       'section',
       { class: 'note-editor', dataset: { qid } },
@@ -95,6 +121,8 @@ export function createNoteEditor(qid) {
   let chain = Promise.resolve();
   /** Saves started by this editor that haven't finished (to ignore our own store:change). */
   let inFlight = 0;
+  /** Increments on every external refresh, so a slow read never overwrites a newer one. */
+  let refreshSeq = 0;
   /** @type {ReturnType<typeof setTimeout> | null} */
   let fadeTimer = null;
   let disposed = false;
@@ -117,13 +145,14 @@ export function createNoteEditor(qid) {
   }
 
   function autoGrow() {
-    // Measure from a collapsed height, then grow to fit (keeps scroll position stable).
-    const scrollY = typeof window !== 'undefined' ? window.scrollY : 0;
+    if (!textarea.isConnected) return;
+    // Measure from a collapsed height, then grow to fit; keep the page from jumping.
+    const scrollY = window.scrollY;
     textarea.style.height = 'auto';
     const cs = getComputedStyle(textarea);
     const borders = parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
     textarea.style.height = `${textarea.scrollHeight + (Number.isFinite(borders) ? borders : 0)}px`;
-    if (typeof window !== 'undefined' && window.scrollY !== scrollY) window.scrollTo({ top: scrollY });
+    if (window.scrollY !== scrollY) window.scrollTo({ top: scrollY });
   }
 
   function updateCount() {
@@ -137,10 +166,21 @@ export function createNoteEditor(qid) {
     }
   }
 
+  /**
+   * Shows `text`, keeping the caret when the editor has focus.
+   * @param {string} text
+   */
   function showValue(text) {
+    const focused = document.activeElement === textarea;
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
     textarea.value = text;
+    if (focused) {
+      const max = text.length;
+      textarea.setSelectionRange(Math.min(start, max), Math.min(end, max));
+    }
     updateCount();
-    if (textarea.isConnected) autoGrow();
+    autoGrow();
   }
 
   // ---- Saving -----------------------------------------------------------
@@ -157,7 +197,7 @@ export function createNoteEditor(qid) {
         dirty = false;
         return;
       }
-      setStatus('saving', 'Saving…');
+      if (!disposed) setStatus('saving', 'Saving…');
       inFlight += 1;
       try {
         await notesRepo.set(qid, text);
@@ -165,14 +205,14 @@ export function createNoteEditor(qid) {
         dirtyAfterFailure = false;
         failureShown = false;
         if (textarea.value === text) dirty = false;
-        setStatus('saved', text.trim() === '' ? 'Note cleared' : 'Saved');
+        if (!disposed) setStatus('saved', text.trim() === '' ? 'Note cleared' : 'Saved');
       } catch (err) {
         console.warn('[notes] save failed', err);
         dirtyAfterFailure = true;
         setStatus('error', 'Not saved yet. Your text is still here.');
         if (!failureShown) {
           failureShown = true;
-          toast("Your note couldn't be saved. Your text is still here.", {
+          toast("Your note couldn't be saved. Your device storage may be full. Your text is still here.", {
             kind: 'danger',
             duration: 8000,
             action: { label: 'Try again', onClick: () => void saveNow() },
@@ -186,7 +226,10 @@ export function createNoteEditor(qid) {
   }
   const scheduleSave = debounce(() => void saveNow(), NOTE_SAVE_DELAY_MS);
 
-  /** Saves a pending change right away. */
+  /**
+   * Saves a pending change right away.
+   * @returns {Promise<void>}
+   */
   function flush() {
     if (scheduleSave.pending()) scheduleSave.cancel();
     if (dirty || dirtyAfterFailure) return saveNow();
@@ -217,14 +260,18 @@ export function createNoteEditor(qid) {
     }
   }
 
-  /** Reloads after a change made elsewhere, unless the user is busy here. */
+  /** Shows a change made elsewhere, unless the user has unsaved keystrokes here. */
   async function refreshFromStore() {
-    if (!loaded || loadFailed || dirty || dirtyAfterFailure || inFlight > 0) return;
-    if (document.activeElement === textarea) return;
+    if (!loaded || loadFailed || disposed) return;
+    if (dirty || dirtyAfterFailure || inFlight > 0) return; // the user's words win
+    const seq = ++refreshSeq;
     try {
       const rec = await notesRepo.get(qid);
+      if (seq !== refreshSeq || disposed) return;
+      // The user may have typed while we were reading.
+      if (dirty || dirtyAfterFailure || inFlight > 0) return;
       const text = rec && typeof rec.text === 'string' ? rec.text : '';
-      if (dirty || text === savedText) return;
+      if (text === savedText && text === textarea.value) return;
       savedText = text;
       showValue(text);
     } catch {
@@ -243,56 +290,56 @@ export function createNoteEditor(qid) {
   });
   textarea.addEventListener('blur', () => void flush());
 
-  /** Listeners on window/document/bus, removed once the editor is gone. */
+  const onPageHide = () => void flush();
+  const onVisibility = () => {
+    if (document.visibilityState === 'hidden') void flush();
+  };
+  window.addEventListener('pagehide', onPageHide);
+  document.addEventListener('visibilitychange', onVisibility);
+
+  /** @type {ResizeObserver | null} */
+  let resizeObserver = null;
+  let lastWidth = 0;
+  if (typeof ResizeObserver === 'function') {
+    resizeObserver = new ResizeObserver((entries) => {
+      const width = entries[entries.length - 1]?.contentRect.width ?? 0;
+      if (width !== lastWidth) {
+        lastWidth = width;
+        autoGrow();
+      }
+    });
+    resizeObserver.observe(textarea);
+  }
+
+  /** Cleanups for listeners on window/document/bus. */
   const offs = [
-    bus.on('route:change', () => {
-      void flush();
-      checkGone();
-    }),
+    bus.on('route:change', () => void flush()),
     bus.on('store:change', (payload) => {
-      if (checkGone()) return;
       if (payload && payload.store === 'notes' && (payload.key === qid || payload.key == null)) {
         void refreshFromStore();
       }
     }),
-  ];
-  const onPageHide = () => void flush();
-  const onVisibility = () => {
-    if (document.visibilityState === 'hidden') void flush();
-    else checkGone();
-  };
-  window.addEventListener('pagehide', onPageHide);
-  document.addEventListener('visibilitychange', onVisibility);
-  offs.push(
+    bus.on('settings:change', (payload) => {
+      if (payload && payload.key === 'fontScale') requestAnimationFrame(autoGrow);
+    }),
     () => window.removeEventListener('pagehide', onPageHide),
     () => document.removeEventListener('visibilitychange', onVisibility),
-  );
+    () => resizeObserver?.disconnect(),
+    whenRemoved(el, () => destroy()),
+  ];
 
-  let mounted = false;
-  /**
-   * Cleans up once the editor has been mounted and then removed.
-   * @returns {boolean} true when the editor is gone.
-   */
-  function checkGone() {
-    if (el.isConnected) {
-      mounted = true;
-      return false;
-    }
-    if (!mounted || disposed) return disposed;
-    disposed = true;
+  /** Saves what is pending and removes every listener. Idempotent. */
+  function destroy() {
+    if (disposed) return;
     void flush();
+    disposed = true;
     for (const off of offs.splice(0)) off();
     if (fadeTimer) clearTimeout(fadeTimer);
-    return true;
   }
+  el.destroy = destroy;
 
   // Size correctly once in the document (fonts and width are known then).
-  requestAnimationFrame(() => {
-    if (el.isConnected) {
-      mounted = true;
-      autoGrow();
-    }
-  });
+  requestAnimationFrame(autoGrow);
 
   void load();
   return el;
