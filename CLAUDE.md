@@ -28,7 +28,7 @@ iPad/iPhone not tested yet.
 - **Features in v1**: practice (tutor) mode, timed exam mode, custom quiz
   builder, spaced repetition review, strike-through choices, statistics,
   search, bookmarks, notes, voice notes, highlights, drawing, scratchpad,
-  Ask GPT, report a problem, reviewer mode, "not yet reviewed" badge,
+  read aloud (device voice), Ask GPT, report a problem, reviewer mode, "not yet reviewed" badge,
   shuffled choices, resume, first-run tour, backup export/import.
 - **Images**: supported inside questions/explanations (from the owner's
   sources). User-added images are not in v1.
@@ -282,7 +282,13 @@ earlier 13-chapter plan.
 - **Voice notes**: the user records a short audio note on a question
   (MediaRecorder, needs microphone permission once). Stored on the device in
   IndexedDB as audio blobs and played back offline.
-  - Not wanted: text-to-speech (reading questions aloud) and voice dictation.
+  - Not wanted: voice dictation.
+- **Read aloud** (owner approved 2026-10-26): a "Listen" button reads the question
+  and choices, and the explanation after answering, with the device's own
+  built-in voices (Web Speech API `speechSynthesis`). Free forever, no key, no
+  server, works offline. Auto-picks the best English voice (Premium/Enhanced/
+  natural first), speed control, pause/stop, and a short tip on downloading a
+  free high-quality voice in the device settings.
 - **Highlights and drawing on the explanation too**, including on top of tables,
   flows and mind maps. Saved on the device per question.
   - Highlights anchor to the explanation block ID + the highlighted text (with a
