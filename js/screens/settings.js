@@ -366,6 +366,8 @@ async function fillReadAloud(sec, body, isAlive) {
   );
 
   clear(body);
+  body.classList.remove('set-loading');
+  body.classList.add('set-read-body');
   body.append(
     voices.length === 0
       ? h('p', { class: 'misc-note' }, 'No English voice was found on this device yet. Follow the tip below to add one.')

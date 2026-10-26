@@ -130,7 +130,9 @@ async function go(page, hash, selector) {
  * @param {string} name
  */
 async function shot(page, name) {
-  await page.screenshot({ path: path.join(OUT, `${name}.png`), fullPage: true });
+  // Full page on phones; the viewport on iPad (a full-page capture draws the fixed side rail over the content).
+  const full = (page.viewportSize()?.width ?? 0) < 700;
+  await page.screenshot({ path: path.join(OUT, `${name}.png`), fullPage: full });
 }
 
 /** @param {import('playwright').Page} page */
@@ -236,6 +238,11 @@ for (const vp of VIEWPORTS) {
     // --- Settings -----------------------------------------------------------------------------
     await go(page, '#/settings', '.screen-settings');
     await page.waitForFunction(() => !document.querySelector('.set-storage .spinner'), undefined, { timeout: 5000 }).catch(() => null);
+    // Read aloud: voices load (≤ 2 s), then the section is filled or hidden (no speech support).
+    await page.waitForFunction(() => {
+      const sec = document.getElementById('set-read');
+      return !sec || sec.hidden || !sec.querySelector('.set-loading');
+    }, undefined, { timeout: 5000 }).catch(() => check(false, `${tag}: Read aloud section never finished loading`));
     await page.waitForTimeout(300);
     await shot(page, `settings-${tag}`);
     check(await noHorizontalScroll(page), `${tag}: settings has no horizontal scroll`);

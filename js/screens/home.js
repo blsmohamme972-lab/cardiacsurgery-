@@ -48,6 +48,7 @@ const WATCHED_STORES = new Set(['qstate', 'sessions', 'attempts']);
  * @property {number} due
  * @property {number} mistakes
  * @property {number} bookmarks
+ * @property {number} studyTotal Questions in the study chapters (from the index counts).
  * @property {boolean} recordsFailed
  */
 
@@ -105,8 +106,12 @@ async function loadModel() {
     if (st.lastCorrect === false) mistakes += 1;
     if (st.bookmarked === true) bookmarks += 1;
   }
+  const studyTotal = index.demoMode
+    ? Number(index.demo?.count) || 0
+    : index.chapters.reduce((a, c) => a + (Number(c.count) || 0), 0);
   return {
     index,
+    studyTotal,
     session: sessionRes.ok ? sessionRes.v : null,
     progress,
     due,
@@ -174,7 +179,8 @@ function continueCard(s, refresh) {
       h(
         'span',
         { class: 'home-continue-meta' },
-        chip(exam ? 'Exam' : 'Practice', { kind: exam ? 'warning' : 'info', icon: exam ? 'timer' : 'target' }),
+        // The mode chip only when the title doesn't already say it.
+        title === (exam ? 'Exam' : 'Practice') ? null : chip(exam ? 'Exam' : 'Practice', { kind: exam ? 'warning' : 'info', icon: exam ? 'timer' : 'target' }),
         h('span', { class: 'tabular' }, `${formatNumber(done)} / ${formatNumber(total)}`),
         when ? h('span', { class: 'home-continue-when' }, `· ${when}`) : null,
       ),
@@ -234,7 +240,9 @@ function quickAction({ label, sub, iconName, tone, opts }) {
  * @returns {HTMLElement}
  */
 function quickActions(m) {
-  const n = Number(getSetting('defaultCount')) || 20;
+  const wanted = Number(getSetting('defaultCount')) || 20;
+  // Never promise more questions than the bank holds (e.g. the 10-question demo).
+  const n = m.studyTotal > 0 ? Math.min(wanted, m.studyTotal) : wanted;
   const secs = Number(getSetting('examSecondsPerQuestion')) || 90;
   const minutes = Math.max(1, Math.round((n * secs) / 60));
   return h(

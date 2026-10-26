@@ -940,6 +940,41 @@ function mountPlayer(initial, byId) {
   document.addEventListener('keydown', onKey);
   offs.push(() => document.removeEventListener('keydown', onKey));
 
+  /* ---------------- swipe (a shortcut for Prev / Next) ---------------- */
+
+  /** @type {{ id: number, x: number, y: number, t: number } | null} */
+  let swipe = null;
+  stage.addEventListener(
+    'pointerdown',
+    (e) => {
+      const t = /** @type {HTMLElement} */ (e.target);
+      if (e.pointerType !== 'touch' || !e.isPrimary || view?.isDrawing()) return;
+      // Choices own swipe-left (strike); tables, canvases and controls scroll or act themselves.
+      if (t?.closest?.('.qv-choice-row, .xb-table-wrap, canvas, input, textarea, button, a, .voice-scrub')) return;
+      swipe = { id: e.pointerId, x: e.clientX, y: e.clientY, t: performance.now() };
+    },
+    { passive: true },
+  );
+  stage.addEventListener(
+    'pointerup',
+    (e) => {
+      const sw = swipe;
+      swipe = null;
+      if (!sw || e.pointerId !== sw.id) return;
+      const dx = e.clientX - sw.x;
+      const dy = e.clientY - sw.y;
+      const sel = getSelection();
+      if (sel && !sel.isCollapsed) return;
+      if (performance.now() - sw.t > 600 || Math.abs(dx) < 80 || Math.abs(dy) > Math.abs(dx) * 0.5) return;
+      if (dx < 0 && s.index < total - 1) goToIndex(s.index + 1, { focus: false });
+      else if (dx > 0) goToIndex(s.index - 1, { focus: false });
+    },
+    { passive: true },
+  );
+  stage.addEventListener('pointercancel', () => {
+    swipe = null;
+  });
+
   /* ---------------- start ---------------- */
 
   renderQuestion(0);

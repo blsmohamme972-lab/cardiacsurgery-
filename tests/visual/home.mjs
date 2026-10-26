@@ -309,13 +309,17 @@ const LIB_TABS = ['bookmarks', 'notes', 'voice', 'highlights', 'flagged', 'sessi
   check(resume === quizHash, `[${label}] Continue card resumes the latest quiz (${resume} vs ${quizHash})`);
   await page.screenshot({ path: path.join(OUT, 'home-continue-phone-light.png'), fullPage: true });
   await page.locator('.home-continue-discard').click();
-  await page.waitForSelector('.screen-home .home-continue', { state: 'detached' }).catch(() => {});
-  // Another unfinished quiz (from the builder) may now be the latest; the discarded one must be gone.
-  const afterDiscard = await page.locator('.home-continue-link').getAttribute('href').catch(() => null);
-  check(afterDiscard !== quizHash, `[${label}] Discard removes the quiz from Continue`);
+  await page.locator('.toast-action', { hasText: 'Undo' }).waitFor();
+  // Another unfinished quiz (from the builder) becomes the latest; the discarded one must be gone.
+  const gone = await page
+    .waitForFunction((h) => document.querySelector('.home-continue-link')?.getAttribute('href') !== h, quizHash, { timeout: 3000 })
+    .then(() => true, () => false);
+  check(gone, `[${label}] Discard removes the quiz from Continue`);
   await page.locator('.toast-action', { hasText: 'Undo' }).click();
-  await page.waitForFunction((h) => document.querySelector('.home-continue-link')?.getAttribute('href') === h, quizHash);
-  check(true, 'undo');
+  const back = await page
+    .waitForFunction((h) => document.querySelector('.home-continue-link')?.getAttribute('href') === h, quizHash)
+    .then(() => true, () => false);
+  check(back, `[${label}] Undo brings the discarded quiz back`);
 
   await quick(page, 'Exam');
   check(await waitQuiz(page), `[${label}] Exam quick action opens #/quiz/<id>`);
@@ -386,11 +390,14 @@ const LIB_TABS = ['bookmarks', 'notes', 'voice', 'highlights', 'flagged', 'sessi
   check(before >= 5, `[${label}] Sessions lists every quiz (${before})`);
   await page.locator('.lib-session').first().locator('button').click();
   await page.waitForFunction((n) => document.querySelectorAll('.lib-session').length === n - 1, before);
+  await page.locator('.toast-action', { hasText: 'Undo' }).waitFor();
   await page.waitForTimeout(450); // let the store refresh settle
   check((await page.locator('.lib-session').count()) === before - 1, `[${label}] Sessions delete removes the row`);
   await page.locator('.toast-action', { hasText: 'Undo' }).click();
-  await page.waitForFunction((n) => document.querySelectorAll('.lib-session').length === n, before);
-  check(true, 'undo');
+  const restored = await page
+    .waitForFunction((n) => document.querySelectorAll('.lib-session').length === n, before)
+    .then(() => true, () => false);
+  check(restored, `[${label}] Sessions Undo restores the row`);
 
   await context.close();
 }
@@ -410,6 +417,13 @@ for (const vp of VIEWPORTS) {
     check(await waitQuiz(page), `[${label}] Practice opens a quiz`);
     await go(page, '#/', '.screen-home .home-continue');
     await page.waitForSelector('.home-due');
+    // The player hides the tab bar / rail; wait until the layout is back.
+    await page.waitForFunction(() => document.documentElement.dataset.tabbar !== 'hidden');
+    await page.waitForTimeout(600);
+    if (vp.width >= 700) {
+      const left = await page.evaluate(() => document.querySelector('#main')?.getBoundingClientRect().left ?? 0);
+      check(left >= 60, `[${label}] content clears the side rail (main left ${left}px)`);
+    }
     await noHScroll(page, `${label} home`);
     await page.screenshot({ path: path.join(OUT, `home-${label}.png`), fullPage: true });
 

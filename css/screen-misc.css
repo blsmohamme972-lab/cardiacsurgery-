@@ -734,6 +734,19 @@
   padding: var(--sp-4);
 }
 
+.set-read-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.set-read-body > * + * {
+  border-top: 1px solid var(--border);
+}
+
+.set-read-body > .misc-note {
+  padding: var(--sp-3) var(--sp-4);
+}
+
 .set-details > summary {
   display: flex;
   align-items: center;
@@ -841,6 +854,15 @@
   width: 100%;
   margin-inline: auto;
   padding-inline: var(--sp-4);
+}
+
+.rv-filter .seg-option {
+  padding-inline: 2px;
+}
+
+.rv-filter .seg-label {
+  overflow-wrap: normal;
+  white-space: nowrap;
 }
 
 .rv-actions {

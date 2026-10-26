@@ -264,6 +264,7 @@ export default {
           drawList();
         },
       });
+      filterCtl.classList.add('rv-filter');
 
       function drawList() {
         clear(listBox);

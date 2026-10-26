@@ -48,7 +48,7 @@ css/
   review.css               Report sheet, reviewer panel, backup import dialog.
   screen-player.css        Question player + results.
   screen-home.css          Home, chapter, quiz builder, library.
-  screen-misc.css          Stats, search, settings, reviewer dashboard, tour.
+  screen-misc.css          Stats, search, settings, reviewer dashboard (the tour is styled in components.css).
 
 js/
   app.js                   Bootstrap: settings → db → shell → routes → SW → resume/tour.
