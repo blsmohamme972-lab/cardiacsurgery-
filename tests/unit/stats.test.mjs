@@ -174,6 +174,8 @@ describe('aggregateStats: totals', () => {
     notes: [
       { qid: 'CH01-0001', text: 'Note text', updated: NOW },
       { qid: 'CH01-0002', text: '   ', updated: NOW },
+      { qid: 'CH01-0003', updated: NOW }, // no text: not a note
+      { qid: 'CH02-0001', text: 42, updated: NOW }, // malformed text: not a note
       { qid: 'DEMO-0001', text: 'Note text', updated: NOW },
     ],
     voice: [{ qid: 'CH01-0001' }, { qid: 'CH01-0001' }, { qid: 'CH09-0001' }],
@@ -190,7 +192,7 @@ describe('aggregateStats: totals', () => {
     assert.equal(s.avgMs, 20000); // (10000 + 20000 + 30001) / 3 = 20000.33 → 20000
     assert.equal(s.dueCount, 2); // due in the past and due exactly now
     assert.equal(s.bookmarks, 2);
-    assert.equal(s.notes, 1); // blank note ignored
+    assert.equal(s.notes, 1); // blank, missing and non-string text ignored
     assert.equal(s.voice, 2);
     assert.equal(s.highlights, 2);
   });

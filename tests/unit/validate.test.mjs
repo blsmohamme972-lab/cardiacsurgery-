@@ -464,3 +464,26 @@ describe('cli', () => {
     assert.match(lines[lines.length - 1], /1 question in published chapters .* 1 in hidden chapters \(1 reviewed\); 10 demo\./);
   });
 });
+
+describe('image paths', () => {
+  test('a percent-encoded ".." segment is refused like ".." (browsers resolve it the same way)', () => {
+    const root = makeRoot();
+    // The literal folders exist on disk, so only the path rule can catch it.
+    mkdirSync(path.join(root, 'data', 'img', '%2e%2e', '%2E%2e'), { recursive: true });
+    writeFileSync(path.join(root, 'data', 'img', '%2e%2e', '%2E%2e', 'outside.webp'), 'x');
+    mkdirSync(path.join(root, 'data', 'img', 'ok'), { recursive: true });
+    writeFileSync(path.join(root, 'data', 'img', 'ok', 'inside.webp'), 'x');
+    addQuestions(root, 'ch22', [
+      sampleQuestion('CH22-0001', { image: { src: 'data/img/%2e%2e/%2E%2e/outside.webp', alt: 'Placeholder image' } }),
+      sampleQuestion('CH22-0002', {
+        answer: 'a',
+        stem: 'A different neutral placeholder stem used only for the image path rule check here.',
+        image: { src: 'data/img/ok/inside.webp', alt: 'Placeholder image' },
+      }),
+    ]);
+    const { errors } = check(root);
+    assert.equal(errors.length, 1, JSON.stringify(errors));
+    assert.match(errors[0].where, /^CH22-0001 {2}image\.src$/);
+    assert.match(errors[0].message, /must not go up/);
+  });
+});

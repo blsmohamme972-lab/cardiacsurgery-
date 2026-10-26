@@ -570,6 +570,7 @@ export function nextQState(prev, { qid, choice, correct, ms, ts }) {
  * Decides what to store when a session snapshot is saved over the stored
  * record. Pure.
  * - A stored finished session is never replaced by an unfinished snapshot (→ null: skip).
+ * - Tutor: an answer already stored is kept (a stale snapshot never drops or changes it).
  * - Once stored as finished, `finishedAt` keeps its first value and `graded` never goes back to false.
  * - `updatedAt` becomes the save time (or the snapshot's, when later).
  * @param {Session | null | undefined} stored
@@ -579,14 +580,41 @@ export function nextQState(prev, { qid, choice, correct, ms, ts }) {
  */
 export function mergeForWrite(stored, incoming, now = Date.now()) {
   const updatedAt = Math.max(isNum(incoming.updatedAt) ? incoming.updatedAt : 0, isNum(now) ? now : Date.now());
-  if (!isObj(stored) || !isFinished(/** @type {Session} */ (stored))) return { ...incoming, updatedAt };
+  const answers = keepTutorAnswers(stored, incoming);
+  if (!isObj(stored) || !isFinished(/** @type {Session} */ (stored))) return { ...incoming, answers, updatedAt };
   if (!isFinished(incoming)) return null;
   return {
     ...incoming,
+    answers,
     finishedAt: stored.finishedAt,
     graded: stored.graded === true || incoming.graded === true,
     updatedAt,
   };
+}
+
+/**
+ * Tutor answers are final and already counted in the learner's progress, so
+ * a stale snapshot (saved from an older copy of the session) must not drop
+ * one: the stored answers win over the snapshot's. Exam answers are taken
+ * from the snapshot as they are (they may change until the exam ends).
+ * @param {unknown} stored
+ * @param {Session} incoming
+ * @returns {Record<string, Answer>} `incoming.answers` itself when nothing is added.
+ */
+function keepTutorAnswers(stored, incoming) {
+  const answers = incoming.answers;
+  if (incoming.mode !== 'tutor' || !isObj(stored) || stored.mode !== 'tutor' || !isObj(stored.answers)) return answers;
+  /** @type {Record<string, Answer> | null} */
+  let merged = null;
+  for (const qid of Array.isArray(incoming.qids) ? incoming.qids : []) {
+    const kept = answerOf(/** @type {Session} */ (stored), qid);
+    if (!kept) continue;
+    const mine = answerOf(incoming, qid);
+    if (mine && mine.choice === kept.choice) continue;
+    merged ??= { ...(isObj(answers) ? answers : {}) };
+    merged[qid] = kept;
+  }
+  return merged ?? answers;
 }
 
 /**
@@ -1203,7 +1231,10 @@ export async function flushSessions() {
  * @returns {Promise<{ session: Session, correct: boolean, applied: boolean }>}
  *   `applied` is false when the answer was ignored (locked, unknown question
  *   or choice, unchanged exam answer); `session` is then `s` and `correct`
- *   describes the stored answer when there is one.
+ *   describes the stored answer when there is one. Tutor: when the stored
+ *   session already answered the question (a second quick tap, or a stale
+ *   copy of `s`), nothing is written again, `applied` is false and `session`
+ *   is the stored session (which holds the first answer).
  * @throws {Error} `StorageError` when a write fails.
  */
 export async function recordAnswer(s, question, choice, ms) {
@@ -1217,19 +1248,65 @@ export async function recordAnswer(s, question, choice, ms) {
     return { session: s, correct: existing ? existing.correct === true : correct, applied: false };
   }
   if (next.mode === 'tutor') {
-    const repo = await repoApi();
-    const a = /** @type {Answer} */ (answerOf(next, qid));
-    const result = { qid, choice: a.choice, correct: a.correct, ms: a.ms, ts: /** @type {number} */ (a.at) };
-    await Promise.all([
-      repo.qstateRepo.update(qid, (prev) => nextQState(prev ?? repo.emptyQState(qid), result)),
-      repo.attemptsRepo.add({ ...result, mode: 'tutor', sessionId: next.id }),
-      persistNow(next),
-    ]);
+    const out = await recordTutorAnswer(next, qid);
+    if (!out.wrote) {
+      // Already answered in the stored session (a double tap, or a stale
+      // in-memory copy): progress is never counted twice.
+      const stored = out.session;
+      const existing = answerOf(stored, qid);
+      return { session: stored, correct: existing ? existing.correct === true : correct, applied: false };
+    }
     bus.emit('qstate:change', { qid });
   } else {
-    await persistNow(next);
+    const saved = await persistNow(next);
+    // The exam was finished meanwhile (e.g. time ran out in another call):
+    // the stored, finished session wins and the late answer is not kept.
+    if (isObj(saved) && isFinished(/** @type {Session} */ (saved))) {
+      const stored = repairSession(saved) ?? /** @type {Session} */ (saved);
+      const existing = answerOf(stored, qid);
+      return { session: stored, correct: existing ? existing.correct === true : correct, applied: false };
+    }
   }
   return { session: next, correct, applied: true };
+}
+
+/**
+ * Stores a tutor answer: the session, qstate (+ srs) and one attempt, in one
+ * serialized step per session. The stored session is checked first, so the
+ * same question is never counted twice: when it already holds an answer for
+ * `qid` (two quick taps race, or the caller kept a stale copy) or is
+ * finished, nothing is written. A pending debounced save is superseded.
+ * @param {Session} next The session with the new answer applied.
+ * @param {string} qid
+ * @returns {Promise<{ wrote: boolean, session: Session }>} `session`: the
+ *   stored record (repaired) when nothing was written, else the new one.
+ */
+function recordTutorAnswer(next, qid) {
+  const entry = pending.get(next.id);
+  if (entry) {
+    if (entry.timer !== null) clearTimeout(entry.timer);
+    pending.delete(next.id);
+  }
+  const run = serial(next.id, async () => {
+    const repo = await repoApi();
+    const deleted = deletedIds.has(next.id);
+    const raw = deleted ? null : await repo.sessionsRepo.get(next.id);
+    const stored = repairSession(raw);
+    if (stored && (isFinished(stored) || answerOf(stored, qid))) {
+      return { wrote: false, session: stored, record: /** @type {Session} */ (raw) };
+    }
+    const a = /** @type {Answer} */ (answerOf(next, qid));
+    const result = { qid, choice: a.choice, correct: a.correct, ms: a.ms, ts: /** @type {number} */ (a.at) };
+    const rec = deleted ? null : mergeForWrite(raw, next, Date.now());
+    const [, , saved] = await Promise.all([
+      repo.qstateRepo.update(qid, (prev) => nextQState(prev ?? repo.emptyQState(qid), result)),
+      repo.attemptsRepo.add({ ...result, mode: 'tutor', sessionId: next.id }),
+      rec ? repo.sessionsRepo.put(rec) : null,
+    ]);
+    return { wrote: true, session: next, record: isObj(saved) ? /** @type {Session} */ (saved) : null };
+  });
+  if (entry) run.then((r) => entry.resolve(r.record), entry.reject);
+  return run.then(({ wrote, session }) => ({ wrote, session }));
 }
 
 /**

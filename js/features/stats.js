@@ -342,7 +342,8 @@ export function aggregateStats(input = {}) {
   for (const n of listOf(src.notes)) {
     const qid = qidOf(n);
     if (qid === null || !bank.has(qid) || notesSeen.has(qid)) continue;
-    if (typeof n.text === 'string' && n.text.trim() === '') continue;
+    // Only a real, non-blank note counts (a record without text is not a note).
+    if (typeof n.text !== 'string' || n.text.trim() === '') continue;
     notesSeen.add(qid);
   }
   const countInBank = (/** @type {unknown} */ list) => {

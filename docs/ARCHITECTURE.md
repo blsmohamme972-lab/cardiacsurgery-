@@ -717,6 +717,8 @@ Async API (repo.js / data.js imported lazily):
   (answers are never debounced). Tutor: also qstate (+srs via `nextSrs`) and one attempt
   `{qid, choice, correct, ms, ts, mode, sessionId}`, then `qstate:change` `{qid}`. Exam: session only.
   `applied: false` (session unchanged) when the answer was ignored.
+  Tutor: if the stored session already holds an answer for the question, or is finished, nothing is written
+  (`applied: false` + the stored session). Exam: an answer on a stored finished session is not kept (`applied: false`).
 - `completeSession(s, questions?)` → finished session, stored immediately. Exam: stores "finished" first, then
   grades every answered question (against `questions`, else the recorded correctness): one attempt + qstate/srs each,
   `qstate:change` per graded qid, then `graded: true`. Idempotent: concurrent calls share one run, a finished+graded
@@ -725,7 +727,8 @@ Async API (repo.js / data.js imported lazily):
 - `deleteSession(id)` (drops a pending save; later saves of that id are ignored), `restoreSession(s)` (Undo),
   `latestUnfinished()` (after flushing), `toggleBookmark(qid)` → new state, emits `qstate:change`.
 - Write safety: writes per session are serialized; a stored finished session is never replaced by an unfinished
-  snapshot, its first `finishedAt` is kept and `graded` never goes back to false.
+  snapshot, its first `finishedAt` is kept and `graded` never goes back to false. A stored tutor answer is never
+  dropped or changed by a stale snapshot (`mergeForWrite` keeps stored tutor answers).
 - Storage failures propagate as the repo's `StorageError`. `setTestBackend({repo, data} | null)` is a unit-test seam.
 
 ### 7.4 `features/stats.js`

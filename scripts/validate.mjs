@@ -366,7 +366,8 @@ function unsafePathReason(p) {
   if (p.startsWith('/')) return 'must be relative (no leading "/"), because the app lives under a sub-path';
   if (/^[a-z][a-z0-9+.-]*:/i.test(p)) return 'must be a relative path inside the app, not a URL';
   if (p.includes('\\')) return 'must use "/" separators';
-  if (p.split('/').some((seg) => seg === '..')) return 'must not go up with ".."';
+  // A browser resolves a percent-encoded dot segment (`%2e%2e`) like `..`.
+  if (p.split('/').some((seg) => seg.replace(/%2e/gi, '.') === '..')) return 'must not go up with ".." (or "%2e%2e")';
   return null;
 }
 

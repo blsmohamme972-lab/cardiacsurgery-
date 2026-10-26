@@ -431,11 +431,14 @@ self.addEventListener('install', (event) => {
     (async () => {
       const started = Date.now();
       const existed = { shell: await caches.has(SHELL_CACHE), data: await caches.has(DATA_CACHE) };
-      try {
-        await Promise.all([precacheShell(), precacheData()]);
-      } catch (err) {
+      // Wait for both downloads to settle before cleaning up: discarding the
+      // caches while the other half still writes would leave it filling an
+      // orphaned cache for nothing.
+      const results = await Promise.allSettled([precacheShell(), precacheData()]);
+      const failure = results.find((r) => r.status === 'rejected');
+      if (failure) {
         await discardPartialCaches(existed);
-        throw err;
+        throw failure.reason;
       }
       console.info(LOG, 'Installed in ' + (Date.now() - started) + ' ms.');
       // One-time migration from the install test (it holds no user data):

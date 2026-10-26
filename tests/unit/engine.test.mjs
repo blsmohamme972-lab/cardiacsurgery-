@@ -580,6 +580,27 @@ describe('mergeForWrite', () => {
     assert.equal(mergeForWrite(stored, exam(), NOW + 1), null);
   });
 
+  test('tutor: a stale snapshot never drops or changes a stored answer (regression)', () => {
+    const s0 = tutor();
+    const stored = applyAnswer(applyAnswer(s0, Q1.id, 'a', false, 1000, NOW), Q2.id, 'a', true, 500, NOW);
+    const stale = applyAnswer(goTo(s0, 2), Q2.id, 'b', false, 700, NOW); // knows neither stored answer
+    const rec = mergeForWrite(stored, stale, NOW + 1);
+    assert.equal(rec.index, 2, 'other fields come from the snapshot');
+    assert.deepEqual(rec.answers[Q1.id], stored.answers[Q1.id]);
+    assert.deepEqual(rec.answers[Q2.id], stored.answers[Q2.id]);
+    assert.equal(stale.answers[Q1.id], undefined, 'the snapshot is not mutated');
+    // Nothing to add → the snapshot's answers object is reused.
+    const fresh = goTo(stored, 1);
+    assert.equal(mergeForWrite(stored, fresh, NOW + 1).answers, fresh.answers);
+  });
+
+  test('exam: the snapshot answers win (they may change until the end)', () => {
+    const s0 = exam();
+    const stored = applyAnswer(s0, Q1.id, 'a', false, 1000, NOW);
+    const changed = applyAnswer(s0, Q1.id, 'c', true, 1000, NOW);
+    assert.equal(mergeForWrite(stored, changed, NOW + 1).answers[Q1.id].choice, 'c');
+  });
+
   test('keeps the first finish time and a true graded flag', () => {
     const s = exam();
     const stored = { ...finishSession(s, NOW), graded: true };
@@ -970,6 +991,87 @@ describe('async API', () => {
       assert.equal(again.correct, false, 'reports the stored answer');
       assert.equal(mem.attempts.length, 1);
       assert.equal(mem.qstates.get(Q1.id).seen, 1);
+    });
+
+    test('two quick taps on the same question count once (regression)', async () => {
+      const w = watchQState();
+      try {
+        const s = await createSession({ qids: [Q1.id, Q2.id] });
+        // Both calls start from the same (unanswered) snapshot before either resolves.
+        const [first, second] = await Promise.all([recordAnswer(s, Q1, 'c', 1000), recordAnswer(s, Q1, 'a', 1200)]);
+        assert.equal(first.applied, true);
+        assert.equal(second.applied, false);
+        assert.equal(second.session.answers[Q1.id].choice, 'c', 'returns the stored session with the first answer');
+        assert.equal(second.correct, true, 'reports the stored answer');
+        assert.equal(mem.attempts.length, 1);
+        assert.equal(mem.qstates.get(Q1.id).seen, 1);
+        assert.equal(mem.sessions.get(s.id).answers[Q1.id].choice, 'c');
+        assert.deepEqual(w.seen, [Q1.id]);
+      } finally {
+        w.off();
+      }
+    });
+
+    test('a stale session copy cannot record an answered question again (regression)', async () => {
+      const s = await createSession({ qids: [Q1.id, Q2.id] });
+      await recordAnswer(s, Q1, 'a', 1000);
+      const again = await recordAnswer(s, Q1, 'c', 1000); // `s` does not know about the first answer
+      assert.equal(again.applied, false);
+      assert.equal(again.correct, false);
+      assert.equal(again.session.answers[Q1.id].choice, 'a');
+      assert.equal(mem.attempts.length, 1);
+      assert.equal(mem.qstates.get(Q1.id).seen, 1);
+      // Another question still records normally from the stale copy's successor.
+      const next = await recordAnswer(again.session, Q2, 'a', 500);
+      assert.equal(next.applied, true);
+      assert.equal(mem.attempts.length, 2);
+    });
+
+    test('an answer on a session finished elsewhere writes no progress (regression)', async () => {
+      const s = await createSession({ qids: [Q1.id, Q2.id] });
+      await completeSession(s);
+      const out = await recordAnswer(s, Q1, 'c', 1000);
+      assert.equal(out.applied, false);
+      assert.ok(out.session.finishedAt !== null);
+      assert.equal(mem.attempts.length, 0);
+      assert.equal(mem.qstates.has(Q1.id), false);
+    });
+
+    test('a late debounced save of an older tutor snapshot keeps the recorded answer (regression)', async () => {
+      const s = await createSession({ qids: [Q1.id, Q2.id] });
+      const r = await recordAnswer(s, Q1, 'c', 1000);
+      await saveSession(addTime(s, Q1.id, 5000)); // e.g. a timer still holding the pre-answer copy
+      const stored = mem.sessions.get(s.id);
+      assert.equal(stored.answers[Q1.id].choice, 'c');
+      assert.equal(stored.elapsedMs, 5000);
+      const again = await recordAnswer(s, Q1, 'a', 1000);
+      assert.equal(again.applied, false);
+      assert.equal(mem.attempts.length, 1);
+      assert.equal(r.applied, true);
+    });
+
+    test('a late exam answer after the exam was finished is not kept (regression)', async () => {
+      const s = await createSession({ qids: [Q1.id, Q2.id], mode: 'exam' });
+      const r = await recordAnswer(s, Q1, 'c', 1000);
+      const done = await completeSession(r.session, QUESTIONS);
+      const late = await recordAnswer(r.session, Q2, 'a', 1000); // stale, unfinished copy
+      assert.equal(late.applied, false);
+      assert.equal(late.session.finishedAt, done.finishedAt);
+      assert.equal(late.session.answers[Q2.id], undefined);
+      assert.equal(mem.sessions.get(s.id).answers[Q2.id], undefined);
+      assert.equal(mem.attempts.length, 1);
+    });
+
+    test('a tutor answer supersedes a pending debounced save, whose promise still settles', async () => {
+      const s = await createSession({ qids: [Q1.id, Q2.id] });
+      const moved = goTo(s, 1);
+      const saved = saveSession(moved);
+      const out = await recordAnswer(moved, Q1, 'c', 1000);
+      assert.equal(out.applied, true);
+      const rec = await saved;
+      assert.equal(rec.answers[Q1.id].choice, 'c');
+      assert.equal(mem.sessions.get(s.id).index, 1);
+      assert.equal(mem.attempts.length, 1);
     });
 
     test('keeps the bookmark', async () => {
