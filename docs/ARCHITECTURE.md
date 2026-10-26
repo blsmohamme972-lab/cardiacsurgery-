@@ -96,7 +96,7 @@ scripts/                   Dev-only (Node 20+, no dependencies). Never loaded by
   validate.mjs             Validates data + precache list + version consistency. Exit 1 on error.
   bump-version.mjs         Sets a new version in sw.js and js/version.js.
 tests/                     Dev-only.
-  unit.mjs                 Node unit tests for pure modules (node:test + node:assert).
+  unit/*.test.mjs          Node unit tests for pure modules (node:test + node:assert). Run: node --test tests/unit/
   e2e.mjs                  Playwright end-to-end tests (uses the pre-installed playwright).
   serve.mjs                Tiny static file server used by e2e (serves repo under /cardiacsurgery-/).
 docs/ARCHITECTURE.md       This file.
@@ -693,7 +693,7 @@ Replace: clears every store first (after the user confirms). Import never touche
 
 ## 9. Testing
 
-- `node tests/unit.mjs` — pure modules: inline parser, anchor, srs, builder filterQids, engine reducers/summarize,
+- `node --test tests/unit/` — pure modules (one `*.test.mjs` file per module area): inline parser, anchor, srs, builder filterQids, engine reducers/summarize,
   search tokenize/index/query, util, askgpt buildPrompt.
 - `node tests/e2e.mjs` — starts `tests/serve.mjs`, runs Chromium (phone and iPad viewports): boots offline-capable,
   home renders, demo practice flow (answer, explanation blocks render), bookmark persists across reload,
