@@ -1,0 +1,19 @@
+{
+  "name": "cardiac-mcq",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Offline-first cardiac surgery MCQ study app (static PWA, no build step). This file only lets Node run dev scripts and tests; the app has no npm dependencies.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test tests/unit/",
+    "test:e2e": "node tests/e2e.mjs",
+    "validate": "node scripts/validate.mjs",
+    "bump": "node scripts/bump-version.mjs",
+    "serve": "node tests/serve.mjs",
+    "check": "node scripts/validate.mjs && node --test tests/unit/",
+    "release": "node scripts/bump-version.mjs && node scripts/validate.mjs && node --test tests/unit/"
+  }
+}
