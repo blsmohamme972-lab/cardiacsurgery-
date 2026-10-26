@@ -1,4 +1,4 @@
-# Handoff: build status (2026-10-26, session 4)
+# Handoff: build status (2026-10-26, session 5)
 
 The previous session stopped mid-build at the owner's request. This file says
 exactly what exists, what is verified, and what to do next. Read `CLAUDE.md`
@@ -21,6 +21,25 @@ passes the full checks in step 6 below.
   (`demoMode`, `studyChapters()`) decides this.
 
 
+
+## Session 5 (stopped by the owner right after start: "Hand as soon as possible")
+
+No code changed in session 5: the 4 agents were stopped while still reading,
+before writing anything. **The Session 4 table below is still exactly current**
+(903/903 unit tests pass; lint: the same 2 errors + 4 warnings for the missing files).
+
+Briefs that were ready to launch (reuse them, 4–6 agents in parallel, disjoint files):
+- **player**: finish DRAFT `question-view.js` + `screens/player.js`; write `screens/results.js`,
+  `screens/question.js`, `css/screen-player.css`, `tests/visual/player.mjs`.
+- **home**: verify/finish DRAFT `quiz/start.js`, `lists.js`, `screens/{home,chapter,builder,library}.js`,
+  `css/screen-home.css`; write `tests/unit/{start,lists}.test.mjs`, `tests/visual/home.mjs`.
+- **misc**: finish DRAFT `screens/{stats,search,settings,reviewer}.js`; write `css/screen-misc.css`,
+  `tests/visual/misc.mjs`. Settings "Check for updates" uses `checkForUpdate()` from sw-client (below).
+- **fixes**: `sw-client.js` export `checkForUpdate()` → `'update-ready'|'up-to-date'|'offline'|'unsupported'|'error'`;
+  `@media (hover: hover)` around `:hover` in `shell.css`/`components.css`; one shared
+  `onDisconnect(el, fn) → off()` in `dom.js` replacing the duplicated watcher in notes/voice/askgpt/tts.
+  Add both new exports to ARCHITECTURE.md (§5.7, §5.1).
+- After those: `tests/e2e.mjs` (§9), then publish to `main` per the owner's wish (Session 4 note).
 
 ## Session 4 (stopped by the owner mid-build: "Hand off") — START HERE
 
