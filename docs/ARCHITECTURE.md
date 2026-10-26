@@ -34,7 +34,8 @@ manifest.webmanifest       PWA manifest.
 sw.js                      Service worker (precache + update flow).
 package.json               {"type":"module","private":true} so Node can run dev scripts/tests.
 .nojekyll                  Disables Jekyll on GitHub Pages. Keep.
-icons/                     App icons (icon-180.png, icon-192.png, icon-512.png).
+icons/                     App icons (icon-180.png, icon-192.png, icon-512.png, icon-maskable-512.png; icon.svg master).
+fonts/                     Bundled fonts (SIL OFL 1.1, fonts/OFL.txt): Inter (latin + greek) and Manrope, variable woff2.
 
 css/
   tokens.css               Design tokens (colors, spacing, type scale, radii, shadows), light + dark.
@@ -599,7 +600,13 @@ Type: `--font-sans` (system UI stack), `--font-mono`, `--font-scale` (set by set
 Motion: `--ease --dur-fast --dur` (0ms when `[data-reduce-motion="true"]`).
 Touch: `--tap` (44px). Layout: `--maxw` (reading width ~72ch), `--header-h`, `--tabbar-h`,
 `--safe-top --safe-bottom` (from env(safe-area-inset-*)).
-Primary color `#b01e2d` (light), lighter red in dark mode. Theme: `<html data-theme="light|dark">`.
+Brand ("Cardiac OR" identity, session 5): arterial crimson `--primary` `#a6192e` (light) / `#ff5a70` (dark);
+venous navy hero surfaces `--venous --venous-2 --hero-grad` with `--on-venous --on-venous-2` text; ECG trace `--ecg`
+(crimson-pink light, monitor green dark); scrub teal accent `--teal --teal-soft --teal-contrast`; `--brand-grad`;
+chart colours `--chart-1 --chart-2 --chart-track`. Steel-cool neutrals. Fonts: `--font-sans` = Inter (body/UI),
+`--font-display` = Manrope (headings, `.num-display` numbers). `base.css` provides `.num-display` and the decorative
+`.ecg-line` (+ `.ecg-line--sweep`, still with reduced motion). All text pairs ≥ 4.5:1 in both themes.
+Theme: `<html data-theme="light|dark">`.
 
 Breakpoints: phone `< 700px` (bottom tab bar), tablet `≥ 700px` (side rail),
 wide `≥ 1000px` (player shows question and explanation side by side).
