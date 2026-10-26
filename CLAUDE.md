@@ -146,6 +146,9 @@ The owner requires **extreme user-friendliness** in every screen and feature:
 - Write questions **only from the source material the owner provides**, exactly as given.
 - **No external sources** and no outside knowledge: no other books, websites,
   guidelines or memory. If the provided sources do not support a fact, do not use it.
+- **Never search** for content: no web search, no medical articles, no other books,
+  not even to "check" a fact. The owner's text is the only truth for this app,
+  even where it differs from other references.
 - Every question must say which provided source (and section/page) it comes from.
 - If the sources are unclear or not enough for a question, skip it or ask the owner.
 - The repo is public: do not commit the owner's source files (they may be
