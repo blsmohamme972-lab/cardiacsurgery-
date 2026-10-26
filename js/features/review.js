@@ -48,7 +48,7 @@ export const REVIEW_FORMAT_VERSION = 1;
 /** Longest free text kept for a report or review comment. */
 export const MAX_COMMENT_LENGTH = 4000;
 
-const SAVED_REPORT_MESSAGE = 'Thanks — saved on this device. Export it from Settings > Reviewer to send it.';
+const SAVED_REPORT_MESSAGE = 'Thanks — your report is saved on this device.';
 const UNREVIEWED_HINT = 'AI-generated question, not yet checked by a specialist.';
 const COMMENT_SAVE_DELAY_MS = 600;
 
