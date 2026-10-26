@@ -358,8 +358,8 @@ export function createAskGptButton(question, getContext) {
       let message;
       if (opened) {
         message = copied
-          ? "Opening ChatGPT. The question is also copied: if it doesn't appear there, paste it."
-          : "Opening ChatGPT. If it didn't open, tap Open ChatGPT.";
+          ? 'Opening ChatGPT. The question is copied too, in case you need to paste it.'
+          : "Opening ChatGPT. Didn't open? Tap Open ChatGPT.";
       } else {
         message = copied
           ? "ChatGPT didn't open by itself. The question is copied: tap Open ChatGPT and paste it."

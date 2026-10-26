@@ -289,7 +289,10 @@ try {
   await page.click('.askgpt-btn');
   await page.waitForSelector('.sheet .askgpt-notice', { timeout: 2000 });
   check(true, 'askgpt: notice again after Cancel');
-  if (SHOTS) await page.screenshot({ path: path.join(SHOTS, 'features-askgpt-notice-phone-light.png') });
+  if (SHOTS) {
+    await page.waitForTimeout(500); // let the sheet finish sliding in
+    await page.screenshot({ path: path.join(SHOTS, 'features-askgpt-notice-phone-light.png') });
+  }
   await page.click('.sheet-footer button:has-text("Continue")');
   await page.waitForTimeout(400);
   const opened = await page.evaluate(() => window.__opened);
