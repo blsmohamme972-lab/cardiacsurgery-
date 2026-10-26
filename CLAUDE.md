@@ -62,6 +62,30 @@ rules above (vanilla JS, no framework, no build step). That means:
 - Validate all question data before it ships.
 - Clean, consistent, well-structured code that is easy to extend.
 
+## User experience: extremely user-friendly
+
+The owner requires **extreme user-friendliness** in every screen and feature:
+
+- **Zero learning curve**: everything is obvious on first use; no manual needed.
+  A short optional first-run tour, skippable.
+- **Fewest taps**: the most common actions (answer, next, bookmark, highlight,
+  note) are one tap away. Start studying within 2 taps of opening the app.
+- **Big touch targets** (at least 44×44 px), comfortable one-hand use on phones,
+  a two-pane layout on iPad (question beside explanation).
+- **Instant feedback**: every tap responds immediately; smooth animations that
+  never slow the user down; respect "reduce motion".
+- **Never lose work**: autosave everything instantly. Prefer **Undo** over
+  "Are you sure?" dialogs.
+- **Always resume** exactly where the user left off.
+- **Clear, calm reading**: excellent typography, comfortable line length,
+  adjustable font size, light/dark mode, high contrast.
+- **Plain-language messages** for offline, errors, storage, and updates, each
+  with a clear next step.
+- **Gestures are shortcuts, never the only way**: every swipe also has a visible button.
+- **Drawing tools stay simple**: a small palette, last-used tool and color remembered.
+- **Settings remembered**, sensible defaults, nothing required to configure.
+- Test every feature on a real phone and iPad size before calling it done.
+
 ## Hosting and deployment
 
 - **GitHub Pages** from this repo (the repo is **public** for this reason).
