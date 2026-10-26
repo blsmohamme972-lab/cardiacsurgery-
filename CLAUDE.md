@@ -9,16 +9,30 @@ A cardiac surgery MCQ (multiple-choice question) study app for board-level exam 
 
 ## Status
 
-Planning only. The app has **not** been built yet. Do not add app code, data,
-icons or scripts until the owner asks for them.
+**Building v1** (owner said "start building", 2026-10-26). The full design
+contract is in `docs/ARCHITECTURE.md` — read it before touching code, and keep
+it in sync with any contract change.
 
-The current `index.html`, `manifest.webmanifest`, `sw.js` and `icons/` are a
-throwaway **install test** (does the PWA install and open offline on iPad/Android).
-Replace them when the real app is built.
+The question chapters are **empty** until the owner provides source material.
+`data/demo.json` holds an "App tour (demo)" chapter whose questions are about
+using the app (no medical facts), so every feature can be tried now.
 
-Install test result (2026-10-26): on Android Chrome the test installs from
+Install test result (2026-10-26): on Android Chrome the PWA installs from
 GitHub Pages, opens standalone, and works offline in airplane mode.
 iPad/iPhone not tested yet.
+
+## Decisions made by Claude (owner said "choose the best"; owner may change)
+
+- **5 answer choices** per question by default (4 allowed).
+- **Features in v1**: practice (tutor) mode, timed exam mode, custom quiz
+  builder, spaced repetition review, strike-through choices, statistics,
+  search, bookmarks, notes, voice notes, highlights, drawing, scratchpad,
+  Ask GPT, report a problem, reviewer mode, "not yet reviewed" badge,
+  shuffled choices, resume, first-run tour, backup export/import.
+- **Images**: supported inside questions/explanations (from the owner's
+  sources). User-added images are not in v1.
+- **Board**: general cardiac surgery board level; no single board's format is assumed.
+- **Sources**: the owner uploads them in the chat (PDF or text). They are not committed.
 
 ## Communication
 
@@ -94,6 +108,9 @@ The owner requires **extreme user-friendliness** in every screen and feature:
   The app lives under the `/cardiacsurgery-/` sub-path, so all paths must be relative.
 - `.nojekyll` at the root turns off Jekyll processing. Keep it.
 - Every push to `main` auto-deploys. Treat every push to `main` as a production release.
+- **Before every push that changes app files or data**: run
+  `node scripts/bump-version.mjs` then `node scripts/validate.mjs`
+  (and the tests in `tests/`). Without a version bump, installed apps never see the update.
 - Because the repo is public, never put anything private in it.
 - Cloudflare Pages was tried first and dropped (GitHub connection kept failing).
 
@@ -163,8 +180,8 @@ Questions are made with a **highly precise, rigorous process**, not freehand wri
   - a short **source quote** with its reference
 - Store explanations as **structured JSON blocks** (paragraph, list, table, flow,
   mindmap, callout, quote), not raw HTML. The app renders them with its own
-  code (tables in HTML, flows and mind maps as SVG), works offline, and stays
-  consistent and safe.
+  code as real HTML text (so highlights, ink and search work everywhere),
+  works offline, and stays consistent and safe.
 - Richer explanations make the data bigger (maybe 15–25 MB for 5000 questions);
   load chapters on demand to keep the app fast.
 
