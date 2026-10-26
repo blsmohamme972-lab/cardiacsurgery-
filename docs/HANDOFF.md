@@ -1,10 +1,10 @@
-# Handoff: build status (2026-10-26, session 3)
+# Handoff: build status (2026-10-26, session 4)
 
 The previous session stopped mid-build at the owner's request. This file says
 exactly what exists, what is verified, and what to do next. Read `CLAUDE.md`
 and `docs/ARCHITECTURE.md` first; they are the binding rules and contract.
 
-Branch: `claude/cardiac-surgery-claude-md-wgvai0`. `main` still serves the old
+Branch: **`claude/cardiac-surgery-continue-32w2av`** (session 4; built on top of `claude/cardiac-surgery-claude-md-wgvai0`). `main` still serves the old
 install-test page on GitHub Pages; do **not** push the app to `main` until it
 passes the full checks in step 6 below.
 
@@ -20,6 +20,54 @@ passes the full checks in step 6 below.
   only reachable from Settings > Help > "Try the demo". Only `data.js`
   (`demoMode`, `studyChapters()`) decides this.
 
+
+
+## Session 4 (stopped by the owner mid-build: "Hand off") — START HERE
+
+Unit tests: `node --test tests/unit/*.test.mjs` → **903/903 pass**. `node scripts/lint.mjs` → 2 errors
+(missing `screens/results.js`, `screens/question.js`) + 4 warnings (missing APP_SHELL files). All finished
+groups were reviewed by the orchestrator and their contract additions are already in ARCHITECTURE.md.
+
+| item | state |
+|---|---|
+| Step 3.1 review engine/stats/search/inline/data/builder/sw | **DONE** (5 bugs fixed + regression tests) |
+| validate.mjs inlineIssues via parseInline | **DONE** |
+| `scripts/lint.mjs` + `tests/unit/lint.test.mjs` + package.json `lint`/`check`/`release` | **DONE** |
+| `tests/smoke.mjs` boot smoke (stubs missing files in memory) | **DONE**, passes |
+| `explain/render.js`, `css/explanation.css`, `tests/fixtures/explain.html`, `tests/visual/render.mjs` | **DONE** |
+| `annotate/anchor.js`, `highlight.js`, `css/annotate.css`, `tests/visual/highlight.mjs` | **DONE** |
+| `annotate/ink.js`, `ink-toolbar.js`, `scratchpad.js`, `css/ink.css`, `tests/unit/ink.test.mjs`, `tests/visual/ink.mjs` | **DONE** |
+| `notes.js`, `voice.js`, `askgpt.js`, `tts.js`, `css/features.css`, unit tests, `tests/visual/features.mjs` | **DONE** |
+| `review.js`, `backup.js`, `css/review.css`, `tests/unit/backup.test.mjs`, `tests/visual/backup.mjs` | **DONE** |
+| `icons.js` `volume` icon | **DONE** |
+| `question-view.js` (1066 lines), `screens/player.js` (977) | **DRAFT** — agent stopped mid-task; finish + test |
+| `screens/results.js`, `screens/question.js`, `css/screen-player.css` | **MISSING** |
+| `quiz/start.js`, `lists.js`, `screens/home.js`, `chapter.js`, `builder.js`, `library.js`, `css/screen-home.css` | **DRAFT** — agent stopped while finishing library; verify + test (no `tests/unit/{start,lists}.test.mjs`, no `tests/visual/home.mjs` yet) |
+| `screens/stats.js`, `search.js`, `settings.js`, `reviewer.js` | **DRAFT** — agent stopped before CSS |
+| `css/screen-misc.css`, `tests/visual/misc.mjs` | **MISSING** |
+| `tests/e2e.mjs` | **MISSING** (agent stopped before writing to disk) |
+| Wave 3 (e2e, fixes, adversarial review), release | not started |
+
+Owner wishes (session 4): **publish to `main` as soon as the screens work** (quick checks: validate, lint,
+unit, smoke + a manual Playwright run through the main flows), then keep doing e2e/review and ship
+fixes as updates. Then tell the owner in Arabic how to test on the phone.
+
+Notes for the next session:
+- The per-group briefs + shared rule sheet worked well; the rule sheet text is in this file's
+  "Session 3" notes (one shared sheet + one brief per group with an exact file list). Agents never commit;
+  orchestrator commits after each one finishes. Small contract additions are reported by agents and
+  applied to ARCHITECTURE.md by the orchestrator.
+- Visual checks run with `node tests/visual/<name>.mjs`; they load Playwright via `createRequire`
+  (plain ESM import can't find the global package).
+- Integration notes for question-view: `initInk(root, q)` once per question; `setDrawing` → enable/disable;
+  mount `createInkToolbar(ctrl, {onDone, onScratchpad: () => openScratchpad(q)})` while drawing; listen
+  `on('stale')` for a calm notice; `highlightSelection()` for the bottom-bar Highlight button (false →
+  "Select some text first"); choice text inside `<button>` needs `user-select: text`; badges/strike
+  buttons need `data-anchor-skip`.
+- Known open points: Settings "Check for update" may need an exported check function in `sw-client.js`;
+  shell.css sticky `:hover` on tabs after tap (wrap in `@media (hover:hover)`); a shared "element removed"
+  watcher is duplicated in notes/voice/askgpt/tts (could move to dom.js); repo.js has no multi-store
+  `replaceAll` transaction (backup Replace uses snapshot+restore).
 
 ## Session 3 (stopped by the owner mid-build: "Hand off now")
 
