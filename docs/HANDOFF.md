@@ -1,4 +1,4 @@
-# Handoff: build status (2026-10-26, session 5)
+# Handoff: build status (2026-10-26, session 5 — released)
 
 The previous session stopped mid-build at the owner's request. This file says
 exactly what exists, what is verified, and what to do next. Read `CLAUDE.md`
@@ -21,6 +21,18 @@ passes the full checks in step 6 below.
   (`demoMode`, `studyChapters()`) decides this.
 
 
+
+## Session 5 result — v1 RELEASED to `main` (version 2026.10.26-2)
+
+All screens and features are built. At release: `validate` 0/0, `lint` 0/0, unit **945/945**,
+`tests/smoke.mjs` OK, `tests/e2e.mjs` **24/24** (phone + iPad), all `tests/visual/*.mjs` OK, plus a
+manual Playwright run home → practice (10 answers) → explanation → results → offline reload.
+
+Next (wave 3 continued): adversarial review (data loss, offline/update flow, phone/iPad UX, a11y,
+XSS, performance) and ship fixes as updates (bump → validate → lint → unit → smoke → e2e → push branch → main).
+Not yet covered by tests: reviewer mode panel in the player, orphan-highlight/stale-ink notices,
+swipe navigation, first-run tour, Stats weak topics with real data. Owner feedback from real
+iPhone/iPad/Android use comes first.
 
 ## Session 5 (stopped by the owner right after start: "Hand as soon as possible")
 
