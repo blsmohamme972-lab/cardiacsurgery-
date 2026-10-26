@@ -500,6 +500,7 @@ describe('malformed index entries', () => {
           chapterEntry(14, 'p1', true, { id: 'ch01' }),
           chapterEntry(15, 'p1', true, { prefix: 'CH01' }),
           chapterEntry(16, 'p1', true, { number: 1 }),
+          chapterEntry(17, 'p1', true, { file: 'data/%2e%2e/%2E%2e/outside.json' }),
           chapterEntry(4, 'p2', 'true', { title: '', short: undefined, page: undefined, count: -1, demo: true }),
         ],
         demo: DEMO_ENTRY,
@@ -525,7 +526,7 @@ describe('malformed index entries', () => {
     assert.equal(ch04.page, null);
     assert.equal(ch04.count, 0);
     assert.equal(ch04.demo, false);
-    assert.equal(warnings.mock.callCount(), 16);
+    assert.equal(warnings.mock.callCount(), 17);
     for (const call of warnings.mock.calls) assert.equal(call.arguments[0], '[data]');
 
     const published = await loadIndex();

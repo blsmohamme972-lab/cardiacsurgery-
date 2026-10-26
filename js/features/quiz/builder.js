@@ -305,11 +305,12 @@ function loadRepoModule() {
  * - `'all'` (or a missing value): `data.studyChapters()`, i.e. the published
  *   chapters, or the demo alone in demo mode. `includeDemo` adds the demo
  *   outside demo mode too.
- * - Explicit ids: limited to the published chapters and the demo. Unknown and
- *   unpublished ids are ignored; duplicates count once.
+ * - Explicit ids (an array, a Set or another iterable, or one id string):
+ *   limited to the published chapters and the demo. Unknown and unpublished
+ *   ids are ignored; duplicates count once.
  *
  * @param {typeof import('../../core/data.js')} data
- * @param {string[] | 'all' | string | null | undefined} chapters
+ * @param {Iterable<string> | 'all' | string | null | undefined} chapters
  * @param {boolean} includeDemo
  * @returns {Promise<string[]>}
  */
@@ -322,7 +323,9 @@ async function resolveChapterIds(data, chapters, includeDemo) {
     }
     return ids;
   }
-  const wanted = new Set(Array.isArray(chapters) ? chapters : [chapters]);
+  // A Set (or any other iterable of ids) works like an array; a single id string like a one-item list.
+  const iterable = typeof chapters !== 'string' && typeof (/** @type {any} */ (chapters)[Symbol.iterator]) === 'function';
+  const wanted = new Set(iterable ? /** @type {Iterable<string>} */ (chapters) : [chapters]);
   if (wanted.size === 0) return [];
   const { chapters: published, demo } = await data.loadIndex();
   const visible = demo ? [...published, demo] : published;
@@ -332,7 +335,7 @@ async function resolveChapterIds(data, chapters, includeDemo) {
 /**
  * Loads the candidate questions of the chosen chapters, in bank order
  * (see {@link resolveChapterIds} for which chapters count).
- * @param {string[] | 'all' | string | null | undefined} chapters
+ * @param {Iterable<string> | 'all' | string | null | undefined} chapters
  * @param {boolean} includeDemo
  * @returns {Promise<Question[]>}
  */
@@ -374,7 +377,7 @@ async function loadContext(filter) {
  * Builds the question id list of a new quiz.
  *
  * @param {object} [options]
- * @param {string[] | 'all'} [options.chapters] Chapter ids (published chapters and `'demo'`;
+ * @param {Iterable<string> | 'all'} [options.chapters] Chapter ids (published chapters and `'demo'`;
  *   others are ignored), or `'all'` (default) for the study chapters (published, or the demo in demo mode).
  * @param {Filter} [options.filter] Default `'all'`.
  * @param {number | 'all'} [options.count] How many questions (default all that match).
@@ -407,7 +410,7 @@ export async function buildQuestionSet({
  * "N questions available" line).
  *
  * @param {object} [options]
- * @param {string[] | 'all'} [options.chapters] Default `'all'` (same rules as {@link buildQuestionSet}).
+ * @param {Iterable<string> | 'all'} [options.chapters] Default `'all'` (same rules as {@link buildQuestionSet}).
  * @param {Filter} [options.filter] Default `'all'`.
  * @param {boolean} [options.includeDemo] Default false (same rules as {@link buildQuestionSet}).
  * @param {number} [options.now] Reference time for `due` (default `Date.now()`).

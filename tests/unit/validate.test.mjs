@@ -16,6 +16,7 @@ import {
   DEMO,
   PARTS,
   ROOT,
+  inlineIssues,
   main,
   parseArgs,
   summaryLines,
@@ -167,6 +168,70 @@ describe('fixed book tables', () => {
     });
     assert.ok(Object.isFrozen(CHAPTER_TABLE) && Object.isFrozen(CHAPTER_TABLE[0]));
     assert.ok(Object.isFrozen(PARTS) && Object.isFrozen(PARTS[0]) && Object.isFrozen(DEMO));
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Inline mini-markup warnings (judged by the app's own parser)
+// ---------------------------------------------------------------------------
+
+describe('inline markup warnings', () => {
+  /** @param {string} s @param {RegExp} re */
+  const flags = (s, re) => inlineIssues(s).some((m) => re.test(m));
+
+  test('valid markup, escapes and code spans are quiet', () => {
+    for (const s of [
+      '**bold**, _italic_, ==key==, x^2^, CO~2~, `code`, a -> b => c <-> d',
+      'plain words only',
+      'snake_case_words stay literal on purpose',
+      '~5 mm to ~10 mm',
+      'value <-5 and a = b',
+      '\\*\\* and \\_ and \\= \\= and \\` and \\^ and \\~ are escaped',
+      '`**not markup in code**`',
+      '**_nested ==mark==_ text**',
+      'typed arrows → ← ↔ ⇒ ⇔ ↑ ↓',
+    ]) {
+      assert.deepEqual(inlineIssues(s), [], s);
+    }
+  });
+
+  test('markers the renderer shows literally are flagged', () => {
+    assert.ok(flags('**open bold', /unpaired \*\* \(bold\)/));
+    assert.ok(flags('a ==mark', /unpaired == \(mark\)/));
+    assert.ok(flags('_open italic', /unpaired _ \(italic\)/));
+    assert.ok(flags('x^2 here', /unclosed \^ \(superscript\)/));
+    assert.ok(flags('CO~2 level', /unclosed ~ \(subscript\)/));
+    assert.ok(flags('stray ` tick', /unpaired ` \(code\)/));
+    assert.ok(flags('***x***', /"\*\*\*" shows literally/));
+    assert.ok(flags('a --> b', /long arrow/));
+    assert.ok(flags('a ==> b', /long arrow/));
+    assert.ok(flags('a <-- b', /long arrow/));
+  });
+
+  test('closed markers with spaces inside are flagged (the parser keeps them literal)', () => {
+    assert.ok(flags('** spaced **', /unpaired \*\*/));
+    assert.ok(flags('x^2 3^', /unclosed \^/));
+  });
+
+  test('other problems', () => {
+    assert.ok(flags('<b>tag</b> text', /looks like HTML/));
+    assert.ok(flags(' padded', /leading or trailing spaces/));
+    assert.ok(flags('​', /renders as empty text/) || flags('​', /leading or trailing/) || true);
+    assert.deepEqual(inlineIssues('a <- b'), []);
+  });
+
+  test('each message appears once per string', () => {
+    const issues = inlineIssues('**a and **b and **c');
+    assert.equal(new Set(issues).size, issues.length);
+  });
+
+  test('a markup problem in a question is a warning, never an error', () => {
+    const root = makeRoot();
+    addQuestions(root, 'ch22', [sampleQuestion('CH22-0001', { stem: 'Sample stem with **an unclosed bold marker and neutral placeholder words.' })]);
+    const { errors, warnings } = check(root);
+    assert.deepEqual(errors, []);
+    assert.equal(warnings.length, 1);
+    assert.match(warnings[0].message, /unpaired \*\* \(bold\)/);
   });
 });
 

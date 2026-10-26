@@ -1,4 +1,4 @@
-# Handoff: build status (2026-10-26, session 2)
+# Handoff: build status (2026-10-26, session 3)
 
 The previous session stopped mid-build at the owner's request. This file says
 exactly what exists, what is verified, and what to do next. Read `CLAUDE.md`
@@ -19,6 +19,46 @@ passes the full checks in step 6 below.
   in for the whole bank everywhere; once one chapter is published, the demo is
   only reachable from Settings > Help > "Try the demo". Only `data.js`
   (`demoMode`, `studyChapters()`) decides this.
+
+
+## Session 3 (stopped by the owner mid-build: "Hand off now")
+
+Session 3 started step 3 and wave 2 in parallel with 11 sub-agents (step-3
+reviews, render, lint, and all wave-2 groups 1–7). The owner asked for a
+handoff while they were still running, so every agent was **stopped
+mid-task**. What was on disk at that moment is committed as is. Unit tests:
+`node --test tests/unit/*.test.mjs` → **737/737 pass** at handoff.
+
+Treat everything below marked DRAFT as **unfinished and unreviewed**: read it,
+finish it against ARCHITECTURE.md, test it. Don't assume it's complete.
+
+| item | state at handoff |
+|---|---|
+| Review of `data.js`, `builder.js`, `sw.js` (step 3.1) | partly done: small fixes + tests in `data.js`, `builder.js`, `sw.js`, `tests/unit/{data,builder}.test.mjs`. Agent was adding a test for an encoded-dot file path (ch17). Re-check the diff (`git diff efbea1a -- js/core/data.js js/features/quiz/builder.js sw.js`). |
+| Review of `engine.js`, `stats.js`, `search.js`, `inline.js` (step 3.1) | **not done** (no edits were saved; agent had just started the engine). |
+| `validate.mjs` uses `parseInline`/`inlineToPlain` (step 3.3) | done or nearly done (`inlineIssues()` rewritten, tests in `tests/unit/validate.test.mjs`). Verify. |
+| `scripts/lint.mjs` + package.json scripts (step 3.4) | **not started on disk**. |
+| `js/features/explain/render.js` (step 3.2) | DRAFT, 712 lines, syntax OK. `css/explanation.css` and the gallery `tests/fixtures/explain.html` **missing**; no visual QA yet. |
+| `annotate/anchor.js` + `tests/unit/anchor.test.mjs` | DRAFT (tests pass). `highlight.js`, `css/annotate.css` missing. |
+| `annotate/ink.js`, `ink-toolbar.js`, `scratchpad.js`, `css/ink.css`, `tests/unit/ink.test.mjs` | missing. |
+| `notes.js`, `askgpt.js` | DRAFT (syntax OK). `voice.js`, `tts.js`, `css/features.css`, `tests/unit/{askgpt,tts}.test.mjs` missing. |
+| `review.js` | DRAFT, **syntax error** (file cut off mid-write). `backup.js`, `css/review.css`, `tests/unit/backup.test.mjs` missing. |
+| `quiz/start.js`, `lists.js` | DRAFT (syntax OK). Screens home/chapter/builder/library, `css/screen-home.css` missing. |
+| `screens/stats.js` | DRAFT (syntax OK). Screens search/settings/reviewer, `css/screen-misc.css` missing. |
+| `question-view.js`, screens player/results/question, `css/screen-player.css` | missing. |
+| Boot smoke test (step 3.5), wave 3, release | not started. |
+
+Extra contract notes the stopped agents were asked to add (only if you build them):
+`tts.js` also exports `listEnglishVoices()` and `previewVoice(voice, rate)` (Settings
+needs them); `backup.js` also exports `openImportDialog(file)` (Settings import);
+document both in ARCHITECTURE §7.15 / §7.12 when written.
+
+The per-agent briefs used in session 3 are a good template: one shared rule
+sheet (CLAUDE.md + ARCHITECTURE.md + "no innerHTML, no console.log, @module
+header, reuse dom/components/repo, don't commit, random-port `startServer({port:0})`,
+setOverride stubs for missing modules, screenshots at 390×844 and 834×1194 light/dark")
+plus one brief per group with its exact file list. Run fewer agents at a time
+(4 CPUs) and commit after each one finishes.
 
 ## 1. Done before session 2
 

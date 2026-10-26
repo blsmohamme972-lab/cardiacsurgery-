@@ -554,6 +554,13 @@ describe('buildQuestionSet / countAvailable: chapters', () => {
     assert.deepEqual(await buildQuestionSet({ ...SEQ, chapters: /** @type {any} */ ('ch02') }), CH02_IDS);
   });
 
+  test('a Set of chapter ids works like an array', async () => {
+    const chapters = /** @type {any} */ (new Set(['demo', 'ch02', 'ch01']));
+    assert.deepEqual(await buildQuestionSet({ ...SEQ, chapters }), [...CH02_IDS, ...DEMO_IDS]);
+    assert.equal(await countAvailable({ chapters }), 7);
+    assert.equal(fetched('data/ch01.json'), false);
+  });
+
   test('includeDemo does not widen an explicit chapter list', async () => {
     assert.deepEqual(await buildQuestionSet({ ...SEQ, chapters: ['ch02'], includeDemo: true }), CH02_IDS);
   });

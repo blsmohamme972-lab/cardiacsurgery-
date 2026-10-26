@@ -271,20 +271,28 @@ function isOffline() {
 
 /**
  * True when `relPath` is a relative path that stays inside the app folder:
- * not empty, no leading `/`, no backslash, no scheme (`https:`, `data:` …)
- * and no `..` segment.
+ * not empty, no leading `/`, no backslash, no scheme (`https:`, `data:` …),
+ * no `..` segment, and (checked on the resolved URL, which also catches an
+ * encoded `%2e%2e` segment) still inside the app folder.
  * @param {unknown} relPath
  * @returns {relPath is string}
  */
 function isSafeDataPath(relPath) {
   const p = typeof relPath === 'string' ? relPath.trim() : '';
-  return (
-    p !== '' &&
-    !p.startsWith('/') &&
-    !p.includes('\\') &&
-    !/^[a-z][a-z0-9+.-]*:/i.test(p) &&
-    !p.split('/').some((seg) => seg === '..')
-  );
+  if (
+    p === '' ||
+    p.startsWith('/') ||
+    p.includes('\\') ||
+    /^[a-z][a-z0-9+.-]*:/i.test(p) ||
+    p.split('/').some((seg) => seg === '..')
+  ) {
+    return false;
+  }
+  try {
+    return new URL(p, APP_ROOT).href.startsWith(APP_ROOT.href);
+  } catch {
+    return false;
+  }
 }
 
 /**

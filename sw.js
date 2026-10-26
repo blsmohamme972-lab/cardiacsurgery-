@@ -146,11 +146,6 @@ function withoutSearch(url) {
   return url.origin + url.pathname;
 }
 
-/** @param {string} name */
-function isOwnCache(name) {
-  return name.startsWith(CACHE_PREFIX) || LEGACY_CACHE_PREFIXES.some((p) => name.startsWith(p));
-}
-
 /**
  * True when the URL points at a document (no file extension, or .html).
  * @param {URL} url
@@ -397,21 +392,55 @@ async function precacheData() {
   if (images.size > 0) await cacheOptional(cache, [...images], 'no-cache');
 }
 
-/** True when the throwaway install-test worker's cache is still around. */
-async function hasLegacyCaches() {
-  const names = await caches.keys();
-  return names.some((name) => LEGACY_CACHE_PREFIXES.some((p) => name.startsWith(p)));
+/**
+ * Caches left by this app's throwaway install test. Cache Storage is shared by
+ * every site on the origin (all of the owner's GitHub Pages repos), so a
+ * legacy-named cache only counts when it holds this app's start page.
+ * @returns {Promise<string[]>}
+ */
+async function ownLegacyCaches() {
+  const names = (await caches.keys()).filter((name) => LEGACY_CACHE_PREFIXES.some((p) => name.startsWith(p)));
+  const own = [];
+  for (const name of names) {
+    try {
+      const cache = await caches.open(name);
+      if (await cache.match(BASE, { ignoreSearch: true, ignoreVary: true })) own.push(name);
+    } catch (err) {
+      console.warn(LOG, 'Could not inspect cache', name, err && err.message);
+    }
+  }
+  return own;
+}
+
+/**
+ * After a failed install, deletes this version's caches if this install
+ * created them, so a half-filled cache does not hold storage (and a quota
+ * problem does not repeat on every retry). Caches that existed before the
+ * install started are left alone: they may belong to the running version.
+ * @param {{ shell: boolean, data: boolean }} existed
+ */
+async function discardPartialCaches(existed) {
+  const names = [];
+  if (!existed.shell) names.push(SHELL_CACHE);
+  if (!existed.data) names.push(DATA_CACHE);
+  await Promise.all(names.map((name) => caches.delete(name).catch(() => false)));
 }
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     (async () => {
       const started = Date.now();
-      await Promise.all([precacheShell(), precacheData()]);
+      const existed = { shell: await caches.has(SHELL_CACHE), data: await caches.has(DATA_CACHE) };
+      try {
+        await Promise.all([precacheShell(), precacheData()]);
+      } catch (err) {
+        await discardPartialCaches(existed);
+        throw err;
+      }
       console.info(LOG, 'Installed in ' + (Date.now() - started) + ' ms.');
       // One-time migration from the install test (it holds no user data):
       // take over right away. Real updates always wait for the user.
-      if (await hasLegacyCaches()) await self.skipWaiting();
+      if ((await ownLegacyCaches()).length > 0) await self.skipWaiting();
     })().catch((err) => {
       console.error(LOG, 'Install failed; the current version stays in use.', err);
       throw err;
@@ -428,11 +457,9 @@ self.addEventListener('activate', (event) => {
     (async () => {
       const keep = new Set([SHELL_CACHE, DATA_CACHE]);
       const names = await caches.keys();
-      await Promise.all(
-        names
-          .filter((name) => isOwnCache(name) && !keep.has(name))
-          .map((name) => caches.delete(name).catch(() => false)),
-      );
+      const stale = names.filter((name) => name.startsWith(CACHE_PREFIX) && !keep.has(name));
+      stale.push(...(await ownLegacyCaches()));
+      await Promise.all(stale.map((name) => caches.delete(name).catch(() => false)));
       // Navigations are served from the cache, so a navigation preload
       // request would be a wasted download on every launch.
       if (self.registration.navigationPreload) {
