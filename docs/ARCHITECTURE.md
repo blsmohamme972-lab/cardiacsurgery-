@@ -466,14 +466,19 @@ export function applySettings()          // <html data-theme="light|dark" data-r
 ### 5.6 `core/data.js`
 ```js
 // Part    = { id, number /* "I" */, title, volume, chapters: string[] /* visible chapter ids, in order */ }
-// Chapter = { id, number, part, prefix, title, short, file, page, published, count, demo: false }
+// Chapter = { id, number, part, prefix, title, short, file, page, published, count, order /* = number */, demo: false }
 // Demo    = { id: 'demo', number: null, part: null, prefix: 'DEMO', title, short, file, page: null,
-//             published: true, count, demo: true }
+//             published: true, count, order /* after every chapter */, demo: true }
+export const DEMO_ID = 'demo'
 export async function loadIndex({ includeUnpublished = false } = {})
-  → { schemaVersion, parts: Part[], chapters: Chapter[], demo: Demo, demoMode: boolean }
+  → { schemaVersion, parts: Part[], chapters: Chapter[], demo: Demo | null, demoMode: boolean }
   // chapters: published only, sorted by number (all 55 with includeUnpublished — dev tools only)
   // parts: only parts with ≥1 listed chapter, in order; demoMode: no chapter is published
-export async function studyChapters() → Chapter[]   // published chapters, or [demo] in demo mode
+  // demo: null only when the index's "demo" entry is missing or invalid (warning, index still loads)
+  // fresh wrapper, arrays and part objects on every call; chapter/demo objects are shared (read-only)
+  // the dev option counts only when it is exactly `true`
+export async function studyChapters() → (Chapter | Demo)[] // published chapters, or [demo] in demo mode
+                                                    // ([] when nothing is published and the demo is missing)
 export async function getChapter(id) → Chapter | Demo | null   // null for unknown or unpublished
 export async function loadChapter(id, { includeUnpublished = false } = {}) → { chapter, questions: Question[] }
                                                     // memoized; demo allowed; unknown or unpublished
@@ -490,7 +495,10 @@ export class DataError extends Error                          // .code, .userMes
 ```
 Each returned Question gets the extra field `chapterId`. Fetch failures throw
 `DataError` with a user-friendly message. Unpublished chapter files are never
-fetched by the app (they are not precached either).
+fetched by the app (they are not precached either). Malformed part, chapter
+and demo entries and malformed questions are skipped with a console warning;
+only an unusable index shape (no `parts`/`chapters` arrays, bad `schemaVersion`,
+nothing to study at all) throws `DataError` `'schema'`/`'version'`.
 
 ### 5.7 `core/sw-client.js`
 ```js
@@ -511,8 +519,11 @@ export function initServiceWorker(): void
   `cmcq-data-${VERSION}` (question data + images).
 - `APP_SHELL` = explicit list of every file the app needs (`./`, `index.html`,
   manifest, all css, all js, icons). `scripts/validate.mjs` checks the list is complete.
-- `install`: precache APP_SHELL, then fetch `data/index.json`, `data/retired.json`
-  and every chapter `file` in it, precache them. **No automatic skipWaiting.**
+- `install`: precache APP_SHELL, then fetch `data/index.json`, `data/retired.json`,
+  the `file` of every chapter with `"published": true` and `demo.file` (all must be
+  valid JSON), then the images those files use (best effort); the index is stored last.
+  Unpublished chapter files are never fetched. A malformed index (non-object entry,
+  missing or unsafe `file`, missing `demo`) fails the install. **No automatic skipWaiting.**
 - `activate`: delete caches not matching current VERSION, `clients.claim()`.
 - `fetch` (GET, same origin only): navigations → cached `index.html` (network
   fallback); everything else cache-first, then network (and put into the

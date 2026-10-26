@@ -21,7 +21,14 @@
  * | `flagged`    | has a "report a problem" entry                                | bank order                  |
  * | `notes`      | has a text note                                               | bank order                  |
  *
- * Bank order = chapter order from `data/index.json`, then file order.
+ * Chapters: `'all'` means the chapters the learner studies
+ * (`data.studyChapters()`: the published chapters, or the demo alone in demo
+ * mode). Explicit chapter ids are limited to published chapters and the demo;
+ * unknown and unpublished ids are ignored, so an unpublished chapter's file is
+ * never fetched.
+ *
+ * Bank order = published chapters by number, then the demo; inside a chapter,
+ * file order.
  *
  * @module features/quiz/builder
  */
@@ -291,23 +298,47 @@ function loadRepoModule() {
 }
 
 /**
- * Loads the candidate questions of the chosen chapters, in bank order.
- * Unknown chapter ids are ignored. `'all'` (or a missing value) means every
- * chapter except the demo, unless `includeDemo`. An explicitly listed demo
- * chapter is always included.
+ * Resolves the `chapters` option to the ids of the chapters to load, in bank
+ * order. Only chapters the learner can see are ever returned, so the file of
+ * an unpublished chapter is never fetched.
+ *
+ * - `'all'` (or a missing value): `data.studyChapters()`, i.e. the published
+ *   chapters, or the demo alone in demo mode. `includeDemo` adds the demo
+ *   outside demo mode too.
+ * - Explicit ids: limited to the published chapters and the demo. Unknown and
+ *   unpublished ids are ignored; duplicates count once.
+ *
+ * @param {typeof import('../../core/data.js')} data
+ * @param {string[] | 'all' | string | null | undefined} chapters
+ * @param {boolean} includeDemo
+ * @returns {Promise<string[]>}
+ */
+async function resolveChapterIds(data, chapters, includeDemo) {
+  if (chapters === undefined || chapters === null || chapters === 'all') {
+    const ids = (await data.studyChapters()).map((c) => c.id);
+    if (includeDemo) {
+      const { demo } = await data.loadIndex();
+      if (demo && !ids.includes(demo.id)) ids.push(demo.id);
+    }
+    return ids;
+  }
+  const wanted = new Set(Array.isArray(chapters) ? chapters : [chapters]);
+  if (wanted.size === 0) return [];
+  const { chapters: published, demo } = await data.loadIndex();
+  const visible = demo ? [...published, demo] : published;
+  return visible.filter((c) => wanted.has(c.id)).map((c) => c.id);
+}
+
+/**
+ * Loads the candidate questions of the chosen chapters, in bank order
+ * (see {@link resolveChapterIds} for which chapters count).
  * @param {string[] | 'all' | string | null | undefined} chapters
  * @param {boolean} includeDemo
  * @returns {Promise<Question[]>}
  */
 async function loadPool(chapters, includeDemo) {
   const data = await loadDataModule();
-  if (chapters === undefined || chapters === null || chapters === 'all') {
-    return data.loadAll({ includeDemo: Boolean(includeDemo) });
-  }
-  const wanted = new Set(Array.isArray(chapters) ? chapters : [chapters]);
-  if (wanted.size === 0) return [];
-  const { chapters: all } = await data.loadIndex();
-  const ids = all.filter((c) => wanted.has(c.id)).map((c) => c.id);
+  const ids = await resolveChapterIds(data, chapters, Boolean(includeDemo));
   const loaded = await Promise.all(ids.map((id) => data.loadChapter(id)));
   return loaded.flatMap((c) => c.questions);
 }
@@ -343,11 +374,13 @@ async function loadContext(filter) {
  * Builds the question id list of a new quiz.
  *
  * @param {object} [options]
- * @param {string[] | 'all'} [options.chapters] Chapter ids, or `'all'` (default).
+ * @param {string[] | 'all'} [options.chapters] Chapter ids (published chapters and `'demo'`;
+ *   others are ignored), or `'all'` (default) for the study chapters (published, or the demo in demo mode).
  * @param {Filter} [options.filter] Default `'all'`.
  * @param {number | 'all'} [options.count] How many questions (default all that match).
  * @param {'random' | 'sequential'} [options.order] Default `'random'`.
- * @param {boolean} [options.includeDemo] Include the demo chapter when `chapters` is `'all'` (default false).
+ * @param {boolean} [options.includeDemo] With `chapters: 'all'`, also include the demo outside
+ *   demo mode (dev/tests only; default false).
  * @param {number | string} [options.seed] Seed for the random order (default `Date.now()`).
  * @param {number} [options.now] Reference time for `due` (default `Date.now()`).
  * @returns {Promise<string[]>} Question ids (empty when nothing matches).
@@ -374,9 +407,9 @@ export async function buildQuestionSet({
  * "N questions available" line).
  *
  * @param {object} [options]
- * @param {string[] | 'all'} [options.chapters] Default `'all'`.
+ * @param {string[] | 'all'} [options.chapters] Default `'all'` (same rules as {@link buildQuestionSet}).
  * @param {Filter} [options.filter] Default `'all'`.
- * @param {boolean} [options.includeDemo] Default false.
+ * @param {boolean} [options.includeDemo] Default false (same rules as {@link buildQuestionSet}).
  * @param {number} [options.now] Reference time for `due` (default `Date.now()`).
  * @returns {Promise<number>}
  * @throws {RangeError} For an unknown filter.
