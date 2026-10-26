@@ -137,6 +137,10 @@ Settings > Help > "Try the demo". `data.js` exposes this as `demoMode` and
 
 - `page` = first page of the chapter in the owner's book (used in source references).
 - `count` must equal the number of questions in the file (validated).
+- `scripts/validate.mjs` checks `parts` against the parts table (same order), every chapter
+  against its row in the chapter table (id, number, part, prefix, file, title, page), and
+  `demo` against the demo row; `published` must be `true`/`false`, and a published chapter
+  with 0 questions is an **error**. Every chapter file is validated, published or not.
 - `data.js` (§5.6): `loadIndex()` exposes `parts`, `chapters` (published only, sorted by number),
   `demo` and `demoMode`; `loadIndex({ includeUnpublished: true })` is for dev tools only.
   `getQuestion()` of an unpublished chapter returns `null`. Builder, stats, search

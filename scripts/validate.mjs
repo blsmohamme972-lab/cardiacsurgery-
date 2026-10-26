@@ -4,15 +4,20 @@
  * version stamps before a release (docs/ARCHITECTURE.md §3, §5.8, §5.9).
  *
  * Data checks
- * - `data/index.json`: schema, the fixed chapter table (ids, prefixes, files,
- *   order, titles, demo flag), files exist, `count` equals the file contents.
- * - `data/retired.json`: shape, id format, no duplicates.
- * - Every chapter file: `schemaVersion`, chapter id, `questions` array.
- * - Every question: id format `PREFIX-NNNN` with the chapter's prefix,
- *   globally unique, not retired; version, topic, tags, difficulty, reviewed,
- *   stem, image, 4–5 choices (ids a–e), answer, choice notes, source, demo
- *   flag; every explanation block (§3.4) with unique, non-reserved ids;
- *   inline mini-markup balance (§3.5, warnings).
+ * - `data/index.json`: schema; `parts` equal the fixed parts table (same
+ *   order); all 55 `chapters` match the fixed chapter table exactly (id,
+ *   number, part, prefix, file, title, page), sorted by number; `short`
+ *   label; `published` flag (a published chapter must have questions);
+ *   `count` equals the file contents; the `demo` entry matches DEMO.
+ * - `data/retired.json`: shape, id format, known prefixes, no duplicates.
+ * - Every chapter file, published or not, and the demo file:
+ *   `schemaVersion`, chapter id, `questions` array.
+ * - Every question: id format `PREFIX-NNNN` with the chapter's prefix
+ *   (CH22-0001, DEMO-0001), globally unique, not retired; version, topic,
+ *   tags, difficulty, reviewed, stem, image, 4–5 choices (ids a–e), answer,
+ *   choice notes, source, demo flag (demo file only); every explanation
+ *   block (§3.4) with unique, non-reserved ids; inline mini-markup balance
+ *   (§3.5, warnings).
  * - Duplicate questions (error), identical or near-identical stems
  *   (warnings), answer-position balance per chapter (warning when a chapter
  *   has ≥ 20 questions and one position holds > 40% of the answers).
@@ -46,25 +51,129 @@ export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 export const SCHEMA_VERSION = 1;
 
 /**
- * The fixed chapter table (§3.1). index.json must match it exactly.
- * @type {ReadonlyArray<Readonly<{ order: number, id: string, prefix: string, file: string, title: string, demo?: true }>>}
+ * @typedef {object} PartRow
+ * @property {string} id       `p1` … `p7`.
+ * @property {string} number   Roman numeral shown in the app (`I` … `VII`).
+ * @property {number} volume   Book volume (1 or 2).
+ * @property {string} title
+ */
+
+/**
+ * The fixed parts of the book (§3.1), in book order. `parts` in index.json
+ * must equal it, in the same order.
+ * @type {ReadonlyArray<Readonly<PartRow>>}
+ */
+export const PARTS = Object.freeze([
+  { id: 'p1', number: 'I', volume: 1, title: 'General Considerations' },
+  { id: 'p2', number: 'II', volume: 1, title: 'Ischemic Heart Disease' },
+  { id: 'p3', number: 'III', volume: 1, title: 'Acquired Valvar Heart Disease' },
+  { id: 'p4', number: 'IV', volume: 1, title: 'Other Cardiac Conditions' },
+  { id: 'p5', number: 'V', volume: 1, title: 'Advanced Heart Failure' },
+  { id: 'p6', number: 'VI', volume: 1, title: 'Diseases of the Thoracic Arteries and Veins' },
+  { id: 'p7', number: 'VII', volume: 2, title: 'Congenital Heart Disease' },
+].map((p) => Object.freeze(p)));
+
+/**
+ * @typedef {object} ChapterRow
+ * @property {number} number   Chapter number in the book (1 … 55).
+ * @property {string} id       `ch01` … `ch55`.
+ * @property {string} prefix   Question id prefix (`CH01` … `CH55`).
+ * @property {string} file     Repo-relative chapter file.
+ * @property {string} part     Part id (see PARTS).
+ * @property {number} page     First page of the chapter in the owner's book.
+ * @property {string} title
+ */
+
+/**
+ * The fixed chapter table (§3.1): the 55 chapters of the book, in book order.
+ * Ids, prefixes and files never change (progress is keyed by question id).
+ * Every entry of `chapters` in index.json must match its row exactly.
+ * @type {ReadonlyArray<Readonly<ChapterRow>>}
  */
 export const CHAPTER_TABLE = Object.freeze([
-  { order: 1, id: 'cpb', prefix: 'CPB', file: 'data/ch01-cpb.json', title: 'CPB & myocardial protection' },
-  { order: 2, id: 'cabg', prefix: 'CABG', file: 'data/ch02-cabg.json', title: 'CABG' },
-  { order: 3, id: 'valves', prefix: 'VALV', file: 'data/ch03-valves.json', title: 'Valves' },
-  { order: 4, id: 'aorta', prefix: 'AORT', file: 'data/ch04-aorta.json', title: 'Aorta' },
-  { order: 5, id: 'congenital', prefix: 'CONG', file: 'data/ch05-congenital.json', title: 'Congenital' },
-  { order: 6, id: 'hf', prefix: 'HFTX', file: 'data/ch06-hf-vad-tx.json', title: 'HF/VAD/transplant' },
-  { order: 7, id: 'arrhythmia', prefix: 'ARRH', file: 'data/ch07-arrhythmia.json', title: 'Arrhythmia surgery' },
-  { order: 8, id: 'pericardium', prefix: 'PERI', file: 'data/ch08-pericardium-tumors.json', title: 'Pericardium & tumors' },
-  { order: 9, id: 'thoracic', prefix: 'THOR', file: 'data/ch09-thoracic.json', title: 'Thoracic basics' },
-  { order: 10, id: 'icu', prefix: 'ICU', file: 'data/ch10-postop-icu.json', title: 'Postop ICU' },
-  { order: 11, id: 'anatomy', prefix: 'ANAT', file: 'data/ch11-anatomy-physiology.json', title: 'Anatomy & physiology' },
-  { order: 12, id: 'pharm', prefix: 'PHAR', file: 'data/ch12-pharmacology.json', title: 'Pharmacology' },
-  { order: 13, id: 'trauma', prefix: 'TRAU', file: 'data/ch13-trauma.json', title: 'Trauma' },
-  { order: 99, id: 'demo', prefix: 'DEMO', file: 'data/demo.json', title: 'App tour (demo)', demo: true },
+  { number: 1, id: 'ch01', prefix: 'CH01', file: 'data/ch01.json', part: 'p1', page: 1, title: 'Anatomy and Dimensions' },
+  { number: 2, id: 'ch02', prefix: 'CH02', file: 'data/ch02.json', part: 'p1', page: 28, title: 'Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass' },
+  { number: 3, id: 'ch03', prefix: 'CH03', file: 'data/ch03.json', part: 'p1', page: 84, title: 'Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass' },
+  { number: 4, id: 'ch04', prefix: 'CH04', file: 'data/ch04.json', part: 'p1', page: 105, title: 'Anesthesia and Postoperative Care' },
+  { number: 5, id: 'ch05', prefix: 'CH05', file: 'data/ch05.json', part: 'p1', page: 186, title: 'Cardiac Reoperations: Considerations and Techniques' },
+  { number: 6, id: 'ch06', prefix: 'CH06', file: 'data/ch06.json', part: 'p1', page: 200, title: 'Cardiac Imaging' },
+  { number: 7, id: 'ch07', prefix: 'CH07', file: 'data/ch07.json', part: 'p1', page: 235, title: 'Generating Knowledge from Information, Data, and Analyses' },
+  { number: 8, id: 'ch08', prefix: 'CH08', file: 'data/ch08.json', part: 'p1', page: 353, title: 'Quality Assurance' },
+  { number: 9, id: 'ch09', prefix: 'CH09', file: 'data/ch09.json', part: 'p2', page: 384, title: 'Stenotic Arteriosclerotic Coronary Artery Disease' },
+  { number: 10, id: 'ch10', prefix: 'CH10', file: 'data/ch10.json', part: 'p2', page: 464, title: 'Acute and Chronic Complications of Myocardial Infarction' },
+  { number: 11, id: 'ch11', prefix: 'CH11', file: 'data/ch11.json', part: 'p3', page: 500, title: 'Mitral Valve Disease' },
+  { number: 12, id: 'ch12', prefix: 'CH12', file: 'data/ch12.json', part: 'p3', page: 552, title: 'Aortic Valve' },
+  { number: 13, id: 'ch13', prefix: 'CH13', file: 'data/ch13.json', part: 'p3', page: 637, title: 'Tricuspid Valve Disease' },
+  { number: 14, id: 'ch14', prefix: 'CH14', file: 'data/ch14.json', part: 'p3', page: 649, title: 'Infective Endocarditis' },
+  { number: 15, id: 'ch15', prefix: 'CH15', file: 'data/ch15.json', part: 'p4', page: 685, title: 'Cardiac Rhythm Disturbances' },
+  { number: 16, id: 'ch16', prefix: 'CH16', file: 'data/ch16.json', part: 'p4', page: 724, title: 'Cardiac Trauma' },
+  { number: 17, id: 'ch17', prefix: 'CH17', file: 'data/ch17.json', part: 'p4', page: 732, title: 'Cardiac Tumor' },
+  { number: 18, id: 'ch18', prefix: 'CH18', file: 'data/ch18.json', part: 'p4', page: 748, title: 'Pericardial Disease' },
+  { number: 19, id: 'ch19', prefix: 'CH19', file: 'data/ch19.json', part: 'p4', page: 763, title: 'Obstructive Hypertrophic Cardiomyopathy' },
+  { number: 20, id: 'ch20', prefix: 'CH20', file: 'data/ch20.json', part: 'p5', page: 787, title: 'Mechanical Circulatory Support' },
+  { number: 21, id: 'ch21', prefix: 'CH21', file: 'data/ch21.json', part: 'p5', page: 829, title: 'Cardiac Transplantation' },
+  { number: 22, id: 'ch22', prefix: 'CH22', file: 'data/ch22.json', part: 'p6', page: 898, title: 'Acute Aortic Dissection' },
+  { number: 23, id: 'ch23', prefix: 'CH23', file: 'data/ch23.json', part: 'p6', page: 927, title: 'Chronic Thoracic and Thoracoabdominal Aortic Disease' },
+  { number: 24, id: 'ch24', prefix: 'CH24', file: 'data/ch24.json', part: 'p6', page: 971, title: 'Acute Traumatic Aortic Disruption' },
+  { number: 25, id: 'ch25', prefix: 'CH25', file: 'data/ch25.json', part: 'p6', page: 986, title: 'Diseases of the Pulmonary Arteries and Systemic Veins' },
+  { number: 26, id: 'ch26', prefix: 'CH26', file: 'data/ch26.json', part: 'p7', page: 1013, title: 'Anatomic Considerations in Congenital Heart Disease' },
+  { number: 27, id: 'ch27', prefix: 'CH27', file: 'data/ch27.json', part: 'p7', page: 1024, title: 'Nomenclature for Congenital Heart Disease' },
+  { number: 28, id: 'ch28', prefix: 'CH28', file: 'data/ch28.json', part: 'p7', page: 1030, title: 'Patent Ductus Arteriosus' },
+  { number: 29, id: 'ch29', prefix: 'CH29', file: 'data/ch29.json', part: 'p7', page: 1044, title: 'Atrial Septal Defect, Partial Anomalous Pulmonary Venous Connection, Unroofed Coronary Sinus' },
+  { number: 30, id: 'ch30', prefix: 'CH30', file: 'data/ch30.json', part: 'p7', page: 1079, title: 'Total Anomalous Pulmonary Venous Connection' },
+  { number: 31, id: 'ch31', prefix: 'CH31', file: 'data/ch31.json', part: 'p7', page: 1105, title: 'Cor Triatriatum' },
+  { number: 32, id: 'ch32', prefix: 'CH32', file: 'data/ch32.json', part: 'p7', page: 1114, title: 'Atrioventricular Septal Defect' },
+  { number: 33, id: 'ch33', prefix: 'CH33', file: 'data/ch33.json', part: 'p7', page: 1164, title: 'Ventricular Septal Defect' },
+  { number: 34, id: 'ch34', prefix: 'CH34', file: 'data/ch34.json', part: 'p7', page: 1212, title: 'Ventricular Septal Defect with Pulmonary Stenosis' },
+  { number: 35, id: 'ch35', prefix: 'CH35', file: 'data/ch35.json', part: 'p7', page: 1288, title: 'Ventricular Septal Defect with Pulmonary Atresia' },
+  { number: 36, id: 'ch36', prefix: 'CH36', file: 'data/ch36.json', part: 'p7', page: 1318, title: 'Pulmonary Stenosis or Atresia with Intact Ventricular Septum' },
+  { number: 37, id: 'ch37', prefix: 'CH37', file: 'data/ch37.json', part: 'p7', page: 1347, title: 'Congenital Sinus of Valsalva Aneurysm and Aortico Ventricular Tunnel' },
+  { number: 38, id: 'ch38', prefix: 'CH38', file: 'data/ch38.json', part: 'p7', page: 1363, title: 'Congenital Anomalies of the Coronary Arteries' },
+  { number: 39, id: 'ch39', prefix: 'CH39', file: 'data/ch39.json', part: 'p7', page: 1397, title: 'Vascular Rings and Pulmonary Artery Sling' },
+  { number: 40, id: 'ch40', prefix: 'CH40', file: 'data/ch40.json', part: 'p7', page: 1415, title: 'Coarctation of the Aorta and Interrupted Aortic Arch' },
+  { number: 41, id: 'ch41', prefix: 'CH41', file: 'data/ch41.json', part: 'p7', page: 1468, title: 'Aortopulmonary Window' },
+  { number: 42, id: 'ch42', prefix: 'CH42', file: 'data/ch42.json', part: 'p7', page: 1476, title: 'Origin of the Right or Left Pulmonary Artery from the Ascending Aorta' },
+  { number: 43, id: 'ch43', prefix: 'CH43', file: 'data/ch43.json', part: 'p7', page: 1483, title: 'Truncus Arteriosus' },
+  { number: 44, id: 'ch44', prefix: 'CH44', file: 'data/ch44.json', part: 'p7', page: 1509, title: 'Transposition of the Great Arteries' },
+  { number: 45, id: 'ch45', prefix: 'CH45', file: 'data/ch45.json', part: 'p7', page: 1562, title: 'Double Outlet Right Ventricle' },
+  { number: 46, id: 'ch46', prefix: 'CH46', file: 'data/ch46.json', part: 'p7', page: 1587, title: 'Double Outlet Left Ventricle' },
+  { number: 47, id: 'ch47', prefix: 'CH47', file: 'data/ch47.json', part: 'p7', page: 1596, title: 'Congenitally Corrected Transposition of the Great Arteries, Other Forms of Atrioventricular Discordant Connection, and Anatomically Corrected Malposition of the Great Arteries' },
+  { number: 48, id: 'ch48', prefix: 'CH48', file: 'data/ch48.json', part: 'p7', page: 1635, title: 'Ebstein Anomaly' },
+  { number: 49, id: 'ch49', prefix: 'CH49', file: 'data/ch49.json', part: 'p7', page: 1666, title: 'Congenital and Pediatric Mitral Valve Disease' },
+  { number: 50, id: 'ch50', prefix: 'CH50', file: 'data/ch50.json', part: 'p7', page: 1685, title: 'Congenital Aortic Stenosis' },
+  { number: 51, id: 'ch51', prefix: 'CH51', file: 'data/ch51.json', part: 'p7', page: 1723, title: 'Hypoplastic Left Heart Syndrome' },
+  { number: 52, id: 'ch52', prefix: 'CH52', file: 'data/ch52.json', part: 'p7', page: 1756, title: 'Functional Single Ventricle' },
+  { number: 53, id: 'ch53', prefix: 'CH53', file: 'data/ch53.json', part: 'p7', page: 1833, title: 'Heterotaxy' },
+  { number: 54, id: 'ch54', prefix: 'CH54', file: 'data/ch54.json', part: 'p7', page: 1846, title: 'Congenital Heart Disease in the Adult' },
+  { number: 55, id: 'ch55', prefix: 'CH55', file: 'data/ch55.json', part: 'p7', page: 1941, title: 'Congenital Heart Surgery in Low-Resource Settings' },
 ].map((c) => Object.freeze(c)));
+
+/**
+ * The demo chapter (§3.1): questions about using the app, each with
+ * `"demo": true`. Always loadable; it stands in for the bank while no chapter
+ * is published. The `demo` entry of index.json must match it.
+ * @type {Readonly<{ id: string, prefix: string, file: string, title: string }>}
+ */
+export const DEMO = Object.freeze({ id: 'demo', prefix: 'DEMO', file: 'data/demo.json', title: 'App tour (demo)' });
+
+/**
+ * @typedef {object} BankFile  One question file to validate.
+ * @property {string} id
+ * @property {string} prefix
+ * @property {string} file
+ * @property {string} title
+ * @property {number | null} number  Chapter number (null for the demo).
+ * @property {boolean} demo
+ */
+
+/**
+ * Every question file, in book order: the 55 chapters, then the demo.
+ * @type {ReadonlyArray<Readonly<BankFile>>}
+ */
+const BANK_FILES = Object.freeze([
+  ...CHAPTER_TABLE.map((t) => Object.freeze({ id: t.id, prefix: t.prefix, file: t.file, title: t.title, number: t.number, demo: false })),
+  Object.freeze({ id: DEMO.id, prefix: DEMO.prefix, file: DEMO.file, title: DEMO.title, number: null, demo: true }),
+]);
 
 /** Question id: `PREFIX-NNNN` (4+ digits). */
 export const QID_RE = /^([A-Z][A-Z0-9]*)-(\d{4,})$/;
@@ -77,6 +186,16 @@ const CHOICE_IDS = ['a', 'b', 'c', 'd', 'e'];
 const CALLOUT_KINDS = ['key', 'pearl', 'pitfall', 'mnemonic'];
 const INDEX_FILE = 'data/index.json';
 const RETIRED_FILE = 'data/retired.json';
+
+/** Allowed fields in index.json: top level, parts, chapters, demo (§3.1). */
+const INDEX_KEYS = Object.freeze(['schemaVersion', 'parts', 'chapters', 'demo']);
+const PART_KEYS = Object.freeze(['id', 'number', 'volume', 'title']);
+const CHAPTER_KEYS = Object.freeze(['id', 'number', 'part', 'prefix', 'title', 'short', 'file', 'page', 'published', 'count']);
+const DEMO_KEYS = Object.freeze(['id', 'prefix', 'title', 'short', 'file', 'count']);
+/** Fields of a chapter entry that must equal its CHAPTER_TABLE row (`id` is the lookup key). */
+const CHAPTER_FIXED = Object.freeze(['number', 'part', 'prefix', 'file', 'title', 'page']);
+/** `short` labels longer than this get a warning (they must fit on chips). */
+const SHORT_MAX = 16;
 
 /** Allowed fields per question (anything else is probably a typo). */
 const QUESTION_KEYS = new Set([
@@ -445,7 +564,7 @@ function checkTextArray(ctx, v, at, { min = 1 } = {}) {
 function checkImage(ctx, root, img, at) {
   const src = img.src;
   if (typeof src !== 'string' || src.trim() === '') {
-    ctx.err(`${at}.src`, 'is required (a relative path like "data/img/CPB-0001.webp")');
+    ctx.err(`${at}.src`, 'is required (a relative path like "data/img/CH03-0001.webp")');
   } else {
     const unsafe = unsafePathReason(src);
     if (unsafe) ctx.err(`${at}.src`, unsafe);
@@ -663,7 +782,7 @@ function checkBlock(ctx, root, b, at, seenIds) {
  * Validates one question. Returns facts the summary needs.
  * @param {Reporter} rep
  * @param {string} root
- * @param {typeof CHAPTER_TABLE[number]} chapter
+ * @param {Readonly<BankFile>} chapter
  * @param {any} q
  * @param {number} index
  * @param {BankState} bank
@@ -831,77 +950,220 @@ function checkQuestion(rep, root, chapter, q, index, bank) {
 // ---------------------------------------------------------------------------
 
 /**
- * Checks data/index.json against the fixed chapter table.
- * @param {Reporter} rep
- * @param {any} index Parsed index (may be undefined).
- * @param {Map<string, number>} counts Chapter id → question count found in its file.
+ * Reports a field that must equal a value from a fixed table.
+ * @param {Ctx} ctx
+ * @param {Record<string, any>} obj
+ * @param {string} key
+ * @param {string | number} expected
+ * @param {string} table Name of the table, for the message.
  */
-function checkIndex(rep, index, counts) {
-  const f = INDEX_FILE;
-  if (index === undefined) return;
-  if (!isObj(index)) {
-    rep.error(f, '', 'top level must be an object {schemaVersion, chapters}');
+function checkFixed(ctx, obj, key, expected, table) {
+  const got = obj[key];
+  if (got === expected) return;
+  const want = `must be ${JSON.stringify(expected)} (${table}, docs/ARCHITECTURE.md §3.1)`;
+  ctx.err(key, got === undefined ? `is required; ${want}` : `${want}, got ${JSON.stringify(got)}`);
+}
+
+/**
+ * Checks the `short` label of a chapter or demo entry.
+ * @param {Ctx} ctx
+ * @param {Record<string, any>} entry
+ */
+function checkShort(ctx, entry) {
+  const short = entry.short;
+  if (typeof short !== 'string' || short.trim() === '') {
+    ctx.err('short', 'is required (a short label for chips and tight spaces)');
     return;
   }
-  const ctx = makeCtx(rep, f, '');
-  checkKeys(ctx, index, ['schemaVersion', 'chapters'], '');
-  if (index.schemaVersion !== SCHEMA_VERSION) rep.error(f, 'schemaVersion', `must be ${SCHEMA_VERSION}`);
-  if (!Array.isArray(index.chapters)) {
-    rep.error(f, 'chapters', 'must be an array');
+  const length = [...short].length;
+  if (length > SHORT_MAX) ctx.warn('short', `is ${length} characters; keep it to ${SHORT_MAX} or fewer so it fits on chips`);
+  if (short !== short.trim()) ctx.warn('short', 'has leading or trailing spaces');
+}
+
+/**
+ * Checks the `count` of a chapter or demo entry against its file.
+ * @param {Ctx} ctx
+ * @param {Record<string, any>} entry
+ * @param {string} file The question file.
+ * @param {number | undefined} found Questions in the file (undefined when it could not be read).
+ */
+function checkCount(ctx, entry, file, found) {
+  const count = entry.count;
+  if (!Number.isInteger(count) || count < 0) {
+    ctx.err('count', count === undefined
+      ? `is required (the number of questions in ${file})`
+      : `must be a whole number ≥ 0 (got ${typeName(count)})`);
+  } else if (found !== undefined && found !== count) {
+    ctx.err('count', `is ${count} but ${file} has ${found} question${found === 1 ? '' : 's'}; set it to ${found}`);
+  }
+}
+
+/**
+ * Checks index.json `parts` against the fixed parts table.
+ * @param {Reporter} rep
+ * @param {unknown} parts
+ */
+function checkParts(rep, parts) {
+  const f = INDEX_FILE;
+  if (!Array.isArray(parts)) {
+    rep.error(f, 'parts', parts === undefined
+      ? `is required (the ${PARTS.length} parts of the book)`
+      : `must be an array (got ${typeName(parts)})`);
     return;
+  }
+  /** @type {Map<string, number>} Part id → first position. */
+  const byId = new Map();
+  parts.forEach((p, i) => {
+    const at = `parts[${i}]`;
+    if (!isObj(p) || typeof p.id !== 'string') {
+      rep.error(f, at, 'must be an object with an "id"');
+    } else if (byId.has(p.id)) {
+      rep.error(f, at, `duplicate part id "${p.id}"`);
+    } else {
+      byId.set(p.id, i);
+    }
+  });
+
+  for (const t of PARTS) {
+    const i = byId.get(t.id);
+    if (i === undefined) {
+      rep.error(f, 'parts', `missing part "${t.id}" (${t.number}. ${t.title})`);
+      continue;
+    }
+    const ctx = makeCtx(rep, f, `parts[${i}] (${t.id})`);
+    checkKeys(ctx, parts[i], PART_KEYS, '');
+    for (const key of /** @type {const} */ (['number', 'volume', 'title'])) checkFixed(ctx, parts[i], key, t[key], 'fixed parts table');
+  }
+  for (const [id, i] of byId) {
+    if (!PARTS.some((t) => t.id === id)) rep.error(f, `parts[${i}]`, `unknown part "${id}" (the parts are ${PARTS.map((t) => t.id).join(', ')})`);
   }
 
+  const order = [...byId.keys()].filter((id) => PARTS.some((t) => t.id === id));
+  const expected = PARTS.map((t) => t.id).filter((id) => byId.has(id));
+  if (order.join() !== expected.join()) {
+    rep.error(f, 'parts', `must be in book order (${PARTS.map((t) => t.id).join(', ')}); got ${order.join(', ')}`);
+  }
+}
+
+/**
+ * Checks index.json `chapters` against the fixed chapter table.
+ * @param {Reporter} rep
+ * @param {unknown} chapters
+ * @param {Map<string, number>} counts Chapter id → questions found in its file.
+ * @returns {Map<string, boolean>} Chapter id → `published` (valid flags only).
+ */
+function checkChapters(rep, chapters, counts) {
+  const f = INDEX_FILE;
+  /** @type {Map<string, boolean>} */
+  const published = new Map();
+  if (!Array.isArray(chapters)) {
+    rep.error(f, 'chapters', chapters === undefined
+      ? `is required (the ${CHAPTER_TABLE.length} chapters of the book)`
+      : `must be an array (got ${typeName(chapters)})`);
+    return published;
+  }
+
+  /** @type {Map<string, { c: Record<string, any>, at: string }>} */
   const byId = new Map();
-  index.chapters.forEach((c, i) => {
+  chapters.forEach((c, i) => {
     const at = `chapters[${i}]`;
     if (!isObj(c) || typeof c.id !== 'string') {
       rep.error(f, at, 'must be an object with an "id"');
-      return;
+    } else if (byId.has(c.id)) {
+      rep.error(f, at, `duplicate chapter id "${c.id}"`);
+    } else {
+      byId.set(c.id, { c, at });
     }
-    if (byId.has(c.id)) rep.error(f, at, `duplicate chapter id "${c.id}"`);
-    byId.set(c.id, { c, at });
   });
 
-  let lastOrder = -Infinity;
-  for (const c of index.chapters) {
-    if (isObj(c) && Number.isFinite(c.order)) {
-      if (c.order < lastOrder) {
-        rep.warn(f, 'chapters', 'are not sorted by "order" (the app sorts them, but keep the file tidy)');
-        break;
-      }
-      lastOrder = c.order;
+  let lastNumber = -Infinity;
+  for (const c of chapters) {
+    if (!isObj(c) || !Number.isFinite(c.number)) continue;
+    if (c.number < lastNumber) {
+      rep.warn(f, 'chapters', 'are not sorted by "number" (the app sorts them, but keep the file in book order)');
+      break;
     }
+    lastNumber = c.number;
   }
 
   for (const t of CHAPTER_TABLE) {
     const found = byId.get(t.id);
     if (!found) {
-      rep.error(f, 'chapters', `missing chapter "${t.id}" (${t.title})`);
+      rep.error(f, 'chapters', `missing chapter "${t.id}" (${t.number}. ${t.title}); all ${CHAPTER_TABLE.length} chapters stay listed, unpublished ones with "published": false`);
       continue;
     }
     const { c, at } = found;
-    const cat = `${at} (${t.id})`;
-    const cctx = makeCtx(rep, f, cat);
-    checkKeys(cctx, c, ['id', 'prefix', 'title', 'short', 'file', 'order', 'count', 'demo'], '');
-    for (const key of /** @type {const} */ (['prefix', 'file', 'order', 'title'])) {
-      if (c[key] !== t[key]) cctx.err(key, `must be ${JSON.stringify(t[key])} (fixed chapter table), got ${JSON.stringify(c[key])}`);
+    const ctx = makeCtx(rep, f, `${at} (${t.id})`);
+    checkKeys(ctx, c, CHAPTER_KEYS, '');
+    for (const key of CHAPTER_FIXED) checkFixed(ctx, c, key, t[/** @type {keyof ChapterRow} */ (key)], 'fixed chapter table');
+    checkShort(ctx, c);
+    checkCount(ctx, c, t.file, counts.get(t.id));
+
+    if (typeof c.published !== 'boolean') {
+      ctx.err('published', c.published === undefined
+        ? 'is required: false (hidden in the app) or true (approved by the owner)'
+        : `must be true or false (got ${typeName(c.published)})`);
+      continue;
     }
-    if (typeof c.short !== 'string' || c.short.trim() === '') cctx.err('short', 'is required (a short title for tight spaces)');
-    else if (c.short.length > 14) cctx.warn('short', 'is long for a short title (keep it under 15 characters)');
-    if (t.demo) {
-      if (c.demo !== true) cctx.err('demo', 'the demo chapter must have "demo": true');
-    } else if (c.demo !== undefined && c.demo !== false) {
-      cctx.err('demo', 'only the demo chapter may have "demo": true');
-    }
-    if (!Number.isInteger(c.count) || c.count < 0) {
-      cctx.err('count', 'must be a whole number ≥ 0');
-    } else if (counts.has(t.id) && counts.get(t.id) !== c.count) {
-      cctx.err('count', `is ${c.count} but ${t.file} has ${counts.get(t.id)} question(s)`);
+    published.set(t.id, c.published);
+    const questions = counts.get(t.id) ?? (Number.isInteger(c.count) ? c.count : undefined);
+    if (c.published && questions === 0) {
+      ctx.err('published', `is true but ${t.file} has no questions; an empty chapter can't be published (set "published": false)`);
     }
   }
+
   for (const [id, { at }] of byId) {
-    if (!CHAPTER_TABLE.some((t) => t.id === id)) rep.error(f, at, `unknown chapter "${id}" (not in the fixed chapter table)`);
+    if (CHAPTER_TABLE.some((t) => t.id === id)) continue;
+    rep.error(f, at, id === DEMO.id
+      ? 'the demo chapter belongs in "demo", not in "chapters"'
+      : `unknown chapter "${id}" (not in the fixed chapter table ch01–ch${String(CHAPTER_TABLE.length).padStart(2, '0')})`);
   }
+  return published;
+}
+
+/**
+ * Checks the index.json `demo` entry against DEMO.
+ * @param {Reporter} rep
+ * @param {unknown} demo
+ * @param {Map<string, number>} counts Chapter id → questions found in its file.
+ */
+function checkDemoEntry(rep, demo, counts) {
+  const f = INDEX_FILE;
+  if (demo === undefined) {
+    rep.error(f, 'demo', `is required: {"id": "${DEMO.id}", "prefix": "${DEMO.prefix}", "title": "${DEMO.title}", "short": "Demo", "file": "${DEMO.file}", "count": N} (the app shows it while no chapter is published)`);
+    return;
+  }
+  if (!isObj(demo)) {
+    rep.error(f, 'demo', `must be an object {${DEMO_KEYS.join(', ')}} (got ${typeName(demo)})`);
+    return;
+  }
+  const ctx = makeCtx(rep, f, 'demo');
+  checkKeys(ctx, demo, DEMO_KEYS, '');
+  for (const key of /** @type {const} */ (['id', 'prefix', 'title', 'file'])) checkFixed(ctx, demo, key, DEMO[key], 'fixed demo entry');
+  checkShort(ctx, demo);
+  checkCount(ctx, demo, DEMO.file, counts.get(DEMO.id));
+}
+
+/**
+ * Checks data/index.json: parts, chapters and demo (§3.1).
+ * @param {Reporter} rep
+ * @param {any} index Parsed index (undefined when unreadable; already reported).
+ * @param {Map<string, number>} counts Chapter id → questions found in its file.
+ * @returns {Map<string, boolean>} Chapter id → `published` (valid flags only).
+ */
+function checkIndex(rep, index, counts) {
+  const f = INDEX_FILE;
+  if (index === undefined) return new Map();
+  if (!isObj(index)) {
+    rep.error(f, '', `top level must be an object {${INDEX_KEYS.join(', ')}}`);
+    return new Map();
+  }
+  checkKeys(makeCtx(rep, f, ''), index, INDEX_KEYS, '');
+  if (index.schemaVersion !== SCHEMA_VERSION) rep.error(f, 'schemaVersion', `must be ${SCHEMA_VERSION}`);
+  checkParts(rep, index.parts);
+  const published = checkChapters(rep, index.chapters, counts);
+  checkDemoEntry(rep, index.demo, counts);
+  return published;
 }
 
 /**
@@ -916,11 +1178,11 @@ function loadRetired(rep, root) {
   const out = new Set();
   if (data === undefined) return out;
   if (!isObj(data) || !Array.isArray(data.retired)) {
-    rep.error(f, '', 'must be {"retired": ["CPB-0007", ...]}');
+    rep.error(f, '', 'must be {"retired": ["CH03-0007", ...]}');
     return out;
   }
   checkKeys(makeCtx(rep, f, ''), data, ['retired'], '');
-  const prefixes = new Set(CHAPTER_TABLE.map((t) => t.prefix));
+  const prefixes = new Set(BANK_FILES.map((t) => t.prefix));
   data.retired.forEach((id, i) => {
     const at = `retired[${i}]`;
     const m = typeof id === 'string' ? QID_RE.exec(id) : null;
@@ -928,7 +1190,7 @@ function loadRetired(rep, root) {
       rep.error(f, at, `invalid question id ${JSON.stringify(id)}`);
       return;
     }
-    if (!prefixes.has(m[1])) rep.warn(f, at, `prefix ${m[1]} belongs to no chapter`);
+    if (!prefixes.has(m[1])) rep.warn(f, at, `prefix ${m[1]} belongs to no chapter (use CH01–CH${String(CHAPTER_TABLE.length).padStart(2, '0')} or ${DEMO.prefix})`);
     if (out.has(id)) rep.warn(f, at, `${id} is listed twice`);
     out.add(id);
   });
@@ -1081,10 +1343,12 @@ function checkAppShell(rep, root) {
 /**
  * @typedef {object} ChapterSummary
  * @property {string} id
+ * @property {number | null} number  Chapter number (null for the demo).
  * @property {string} title
  * @property {string} prefix
- * @property {number} order
  * @property {boolean} demo
+ * @property {boolean} published  From index.json (false when missing or invalid; false for the demo).
+ * @property {boolean} loaded     The file was read and has a `questions` array.
  * @property {number} total
  * @property {number} reviewed
  * @property {string} nextId
@@ -1109,9 +1373,10 @@ export function validate({ root = ROOT, dataOnly = false } = {}) {
   /** @type {Map<string, Array<{ qid: string, set: Set<string>, norm: string }>>} */
   const forSimilarity = new Map();
 
-  for (const t of CHAPTER_TABLE) {
+  for (const t of BANK_FILES) {
+    /** @type {ChapterSummary} */
     const summary = {
-      id: t.id, title: t.title, prefix: t.prefix, order: t.order, demo: Boolean(t.demo),
+      id: t.id, number: t.number, title: t.title, prefix: t.prefix, demo: t.demo, published: false, loaded: false,
       total: 0, reviewed: 0, nextId: `${t.prefix}-0001`, positions: [0, 0, 0, 0, 0],
     };
     chapters.push(summary);
@@ -1130,6 +1395,7 @@ export function validate({ root = ROOT, dataOnly = false } = {}) {
       continue;
     }
     counts.set(t.id, data.questions.length);
+    summary.loaded = true;
     summary.total = data.questions.length;
 
     let maxNum = 0;
@@ -1177,7 +1443,7 @@ export function validate({ root = ROOT, dataOnly = false } = {}) {
   }
   // Near-duplicates within each chapter
   for (const [id, sims] of forSimilarity) {
-    const file = CHAPTER_TABLE.find((t) => t.id === id)?.file ?? '';
+    const file = BANK_FILES.find((t) => t.id === id)?.file ?? '';
     for (let i = 0; i < sims.length; i++) {
       for (let j = i + 1; j < sims.length; j++) {
         const a = sims[i];
@@ -1194,10 +1460,11 @@ export function validate({ root = ROOT, dataOnly = false } = {}) {
     }
   }
 
-  checkIndex(rep, index, counts);
+  const published = checkIndex(rep, index, counts);
+  for (const summary of chapters) summary.published = published.get(summary.id) === true;
 
   // JSON files in data/ that the app never loads
-  const known = new Set([INDEX_FILE, RETIRED_FILE, ...CHAPTER_TABLE.map((t) => t.file)]);
+  const known = new Set([INDEX_FILE, RETIRED_FILE, ...BANK_FILES.map((t) => t.file)]);
   for (const rel of walkFiles(root, 'data')) {
     if (rel.endsWith('.json') && !rel.includes('/', 'data/'.length) && !known.has(rel)) {
       rep.warn(rel, '', 'not listed in data/index.json, so the app never loads it');
@@ -1241,6 +1508,61 @@ export function parseArgs(argv) {
   return out;
 }
 
+/** Longest chapter title shown in the summary table (longer ones are cut with "…"). */
+const SUMMARY_TITLE_MAX = 44;
+
+/**
+ * @param {number} n
+ * @param {string} word
+ */
+function countOf(n, word) {
+  return `${n} ${word}${n === 1 ? '' : 's'}`;
+}
+
+/**
+ * Compact question-bank summary. Lists the published chapters, every chapter
+ * that has questions (or an unreadable file) and the demo; the many empty,
+ * unpublished chapters are folded into one line so the output stays short.
+ * @param {ChapterSummary[]} chapters From validate().
+ * @param {{ bold?: (s: string) => string, dim?: (s: string) => string }} [style]
+ * @returns {string[]} Lines to print.
+ */
+export function summaryLines(chapters, { bold = (s) => s, dim = (s) => s } = {}) {
+  const book = chapters.filter((c) => !c.demo);
+  const shown = [...book.filter((c) => c.published || c.total > 0 || !c.loaded), ...chapters.filter((c) => c.demo)];
+  const folded = book.filter((c) => !c.published && c.total === 0 && c.loaded).length;
+  const publishedCount = book.filter((c) => c.published).length;
+
+  const status = (/** @type {ChapterSummary} */ c) => {
+    if (!c.loaded) return 'unreadable';
+    if (c.demo) return 'demo';
+    return c.published ? 'published' : 'hidden';
+  };
+  const fit = (/** @type {string} */ s) => (s.length > SUMMARY_TITLE_MAX ? `${s.slice(0, SUMMARY_TITLE_MAX - 1).trimEnd()}…` : s);
+  const titleW = Math.max(7, ...shown.map((c) => fit(c.title).length));
+
+  const lines = [bold(`Question bank: ${publishedCount} of ${book.length} chapters published${publishedCount === 0 ? ' (the app runs in demo mode)' : ''}`)];
+  if (shown.length) {
+    lines.push(dim(`  ${'#'.padStart(4)}  ${'Chapter'.padEnd(titleW)}  ${'Status'.padEnd(10)}  ${'Questions'.padStart(9)}  ${'Reviewed'.padStart(8)}  ${'Answers A/B/C/D/E'.padEnd(17)}  Next free ID`));
+  }
+  for (const c of shown) {
+    const answers = c.total > 0 ? c.positions.join('/') : '–';
+    lines.push(`  ${String(c.number ?? c.id).padStart(4)}  ${fit(c.title).padEnd(titleW)}  ${status(c).padEnd(10)}  ${String(c.total).padStart(9)}  ${String(c.reviewed).padStart(8)}  ${answers.padEnd(17)}  ${c.nextId}`);
+  }
+  if (folded > 0) lines.push(dim(`  ${countOf(folded, 'unpublished empty chapter')} (hidden in the app)`));
+
+  const sum = (/** @type {ChapterSummary[]} */ list, /** @type {'total' | 'reviewed'} */ key) => list.reduce((n, c) => n + c[key], 0);
+  const live = book.filter((c) => c.published);
+  const hidden = book.filter((c) => !c.published);
+  const liveTotal = sum(live, 'total');
+  const liveReviewed = sum(live, 'reviewed');
+  const hiddenTotal = sum(hidden, 'total');
+  const demoTotal = sum(chapters.filter((c) => c.demo), 'total');
+  lines.push(`  Total: ${bold(countOf(liveTotal, 'question'))} in published chapters (${liveReviewed} reviewed, ${liveTotal - liveReviewed} not yet reviewed); `
+    + `${hiddenTotal} in hidden chapters (${sum(hidden, 'reviewed')} reviewed); ${demoTotal} demo.`);
+  return lines;
+}
+
 /**
  * Runs the validator and prints a report.
  * @param {string[]} argv Arguments after the script name.
@@ -1280,17 +1602,7 @@ export function main(argv, { log = console.log, color = Boolean(process.stdout.i
   if (reporter.problems.length && !args.quiet) log('');
 
   if (!args.quiet) {
-    const titleW = Math.max(...chapters.map((c) => c.title.length), 7);
-    log(bold('Question bank'));
-    log(dim(`  ${'#'.padStart(3)}  ${'Chapter'.padEnd(titleW)}  ${'Questions'.padStart(9)}  ${'Reviewed'.padStart(8)}  Next free ID`));
-    for (const c of chapters) {
-      log(`  ${String(c.order).padStart(3)}  ${c.title.padEnd(titleW)}  ${String(c.total).padStart(9)}  ${String(c.reviewed).padStart(8)}  ${c.nextId}`);
-    }
-    const real = chapters.filter((c) => !c.demo);
-    const total = real.reduce((n, c) => n + c.total, 0);
-    const reviewed = real.reduce((n, c) => n + c.reviewed, 0);
-    const demo = chapters.filter((c) => c.demo).reduce((n, c) => n + c.total, 0);
-    log(`  Total: ${bold(String(total))} question${total === 1 ? '' : 's'} (${reviewed} reviewed, ${total - reviewed} not yet reviewed), plus ${demo} demo.`);
+    for (const line of summaryLines(chapters, { bold, dim })) log(line);
     if (app) log(`${bold('App shell')}: ${app.shellCount} precached entries, version ${app.version ?? '(unknown)'}`);
     else log(dim('App shell: skipped (--data-only)'));
   }
