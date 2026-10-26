@@ -7,13 +7,14 @@
  * key, no cost. ChatGPT is an outside source: a one-time notice says so.
  *
  * - `buildPrompt` / `askGptUrl` are pure (unit-tested in Node).
- * - Opening: `window.open(url, '_blank')` and then `opener = null` (same
- *   effect as `'noopener'`, but the return value tells us when a pop-up
- *   blocker stopped it). Blocked → the prompt is copied and a toast offers
- *   "Open ChatGPT" (a fresh tap the browser always allows).
- * - The prompt is also copied quietly when ChatGPT opens, because the
- *   ChatGPT app may ignore the pre-filled text; the toast says so.
+ * - Opening: `window.open(url, '_blank', 'noopener')`. With `noopener` the
+ *   browser never says whether a pop-up blocker stopped it, so every tap
+ *   also copies the prompt and shows a toast with an "Open ChatGPT" action
+ *   (a fresh tap the browser always allows). The copy also helps when the
+ *   ChatGPT app ignores the pre-filled text. If `window.open` throws, the
+ *   toast says ChatGPT didn't open.
  * - Offline: the button is disabled and a visible hint says "Needs internet".
+ *   It follows `net:change` and the browser's `online`/`offline` events.
  *
  * Importing this module does not touch `document`/`window`.
  *
@@ -224,22 +225,53 @@ export async function copyText(text) {
 /**
  * Opens a URL in a new tab/app without giving it access to this page.
  * @param {string} url
- * @returns {boolean} false when the browser blocked it.
+ * @returns {boolean} false when the browser refused (threw).
  */
 function openExternal(url) {
-  let win = null;
   try {
-    win = window.open(url, '_blank');
-  } catch {
-    win = null;
+    window.open(url, '_blank', 'noopener');
+    return true;
+  } catch (err) {
+    console.warn('[askgpt] window.open failed', err);
+    return false;
   }
-  if (!win) return false;
-  try {
-    win.opener = null;
-  } catch {
-    /* cross-origin already */
-  }
-  return true;
+}
+
+/** Grace period before a detached element counts as removed (it may just be moving). */
+const REMOVAL_GRACE_MS = 500;
+
+/**
+ * Calls `fn` once `el` has been in the document and then stays out of it for
+ * {@link REMOVAL_GRACE_MS}.
+ * @param {Element} el
+ * @param {() => void} fn
+ * @returns {() => void} Stops watching.
+ */
+function whenRemoved(el, fn) {
+  if (typeof MutationObserver !== 'function') return () => {};
+  let seen = el.isConnected;
+  /** @type {ReturnType<typeof setTimeout> | null} */
+  let timer = null;
+  const mo = new MutationObserver(() => {
+    if (el.isConnected) {
+      seen = true;
+      if (timer) clearTimeout(timer);
+      timer = null;
+      return;
+    }
+    if (!seen || timer) return;
+    timer = setTimeout(() => {
+      timer = null;
+      if (el.isConnected) return;
+      mo.disconnect();
+      fn();
+    }, REMOVAL_GRACE_MS);
+  });
+  mo.observe(document, { childList: true, subtree: true });
+  return () => {
+    if (timer) clearTimeout(timer);
+    mo.disconnect();
+  };
 }
 
 /** @returns {boolean} */
@@ -275,24 +307,26 @@ export function createAskGptButton(question, getContext) {
   }
   render();
 
-  let mounted = false;
-  const offNet = bus.on('net:change', (payload) => {
-    if (!el.isConnected && mounted) {
-      offNet();
-      return;
-    }
-    if (el.isConnected) mounted = true;
-    online = payload && typeof payload.online === 'boolean' ? payload.online : isOnline();
+  /** @param {boolean} next */
+  const setOnline = (next) => {
+    if (next === online) return;
+    online = next;
     render();
-  });
-  requestAnimationFrame(() => {
-    if (el.isConnected) mounted = true;
-    // The network may have changed between creation and mounting.
-    if (online !== isOnline()) {
-      online = isOnline();
-      render();
-    }
-  });
+  };
+  const onOnline = () => setOnline(true);
+  const onOffline = () => setOnline(false);
+  window.addEventListener('online', onOnline);
+  window.addEventListener('offline', onOffline);
+  const offs = [
+    bus.on('net:change', (payload) => {
+      setOnline(payload && typeof payload.online === 'boolean' ? payload.online : isOnline());
+    }),
+    () => window.removeEventListener('online', onOnline),
+    () => window.removeEventListener('offline', onOffline),
+  ];
+  offs.push(whenRemoved(el, () => {
+    for (const off of offs.splice(0)) off();
+  }));
 
   /** @returns {{ prompt: string, url: string }} */
   function prepare() {
@@ -316,19 +350,25 @@ export function createAskGptButton(question, getContext) {
       return;
     }
     const { prompt, url } = prepare();
-    if (openExternal(url)) {
-      void copyText(prompt).then((copied) => {
-        if (copied) toast('Opening ChatGPT. The question is also copied, in case you need to paste it.', { duration: 5000 });
-      });
-      return;
-    }
-    void copyText(prompt).then((copied) => {
-      toast(
-        copied
+    // Start the copy first, while this page still has focus (the clipboard
+    // refuses an unfocused page), then open ChatGPT inside the same tap.
+    const copying = copyText(prompt);
+    const opened = openExternal(url);
+    void copying.then((copied) => {
+      let message;
+      if (opened) {
+        message = copied
+          ? "Opening ChatGPT. The question is also copied: if it doesn't appear there, paste it."
+          : "Opening ChatGPT. If it didn't open, tap Open ChatGPT.";
+      } else {
+        message = copied
           ? "ChatGPT didn't open by itself. The question is copied: tap Open ChatGPT and paste it."
-          : "ChatGPT didn't open by itself. Tap Open ChatGPT to try again.",
-        { duration: 10000, action: { label: 'Open ChatGPT', onClick: () => void openExternal(url) } },
-      );
+          : "ChatGPT didn't open by itself. Tap Open ChatGPT to try again.";
+      }
+      toast(message, {
+        duration: opened ? 6000 : 10000,
+        action: { label: 'Open ChatGPT', onClick: () => void openExternal(url) },
+      });
     });
   }
 

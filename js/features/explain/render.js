@@ -211,20 +211,55 @@ function renderList(b, ctx) {
   return h('div', {}, list);
 }
 
+/**
+ * Keeps a table's scroll affordances in sync: edge shadows (`can-left`,
+ * `can-right` on the frame) and a tab stop only while the table actually
+ * scrolls (a focusable region is only useful when it can be scrolled with
+ * the keyboard).
+ * @param {HTMLElement} frame
+ * @param {HTMLElement} scroller
+ */
+function watchTableScroll(frame, scroller) {
+  let queued = false;
+  const update = () => {
+    queued = false;
+    const max = scroller.scrollWidth - scroller.clientWidth;
+    const scrollable = max > 1;
+    frame.classList.toggle('can-left', scrollable && scroller.scrollLeft > 1);
+    frame.classList.toggle('can-right', scrollable && scroller.scrollLeft < max - 1);
+    if (scrollable) scroller.setAttribute('tabindex', '0');
+    else scroller.removeAttribute('tabindex');
+  };
+  const schedule = () => {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(update);
+  };
+  scroller.addEventListener('scroll', schedule, { passive: true });
+  if (typeof ResizeObserver === 'function') new ResizeObserver(schedule).observe(scroller);
+  else requestAnimationFrame(update);
+}
+
 /** @param {Record<string, any>} b @param {Ctx} ctx */
 function renderTable(b, ctx) {
   const head = Array.isArray(b.head) ? b.head : [];
   const rows = Array.isArray(b.rows) ? b.rows.filter((r) => Array.isArray(r)) : [];
   if (!rows.length) return warn(ctx.where, 'table has no rows; skipped');
-  if (Array.isArray(b.rows) && rows.length !== b.rows.length) warn(ctx.where, 'some table rows are not arrays; skipped');
+  if (rows.length !== b.rows.length) warn(ctx.where, 'some table rows are not arrays; skipped');
   const cols = Math.max(head.length, ...rows.map((r) => r.length));
+  if (!cols) return warn(ctx.where, 'table has no cells; skipped');
   const em = isObj(b.emphasis) ? b.emphasis : {};
   const emCol = Number.isInteger(em.col) && em.col >= 0 && em.col < cols ? em.col : -1;
   const emRow = Number.isInteger(em.row) && em.row >= 0 && em.row < rows.length ? em.row : -1;
+  if (isObj(b.emphasis) && ((em.col !== undefined && emCol < 0) || (em.row !== undefined && emRow < 0))) {
+    warn(ctx.where, 'table emphasis is out of range; ignored');
+  }
+  const rowHeads = cols > 1;
 
   const hasCaption = hasText(b.caption);
   const capId = nextId('xb-cap');
   const caption = hasCaption ? h('p', { class: 'xb-table-caption', id: capId }, renderInline(b.caption)) : null;
+  const label = hasCaption ? undefined : 'Table';
 
   /**
    * @param {'th'|'td'} tag
@@ -236,15 +271,7 @@ function renderTable(b, ctx) {
     h(tag, { scope, class: c === emCol ? 'is-em' : undefined }, renderInline(value));
 
   const thead = head.length
-    ? h(
-        'thead',
-        {},
-        h(
-          'tr',
-          {},
-          Array.from({ length: cols }, (_, c) => cell('th', head[c], c, 'col')),
-        ),
-      )
+    ? h('thead', {}, h('tr', {}, Array.from({ length: cols }, (_, c) => cell('th', head[c], c, 'col'))))
     : null;
   const tbody = h(
     'tbody',
@@ -253,23 +280,28 @@ function renderTable(b, ctx) {
       h(
         'tr',
         { class: r === emRow ? 'is-em' : undefined },
-        Array.from({ length: cols }, (_, c) => (c === 0 && cols > 1 ? cell('th', row[c], c, 'row') : cell('td', row[c], c))),
+        Array.from({ length: cols }, (_, c) => (c === 0 && rowHeads ? cell('th', row[c], c, 'row') : cell('td', row[c], c))),
       ),
     ),
   );
-  const label = hasCaption ? inlineToPlain(str(b.caption)) : 'Table';
   const table = h(
     'table',
-    { class: ['xb-table-grid', cols > 1 && 'has-row-heads'], 'aria-labelledby': hasCaption ? capId : undefined, 'aria-label': hasCaption ? undefined : label },
+    {
+      class: ['xb-table-grid', rowHeads && 'has-row-heads', cols >= 4 && 'is-wide'],
+      'aria-labelledby': hasCaption ? capId : undefined,
+      'aria-label': label,
+    },
     thead,
     tbody,
   );
   const scroller = h(
     'div',
-    { class: 'xb-table-scroll', tabindex: '0', role: 'region', 'aria-labelledby': hasCaption ? capId : undefined, 'aria-label': hasCaption ? undefined : label },
+    { class: 'xb-table-scroll', role: 'region', 'aria-labelledby': hasCaption ? capId : undefined, 'aria-label': label },
     table,
   );
-  return h('div', { style: { '--cols': cols } }, caption, scroller);
+  const frame = h('div', { class: 'xb-table-frame' }, scroller);
+  watchTableScroll(frame, scroller);
+  return h('div', { style: { '--cols': cols } }, caption, frame);
 }
 
 /**
@@ -293,8 +325,8 @@ function arrowSvg() {
       'aria-hidden': 'true',
       'data-anchor-skip': '',
     },
-    svg('path', { d: 'M8 2v22' }),
-    svg('path', { d: 'M3 19l5 6 5-6' }),
+    svg('path', { d: 'M8 2v23' }),
+    svg('path', { d: 'M3.5 20l4.5 5 4.5-5' }),
   );
 }
 
@@ -306,60 +338,64 @@ function arrowSvg() {
 function flowLink(label) {
   return h(
     'div',
-    { class: 'xb-flow-link' },
+    { class: ['xb-flow-link', hasText(label) && 'has-label'] },
     arrowSvg(),
     hasText(label) ? h('span', { class: 'xb-flow-label' }, renderInline(label)) : null,
   );
 }
 
-/** @param {Record<string, any>} b @param {Ctx} ctx */
+/**
+ * Flow block: an ordered chain of step boxes joined by arrows. A step with
+ * `branches` is a fan-out row: the branches sit side by side between a split
+ * bar and a merge bar (CSS), and stack as a group on narrow screens.
+ * @param {Record<string, any>} b
+ * @param {Ctx} ctx
+ */
 function renderFlow(b, ctx) {
   if (!Array.isArray(b.steps)) return warn(ctx.where, 'flow has no "steps" array; skipped');
-  const items = [];
+  /** @type {({ text: unknown, label?: unknown } | { branches: Record<string, any>[] })[]} */
+  const steps = [];
   for (const step of b.steps) {
     if (!isObj(step)) {
       warn(ctx.where, 'flow step is not an object; skipped');
-      continue;
-    }
-    const first = items.length === 0;
-    if (Array.isArray(step.branches)) {
+    } else if (Array.isArray(step.branches)) {
       const branches = step.branches.filter((br) => isObj(br) && hasText(br.text));
       if (branches.length !== step.branches.length) warn(ctx.where, 'some flow branches have no text; skipped');
-      if (!branches.length) continue;
-      items.push(
+      if (branches.length) steps.push({ branches });
+    } else if (hasText(step.text)) {
+      steps.push(step);
+    } else {
+      warn(ctx.where, 'flow step has no text; skipped');
+    }
+  }
+  if (!steps.length) return warn(ctx.where, 'flow has no valid steps; skipped');
+
+  const items = steps.map((step, i) => {
+    const first = i === 0;
+    if ('branches' in step) {
+      const n = step.branches.length;
+      return h(
+        'li',
+        {
+          class: ['xb-flow-row', `is-n${Math.min(n, 4)}`, first && 'is-first', i < steps.length - 1 && 'has-next'],
+          style: { '--n': n },
+        },
         h(
-          'li',
-          { class: 'xb-flow-row', style: { '--n': branches.length } },
-          h(
-            'ul',
-            { class: 'xb-flow-branches', role: 'list' },
-            branches.map((br) =>
-              h(
-                'li',
-                { class: 'xb-flow-branch' },
-                first ? (hasText(br.label) ? h('span', { class: 'xb-flow-label' }, renderInline(br.label)) : null) : flowLink(br.label),
-                h('div', { class: 'xb-flow-box' }, renderInline(br.text)),
-              ),
-            ),
+          'ul',
+          { class: 'xb-flow-branches', role: 'list' },
+          step.branches.map((br) =>
+            h('li', { class: 'xb-flow-branch' }, flowLink(br.label), h('div', { class: 'xb-flow-box' }, renderInline(br.text))),
           ),
         ),
       );
-      continue;
     }
-    if (!hasText(step.text)) {
-      warn(ctx.where, 'flow step has no text; skipped');
-      continue;
-    }
-    items.push(
-      h(
-        'li',
-        { class: 'xb-flow-step' },
-        first ? null : flowLink(step.label),
-        h('div', { class: 'xb-flow-box' }, renderInline(step.text)),
-      ),
+    return h(
+      'li',
+      { class: 'xb-flow-step' },
+      first ? null : flowLink(step.label),
+      h('div', { class: 'xb-flow-box' }, renderInline(step.text)),
     );
-  }
-  if (!items.length) return warn(ctx.where, 'flow has no valid steps; skipped');
+  });
   return h(
     'div',
     {},
@@ -368,25 +404,37 @@ function renderFlow(b, ctx) {
   );
 }
 
-/** @param {Record<string, any>} b @param {Ctx} ctx */
+/**
+ * Mind map block: a centre node with 2–6 branches, each with optional leaf
+ * chips. Wide containers place the first half of the branches left of the
+ * centre and the rest right of it (`is-left`/`is-right`, `--row`); narrow
+ * ones stack them as an outline under the centre. Connectors are CSS only.
+ * @param {Record<string, any>} b
+ * @param {Ctx} ctx
+ */
 function renderMindmap(b, ctx) {
   if (!hasText(b.center)) return warn(ctx.where, 'mind map has no center; skipped');
   const branches = Array.isArray(b.branches) ? b.branches.filter((br) => isObj(br) && hasText(br.text)) : [];
   if (!branches.length) return warn(ctx.where, 'mind map has no valid branches; skipped');
   if (!Array.isArray(b.branches) || branches.length !== b.branches.length) warn(ctx.where, 'some mind map branches are malformed; skipped');
   if (branches.length < 2 || branches.length > 6) warn(ctx.where, `mind map should have 2–6 branches (has ${branches.length})`);
+  const leftCount = Math.ceil(branches.length / 2);
   return h(
     'div',
     { class: ['xb-mm', branches.length === 1 && 'is-single'] },
     h('div', { class: 'xb-mm-center' }, h('span', { class: 'xb-mm-center-text' }, renderInline(b.center))),
     h(
       'ul',
-      { class: 'xb-mm-branches', role: 'list' },
+      { class: 'xb-mm-branches', role: 'list', style: { '--rows': leftCount } },
       branches.map((br, i) => {
+        const left = i < leftCount || branches.length === 1;
         const kids = Array.isArray(br.children) ? br.children.filter(hasText) : [];
         return h(
           'li',
-          { class: ['xb-mm-branch', `xb-mm-c${i % MM_COLORS}`] },
+          {
+            class: ['xb-mm-branch', `xb-mm-c${i % MM_COLORS}`, left ? 'is-left' : 'is-right'],
+            style: { '--row': (left ? i : i - leftCount) + 1 },
+          },
           h('div', { class: 'xb-mm-node' }, renderInline(br.text)),
           kids.length
             ? h('ul', { class: 'xb-mm-leaves', role: 'list' }, kids.map((k) => h('li', { class: 'xb-mm-leaf' }, renderInline(k))))
@@ -455,10 +503,8 @@ const RENDERERS = {
   mindmap: renderMindmap,
   callout: renderCallout,
   quote: renderQuote,
-  image: (b, ctx) => {
-    if (!isSafeImageSrc(b.src)) return warn(ctx.where, 'image has no usable relative "src"; skipped');
-    return renderImage(/** @type {any} */ (b));
-  },
+  // An unusable src still renders the plain-language placeholder (renderImage warns).
+  image: (b) => renderImage(/** @type {any} */ (b)),
 };
 
 /**
@@ -700,7 +746,7 @@ function openImageViewer(src, alt, caption) {
   const ro = typeof ResizeObserver === 'function' ? new ResizeObserver(() => layout()) : null;
   ro?.observe(stage);
   sheet({
-    title: alt,
+    title: 'Image',
     content,
     size: 'full',
     onClose: () => ro?.disconnect(),

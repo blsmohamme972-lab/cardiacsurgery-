@@ -1,0 +1,201 @@
+/*
+ * Highlights (features/annotate/highlight.js, anchor.js) — docs/ARCHITECTURE.md §7.7.
+ *
+ * - mark.uhl.uhl-<color>: a user highlight on question/explanation text.
+ * - .hl-bar: the floating toolbar shown for a selection or a tapped highlight.
+ */
+
+/* ---------- User highlights ---------- */
+
+mark.uhl {
+  color: inherit;
+  background: var(--hl-yellow);
+  border-radius: 3px;
+  padding: 0;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+}
+
+mark.uhl.uhl-yellow { background: var(--hl-yellow); }
+mark.uhl.uhl-green { background: var(--hl-green); }
+mark.uhl.uhl-blue { background: var(--hl-blue); }
+mark.uhl.uhl-pink { background: var(--hl-pink); }
+
+/* Nested highlights: the inner one keeps its own color without a seam. */
+mark.uhl mark.uhl {
+  border-radius: 0;
+}
+
+/* Author emphasis (==text==) inside a user highlight stays visible as bold-ish emphasis. */
+mark.uhl mark.key {
+  background: transparent;
+  font-weight: 600;
+}
+
+mark.uhl:focus {
+  outline: none;
+}
+
+mark.uhl:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* The highlight whose options bar is open. */
+mark.uhl.is-active {
+  box-shadow: 0 0 0 2px var(--focus);
+}
+
+@media (forced-colors: active) {
+  mark.uhl {
+    forced-color-adjust: none;
+    background: Mark;
+    color: MarkText;
+  }
+  mark.uhl.is-active,
+  mark.uhl:focus-visible {
+    outline: 2px solid Highlight;
+    box-shadow: none;
+  }
+}
+
+/* ---------- Floating highlight bar ---------- */
+
+.hl-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-float);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: var(--sp-1);
+  max-width: calc(100vw - 16px);
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-full);
+  box-shadow: var(--shadow-3);
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
+  animation: hl-bar-in var(--dur-fast) var(--ease-out);
+}
+
+.hl-bar[hidden] {
+  display: none;
+}
+
+.hl-bar[data-side="below"] {
+  animation-name: hl-bar-in-below;
+}
+
+@keyframes hl-bar-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.97);
+  }
+}
+
+@keyframes hl-bar-in-below {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.97);
+  }
+}
+
+.hl-bar button {
+  display: inline-grid;
+  place-items: center;
+  min-width: var(--tap);
+  min-height: var(--tap);
+  border-radius: var(--r-full);
+  color: var(--text);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color var(--dur-fast) var(--ease);
+}
+
+.hl-bar button:hover {
+  background: var(--surface-2);
+}
+
+.hl-bar button:active {
+  background: var(--surface-3);
+}
+
+.hl-bar button:focus {
+  outline: none;
+}
+
+.hl-bar button:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -2px;
+}
+
+/* Color swatches */
+.hl-swatch {
+  width: var(--tap);
+  height: var(--tap);
+}
+
+.hl-dot {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--r-full);
+  background: var(--hl-yellow);
+  border: 1.5px solid color-mix(in srgb, var(--text) 22%, transparent);
+  color: var(--text);
+}
+
+.hl-swatch-yellow .hl-dot { background: var(--hl-yellow); }
+.hl-swatch-green .hl-dot { background: var(--hl-green); }
+.hl-swatch-blue .hl-dot { background: var(--hl-blue); }
+.hl-swatch-pink .hl-dot { background: var(--hl-pink); }
+
+/* Last used color (shown first): a ring around the dot. */
+.hl-swatch.is-last .hl-dot,
+.hl-swatch[aria-pressed="true"] .hl-dot {
+  box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--text-2);
+}
+
+.hl-sep {
+  flex: none;
+  width: 1px;
+  height: 24px;
+  margin: 0 var(--sp-1);
+  background: var(--border-strong);
+}
+
+.hl-action {
+  padding: 0 var(--sp-3);
+  font-size: var(--fs-s);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.hl-bar .hl-remove {
+  color: var(--danger);
+  padding: 0;
+}
+
+@supports not (background: color-mix(in srgb, red 50%, transparent)) {
+  .hl-dot {
+    border-color: var(--border-strong);
+  }
+}
+
+@media (forced-colors: active) {
+  .hl-bar {
+    border: 1px solid CanvasText;
+  }
+  .hl-dot {
+    forced-color-adjust: none;
+    border-color: CanvasText;
+  }
+}

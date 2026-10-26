@@ -245,3 +245,48 @@ describe('findAnchor: bad input', () => {
     assert.ok(Date.now() - t0 < 500);
   });
 });
+
+// ---------------------------------------------------------------------------
+// Pure helpers of js/features/annotate/highlight.js (the DOM part is checked by tests/visual/highlight.mjs).
+// ---------------------------------------------------------------------------
+
+const { blockExists, trimSpan, HIGHLIGHT_COLORS } = await import('../../js/features/annotate/highlight.js');
+
+describe('highlight helpers', () => {
+  const q = {
+    id: 'DEMO-0001',
+    version: 2,
+    choices: [{ id: 'a', text: 'Alpha' }, { id: 'b', text: 'Beta' }],
+    choiceNotes: { a: 'Why alpha' },
+    explanation: [{ id: 'p1', type: 'p', text: 'Sample' }, { id: 'tbl', type: 'table', head: [], rows: [] }],
+  };
+
+  test('colors are the four contract colors in order', () => {
+    assert.deepEqual([...HIGHLIGHT_COLORS], ['yellow', 'green', 'blue', 'pink']);
+  });
+
+  test('blockExists: stem, choices, notes and explanation blocks', () => {
+    assert.equal(blockExists(q, 'stem'), true);
+    assert.equal(blockExists(q, 'choice-a'), true);
+    assert.equal(blockExists(q, 'choice-e'), false);
+    assert.equal(blockExists(q, 'note-a'), true);
+    assert.equal(blockExists(q, 'note-b'), false);
+    assert.equal(blockExists(q, 'p1'), true);
+    assert.equal(blockExists(q, 'tbl'), true);
+    assert.equal(blockExists(q, 'gone'), false);
+  });
+
+  test('blockExists: bad input', () => {
+    assert.equal(blockExists(null, 'stem'), false);
+    assert.equal(blockExists(q, undefined), false);
+    assert.equal(blockExists({ id: 'x' }, 'choice-a'), false);
+    assert.equal(blockExists({ id: 'x' }, 'p1'), false);
+  });
+
+  test('trimSpan drops whitespace at both ends', () => {
+    assert.deepEqual(trimSpan('one two  three', 3, 9), { start: 4, end: 7 });
+    assert.deepEqual(trimSpan('a \nb', 1, 3), { start: 3, end: 3 });
+    assert.deepEqual(trimSpan('abc', 0, 3), { start: 0, end: 3 });
+    assert.deepEqual(trimSpan('   ', 0, 3), { start: 3, end: 3 });
+  });
+});

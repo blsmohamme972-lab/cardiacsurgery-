@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex">
+  <title>Explanation gallery</title>
+  <!-- Dev-only gallery for js/features/explain/render.js. Neutral placeholder text only. -->
+  <link rel="stylesheet" href="../../css/tokens.css">
+  <link rel="stylesheet" href="../../css/base.css">
+  <link rel="stylesheet" href="../../css/components.css">
+  <link rel="stylesheet" href="../../css/explanation.css">
+  <style>
+    body {
+      padding: var(--sp-4) max(var(--sp-4), var(--safe-right)) var(--sp-8) max(var(--sp-4), var(--safe-left));
+    }
+
+    .gal {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .gal-top {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--sp-2) var(--sp-3);
+      margin: calc(-1 * var(--sp-4)) calc(-1 * var(--sp-4)) var(--sp-4);
+      padding: var(--sp-3) var(--sp-4);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-translucent);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+    }
+
+    .gal-top h1 {
+      flex: 1 1 auto;
+      font-size: var(--fs-l);
+    }
+
+    .gal-sec {
+      margin-top: var(--sp-5);
+      padding: var(--sp-4);
+      border: 1px solid var(--border);
+      border-radius: var(--r-l);
+      background: var(--surface);
+    }
+
+    .gal-sec > h2 {
+      margin-bottom: var(--sp-4);
+      color: var(--text-3);
+      font-size: var(--fs-xs);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .gal-narrow {
+      max-width: 340px;
+      padding: var(--sp-3);
+      border: 1px dashed var(--border-strong);
+      border-radius: var(--r-m);
+    }
+
+    @media (min-width: 700px) {
+      .gal-sec {
+        padding: var(--sp-5) var(--sp-6);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="gal">
+    <header class="gal-top">
+      <h1>Explanation gallery</h1>
+      <button type="button" class="btn btn-secondary btn-s" id="theme-btn" aria-pressed="false">Dark mode</button>
+      <button type="button" class="btn btn-secondary btn-s" id="size-btn">Text size: 100%</button>
+    </header>
+    <main id="main" tabindex="-1"></main>
+  </div>
+  <div id="toast-slot" aria-live="polite"></div>
+  <div id="sheet-slot"></div>
+
+  <script type="module">
+    import { h } from '../../js/core/dom.js';
+    import { renderBlocks, renderStem, CALLOUT_KINDS } from '../../js/features/explain/render.js';
+
+    const L = 'Placeholder sentence for layout only, with enough words to wrap across a few lines on a phone.';
+
+    /** @type {{ title: string, blocks?: object[], stem?: string, narrow?: boolean }[]} */
+    const SECTIONS = [
+      {
+        title: 'Stem',
+        stem: 'Sample stem line one with **bold**, _italic_ and ==key== words.\nSecond line kept by pre-line. Which option is the **best** next step?',
+      },
+      {
+        title: 'Heading, paragraph, inline markup',
+        blocks: [
+          { id: 'h1', type: 'heading', text: 'Sample heading for a section' },
+          { id: 'p1', type: 'p', text: `${L} ${L}` },
+          { id: 'p2', type: 'p', text: 'Inline: **strong**, _emphasis_, ==author key==, x^2^, CO~2~, HCO~3~^-^, `code -> literal`, arrows A -> B <- C <-> D => E <=> F, typed ↑ ↓, escapes \\*not bold\\* and snake_case_words.' },
+          { id: 'p3', type: 'p', text: 'Nested: **bold with _italic_ and ==key== inside** then plain text. A very long token: Supercalifragilisticexpialidociouslylongplaceholderwordwithoutanyspaces.' },
+        ],
+      },
+      {
+        title: 'Lists',
+        blocks: [
+          { id: 'l1', type: 'list', items: ['Alpha item', 'Beta item with **bold**', { text: 'Gamma item with children', items: ['Child one', 'Child two with a longer line of placeholder text that wraps onto the next line'] }, L] },
+          { id: 'l2', type: 'list', ordered: true, items: ['First step', { text: 'Second step', items: ['Sub step a', 'Sub step b'] }, 'Third step'] },
+        ],
+      },
+      {
+        title: 'Tables',
+        blocks: [
+          { id: 't1', type: 'table', caption: 'Small table with emphasis column', head: ['Item', 'Group A', 'Group B'], rows: [['Alpha', 'Yes', 'No'], ['Beta', 'No', 'Yes'], ['Gamma', 'Maybe', '**Always**'], ['Delta', 'Sometimes', 'Never']], emphasis: { col: 2 } },
+          { id: 't2', type: 'table', caption: 'Emphasis row', head: ['Feature', 'Option one', 'Option two'], rows: [['Speed', 'Fast', 'Slow'], ['Cost', 'Low', 'High'], ['Choice', '==Preferred==', 'Backup'], ['Notes', L, 'Short']], emphasis: { row: 2 } },
+          { id: 't3', type: 'table', caption: 'Wide table (scrolls sideways, first column sticks)', head: ['Name', 'Column two', 'Column three', 'Column four', 'Column five', 'Column six', 'Column seven'], rows: Array.from({ length: 5 }, (_, r) => [`Row ${r + 1} label`, 'Value', 'Longer placeholder value here', 'x^2^', 'CO~2~', 'A -> B', `Cell ${r + 1}.7`]), emphasis: { col: 3, row: 1 } },
+          { id: 't4', type: 'table', caption: 'Long table', head: ['Step', 'Description'], rows: Array.from({ length: 12 }, (_, r) => [`Item ${r + 1}`, r % 3 === 0 ? L : 'Short description text']) },
+          { id: 't5', type: 'table', head: [], rows: [['No header row', 'Value one'], ['Second row', 'Value two']] },
+          { id: 't6', type: 'table', caption: 'Single column', head: ['Only column'], rows: [['One'], ['Two'], ['Three']] },
+        ],
+      },
+      {
+        title: 'Flows',
+        blocks: [
+          { id: 'f1', type: 'flow', title: 'Simple chain with arrow labels', steps: [{ text: 'Alpha step' }, { text: 'Beta step', label: 'leads to' }, { text: 'Gamma step with a somewhat longer placeholder sentence', label: 'then' }, { text: 'Delta outcome' }] },
+          { id: 'f2', type: 'flow', title: 'Two branches, then a merge', steps: [{ text: 'Start point' }, { branches: [{ label: 'if yes', text: 'Yes path box' }, { label: 'if no', text: 'No path box with more words' }] }, { text: 'Shared next step', label: 'both' }] },
+          { id: 'f3', type: 'flow', title: 'Three branches at the end', steps: [{ text: 'Start point' }, { text: 'Middle step', label: 'next' }, { branches: [{ label: 'case one', text: 'First branch' }, { label: 'case two', text: 'Second branch' }, { text: 'Third branch without label, longer text here' }] }] },
+          { id: 'f4', type: 'flow', title: 'Four branches (always stacked) and a branch row first', steps: [{ branches: [{ label: 'entry A', text: 'Entry one' }, { label: 'entry B', text: 'Entry two' }] }, { text: 'Joined step', label: 'merge' }, { branches: [{ text: 'Option 1' }, { text: 'Option 2' }, { text: 'Option 3' }, { text: 'Option 4' }] }] },
+        ],
+      },
+      {
+        title: 'Mind maps',
+        blocks: [
+          { id: 'm1', type: 'mindmap', center: 'Central idea', branches: [{ text: 'Left branch', children: ['Leaf one', 'Leaf two'] }, { text: 'Right branch', children: ['Leaf three', 'Leaf four with longer text', 'Leaf five'] }] },
+          { id: 'm2', type: 'mindmap', center: 'Six branch centre', branches: [{ text: 'Branch one', children: ['Leaf a', 'Leaf b'] }, { text: 'Branch two', children: ['Leaf c'] }, { text: 'Branch three with a longer title', children: ['Leaf d', 'Leaf e', 'Leaf f'] }, { text: 'Branch four' }, { text: 'Branch five', children: ['Leaf g', 'x^2^ leaf'] }, { text: 'Branch six', children: ['Leaf h', 'Leaf i'] }] },
+        ],
+      },
+      {
+        title: 'Callouts',
+        blocks: CALLOUT_KINDS.map((kind, i) => ({
+          id: `c${i}`,
+          type: 'callout',
+          kind,
+          title: i === 3 ? 'ABCD' : `Sample ${kind} title`,
+          text: i % 2 === 0 ? `Callout body text for the ${kind} kind. ${L}` : undefined,
+          items: i % 2 === 1 || i === 3 ? ['First point', 'Second point with **bold**', 'Third point'] : undefined,
+        })),
+      },
+      {
+        title: 'Quotes',
+        blocks: [
+          { id: 'q1', type: 'quote', text: `Short source quote placeholder. ${L}`, ref: 'Owner source name, Ch 1, p. 10' },
+          { id: 'q2', type: 'quote', text: 'Quote with **bold** and ==key== words.', ref: 'Owner source, section 2' },
+        ],
+      },
+      {
+        title: 'Images',
+        blocks: [
+          { id: 'i1', type: 'image', src: '../../icons/icon-512.png', alt: 'App icon placeholder image', caption: 'Caption with **inline** markup. Tap to zoom.' },
+          { id: 'i2', type: 'image', src: 'missing/not-here.webp', alt: 'Broken image sample', caption: 'Broken source shows a plain-language placeholder.' },
+          { id: 'i3', type: 'image', src: 'javascript:void(0)', alt: 'Unsafe source sample', caption: 'Unsafe source is never loaded.' },
+        ],
+      },
+      {
+        title: 'Narrow column (container queries)',
+        narrow: true,
+        blocks: [
+          { id: 'n1', type: 'flow', steps: [{ text: 'Alpha' }, { branches: [{ label: 'one', text: 'Left' }, { label: 'two', text: 'Right' }, { text: 'Third' }] }, { text: 'Omega', label: 'end' }] },
+          { id: 'n2', type: 'mindmap', center: 'Narrow centre', branches: [{ text: 'Branch A', children: ['Leaf'] }, { text: 'Branch B', children: ['Leaf', 'Leaf'] }, { text: 'Branch C' }] },
+        ],
+      },
+      {
+        title: 'Edge cases (skipped or degraded, see console warnings)',
+        blocks: [
+          { id: 'e1', type: 'unknown-type', text: 'never shown' },
+          { type: 'p', text: 'Paragraph without an id: rendered, no annotations.' },
+          { id: 'e2', type: 'p', text: 'First block with id e2.' },
+          { id: 'e2', type: 'p', text: 'Duplicate id e2: rendered, no annotations.' },
+          { id: 'e3', type: 'table', rows: [] },
+          { id: 'e4', type: 'callout', kind: 'odd', text: 'Unknown callout kind falls back to key.' },
+          { id: 'e5', type: 'mindmap', center: 'One branch only', branches: [{ text: 'Lonely branch', children: ['Leaf'] }] },
+          null,
+        ],
+      },
+    ];
+
+    const main = document.getElementById('main');
+    for (const sec of SECTIONS) {
+      const id = `sec-${sec.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+      let body;
+      if (sec.stem) body = renderStem({ id: 'GAL-STEM', stem: sec.stem });
+      else body = renderBlocks(sec.blocks, { qid: `GAL-${id}` });
+      main.append(
+        h('section', { class: 'gal-sec', id, 'aria-labelledby': `${id}-h` },
+          h('h2', { id: `${id}-h` }, sec.title),
+          sec.narrow ? h('div', { class: 'gal-narrow' }, body) : body),
+      );
+    }
+
+    const root = document.documentElement;
+    const themeBtn = document.getElementById('theme-btn');
+    const sizeBtn = document.getElementById('size-btn');
+    const isDark = () => root.dataset.theme
+      ? root.dataset.theme === 'dark'
+      : matchMedia('(prefers-color-scheme: dark)').matches;
+    const syncTheme = () => {
+      themeBtn.textContent = isDark() ? 'Light mode' : 'Dark mode';
+      themeBtn.setAttribute('aria-pressed', String(isDark()));
+    };
+    themeBtn.addEventListener('click', () => {
+      root.dataset.theme = isDark() ? 'light' : 'dark';
+      syncTheme();
+    });
+    const SIZES = [1, 1.15, 1.3, 0.9];
+    let size = 0;
+    sizeBtn.addEventListener('click', () => {
+      size = (size + 1) % SIZES.length;
+      root.style.setProperty('--font-scale', String(SIZES[size]));
+      sizeBtn.textContent = `Text size: ${Math.round(SIZES[size] * 100)}%`;
+    });
+    syncTheme();
+    document.body.dataset.ready = 'true';
+  </script>
+</body>
+</html>

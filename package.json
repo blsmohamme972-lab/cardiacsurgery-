@@ -10,10 +10,12 @@
   "scripts": {
     "test": "node --test tests/unit/*.test.mjs",
     "test:e2e": "node tests/e2e.mjs",
+    "test:smoke": "node tests/smoke.mjs",
     "validate": "node scripts/validate.mjs",
+    "lint": "node scripts/lint.mjs",
     "bump": "node scripts/bump-version.mjs",
     "serve": "node tests/serve.mjs",
-    "check": "node scripts/validate.mjs && node --test tests/unit/*.test.mjs",
-    "release": "node scripts/bump-version.mjs && node scripts/validate.mjs && node --test tests/unit/*.test.mjs"
+    "check": "node scripts/validate.mjs && node scripts/lint.mjs && node --test tests/unit/*.test.mjs",
+    "release": "node scripts/bump-version.mjs && node scripts/validate.mjs && node scripts/lint.mjs && node --test tests/unit/*.test.mjs && node tests/e2e.mjs"
   }
 }

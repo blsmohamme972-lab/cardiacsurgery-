@@ -40,25 +40,44 @@ export const NOTE_COUNT_FROM = 1000;
 /** How long "Saved" stays fully visible before it fades to a quiet tick. */
 const SAVED_FADE_MS = 2500;
 
+/** Grace period before a detached element counts as removed (it may just be moving). */
+const REMOVAL_GRACE_MS = 500;
+
 /**
- * Calls `fn` once `el` has been in the document and is then removed.
+ * Calls `fn` once `el` has been in the document and then stays out of it for
+ * {@link REMOVAL_GRACE_MS} (a quick move between containers is not a removal).
+ * `onDetach` runs right away on every detach.
  * @param {Element} el
  * @param {() => void} fn
+ * @param {{ onDetach?: () => void }} [opts]
  * @returns {() => void} Stops watching.
  */
-function whenRemoved(el, fn) {
+function whenRemoved(el, fn, { onDetach } = {}) {
   if (typeof MutationObserver !== 'function') return () => {};
   let seen = el.isConnected;
+  /** @type {ReturnType<typeof setTimeout> | null} */
+  let timer = null;
   const mo = new MutationObserver(() => {
     if (el.isConnected) {
       seen = true;
-    } else if (seen) {
+      if (timer) clearTimeout(timer);
+      timer = null;
+      return;
+    }
+    if (!seen || timer) return;
+    onDetach?.();
+    timer = setTimeout(() => {
+      timer = null;
+      if (el.isConnected) return;
       mo.disconnect();
       fn();
-    }
+    }, REMOVAL_GRACE_MS);
   });
   mo.observe(document, { childList: true, subtree: true });
-  return () => mo.disconnect();
+  return () => {
+    if (timer) clearTimeout(timer);
+    mo.disconnect();
+  };
 }
 
 /**
@@ -325,7 +344,7 @@ export function createNoteEditor(qid) {
     () => window.removeEventListener('pagehide', onPageHide),
     () => document.removeEventListener('visibilitychange', onVisibility),
     () => resizeObserver?.disconnect(),
-    whenRemoved(el, () => destroy()),
+    whenRemoved(el, () => destroy(), { onDetach: () => void flush() }),
   ];
 
   /** Saves what is pending and removes every listener. Idempotent. */

@@ -1,0 +1,1077 @@
+/*
+ * Explanation renderer styles (owner: js/features/explain/render.js).
+ * Contract: docs/ARCHITECTURE.md §3.4, §3.5, §7.6, §7.7.
+ *
+ * - Every block is `.xb.xb-<type>` with `position: relative`, so ink layers
+ *   (annotate/ink.js) can sit on top of it.
+ * - All text stays real DOM text; decoration is CSS or aria-hidden SVG.
+ * - Tokens from tokens.css only. Light + dark come from the tokens.
+ * - Responsive pieces (flow branch rows, mind maps) use container queries,
+ *   so they adapt to the column they sit in (phone, iPad two-pane, sheet).
+ */
+
+/* ---------- Inline mini-markup (§3.5), used everywhere text is rendered ---------- */
+
+mark.key {
+  /* Author emphasis: clearly different from user highlights (.uhl-*). */
+  color: inherit;
+  font-weight: 650;
+  background: linear-gradient(transparent 58%, color-mix(in srgb, var(--primary) 26%, transparent) 58%);
+  border-radius: 0;
+  padding: 0 0.08em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+@supports not (background: color-mix(in srgb, red 50%, transparent)) {
+  mark.key {
+    background: linear-gradient(transparent 58%, var(--primary-soft) 58%);
+  }
+}
+
+.arrow {
+  color: var(--primary);
+  font-weight: 600;
+  font-family: var(--font-sans);
+  padding-inline: 0.06em;
+}
+
+.explain sup,
+.explain sub,
+.q-stem sup,
+.q-stem sub {
+  font-size: 0.72em;
+  line-height: 0;
+}
+
+.explain code {
+  font-size: 0.86em;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Stem ---------- */
+
+.q-stem {
+  white-space: pre-line;
+}
+
+/* ---------- Container + rhythm ---------- */
+
+.explain {
+  --xb-gap: var(--sp-4);
+  --xb-line: color-mix(in srgb, var(--primary) 42%, var(--border-strong));
+  max-width: var(--maxw);
+  color: var(--text);
+  font-size: var(--fs-m);
+  line-height: var(--lh-body);
+  overflow-wrap: break-word;
+}
+
+@supports not (color: color-mix(in srgb, red 50%, blue)) {
+  .explain {
+    --xb-line: var(--border-strong);
+  }
+}
+
+.xb {
+  position: relative;
+}
+
+.explain > .xb + .xb {
+  margin-top: var(--xb-gap);
+}
+
+/* Blocks with their own frame breathe a little more. */
+.explain > .xb + :is(.xb-table, .xb-flow, .xb-mindmap, .xb-callout, .xb-quote, .xb-image),
+.explain > :is(.xb-table, .xb-flow, .xb-mindmap, .xb-callout, .xb-quote, .xb-image) + .xb {
+  margin-top: var(--sp-5);
+}
+
+/* ---------- Heading + paragraph ---------- */
+
+.xb-heading {
+  font-size: var(--fs-l);
+  line-height: var(--lh-tight);
+  font-weight: 700;
+  letter-spacing: -0.012em;
+  color: var(--text);
+  text-wrap: balance;
+}
+
+.explain > .xb + .xb-heading {
+  margin-top: var(--sp-6);
+}
+
+.xb-p {
+  text-wrap: pretty;
+}
+
+/* ---------- List ---------- */
+
+.xb-list-items {
+  padding-inline-start: 1.5em;
+}
+
+.xb-list-items li {
+  padding-inline-start: 0.25em;
+}
+
+.xb-list-items li + li,
+.xb-list-items li > .xb-list-items {
+  margin-top: 0.4em;
+}
+
+.xb-list-items li::marker {
+  color: var(--primary);
+}
+
+ol.xb-list-items > li::marker {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.xb-list-items .xb-list-items {
+  padding-inline-start: 1.25em;
+  color: var(--text);
+}
+
+.xb-list-items .xb-list-items li::marker {
+  color: var(--text-3);
+}
+
+ul.xb-list-items ul.xb-list-items {
+  list-style-type: circle;
+}
+
+ol.xb-list-items ol.xb-list-items {
+  list-style-type: lower-alpha;
+}
+
+/* ---------- Table ---------- */
+
+.xb-table-caption {
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-s);
+  font-weight: 650;
+  line-height: var(--lh-tight);
+  color: var(--text-2);
+}
+
+.xb-table-frame {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: var(--r-m);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+}
+
+/* Right-edge shadow: "there is more to the right". */
+.xb-table-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: 18px;
+  pointer-events: none;
+  background: linear-gradient(to left, color-mix(in srgb, var(--text) 16%, transparent), transparent);
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease);
+}
+
+.xb-table-frame.can-right::after {
+  opacity: 1;
+}
+
+.xb-table-scroll {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  border-radius: inherit;
+}
+
+.xb-table-scroll:focus-visible {
+  outline-offset: -3px;
+}
+
+.xb-table-grid {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: var(--fs-s);
+  line-height: 1.45;
+  font-variant-numeric: tabular-nums;
+}
+
+.xb-table-grid th,
+.xb-table-grid td {
+  padding: var(--sp-2) var(--sp-3);
+  min-width: 7.5rem;
+  max-width: 22rem;
+  text-align: start;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.xb-table-grid :is(th, td) + :is(th, td) {
+  border-inline-start: 1px solid var(--border);
+}
+
+.xb-table-grid tbody tr:last-child > * {
+  border-bottom: 0;
+}
+
+.xb-table-grid thead th {
+  background: var(--surface-3);
+  color: var(--text);
+  font-weight: 700;
+  border-bottom: 1px solid var(--border-strong);
+  vertical-align: bottom;
+}
+
+.xb-table-grid tbody th {
+  font-weight: 650;
+  color: var(--text);
+}
+
+/* Zebra rows (opaque, so the sticky column never shows content behind it). */
+.xb-table-grid tbody tr:nth-child(even) > * {
+  background: var(--surface-2);
+}
+
+/* Emphasis: one column and/or one row. */
+.xb-table-grid .is-em {
+  background: color-mix(in srgb, var(--primary-soft) 70%, var(--surface));
+}
+
+.xb-table-grid tbody tr:nth-child(even) > .is-em {
+  background: var(--primary-soft);
+}
+
+.xb-table-grid thead th.is-em {
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary-soft) 80%, var(--surface-3));
+  box-shadow: inset 0 3px 0 var(--primary);
+}
+
+.xb-table-grid tbody tr.is-em > * {
+  background: var(--primary-soft);
+  font-weight: 600;
+}
+
+.xb-table-grid tbody tr.is-em > :first-child {
+  box-shadow: inset 3px 0 0 var(--primary);
+}
+
+/* Sticky first column (row headers) while the table scrolls sideways. */
+.xb-table-grid.has-row-heads tr > :first-child {
+  position: sticky;
+  inset-inline-start: 0;
+  z-index: 1;
+}
+
+.xb-table-frame.can-left .xb-table-grid.has-row-heads tr > :first-child {
+  box-shadow: 6px 0 8px -6px color-mix(in srgb, var(--text) 30%, transparent);
+}
+
+.xb-table-frame.can-left .xb-table-grid.has-row-heads tbody tr.is-em > :first-child {
+  box-shadow:
+    inset 3px 0 0 var(--primary),
+    6px 0 8px -6px color-mix(in srgb, var(--text) 30%, transparent);
+}
+
+@media (max-width: 699.98px) {
+  /* Keep the sticky column from eating the phone screen. */
+  .xb-table-grid.has-row-heads tr > :first-child {
+    min-width: 6.5rem;
+    max-width: 42vw;
+  }
+}
+
+/* ---------- Flow ---------- */
+
+.xb-flow {
+  container: xbflow / inline-size;
+}
+
+.xb-flow-title {
+  margin-bottom: var(--sp-3);
+  font-size: var(--fs-s);
+  font-weight: 700;
+  color: var(--text-2);
+  text-align: center;
+  text-wrap: balance;
+}
+
+.xb-flow-steps {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.xb-flow-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.xb-flow-box {
+  width: fit-content;
+  min-width: min(13rem, 100%);
+  max-width: min(34rem, 100%);
+  padding: var(--sp-3) var(--sp-4);
+  border: 1px solid var(--xb-line);
+  border-radius: var(--r-m);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  text-align: center;
+  line-height: 1.45;
+  text-wrap: balance;
+}
+
+.xb-flow-step:first-child > .xb-flow-box,
+.xb-flow-step:last-child > .xb-flow-box {
+  border-color: var(--primary);
+  border-width: 1.5px;
+}
+
+.xb-flow-step:last-child:not(:first-child) > .xb-flow-box {
+  background: var(--primary-soft);
+  font-weight: 600;
+}
+
+/* Connector: arrow centred, its label to the right. */
+.xb-flow-link {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  column-gap: var(--sp-2);
+  width: 100%;
+  min-height: 36px;
+  padding-block: 2px;
+  color: var(--xb-line);
+}
+
+.xb-arrow {
+  grid-column: 2;
+  width: 16px;
+  height: 28px;
+}
+
+.xb-flow-label {
+  grid-column: 3;
+  justify-self: start;
+  max-width: 100%;
+  padding: 1px var(--sp-2);
+  border-radius: var(--r-s);
+  background: var(--surface-2);
+  color: var(--text-2);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+/* Branch rows (fan-out). Narrow (default): one dashed group, branches stacked. */
+.xb-flow-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.xb-flow-row:not(.is-first)::before,
+.xb-flow-row.has-next::after {
+  content: "";
+  flex: none;
+  width: 2px;
+  height: 14px;
+  background: var(--xb-line);
+}
+
+.xb-flow-row.has-next::after {
+  height: 6px;
+}
+
+.xb-flow-branches {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  width: min(34rem, 100%);
+  padding: var(--sp-3);
+  border: 1.5px dashed var(--xb-line);
+  border-radius: var(--r-l);
+  background: var(--surface-2);
+}
+
+.xb-flow-branch {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--sp-1);
+}
+
+.xb-flow-branch > .xb-flow-box {
+  width: auto;
+  min-width: 0;
+  max-width: none;
+}
+
+.xb-flow-branch .xb-flow-link {
+  display: block;
+  min-height: 0;
+  padding: 0;
+}
+
+.xb-flow-branch .xb-flow-link:not(.has-label) {
+  display: none;
+}
+
+.xb-flow-branch .xb-arrow {
+  display: none;
+}
+
+.xb-flow-branch .xb-flow-label {
+  display: inline-block;
+}
+
+/* Wide enough: branches side by side between a split bar and a merge bar
+   (2 branches from 22rem, 3 from 34rem; 4+ always stay stacked). */
+@container xbflow (min-width: 22rem) and (max-width: 33.99rem) {
+  .xb-flow-row.is-n2 > .xb-flow-branches {
+    display: grid;
+    grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+    gap: 0 var(--sp-3);
+    width: 100%;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+  }
+
+  .xb-flow-row.is-n2::after {
+    display: none;
+  }
+
+  .xb-flow-row.is-n2 .xb-flow-branch {
+    position: relative;
+    gap: 0;
+  }
+
+  /* Split bar from the first to the last branch centre. */
+  .xb-flow-row.is-n2:not(.is-first) .xb-flow-branch::before,
+  .xb-flow-row.is-n2.has-next .xb-flow-branch::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: calc(var(--sp-3) / -2);
+    right: calc(var(--sp-3) / -2);
+    height: 2px;
+    background: var(--xb-line);
+  }
+
+  .xb-flow-row.is-n2.has-next .xb-flow-branch::after {
+    top: auto;
+    bottom: 0;
+  }
+
+  .xb-flow-row.is-n2 .xb-flow-branch:first-child::before,
+  .xb-flow-row.is-n2 .xb-flow-branch:first-child::after {
+    left: 50%;
+  }
+
+  .xb-flow-row.is-n2 .xb-flow-branch:last-child::before,
+  .xb-flow-row.is-n2 .xb-flow-branch:last-child::after {
+    right: 50%;
+  }
+
+  /* Merge: a stub under each box down to the merge bar. */
+  .xb-flow-row.is-n2.has-next .xb-flow-branch {
+    padding-bottom: 14px;
+    background: linear-gradient(var(--xb-line), var(--xb-line)) 50% 100% / 2px 14px no-repeat;
+  }
+
+  .xb-flow-row.is-n2:not(.is-first) .xb-flow-branch .xb-flow-link {
+    display: grid;
+    min-height: 36px;
+    padding-block: 2px;
+  }
+
+  .xb-flow-row.is-n2:not(.is-first) .xb-flow-branch .xb-arrow {
+    display: block;
+  }
+
+  .xb-flow-row.is-n2.is-first .xb-flow-branch .xb-flow-link {
+    margin-bottom: var(--sp-1);
+  }
+
+  .xb-flow-row.is-n2 .xb-flow-branch > .xb-flow-box {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+}
+
+@container xbflow (min-width: 34rem) {
+  .xb-flow-row:is(.is-n2, .is-n3) > .xb-flow-branches {
+    display: grid;
+    grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+    gap: 0 var(--sp-3);
+    width: 100%;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+  }
+
+  .xb-flow-row:is(.is-n2, .is-n3)::after {
+    display: none;
+  }
+
+  .xb-flow-row:is(.is-n2, .is-n3) .xb-flow-branch {
+    position: relative;
+    gap: 0;
+  }
+
+  /* Split bar from the first to the last branch centre. */
+  .xb-flow-row:is(.is-n2, .is-n3):not(.is-first) .xb-flow-branch::before,
+  .xb-flow-row:is(.is-n2, .is-n3).has-next .xb-flow-branch::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: calc(var(--sp-3) / -2);
+    right: calc(var(--sp-3) / -2);
+    height: 2px;
+    background: var(--xb-line);
+  }
+
+  .xb-flow-row:is(.is-n2, .is-n3).has-next .xb-flow-branch::after {
+    top: auto;
+    bottom: 0;
+  }
+
+  .xb-flow-row:is(.is-n2, .is-n3) .xb-flow-branch:first-child::before,
+  .xb-flow-row:is(.is-n2, .is-n3) .xb-flow-branch:first-child::after {
+    left: 50%;
+  }
+
+  .xb-flow-row:is(.is-n2, .is-n3) .xb-flow-branch:last-child::before,
+  .xb-flow-row:is(.is-n2, .is-n3) .xb-flow-branch:last-child::after {
+    right: 50%;
+  }
+
+  /* Merge: a stub under each box down to the merge bar. */
+  .xb-flow-row:is(.is-n2, .is-n3).has-next .xb-flow-branch {
+    padding-bottom: 14px;
+    background: linear-gradient(var(--xb-line), var(--xb-line)) 50% 100% / 2px 14px no-repeat;
+  }
+
+  .xb-flow-row:is(.is-n2, .is-n3):not(.is-first) .xb-flow-branch .xb-flow-link {
+    display: grid;
+    min-height: 36px;
+    padding-block: 2px;
+  }
+
+  .xb-flow-row:is(.is-n2, .is-n3):not(.is-first) .xb-flow-branch .xb-arrow {
+    display: block;
+  }
+
+  .xb-flow-row:is(.is-n2, .is-n3).is-first .xb-flow-branch .xb-flow-link {
+    margin-bottom: var(--sp-1);
+  }
+
+  .xb-flow-row:is(.is-n2, .is-n3) .xb-flow-branch > .xb-flow-box {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+}
+
+/* ---------- Mind map ---------- */
+
+.xb-mindmap {
+  container: xbmm / inline-size;
+}
+
+.xb-mm {
+  --mm-indent: 30px;
+  --mm-trunk: 18px;
+  --mm-vgap: var(--sp-3);
+  --mm-anchor: 24px;
+}
+
+.xb-mm-center {
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  margin-bottom: var(--mm-vgap);
+  padding: var(--sp-2) var(--sp-4);
+  border-radius: var(--r-m);
+  background: var(--primary);
+  color: var(--primary-contrast);
+  box-shadow: var(--shadow-2);
+  font-weight: 700;
+  line-height: var(--lh-tight);
+  text-wrap: balance;
+}
+
+.xb-mm-center-text {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.xb-mm-center :is(mark.key, .arrow) {
+  color: inherit;
+  background: none;
+  text-decoration: underline;
+  text-decoration-thickness: 0.1em;
+  text-underline-offset: 0.18em;
+}
+
+.xb-mm-center .arrow {
+  text-decoration: none;
+}
+
+.xb-mm-branches {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mm-vgap);
+  padding-inline-start: var(--mm-indent);
+}
+
+.xb-mm-branch {
+  --c: var(--text-2);
+  position: relative;
+  padding: var(--sp-3) var(--sp-3) var(--sp-3) calc(var(--sp-3) + 4px);
+  border: 1px solid var(--border);
+  border-radius: var(--r-m);
+  background: var(--surface);
+  box-shadow: inset 4px 0 0 var(--c), var(--shadow-1);
+}
+
+/* Outline connectors (narrow): trunk segment + tick per branch. */
+.xb-mm-branch::before,
+.xb-mm-branch::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--mm-trunk) - var(--mm-indent) - 2px);
+  background: var(--xb-line);
+}
+
+.xb-mm-branch::before {
+  top: calc(-1 * var(--mm-vgap) - 1px);
+  bottom: -1px;
+  width: 2px;
+}
+
+.xb-mm-branch:last-child::before {
+  bottom: auto;
+  height: calc(var(--mm-vgap) + var(--mm-anchor) + 1px);
+}
+
+.xb-mm-branch::after {
+  top: calc(var(--mm-anchor) - 1px);
+  width: calc(var(--mm-indent) - var(--mm-trunk) + 1px);
+  height: 2px;
+}
+
+.xb-mm-node {
+  font-weight: 650;
+  line-height: 1.35;
+  color: var(--text);
+}
+
+.xb-mm-leaves {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: var(--sp-2);
+}
+
+.xb-mm-leaf {
+  padding: 2px 10px;
+  border: 1px solid color-mix(in srgb, var(--c) 30%, transparent);
+  border-radius: var(--r-s);
+  background: color-mix(in srgb, var(--c) 9%, var(--surface));
+  color: var(--text);
+  font-size: var(--fs-s);
+  line-height: 1.4;
+}
+
+.xb-mm-c0 { --c: var(--primary); }
+.xb-mm-c1 { --c: var(--info); }
+.xb-mm-c2 { --c: var(--success); }
+.xb-mm-c3 { --c: var(--warning); }
+.xb-mm-c4 { --c: color-mix(in srgb, var(--info) 50%, var(--success)); }
+.xb-mm-c5 { --c: color-mix(in srgb, var(--primary) 45%, var(--info)); }
+
+@supports not (color: color-mix(in srgb, red 50%, blue)) {
+  .xb-mm-c4 { --c: var(--info); }
+  .xb-mm-c5 { --c: var(--primary); }
+  .xb-mm-leaf { background: var(--surface-2); border-color: var(--border); }
+}
+
+/* Wide: branches in two columns around a tall centre hub. */
+@container xbmm (min-width: 36rem) {
+  .xb-mm {
+    --mm-mid: clamp(8rem, 24cqi, 12rem);
+    --mm-gap: var(--sp-5);
+    position: relative;
+  }
+
+  .xb-mm-center {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: var(--mm-mid);
+    margin: 0;
+    padding: var(--sp-3);
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: var(--fs-l);
+  }
+
+  .xb-mm-branches {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) calc(var(--mm-mid) + 2 * var(--mm-gap)) minmax(0, 1fr);
+    grid-template-rows: repeat(var(--rows), auto);
+    align-items: center;
+    gap: var(--sp-3) 0;
+    min-height: 7rem;
+    padding: 0;
+  }
+
+  .xb-mm-branch {
+    grid-row: var(--row);
+  }
+
+  .xb-mm-branch.is-left {
+    grid-column: 1;
+    padding: var(--sp-3) calc(var(--sp-3) + 4px) var(--sp-3) var(--sp-3);
+    box-shadow: inset -4px 0 0 var(--c), var(--shadow-1);
+  }
+
+  .xb-mm-branch.is-right {
+    grid-column: 3;
+  }
+
+  .xb-mm-branch::before {
+    display: none;
+  }
+
+  .xb-mm-branch::after {
+    top: calc(50% - 1px);
+    width: calc(var(--mm-gap) + 1px);
+  }
+
+  .xb-mm-branch.is-left::after {
+    left: auto;
+    right: calc(-1 * var(--mm-gap) - 1px);
+  }
+
+  .xb-mm-branch.is-right::after {
+    left: calc(-1 * var(--mm-gap) - 1px);
+  }
+
+  .xb-mm-branch.is-left .xb-mm-leaves {
+    justify-content: flex-end;
+  }
+
+  .xb-mm-branch.is-left .xb-mm-node {
+    text-align: end;
+  }
+}
+
+/* ---------- Callout ---------- */
+
+.xb-callout {
+  --c: var(--primary);
+  --c-soft: var(--primary-soft);
+  padding: var(--sp-3) var(--sp-4) var(--sp-4);
+  border: 1px solid color-mix(in srgb, var(--c) 24%, transparent);
+  border-inline-start: 4px solid var(--c);
+  border-radius: var(--r-m);
+  background: var(--c-soft);
+}
+
+.xb-callout-key { --c: var(--primary); --c-soft: var(--primary-soft); }
+.xb-callout-pearl { --c: var(--info); --c-soft: var(--info-soft); }
+.xb-callout-pitfall { --c: var(--danger); --c-soft: var(--danger-soft); }
+.xb-callout-mnemonic { --c: var(--warning); --c-soft: var(--warning-soft); }
+
+@supports not (color: color-mix(in srgb, red 50%, blue)) {
+  .xb-callout { border-color: var(--border); border-inline-start-color: var(--c); }
+}
+
+.xb-callout-head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-2);
+}
+
+.xb-callout-icon {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  color: var(--c);
+}
+
+.xb-callout-titles {
+  min-width: 0;
+}
+
+.xb-callout-kind {
+  display: block;
+  color: var(--c);
+  font-size: var(--fs-xs);
+  font-weight: 750;
+  letter-spacing: 0.07em;
+  line-height: 22px;
+  text-transform: uppercase;
+}
+
+.xb-callout-title {
+  margin-top: 2px;
+  color: var(--text);
+  font-weight: 700;
+  line-height: var(--lh-tight);
+}
+
+.xb-callout-mnemonic .xb-callout-title {
+  font-size: var(--fs-l);
+  letter-spacing: 0.03em;
+}
+
+.xb-callout-text,
+.xb-callout-items {
+  margin-top: var(--sp-2);
+  margin-inline-start: 28px;
+  color: var(--text);
+}
+
+.xb-callout-items {
+  padding-inline-start: 1.15em;
+}
+
+.xb-callout-items li + li {
+  margin-top: 0.3em;
+}
+
+.xb-callout-items li::marker {
+  color: var(--c);
+}
+
+@media (max-width: 380px) {
+  .xb-callout-text,
+  .xb-callout-items {
+    margin-inline-start: 0;
+  }
+}
+
+/* ---------- Quote ---------- */
+
+.xb-quote {
+  margin: 0;
+}
+
+.xb-quote-text {
+  position: relative;
+  margin: 0;
+  padding: var(--sp-3) var(--sp-4) var(--sp-3) calc(var(--sp-4) + 18px);
+  border-inline-start: 4px solid var(--xb-line);
+  border-radius: 0 var(--r-m) var(--r-m) 0;
+  background: var(--surface-2);
+  color: var(--text);
+  font-style: italic;
+}
+
+.xb-quote-text::before {
+  content: "\201C";
+  position: absolute;
+  top: 2px;
+  left: var(--sp-2);
+  color: var(--xb-line);
+  font-size: 2.2em;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.xb-quote-text :is(strong, mark.key) {
+  font-style: normal;
+}
+
+.xb-quote-ref {
+  margin-top: var(--sp-2);
+  padding-inline-start: calc(var(--sp-4) + 4px);
+  color: var(--text-2);
+  font-size: var(--fs-s);
+  line-height: 1.4;
+}
+
+.xb-quote-ref::before {
+  content: "\2014\00a0";
+  color: var(--text-3);
+}
+
+.xb-quote-ref cite {
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* ---------- Image ---------- */
+
+.xb-image {
+  margin: 0;
+}
+
+.xb-img-btn {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: var(--tap);
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--r-m);
+  overflow: hidden;
+  background: var(--surface-2);
+  cursor: zoom-in;
+}
+
+.xb-image:not(.is-loaded) .xb-img-btn {
+  min-height: 10rem;
+}
+
+.xb-img {
+  width: 100%;
+  max-height: min(60vh, 32rem);
+  object-fit: contain;
+  margin-inline: auto;
+}
+
+.xb-img-zoom {
+  position: absolute;
+  right: var(--sp-2);
+  bottom: var(--sp-2);
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--r-full);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-2);
+  transition: transform var(--dur-fast) var(--ease);
+}
+
+@media (hover: hover) {
+  .xb-img-btn:hover .xb-img-zoom {
+    transform: scale(1.08);
+  }
+}
+
+.xb-img-btn:active .xb-img-zoom {
+  transform: scale(0.94);
+}
+
+.xb-figcaption {
+  margin-top: var(--sp-2);
+  color: var(--text-2);
+  font-size: var(--fs-s);
+  line-height: 1.45;
+}
+
+.xb-img-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  min-height: 9rem;
+  padding: var(--sp-5);
+  border: 1.5px dashed var(--border-strong);
+  border-radius: var(--r-m);
+  background: var(--surface-2);
+  color: var(--text-2);
+  font-size: var(--fs-s);
+  line-height: 1.45;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.xb-img-error-icon {
+  color: var(--text-3);
+}
+
+/* ---------- Image viewer (full-size sheet) ---------- */
+
+.xb-viewer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.xb-viewer-stage {
+  flex: 1 1 auto;
+  display: flex;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  background: var(--bg);
+  cursor: zoom-in;
+}
+
+.xb-viewer-stage.is-zoomed {
+  cursor: zoom-out;
+}
+
+.xb-viewer-stage:focus-visible {
+  outline-offset: -3px;
+}
+
+.xb-viewer-img {
+  flex: none;
+  margin: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.xb-viewer-stage.is-zoomed .xb-viewer-img {
+  max-width: none;
+  max-height: none;
+}
+
+.xb-viewer-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2) var(--sp-3);
+  padding: var(--sp-2) var(--sp-4) calc(var(--sp-2) + var(--safe-bottom));
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.xb-viewer-caption {
+  flex: 1 1 14rem;
+  min-width: 0;
+  color: var(--text-2);
+  font-size: var(--fs-s);
+  line-height: 1.45;
+}
+
+.xb-viewer-tools {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  margin-inline-start: auto;
+}
+
+.xb-viewer-zoom {
+  min-width: 4.5ch;
+  color: var(--text-2);
+  font-size: var(--fs-s);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
