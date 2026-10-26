@@ -488,7 +488,7 @@ export function createReviewerPanel(question) {
 
 /**
  * Builds the review file: every review and report on this device.
- * Format: `{ type: 'cardiac-mcq-review', formatVersion: 1, appVersion, exportedAt /* ISO */,
+ * Format: `{ type: 'cardiac-mcq-review', formatVersion: 1, appVersion, exportedAt (ISO),
  * reviews: Review[] (by qid), reports: Report[] (oldest first) }`.
  * Rejects with the repo's `StorageError` when the data can't be read.
  *
