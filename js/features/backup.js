@@ -1069,7 +1069,7 @@ export function openImportDialog(file) {
       body.setAttribute('aria-busy', 'false');
       cancelBtn.querySelector('.btn-label').textContent = 'Close';
       importBtn.replaceWith(
-        button({ label: 'Choose another file', icon: 'upload', variant: 'primary', onClick: () => picker.click() }),
+        button({ label: 'Choose file', variant: 'primary', ariaLabel: 'Choose another file', onClick: () => picker.click() }),
       );
     }
 
@@ -1120,7 +1120,7 @@ export function openImportDialog(file) {
           { class: 'bk-lead' },
           'Backup from ',
           h('strong', null, formatBackupDate(summary.exportedAtMs)),
-          summary.appVersion ? h('span', { class: 'bk-version' }, ` · app ${summary.appVersion}`) : null,
+          summary.appVersion ? h('span', { class: 'bk-version' }, `App version ${summary.appVersion}`) : null,
         ),
         rows.length
           ? h('dl', { class: 'bk-counts', 'aria-label': 'What this backup contains' }, rows)
@@ -1150,15 +1150,13 @@ export function openImportDialog(file) {
       importBtn.disabled = false;
       importBtn.addEventListener('click', () => void run());
       renderButton();
-      /** @type {HTMLElement | null} */ (body.querySelector('.bk-option-input'))?.focus({ preventScroll: true });
 
       function renderButton() {
         const danger = mode === 'replace';
         importBtn.classList.toggle('btn-primary', !danger);
         importBtn.classList.toggle('btn-danger', danger);
-        /** @type {HTMLElement} */ (importBtn.querySelector('.btn-label')).textContent = danger
-          ? 'Replace everything'
-          : 'Merge';
+        /** @type {HTMLElement} */ (importBtn.querySelector('.btn-label')).textContent = danger ? 'Replace' : 'Merge';
+        importBtn.setAttribute('aria-label', danger ? 'Replace everything with this backup' : 'Merge this backup');
       }
 
       async function run() {
@@ -1168,7 +1166,7 @@ export function openImportDialog(file) {
             title: 'Replace everything?',
             text:
               "All progress, answers, notes, highlights, drawings and quiz sessions on this device will be deleted and replaced by the backup. This can't be undone. If you're unsure, choose Merge.",
-            confirmLabel: 'Replace everything',
+            confirmLabel: 'Replace all',
             danger: true,
           });
           if (!ok) return;

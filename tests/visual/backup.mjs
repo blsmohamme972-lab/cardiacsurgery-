@@ -233,10 +233,14 @@ try {
     await openDialog(text);
     await page.waitForSelector('.bk-option-input');
     await page.click('.bk-option-replace');
-    check((await page.textContent('.bk-import-btn')).includes('Replace everything'), 'danger button label');
+    check((await page.textContent('.bk-import-btn')).trim() === 'Replace', 'danger button label');
     await page.click('.bk-import-btn');
     await page.waitForSelector('.sheet-root:last-child .btn-danger');
     await page.screenshot({ path: path.join(OUT, 'replace-confirm-ipad-light.png') });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.waitForTimeout(150);
+    await page.screenshot({ path: path.join(OUT, 'replace-confirm-phone-light.png') });
+    await page.setViewportSize({ width: 834, height: 1194 });
     await page.click('.sheet-root:last-child .btn-danger');
     await page.waitForFunction(() => window.__importResult !== undefined);
     const afterReplace = await snapshot(page);
