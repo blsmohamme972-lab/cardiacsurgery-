@@ -7,41 +7,94 @@
  * Motion: <html data-reduce-motion="true"> zeroes every duration.
  *
  * Extras beyond the contract (safe to use anywhere): --*-contrast, --inverse-*,
- * --bg-translucent, --scrim, --safe-left/right, --rail-w, --z-*, --ease-out.
+ * --bg-translucent, --scrim, --safe-left/right, --rail-w, --z-*, --ease-out,
+ * --font-display, brand extras (--venous*, --on-venous*, --ecg, --teal*,
+ * --hero-grad, --brand-grad) and chart colors (--chart-1, --chart-2, --chart-track).
  */
+
+/*
+ * Bundled fonts (SIL Open Font License 1.1, see fonts/OFL.txt): Inter for
+ * reading and UI, Manrope for headings and numbers. Self-hosted so the app
+ * stays 100% offline; precached by sw.js. Variable weight 100–900 / 200–800.
+ */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("../fonts/inter-latin-wght.woff2") format("woff2-variations"), url("../fonts/inter-latin-wght.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("../fonts/inter-greek-wght.woff2") format("woff2-variations"), url("../fonts/inter-greek-wght.woff2") format("woff2");
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 800;
+  src: url("../fonts/manrope-latin-wght.woff2") format("woff2-variations"), url("../fonts/manrope-latin-wght.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
 :root {
   color-scheme: light;
 
-  /* Surfaces & text */
-  --bg: #f5f6f8;
-  --bg-translucent: rgba(245, 246, 248, 0.9);
+  /* Surfaces & text: cool "stainless steel" neutrals, venous-navy ink */
+  --bg: #f3f5f9;
+  --bg-translucent: rgba(243, 245, 249, 0.9);
   --surface: #ffffff;
-  --surface-2: #f0f2f5;
-  --surface-3: #e5e8ed;
-  --text: #15181e;
-  --text-2: #464d5a;
-  --text-3: #626a78;
-  --border: #e1e4ea;
-  --border-strong: #c7ccd5;
+  --surface-2: #edf0f5;
+  --surface-3: #e0e5ee;
+  --text: #0e1726;
+  --text-2: #3d4859;
+  --text-3: #586374;
+  --border: #dce1ea;
+  --border-strong: #c1c9d6;
 
-  /* Brand */
-  --primary: #b01e2d;
-  --primary-hover: #951724;
+  /* Brand: arterial crimson */
+  --primary: #a6192e;
+  --primary-hover: #86101f;
   --primary-contrast: #ffffff;
-  --primary-soft: #fbe8ea;
+  --primary-soft: #fbe8eb;
+
+  /* Brand extras: venous navy (hero / monitor surfaces), scrub teal (accent), ECG trace */
+  --venous: #12284a;
+  --venous-2: #1b3a66;
+  --on-venous: #ffffff;
+  --on-venous-2: #b9c6dc;
+  --ecg: #ff5d73;
+  --teal: #0b7471;
+  --teal-soft: #e0f2f1;
+  --teal-contrast: #ffffff;
+  --hero-grad: linear-gradient(135deg, #12284a 0%, #1b3a66 62%, #5a1830 130%);
+  --brand-grad: linear-gradient(135deg, #c22a40 0%, #a6192e 55%, #7a0d22 100%);
 
   /* Status */
-  --success: #13774a;
-  --success-soft: #e1f3e9;
+  --success: #0f7a4a;
+  --success-soft: #e2f4ea;
   --success-contrast: #ffffff;
-  --danger: #c0312b;
-  --danger-soft: #fce9e7;
+  --danger: #c42b2b;
+  --danger-soft: #fce9e8;
   --danger-contrast: #ffffff;
-  --warning: #995500;
-  --warning-soft: #fcf0dc;
-  --info: #1d5eb5;
-  --info-soft: #e4edfa;
+  --warning: #8f5400;
+  --warning-soft: #fdf1dc;
+  --info: #1e5aa8;
+  --info-soft: #e5eefa;
+
+  /* Charts (single-series magnitude uses the brand hue; track is the empty part) */
+  --chart-1: #a6192e;
+  --chart-2: #0b7471;
+  --chart-track: #e3e8f0;
 
   /* User highlight colors (text on top stays --text) */
   --hl-yellow: #ffeb94;
@@ -52,10 +105,10 @@
   --focus: #2563eb;
 
   /* Inverse surfaces (toasts) */
-  --inverse-bg: #1d2129;
-  --inverse-text: #f3f4f6;
-  --inverse-action: #ff9aa3;
-  --scrim: rgba(10, 12, 16, 0.42);
+  --inverse-bg: #12284a;
+  --inverse-text: #f3f6fb;
+  --inverse-action: #ff9aa8;
+  --scrim: rgba(7, 12, 22, 0.45);
 
   /* Spacing (4px grid) */
   --sp-1: 4px;
@@ -74,8 +127,10 @@
   --r-full: 999px;
 
   /* Type */
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, Roboto,
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, Roboto,
     "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-display: "Manrope", "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI",
+    system-ui, Roboto, sans-serif;
   --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
   --font-scale: 1;
   --fs-xs: calc(0.8125rem * var(--font-scale)); /* 13px */
@@ -88,9 +143,9 @@
   --lh-body: 1.6;
 
   /* Elevation */
-  --shadow-1: 0 1px 2px rgba(17, 24, 39, 0.06), 0 1px 3px rgba(17, 24, 39, 0.08);
-  --shadow-2: 0 2px 4px rgba(17, 24, 39, 0.05), 0 6px 16px rgba(17, 24, 39, 0.09);
-  --shadow-3: 0 8px 20px rgba(17, 24, 39, 0.1), 0 24px 56px rgba(17, 24, 39, 0.18);
+  --shadow-1: 0 1px 2px rgba(14, 23, 38, 0.06), 0 1px 3px rgba(14, 23, 38, 0.08);
+  --shadow-2: 0 2px 4px rgba(14, 23, 38, 0.05), 0 8px 20px rgba(14, 23, 38, 0.1);
+  --shadow-3: 0 8px 20px rgba(14, 23, 38, 0.12), 0 24px 56px rgba(18, 40, 74, 0.22);
 
   /* Motion */
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -124,32 +179,47 @@
 :root[data-theme="dark"] {
   color-scheme: dark;
 
-  --bg: #0e1014;
-  --bg-translucent: rgba(14, 16, 20, 0.88);
-  --surface: #171a20;
-  --surface-2: #1e2229;
-  --surface-3: #282d36;
-  --text: #e9ecf1;
-  --text-2: #b8bfcb;
-  --text-3: #8e97a6;
-  --border: #2a2f38;
-  --border-strong: #3b424e;
+  --bg: #070c16;
+  --bg-translucent: rgba(7, 12, 22, 0.88);
+  --surface: #0d1524;
+  --surface-2: #132036;
+  --surface-3: #1b2b45;
+  --text: #e8eef7;
+  --text-2: #afbbcd;
+  --text-3: #8593a9;
+  --border: #1c2940;
+  --border-strong: #2c3b57;
 
-  --primary: #f2737e;
-  --primary-hover: #f68d96;
-  --primary-contrast: #22090d;
-  --primary-soft: #3a1c21;
+  --primary: #ff5a70;
+  --primary-hover: #ff7a8c;
+  --primary-contrast: #22040b;
+  --primary-soft: #3b111c;
 
-  --success: #4fc58c;
-  --success-soft: #12301f;
-  --success-contrast: #06180e;
-  --danger: #ff7d70;
-  --danger-soft: #3b1916;
+  --venous: #0f2240;
+  --venous-2: #16315a;
+  --on-venous: #ffffff;
+  --on-venous-2: #a9b8d0;
+  --ecg: #3be38f;
+  --teal: #2cc6b9;
+  --teal-soft: #0c2e2e;
+  --teal-contrast: #03201e;
+  --hero-grad: linear-gradient(135deg, #0b1a33 0%, #102a4d 60%, #3a0f1f 135%);
+  --brand-grad: linear-gradient(135deg, #ff6b80 0%, #e23a55 60%, #b0213b 100%);
+
+  --success: #3bd18a;
+  --success-soft: #0e2c20;
+  --success-contrast: #03190d;
+  --danger: #ff7468;
+  --danger-soft: #3a1513;
   --danger-contrast: #250805;
-  --warning: #f0b25a;
-  --warning-soft: #352712;
-  --info: #72aaff;
-  --info-soft: #152844;
+  --warning: #f2b45a;
+  --warning-soft: #33240f;
+  --info: #6fa8ff;
+  --info-soft: #10233f;
+
+  --chart-1: #ff5a70;
+  --chart-2: #2cc6b9;
+  --chart-track: #1a2740;
 
   --hl-yellow: #5b4a0e;
   --hl-green: #1a4a33;
@@ -158,14 +228,14 @@
 
   --focus: #8ab4ff;
 
-  --inverse-bg: #2b3039;
-  --inverse-text: #f3f4f6;
-  --inverse-action: #ff9aa3;
-  --scrim: rgba(0, 0, 0, 0.58);
+  --inverse-bg: #1b2b45;
+  --inverse-text: #f3f6fb;
+  --inverse-action: #ff9aa8;
+  --scrim: rgba(0, 0, 0, 0.6);
 
-  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
-  --shadow-2: 0 2px 6px rgba(0, 0, 0, 0.35), 0 8px 20px rgba(0, 0, 0, 0.35);
-  --shadow-3: 0 10px 24px rgba(0, 0, 0, 0.45), 0 28px 64px rgba(0, 0, 0, 0.55);
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-2: 0 2px 6px rgba(0, 0, 0, 0.4), 0 8px 20px rgba(0, 0, 0, 0.38);
+  --shadow-3: 0 10px 24px rgba(0, 0, 0, 0.5), 0 28px 64px rgba(0, 0, 0, 0.6);
 }
 
 /* Before settings are applied (boot), follow the system theme. */
@@ -173,32 +243,47 @@
   :root:not([data-theme]) {
     color-scheme: dark;
 
-    --bg: #0e1014;
-    --bg-translucent: rgba(14, 16, 20, 0.88);
-    --surface: #171a20;
-    --surface-2: #1e2229;
-    --surface-3: #282d36;
-    --text: #e9ecf1;
-    --text-2: #b8bfcb;
-    --text-3: #8e97a6;
-    --border: #2a2f38;
-    --border-strong: #3b424e;
+    --bg: #070c16;
+    --bg-translucent: rgba(7, 12, 22, 0.88);
+    --surface: #0d1524;
+    --surface-2: #132036;
+    --surface-3: #1b2b45;
+    --text: #e8eef7;
+    --text-2: #afbbcd;
+    --text-3: #8593a9;
+    --border: #1c2940;
+    --border-strong: #2c3b57;
 
-    --primary: #f2737e;
-    --primary-hover: #f68d96;
-    --primary-contrast: #22090d;
-    --primary-soft: #3a1c21;
+    --primary: #ff5a70;
+    --primary-hover: #ff7a8c;
+    --primary-contrast: #22040b;
+    --primary-soft: #3b111c;
 
-    --success: #4fc58c;
-    --success-soft: #12301f;
-    --success-contrast: #06180e;
-    --danger: #ff7d70;
-    --danger-soft: #3b1916;
+    --venous: #0f2240;
+    --venous-2: #16315a;
+    --on-venous: #ffffff;
+    --on-venous-2: #a9b8d0;
+    --ecg: #3be38f;
+    --teal: #2cc6b9;
+    --teal-soft: #0c2e2e;
+    --teal-contrast: #03201e;
+    --hero-grad: linear-gradient(135deg, #0b1a33 0%, #102a4d 60%, #3a0f1f 135%);
+    --brand-grad: linear-gradient(135deg, #ff6b80 0%, #e23a55 60%, #b0213b 100%);
+
+    --success: #3bd18a;
+    --success-soft: #0e2c20;
+    --success-contrast: #03190d;
+    --danger: #ff7468;
+    --danger-soft: #3a1513;
     --danger-contrast: #250805;
-    --warning: #f0b25a;
-    --warning-soft: #352712;
-    --info: #72aaff;
-    --info-soft: #152844;
+    --warning: #f2b45a;
+    --warning-soft: #33240f;
+    --info: #6fa8ff;
+    --info-soft: #10233f;
+
+    --chart-1: #ff5a70;
+    --chart-2: #2cc6b9;
+    --chart-track: #1a2740;
 
     --hl-yellow: #5b4a0e;
     --hl-green: #1a4a33;
@@ -207,14 +292,14 @@
 
     --focus: #8ab4ff;
 
-    --inverse-bg: #2b3039;
-    --inverse-text: #f3f4f6;
-    --inverse-action: #ff9aa3;
-    --scrim: rgba(0, 0, 0, 0.58);
+    --inverse-bg: #1b2b45;
+    --inverse-text: #f3f6fb;
+    --inverse-action: #ff9aa8;
+    --scrim: rgba(0, 0, 0, 0.6);
 
-    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
-    --shadow-2: 0 2px 6px rgba(0, 0, 0, 0.35), 0 8px 20px rgba(0, 0, 0, 0.35);
-    --shadow-3: 0 10px 24px rgba(0, 0, 0, 0.45), 0 28px 64px rgba(0, 0, 0, 0.55);
+    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-2: 0 2px 6px rgba(0, 0, 0, 0.4), 0 8px 20px rgba(0, 0, 0, 0.38);
+    --shadow-3: 0 10px 24px rgba(0, 0, 0, 0.5), 0 28px 64px rgba(0, 0, 0, 0.6);
   }
 }
 

@@ -32,6 +32,8 @@ body {
   font-family: var(--font-sans);
   font-size: var(--fs-m);
   line-height: var(--lh-body);
+  /* Inter: lowercase l with a tail, so "Il1" never get confused in doses and grades. */
+  font-feature-settings: "cv05" 1;
   font-synthesis-weight: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -105,8 +107,9 @@ h1,
 h2,
 h3,
 h4 {
+  font-family: var(--font-display);
   line-height: var(--lh-tight);
-  font-weight: 700;
+  font-weight: 750;
   letter-spacing: -0.012em;
   text-wrap: balance;
   color: var(--text);
@@ -114,7 +117,8 @@ h4 {
 
 h1 {
   font-size: var(--fs-xxl);
-  letter-spacing: -0.022em;
+  font-weight: 800;
+  letter-spacing: -0.028em;
 }
 
 h2 {
@@ -463,5 +467,54 @@ html {
 @media (forced-colors: active) {
   :focus-visible {
     outline: 3px solid CanvasText;
+  }
+}
+
+/* ---------- Brand motifs ---------- */
+
+/* Display face for numbers that matter (scores, counts, timers): tabular, so they don't jitter. */
+.num-display {
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/*
+ * ECG trace: a single-colour heartbeat line painted with var(--ecg-color)
+ * through an SVG mask, so it follows the theme. Decorative only: give the
+ * element aria-hidden="true". Add .ecg-line--sweep for a slow monitor sweep
+ * (off with reduced motion).
+ */
+.ecg-line {
+  --ecg-color: var(--ecg);
+  display: block;
+  height: 32px;
+  background: var(--ecg-color);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 32'%3E%3Cpath d='M0 18h70l6-6 6 6h14l5 10 9-26 8 22 5-6h17l7-7 8 7h85' fill='none' stroke='%23000' stroke-width='2' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E") left center / 240px 32px repeat-x;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 32'%3E%3Cpath d='M0 18h70l6-6 6 6h14l5 10 9-26 8 22 5-6h17l7-7 8 7h85' fill='none' stroke='%23000' stroke-width='2' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E") left center / 240px 32px repeat-x;
+  pointer-events: none;
+}
+
+.ecg-line--sweep {
+  background: linear-gradient(90deg, transparent 0%, var(--ecg-color) 70%, color-mix(in srgb, var(--ecg-color) 40%, #fff) 74%, transparent 76%) 0 0 / 200% 100% no-repeat,
+    color-mix(in srgb, var(--ecg-color) 28%, transparent);
+  animation: ecg-sweep 3.2s linear infinite;
+}
+
+@keyframes ecg-sweep {
+  from { background-position: 100% 0, 0 0; }
+  to { background-position: -100% 0, 0 0; }
+}
+
+:root[data-reduce-motion="true"] .ecg-line--sweep {
+  animation: none;
+  background: var(--ecg-color);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-reduce-motion]) .ecg-line--sweep {
+    animation: none;
+    background: var(--ecg-color);
   }
 }
