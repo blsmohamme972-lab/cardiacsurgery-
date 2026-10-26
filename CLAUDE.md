@@ -16,6 +16,10 @@ The current `index.html`, `manifest.webmanifest`, `sw.js` and `icons/` are a
 throwaway **install test** (does the PWA install and open offline on iPad/Android).
 Replace them when the real app is built.
 
+Install test result (2026-10-26): on Android Chrome the test installs from
+GitHub Pages, opens standalone, and works offline in airplane mode.
+iPad/iPhone not tested yet.
+
 ## Communication
 
 - Talk to the owner in **Arabic**.
