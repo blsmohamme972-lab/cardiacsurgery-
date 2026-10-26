@@ -984,6 +984,16 @@ export function createQuestionView(question, {
   scratchpad, voice, Ask GPT, reviewer panel) so the first load stays small; if one fails to load,
   only that tool shows a plain-language toast ("This tool couldn't load. Reload the app.").
 - Highlights load right after the question renders (saved highlights must appear without a tap).
+- Extra exports: `LETTERS`, `TOOL_LOAD_ERROR`, `letterFor(order, id)`, `loadTool(name, loader)`,
+  `createBookmarkButton(qid)` (→ button with `toggle()`, `destroy()`), `openNotesSheet(question, {focus})`,
+  `openQuestionMenu(view, question, {extra})`. Extra option `onDrawingChange(on)`. Extra view methods:
+  `getState`, `openNotes`, `openScratchpad`, `canAskGpt`, `askGpt`, `listen`, `stopAudio`, `report`;
+  `setDrawing` returns a Promise of the new state. `review.js` is imported statically (small; needed for the chip).
+- Keys: 1–5 / A–E choose; while unanswered B/D choose, after answering B bookmarks and D draws
+  (Shift+B / Shift+D always); M mark, G navigator, H highlight, ? shortcuts sheet.
+- A tap that ends a text selection never answers; a plain tap on a highlight inside a choice still
+  chooses it (so heavily highlighted choices stay easy to tap). Long-press strikes until answered,
+  then selects text.
 
 ### 7.14 CSS ownership
 | file | owner module(s) |

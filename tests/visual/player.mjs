@@ -16,6 +16,7 @@
  * - Exam: select + change (no feedback), navigator sheet jumps, Finish
  *   confirms (unanswered remain) → Results (ring, counts, list) → open a
  *   question → Next / Prev follow the session list ("2 / 4").
+ * - Time up: an exam auto-finishes with a notice and opens Results.
  * - No console errors, no horizontal page scroll. Screenshots go to --out.
  *
  * Usage: node tests/visual/player.mjs [--out <dir>]   (exit code 1 on any failure)
@@ -294,7 +295,31 @@ async function examFlow(vp, scheme) {
   }
 }
 
+/** Time up → auto-finish with a notice → Results (phone, light). */
+async function timeUpFlow() {
+  const label = 'time-up';
+  const { context, page } = await openApp(VIEWPORTS[0], 'light', label);
+  try {
+    const id = await page.evaluate(async () => {
+      const e = await import('./js/features/quiz/engine.js');
+      const s = await e.createSession({ qids: ['DEMO-0001', 'DEMO-0002'], mode: 'exam', secondsPerQuestion: 1, shuffleChoices: false });
+      return s.id;
+    });
+    await page.evaluate((h) => (location.hash = h), `#/quiz/${id}`);
+    await page.waitForSelector('.player .qv-choice');
+    await page.waitForFunction(() => location.hash.startsWith('#/results/'), null, { timeout: 8000 });
+    await page.waitForSelector('.results .res-hero');
+    const toasts = await page.evaluate(() => [...document.querySelectorAll('.toast')].map((t) => t.textContent).join(' | '));
+    check(/Time's up/.test(toasts), `[${label}] time-up notice missing (toasts: ${toasts})`);
+  } catch (err) {
+    failures.push(`[${label}] ${err instanceof Error ? err.message.split('\n')[0] : String(err)}`);
+  } finally {
+    await context.close();
+  }
+}
+
 try {
+  await timeUpFlow();
   for (const vp of VIEWPORTS) {
     for (const scheme of SCHEMES) {
       await tutorFlow(vp, /** @type {'light' | 'dark'} */ (scheme));
