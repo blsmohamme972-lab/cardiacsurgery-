@@ -1147,7 +1147,7 @@ a.lib-row:active {
   color: var(--text-3);
 }
 
-.lib-session {
+.lib-list > .lib-session {
   display: flex;
   align-items: center;
   padding-right: var(--sp-2);

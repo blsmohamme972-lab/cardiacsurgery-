@@ -410,7 +410,7 @@ for (const vp of VIEWPORTS) {
   for (const scheme of SCHEMES) {
     const label = `${vp.name}-${scheme}`;
     const { context, page } = await openApp(vp, /** @type {any} */ (scheme), label);
-    await page.screenshot({ path: path.join(OUT, `home-fresh-${label}.png`), fullPage: true });
+    await page.screenshot({ path: path.join(OUT, `home-fresh-${label}.png`), fullPage: vp.width < 700 }); // fullPage mis-renders the fixed iPad rail
     await seed(page);
     // An unfinished session for the Continue card.
     await quick(page, 'Practice');
@@ -425,21 +425,21 @@ for (const vp of VIEWPORTS) {
       check(left >= 60, `[${label}] content clears the side rail (main left ${left}px)`);
     }
     await noHScroll(page, `${label} home`);
-    await page.screenshot({ path: path.join(OUT, `home-${label}.png`), fullPage: true });
+    await page.screenshot({ path: path.join(OUT, `home-${label}.png`), fullPage: vp.width < 700 }); // fullPage mis-renders the fixed iPad rail
 
     await go(page, '#/chapter/demo', '.screen-chapter .ch-actions');
     await noHScroll(page, `${label} chapter`);
-    await page.screenshot({ path: path.join(OUT, `chapter-${label}.png`), fullPage: true });
+    await page.screenshot({ path: path.join(OUT, `chapter-${label}.png`), fullPage: vp.width < 700 }); // fullPage mis-renders the fixed iPad rail
 
     await go(page, '#/new', '.screen-builder .nb-startbar');
     await page.waitForFunction(() => /available/.test(document.querySelector('.nb-available')?.textContent ?? ''));
     await noHScroll(page, `${label} builder`);
-    await page.screenshot({ path: path.join(OUT, `builder-${label}.png`), fullPage: true });
+    await page.screenshot({ path: path.join(OUT, `builder-${label}.png`), fullPage: vp.width < 700 }); // fullPage mis-renders the fixed iPad rail
 
     for (const tab of ['bookmarks', 'sessions', 'flagged']) {
       await go(page, `#/library?tab=${tab}`, `.lib-panel[data-tab="${tab}"]:not([aria-busy]) .lib-list`);
       await noHScroll(page, `${label} library ${tab}`);
-      await page.screenshot({ path: path.join(OUT, `library-${tab}-${label}.png`), fullPage: true });
+      await page.screenshot({ path: path.join(OUT, `library-${tab}-${label}.png`), fullPage: vp.width < 700 });
     }
     // Touch targets on Home.
     await go(page, '#/', '.screen-home .home-qa');

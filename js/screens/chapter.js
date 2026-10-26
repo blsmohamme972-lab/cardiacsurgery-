@@ -150,7 +150,7 @@ export default {
 
     const part = chapter.part ? index.parts.find((p) => p.id === chapter.part) : null;
     const partLine = chapter.demo ? 'Demo · questions about using the app' : part ? `Part ${part.number} · ${part.title}` : '';
-    setHeader({ title: chapter.short || chapter.title, back: '/', subtitle: chapter.demo ? 'Demo' : `Chapter ${chapter.number}` });
+    setHeader({ title: chapter.short || chapter.title, back: '/', subtitle: chapter.demo ? undefined : `Chapter ${chapter.number}` });
 
     const content = h('div', { class: 'ch-content' });
     const page = h(

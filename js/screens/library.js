@@ -413,18 +413,21 @@ export default {
       const total = Array.isArray(s.qids) ? s.qids.length : 0;
       const answered = Object.keys(s.answers ?? {}).filter((q) => (s.qids ?? []).includes(q)).length;
       const when = formatRelative(finished ? s.finishedAt : (s.updatedAt ?? s.createdAt));
+      const title = typeof s.title === 'string' && s.title ? s.title : exam ? 'Exam' : 'Practice';
+      // Name the mode only when the title doesn't already start with it.
+      const modeWord = exam ? 'Exam' : 'Practice';
+      const modePrefix = title.startsWith(modeWord) ? '' : `${modeWord} · `;
       let meta;
       let status;
       if (finished) {
         const { right } = scoreOf(s);
         const p = pct(right, total);
-        meta = `${exam ? 'Exam' : 'Practice'} · ${right} / ${total} right · ${when}`;
+        meta = `${modePrefix}${right} / ${total} right · ${when}`;
         status = chip(`${p}%`, { kind: p >= 75 ? 'success' : p >= 50 ? 'warning' : 'danger' });
       } else {
-        meta = `${exam ? 'Exam' : 'Practice'} · ${answered} / ${total} answered · ${when}`;
+        meta = `${modePrefix}${answered} / ${total} answered · ${when}`;
         status = chip('In progress', { kind: 'info', icon: 'play' });
       }
-      const title = typeof s.title === 'string' && s.title ? s.title : exam ? 'Exam' : 'Practice';
       const href = finished ? `#/results/${encodeURIComponent(s.id)}` : `#/quiz/${encodeURIComponent(s.id)}`;
       const li = h('li', { class: 'lib-session' });
       const del = iconButton({
