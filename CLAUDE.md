@@ -27,8 +27,8 @@ Replace them when the real app is built.
 - Never add a paid service, paid plan, paid library or paid API.
 - If a feature would need payment, stop and ask the owner first.
 - Known limits that keep it free:
-  - Stay within the Cloudflare Pages free plan: max 20,000 files per deploy,
-    25 MB per file, 500 builds per month.
+  - Stay within GitHub Pages limits: published site under 1 GB,
+    soft limit of 100 GB bandwidth per month, no file over 100 MB.
   - An iOS App Store / IPA build needs a paid Apple Developer account, so it is
     **out of scope**. iPhone/iPad use the PWA only.
   - An Android APK can be built and installed directly (sideloaded) for free.
@@ -44,9 +44,14 @@ Replace them when the real app is built.
 
 ## Hosting and deployment
 
-- **Cloudflare Pages**, connected to this repo.
-- Framework preset: **None**. Build command: **empty**. Output directory: **`/`**.
-- Every push auto-deploys. Treat every push to `main` as a production release.
+- **GitHub Pages** from this repo (the repo is **public** for this reason).
+  Source: "Deploy from a branch", branch `main`, folder `/ (root)`.
+- Site URL: https://blsmohamme972-lab.github.io/cardiacsurgery-/
+  The app lives under the `/cardiacsurgery-/` sub-path, so all paths must be relative.
+- `.nojekyll` at the root turns off Jekyll processing. Keep it.
+- Every push to `main` auto-deploys. Treat every push to `main` as a production release.
+- Because the repo is public, never put anything private in it.
+- Cloudflare Pages was tried first and dropped (GitHub connection kept failing).
 
 ## Installation targets
 
