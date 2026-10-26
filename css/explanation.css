@@ -391,7 +391,7 @@ ol.xb-list-items ol.xb-list-items {
   height: 6px;
 }
 
-.xb-flow-branches {
+.xb-flow-row > .xb-flow-branches {
   display: flex;
   flex-direction: column;
   gap: var(--sp-2);
@@ -728,6 +728,14 @@ ol.xb-list-items ol.xb-list-items {
     justify-content: center;
     text-align: center;
     font-size: var(--fs-l);
+    border: 2px solid var(--primary);
+    background: var(--primary-soft);
+    color: var(--text);
+    box-shadow: var(--shadow-1);
+  }
+
+  .xb-mm-center :is(mark.key, .arrow) {
+    color: var(--primary);
   }
 
   .xb-mm > .xb-mm-branches {

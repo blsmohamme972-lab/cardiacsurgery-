@@ -818,10 +818,14 @@ export function rangeFromOffsets(el, start, end) → Range                      
 text. UI chrome that must sit inside it (letter badges, strike buttons, ink canvases) carries
 `data-anchor-skip` (canvases are skipped by tag too), and anchoring/highlighting ignores those subtrees.
 Choices use `data-block="choice-<id>"` on the choice *text* element; choice notes `data-block="note-<id>"`.
+Choice text inside a `<button>` needs `user-select: text` so long-press can select it.
 
 `annotate/highlight.js`:
 ```js
 export function initHighlights(root, question, { onOrphans }) → { destroy(), refresh() }
+export async function highlightSelection(color?) → Promise<boolean> // highlight the current selection (bottom-bar button); false = no selection
+export const HIGHLIGHT_COLORS                                        // ['yellow','green','blue','pink']
+export function blockExists(question, block), trimSpan(text, start, end)   // pure helpers (anchor.js)
 ```
 - Applies stored highlights to `[data-block]` elements in `root` by wrapping text
   in `<mark class="uhl uhl-<color>" data-hl="<id>">` (split across nodes safely).
