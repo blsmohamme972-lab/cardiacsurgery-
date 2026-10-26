@@ -595,9 +595,10 @@ export function isSafeImageSrc(src) {
 /**
  * The plain-language placeholder shown when an image can't be shown.
  * @param {string} alt
+ * @param {boolean} [unusable] The src itself is unusable (no point retrying).
  * @returns {HTMLElement}
  */
-function imageFallback(alt) {
+function imageFallback(alt, unusable = false) {
   return h(
     'div',
     { class: 'xb-img-error', role: 'img', 'aria-label': alt ? `Image not available: ${alt}` : 'Image not available' },
@@ -605,7 +606,9 @@ function imageFallback(alt) {
     h(
       'span',
       { 'data-anchor-skip': '', 'aria-hidden': 'true' },
-      'This image couldn’t load. Check your connection, then reopen the question.',
+      unusable
+        ? 'This image isn’t available. Please report the question so it can be fixed.'
+        : 'This image couldn’t load. Check your connection, then reopen the question.',
     ),
   );
 }
@@ -632,7 +635,7 @@ export function renderImage(img) {
 
   if (!isSafeImageSrc(data.src)) {
     warn(`image ${JSON.stringify(data.src)}`, 'src must be a relative path');
-    return h('figure', { class: 'xb-figure' }, imageFallback(alt), caption);
+    return h('figure', { class: 'xb-figure' }, imageFallback(alt, true), caption);
   }
   const src = /** @type {string} */ (data.src);
   const image = /** @type {HTMLImageElement} */ (
