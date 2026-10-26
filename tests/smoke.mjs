@@ -263,11 +263,28 @@ async function main(argv) {
     check(s.overflowX <= 0, `no horizontal page scroll (${s.overflowX}px extra)`);
     if (shotsDir) await page.screenshot({ path: path.join(shotsDir, 'smoke-home-light.png') });
 
+    // First-run tour: shown once, skippable, then remembered (checked again after the offline reload).
+    watcher.setPhase('tour');
+    const tour = await page.waitForSelector('#sheet-slot .tour', { state: 'visible', timeout: 5000 }).catch(() => null);
+    check(Boolean(tour), 'first-run tour opens');
+    if (tour) {
+      if (shotsDir) await page.screenshot({ path: path.join(shotsDir, 'smoke-tour.png') });
+      await page.getByRole('button', { name: 'Skip', exact: true }).click();
+      const closed = await page
+        .waitForSelector('#sheet-slot .tour', { state: 'detached', timeout: 5000 })
+        .then(() => true, () => false);
+      check(closed, 'tour closes with "Skip"');
+    }
+
     // 2. Every tab.
     watcher.setPhase('tabs');
     process.stdout.write('tabs\n');
     const tabs = await page.$$eval('#tabbar .tab', (els) => els.map((el) => el.getAttribute('data-route') || ''));
     for (const route of tabs) {
+      // Mark the current screen, so the wait below sees the new one, not the old one.
+      await page.evaluate(() => {
+        for (const el of document.getElementById('main')?.children ?? []) el.setAttribute('data-smoke-old', '');
+      });
       await page.click(`#tabbar .tab[data-route="${route}"]`);
       let ok = true;
       try {
@@ -275,7 +292,12 @@ async function main(argv) {
           (r) => {
             const main = document.getElementById('main');
             const hash = location.hash.replace(/^#/, '') || '/';
-            return hash.split('?')[0] === r && main && main.childElementCount > 0 && !main.querySelector('.route-loading-wrap');
+            return (
+              hash.split('?')[0] === r &&
+              main &&
+              main.childElementCount > 0 &&
+              !main.querySelector('[data-smoke-old], .route-loading-wrap')
+            );
           },
           route,
           { timeout: BOOT_TIMEOUT_MS },
@@ -345,6 +367,8 @@ async function main(argv) {
     const o = await inspectShell(page).catch(() => null);
     check(offlineOk && Boolean(o) && o.mainChildren > 0 && !o.routeError, `app reloads offline and mounts home${o?.routeError ? ` — error state: "${o.routeError}"` : ''}`);
     check(Boolean(o) && o.tabsVisible === 5, 'tab bar renders offline');
+    await page.waitForTimeout(1500);
+    check(!(await page.$('#sheet-slot .tour')), 'tour stays dismissed after reload');
     const offlineBanner = await page.$eval('#banner-slot', (el) => (el.textContent ?? '').trim()).catch(() => '');
     process.stdout.write(`  info offline banner: ${offlineBanner ? `"${offlineBanner.slice(0, 60)}"` : '(none)'}\n`);
     if (shotsDir) await page.screenshot({ path: path.join(shotsDir, 'smoke-offline.png') });

@@ -434,8 +434,8 @@ ol.xb-list-items ol.xb-list-items {
 }
 
 /* Wide enough: branches side by side between a split bar and a merge bar
-   (2 branches from 22rem, 3 from 34rem; 4+ always stay stacked). */
-@container xbflow (min-width: 22rem) and (max-width: 33.99rem) {
+   (2 branches from 18rem, 3 from 34rem; 4+ always stay stacked). */
+@container xbflow (min-width: 18rem) and (max-width: 33.99rem) {
   .xb-flow-row.is-n2 > .xb-flow-branches {
     display: grid;
     grid-template-columns: repeat(var(--n), minmax(0, 1fr));

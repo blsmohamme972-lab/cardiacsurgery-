@@ -19,11 +19,14 @@
  * @module tests/visual/render
  */
 
-import { chromium } from 'playwright';
+import { createRequire } from 'node:module';
 import { mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import { startServer } from '../serve.mjs';
+
+// Playwright is pre-installed globally; require() honours NODE_PATH, ESM import does not.
+const { chromium } = createRequire(import.meta.url)('playwright');
 
 const args = process.argv.slice(2);
 const outIdx = args.indexOf('--out');

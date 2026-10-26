@@ -566,8 +566,10 @@ function currentRate() {
   return clamp(Number.isFinite(r) && r > 0 ? r : 1, TTS_RATE_MIN, TTS_RATE_MAX);
 }
 
-/** Stops whatever is speaking in this app (only one speaker at a time). */
-/** @type {(() => void) | null} */
+/**
+ * Stops whatever is speaking in this app (only one speaker at a time).
+ * @type {(() => void) | null}
+ */
 let stopActive = null;
 
 /**
