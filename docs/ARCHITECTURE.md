@@ -111,8 +111,14 @@ It replaces the earlier 13-chapter plan. Every chapter starts **unpublished** an
 is **completely hidden** in the app (home, chapter list, builder, stats, search,
 library counts) until the owner approves it and `published` is set to `true`.
 A part is hidden while it has no published chapter. The demo chapter is always
-loadable, but only offered on Home when no real chapter is published (and from
-Settings > Help at any time).
+loadable.
+
+**Demo mode.** While no chapter is published, the demo chapter stands in for the
+whole bank everywhere (Home quick actions, chapter list, builder "All", stats,
+search, library), so every feature can be tried. As soon as one chapter is
+published, the demo disappears from all of those and is only reachable from
+Settings > Help > "Try the demo". `data.js` exposes this as `demoMode` and
+`studyChapters()` (§5.6); no other module decides it on its own.
 
 ```json
 {
@@ -120,18 +126,21 @@ Settings > Help at any time).
   "parts": [ { "id": "p1", "number": "I", "title": "General Considerations", "volume": 1 } ],
   "chapters": [
     { "id": "ch01", "number": 1, "part": "p1", "prefix": "CH01", "title": "Anatomy and Dimensions",
-      "file": "data/ch01.json", "page": 1, "published": false, "count": 0 }
+      "short": "Anatomy", "file": "data/ch01.json", "page": 1, "published": false, "count": 0 }
   ],
-  "demo": { "id": "demo", "prefix": "DEMO", "title": "App tour (demo)", "file": "data/demo.json", "count": 10 }
+  "demo": { "id": "demo", "prefix": "DEMO", "title": "App tour (demo)", "short": "Demo",
+            "file": "data/demo.json", "count": 10 }
 }
 ```
 
+- `short` = short label for chips and tight spaces (≤ 16 characters, UI only; editable).
+
 - `page` = first page of the chapter in the owner's book (used in source references).
 - `count` must equal the number of questions in the file (validated).
-- `data.js`: `loadIndex()` exposes `parts`, `chapters` (published only, sorted by number)
-  and `demo`; `loadIndex({ includeUnpublished: true })` is for dev tools only.
+- `data.js` (§5.6): `loadIndex()` exposes `parts`, `chapters` (published only, sorted by number),
+  `demo` and `demoMode`; `loadIndex({ includeUnpublished: true })` is for dev tools only.
   `getQuestion()` of an unpublished chapter returns `null`. Builder, stats, search
-  and home only ever see published chapters (+ demo where documented).
+  and home only ever see `studyChapters()` (published chapters, or the demo in demo mode).
 - The service worker precaches only published chapter files + demo.
 - To publish a chapter: set `"published": true`, bump the version, validate, push.
 
@@ -213,7 +222,7 @@ Chapters (fixed; ids, prefixes and files never change):
 ```json
 {
   "schemaVersion": 1,
-  "chapter": "cpb",
+  "chapter": "ch22",
   "questions": [ /* Question */ ]
 }
 ```
@@ -222,14 +231,14 @@ Chapters (fixed; ids, prefixes and files never change):
 
 ```json
 {
-  "id": "CPB-0001",
+  "id": "CH03-0001",
   "version": 1,
-  "topic": "Cardioplegia",
-  "tags": ["del Nido"],
+  "topic": "Topic name from the source",
+  "tags": ["tag"],
   "difficulty": 2,
   "reviewed": false,
   "stem": "A 64-year-old man ... Which is the **best** next step?",
-  "image": { "src": "data/img/CPB-0001.webp", "alt": "...", "caption": "..." },
+  "image": { "src": "data/img/CH03-0001.webp", "alt": "...", "caption": "..." },
   "choices": [
     { "id": "a", "text": "..." },
     { "id": "b", "text": "..." }
@@ -294,7 +303,7 @@ API:
 
 ### 3.6 `data/retired.json`
 
-`{ "retired": ["CPB-0007"] }`
+`{ "retired": ["CH03-0007"] }`
 
 ## 4. Storage (IndexedDB)
 
@@ -452,16 +461,32 @@ export function applySettings()          // <html data-theme="light|dark" data-r
 
 ### 5.6 `core/data.js`
 ```js
-export async function loadIndex() → { schemaVersion, chapters: Chapter[] }   // memoized, sorted by order
-export async function loadChapter(id) → { chapter: Chapter, questions: Question[] }  // memoized
-export async function loadAll({ includeDemo = true } = {}) → Question[]
-export async function getQuestion(qid) → Question | null      // finds chapter by prefix
-export async function getQuestions(qids) → Question[]          // keeps order, skips missing
-export function chapterIdFromQid(qid) → string | null          // after loadIndex()
-export function questionPlainText(q) → string                  // stem + choices + explanation (plain)
+// Part    = { id, number /* "I" */, title, volume, chapters: string[] /* visible chapter ids, in order */ }
+// Chapter = { id, number, part, prefix, title, short, file, page, published, count, demo: false }
+// Demo    = { id: 'demo', number: null, part: null, prefix: 'DEMO', title, short, file, page: null,
+//             published: true, count, demo: true }
+export async function loadIndex({ includeUnpublished = false } = {})
+  → { schemaVersion, parts: Part[], chapters: Chapter[], demo: Demo, demoMode: boolean }
+  // chapters: published only, sorted by number (all 55 with includeUnpublished — dev tools only)
+  // parts: only parts with ≥1 listed chapter, in order; demoMode: no chapter is published
+export async function studyChapters() → Chapter[]   // published chapters, or [demo] in demo mode
+export async function getChapter(id) → Chapter | Demo | null   // null for unknown or unpublished
+export async function loadChapter(id, { includeUnpublished = false } = {}) → { chapter, questions: Question[] }
+                                                    // memoized; demo allowed; unknown or unpublished
+                                                    // (without the dev option) → DataError 'unknown-chapter'
+export async function loadAll({ includeDemo = true } = {}) → Question[]   // published chapters (+ demo)
+export async function loadStudyBank() → Question[]  // questions of studyChapters()
+export async function getQuestion(qid) → Question | null      // finds chapter by prefix; null when unpublished
+export async function getQuestions(qids) → Question[]          // keeps order, skips missing/unpublished
+export function chapterIdFromQid(qid) → string | null          // after loadIndex(); published + demo only
+export function questionPlainText(q) → string                  // stem + choices + notes + explanation (plain)
+export function blockPlainText(block) → string
+export function clearDataCache()
+export class DataError extends Error                          // .code, .userMessage (plain language)
 ```
-Each returned Question gets non-enumerable-safe extra field `chapterId`. Fetch
-failures throw `DataError` (exported class) with a user-friendly message.
+Each returned Question gets the extra field `chapterId`. Fetch failures throw
+`DataError` with a user-friendly message. Unpublished chapter files are never
+fetched by the app (they are not precached either).
 
 ### 5.7 `core/sw-client.js`
 ```js
@@ -582,7 +607,8 @@ export async function buildQuestionSet({ chapters /* ids[] | 'all' */, filter = 
 export async function countAvailable({ chapters, filter, includeDemo }) → number
 export function filterQids(questions, states /* Map qid→QState */, extras /* {flagged:Set, notes:Set} */, filter, now) → qids[] // pure
 ```
-`'all'` chapters excludes demo unless `includeDemo`. If the real bank is empty, the UI offers the demo.
+`'all'` chapters = `studyChapters()` (published chapters, or the demo in demo mode). `includeDemo`
+adds the demo outside demo mode (dev/tests only). Explicit ids are limited to published chapters + demo.
 
 ### 7.3 `features/quiz/engine.js`
 Session:
@@ -610,10 +636,11 @@ Emits `qstate:change`.
 `export async function computeStats(now) → { totalQuestions, answeredUnique, attempts, correctPct,
 avgMs, dueCount, bookmarks, notes, voice, highlights, byChapter: [{id, title, total, answered, correct, pct}],
 weakTopics: [{topic, chapterId, n, pct}] (n ≥ 3, lowest pct first, max 8), daily: [{day, n, correct}] (last 30 days),
-streak, bestStreak }` (demo excluded).
+streak, bestStreak, demoMode }` over `studyChapters()` (so the demo counts only in demo mode).
 
 ### 7.5 `features/search.js`
-`export async function search(query, { limit = 50, includeDemo = true }) → [{ qid, chapterId, title /* stem start */, snippet: [{text, match}], score }]`.
+`export async function search(query, { limit = 50 } = {}) → [{ qid, chapterId, title /* stem start */, snippet: [{text, match}], score }]`
+over `studyChapters()` (the demo is searchable only in demo mode).
 Builds an inverted index lazily (memoized), tokenizes lowercase, strips punctuation,
 prefix match on the last term, all terms must match (AND), ranks stem/topic hits above explanation hits.
 Pure helpers exported for tests: `tokenize(text)`, `buildIndex(questions)`, `queryIndex(index, query)`.
