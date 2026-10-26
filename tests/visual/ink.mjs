@@ -19,8 +19,8 @@
  * @module tests/visual/ink
  */
 
-import { chromium } from 'playwright';
 import { mkdir } from 'node:fs/promises';
+import { createRequire } from 'node:module';
 import path from 'node:path';
 import os from 'node:os';
 import { startServer } from '../serve.mjs';
@@ -166,7 +166,17 @@ async function inkedPixels(page, block) {
   }, block);
 }
 
+/** Loads the pre-installed Playwright (global install, found through NODE_PATH). */
+async function loadPlaywright() {
+  try {
+    return await import('playwright');
+  } catch {
+    return createRequire(import.meta.url)('playwright');
+  }
+}
+
 async function main() {
+  const { chromium } = await loadPlaywright();
   await mkdir(OUT, { recursive: true });
   const server = await startServer({ port: 0 });
   server.setOverride(PAGE, PAGE_HTML);
@@ -276,7 +286,7 @@ async function main() {
 
     // Colour + size from the popover.
     await page.getByRole('button', { name: 'Colour, size and more' }).click();
-    await page.getByRole('button', { name: 'Red' }).click();
+    await page.getByRole('button', { name: 'Red', exact: true }).click();
     check((await page.getByRole('button', { name: 'Colour, size and more' }).getAttribute('aria-expanded')) === 'false', 'popover closes after picking a colour');
     const state = await page.evaluate(() => window.__ink.ctrl.getState());
     check(state.color === '#dc2626' && state.tool === 'hl', 'colour picked, tool kept');

@@ -1,0 +1,519 @@
+/*
+ * Review tools and backup import (docs/ARCHITECTURE.md §7.11, §7.12, §7.14).
+ * Markup: js/features/review.js (report sheet .rv-report, reviewer panel .rv-panel,
+ * "Not yet reviewed" badge .rv-badge) and js/features/backup.js (import dialog .bk-*).
+ * Design tokens only (css/tokens.css); light and dark come from the tokens.
+ */
+
+/* ===================================================================== */
+/* Shared form bits                                                       */
+/* ===================================================================== */
+
+.rv-label {
+  display: block;
+  margin: var(--sp-4) 0 var(--sp-2);
+  font-size: var(--fs-s);
+  font-weight: 650;
+  color: var(--text);
+}
+
+.rv-textarea {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: calc(var(--tap) * 1.8);
+  margin: 0;
+  padding: var(--sp-3) var(--sp-4);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-m);
+  background: var(--surface);
+  color: var(--text);
+  font-size: var(--fs-m);
+  line-height: var(--lh-body);
+  resize: vertical;
+  transition:
+    border-color var(--dur-fast) var(--ease),
+    box-shadow var(--dur-fast) var(--ease);
+}
+
+.rv-textarea::placeholder {
+  color: var(--text-3);
+  opacity: 1;
+}
+
+.rv-textarea:focus {
+  outline: none;
+  border-color: var(--focus);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus) 28%, transparent);
+}
+
+.rv-hint {
+  margin: var(--sp-2) 0 0;
+  font-size: var(--fs-xs);
+  line-height: var(--lh-tight);
+  color: var(--text-3);
+}
+
+.rv-error,
+.bk-error {
+  margin: var(--sp-3) 0 0;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-s);
+  background: var(--danger-soft);
+  color: var(--danger);
+  font-size: var(--fs-s);
+  font-weight: 600;
+  line-height: var(--lh-tight);
+}
+
+/* ===================================================================== */
+/* Report sheet: reason chips (radio inputs styled as pills)              */
+/* ===================================================================== */
+
+.rv-fieldset,
+.bk-modes {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.rv-legend,
+.bk-legend {
+  margin: 0 0 var(--sp-3);
+  padding: 0;
+  font-size: var(--fs-s);
+  font-weight: 650;
+  color: var(--text);
+}
+
+.rv-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.rv-option {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-height: var(--tap);
+  max-width: 100%;
+  padding: 0 var(--sp-4) 0 var(--sp-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-full);
+  background: var(--surface);
+  color: var(--text);
+  font-size: var(--fs-s);
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease),
+    transform var(--dur-fast) var(--ease);
+}
+
+.rv-option:active {
+  transform: scale(0.97);
+}
+
+/* The real radio covers the pill: native semantics, keyboard and screen readers. */
+.rv-radio-input,
+.bk-option-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.rv-option-mark {
+  flex: none;
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--border-strong);
+  border-radius: var(--r-full);
+  transition:
+    border-color var(--dur-fast) var(--ease),
+    background-color var(--dur-fast) var(--ease);
+}
+
+.rv-option-mark::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: var(--r-full);
+  background: var(--primary-contrast);
+  transform: scale(0);
+  transition: transform var(--dur-fast) var(--ease);
+}
+
+.rv-option:has(.rv-radio-input:checked) {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+.rv-radio-input:checked + .rv-option-mark {
+  border-color: var(--primary);
+  background: var(--primary);
+}
+
+.rv-radio-input:checked + .rv-option-mark::after {
+  transform: scale(1);
+}
+
+.rv-option:has(.rv-radio-input:focus-visible),
+.bk-option:has(.bk-option-input:focus-visible) {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) {
+  .rv-option:hover {
+    border-color: var(--primary);
+  }
+}
+
+/* ===================================================================== */
+/* Reviewer panel                                                         */
+/* ===================================================================== */
+
+.rv-panel {
+  margin: var(--sp-5) 0 0;
+  padding: var(--sp-4);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--info);
+  border-radius: var(--r-m);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+}
+
+.rv-panel[data-status="ok"] {
+  border-left-color: var(--success);
+}
+
+.rv-panel[data-status="fix"],
+.rv-panel.is-stale {
+  border-left-color: var(--warning);
+}
+
+.rv-panel-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2) var(--sp-3);
+}
+
+.rv-panel-title {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin: 0;
+  font-size: var(--fs-m);
+  font-weight: 700;
+  color: var(--text);
+}
+
+.rv-panel-title .icon {
+  color: var(--info);
+}
+
+.rv-status-text {
+  margin: var(--sp-2) 0 0;
+  font-size: var(--fs-s);
+  color: var(--text-2);
+}
+
+.rv-stale {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-2);
+  margin: var(--sp-3) 0 0;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-s);
+  background: var(--warning-soft);
+  color: var(--warning);
+  font-size: var(--fs-s);
+  font-weight: 600;
+  line-height: var(--lh-tight);
+}
+
+.rv-stale .icon {
+  margin-top: 1px;
+}
+
+.rv-verdicts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-2);
+  margin-top: var(--sp-4);
+}
+
+.rv-verdict {
+  min-width: 0;
+}
+
+.rv-verdict-ok[aria-pressed="true"] {
+  border-color: var(--success);
+  background: var(--success);
+  color: var(--success-contrast);
+}
+
+.rv-verdict-fix[aria-pressed="true"] {
+  border-color: var(--warning);
+  background: var(--warning-soft);
+  color: var(--warning);
+  box-shadow: inset 0 0 0 1px var(--warning);
+}
+
+.rv-comment-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+
+.rv-comment-head .rv-label {
+  margin-bottom: var(--sp-2);
+}
+
+.rv-saved {
+  min-width: 0;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--text-3);
+  text-align: right;
+}
+
+/* ===================================================================== */
+/* "Not yet reviewed" badge                                               */
+/* ===================================================================== */
+
+.rv-badge {
+  position: relative;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--fs-xs);
+  font-weight: 650;
+  touch-action: manipulation;
+}
+
+/* Invisible 44px hit area around the small chip. */
+.rv-badge::after {
+  content: "";
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: max(100%, var(--tap));
+  height: var(--tap);
+  transform: translate(-50%, -50%);
+}
+
+/* ===================================================================== */
+/* Backup import dialog                                                   */
+/* ===================================================================== */
+
+.bk-dialog {
+  min-height: 120px;
+}
+
+.bk-dialog > .spinner {
+  display: flex;
+  justify-content: center;
+  padding: var(--sp-6) 0;
+}
+
+.bk-lead {
+  margin: 0;
+  font-size: var(--fs-m);
+  color: var(--text);
+}
+
+.bk-version {
+  color: var(--text-3);
+  font-size: var(--fs-s);
+}
+
+.bk-counts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: var(--sp-2);
+  margin: var(--sp-4) 0 0;
+}
+
+.bk-count {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: 2px;
+  min-width: 0;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-s);
+  background: var(--surface-2);
+}
+
+.bk-count dt {
+  font-size: var(--fs-xs);
+  color: var(--text-2);
+}
+
+.bk-count dd {
+  margin: 0;
+  font-size: var(--fs-l);
+  font-weight: 700;
+  line-height: var(--lh-tight);
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.bk-empty {
+  margin: var(--sp-4) 0 0;
+  color: var(--text-2);
+}
+
+.bk-media {
+  margin: var(--sp-3) 0 var(--sp-5);
+}
+
+.bk-modes {
+  display: grid;
+  gap: var(--sp-2);
+}
+
+.bk-option {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  min-height: var(--tap);
+  padding: var(--sp-3) var(--sp-4);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-m);
+  background: var(--surface);
+  cursor: pointer;
+  transition:
+    border-color var(--dur-fast) var(--ease),
+    background-color var(--dur-fast) var(--ease);
+}
+
+.bk-option-mark {
+  flex: none;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  border: 2px solid var(--border-strong);
+  border-radius: var(--r-full);
+  transition:
+    border-color var(--dur-fast) var(--ease),
+    background-color var(--dur-fast) var(--ease);
+}
+
+.bk-option-mark::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: var(--r-full);
+  background: var(--primary-contrast);
+  transform: scale(0);
+  transition: transform var(--dur-fast) var(--ease);
+}
+
+.bk-option-input:checked + .bk-option-mark {
+  border-color: var(--primary);
+  background: var(--primary);
+}
+
+.bk-option-input:checked + .bk-option-mark::after {
+  transform: scale(1);
+}
+
+.bk-option:has(.bk-option-input:checked) {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+}
+
+.bk-option-replace:has(.bk-option-input:checked) {
+  border-color: var(--danger);
+  background: var(--danger-soft);
+}
+
+.bk-option-replace .bk-option-input:checked + .bk-option-mark {
+  border-color: var(--danger);
+  background: var(--danger);
+}
+
+.bk-option-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  min-width: 0;
+}
+
+.bk-option-title {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-m);
+  font-weight: 700;
+  color: var(--text);
+}
+
+.bk-option-text {
+  font-size: var(--fs-s);
+  line-height: 1.45;
+  color: var(--text-2);
+}
+
+.bk-error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-3) 0 var(--sp-2);
+  text-align: center;
+}
+
+.bk-error-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--r-full);
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.bk-error-title {
+  margin: var(--sp-2) 0 0;
+  font-size: var(--fs-l);
+  font-weight: 700;
+  color: var(--text);
+}
+
+.bk-error-text {
+  margin: 0;
+  max-width: 40ch;
+  font-size: var(--fs-m);
+  color: var(--text-2);
+}
+
+@media (forced-colors: active) {
+  .rv-option:has(.rv-radio-input:checked),
+  .bk-option:has(.bk-option-input:checked) {
+    outline: 2px solid Highlight;
+  }
+}
