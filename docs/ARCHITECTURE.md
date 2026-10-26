@@ -846,7 +846,17 @@ export function initInk(root, question) → InkController
 //                  undo(), redo(), canUndo(), canRedo(), clearAll() /* undoable */, destroy(), on(event, fn) }
 export function renderStrokes(ctx, strokes, width, height, dpr)      // shared by layers + scratchpad
 export function strokeToPath(stroke, width, height) → polygon points // variable-width outline (pressure + speed)
+// InkController also: getState() → {tool,color,size,enabled}, isEmpty(), staleBlocks(), flush() → Promise,
+//   refresh(), ready (Promise); clearAll() → undo token | null; undo(token?); disable()/destroy() → save Promise.
+// Events (on() returns off): change {canUndo,canRedo,empty}, tool, enable, strokestart {block},
+//   stale {blocks} (replayed to late subscribers), ready, saved {blocks}, error {error}, destroy.
+// renderStrokes(ctx, strokes, w, h, dpr, opts?) opts = {clear, dark, zoom, panX, panY, hlBlend, live}.
+// Extra exports: createInkEngine, INK_COLORS (6), INK_SIZES [0.003,0.006,0.012], INK_TOOLS, SCRATCH_BLOCK, SAVE_DELAY_MS, …
 ```
+- Stale ink (stroke saved for another `qversion`) is still shown; the player shows a calm notice on `stale`.
+  Editing a stale block saves it with the current version. `inkSize` is a fraction of the question root's
+  width; each stroke stores it relative to its own layer. Dark mode draws palette colours with a lighter twin.
+- `openScratchpad(question)` returns `{close, controller}`. The toolbar hides Scratchpad when `onScratchpad` is absent.
 - One transparent `<canvas class="ink-layer">` per `[data-block]` element in `root`,
   sized to the element (ResizeObserver, devicePixelRatio aware). Coordinates stored as fractions.
 - Disabled: layers ignore input (`pointer-events: none`) but still show ink.

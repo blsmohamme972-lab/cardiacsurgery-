@@ -621,8 +621,9 @@ export async function exportBackup({ includeMedia = true, now = Date.now(), dump
           skipped++;
           continue;
         }
-        const { blob: _blob, data: _data, ...rest } = rec;
-        const head = JSON.stringify({ ...rest, blob: null, mime: rec.mime || blob.type || 'audio/webm' });
+        const copy = { ...rec, blob: null, mime: rec.mime || blob.type || 'audio/webm' };
+        delete copy.data;
+        const head = JSON.stringify(copy);
         push(`${n ? ',' : ''}${head.slice(0, -1)},"data":"`);
         flush();
         parts.push(...b64);

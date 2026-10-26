@@ -136,7 +136,7 @@ async function snapshot(page) {
         const copy = { ...r };
         if (name === 'attempts') delete copy.id;
         if (name === 'voice') copy.blob = copy.blob ? [...new Uint8Array(await copy.blob.arrayBuffer())].join(',') : null;
-        out[name].push(copy);
+        out[name].push(Object.fromEntries(Object.entries(copy).sort(([a], [b]) => a.localeCompare(b))));
       }
       out[name].sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b)));
     }
