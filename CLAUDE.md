@@ -110,6 +110,40 @@ rules above (vanilla JS, no framework, no build step). That means:
 - The repo is public: do not commit the owner's source files (they may be
   copyrighted) unless the owner explicitly says so.
 
+## Question generation (very precise)
+
+Questions are made with a **highly precise, rigorous process**, not freehand writing:
+
+- **Grounding**: every fact in the stem, the correct answer and the explanation
+  must trace back to a specific passage in the owner's source. Keep a source
+  reference (source, section/page) on every question.
+- **Board quality**: clinical-vignette style for residents, one clearly best
+  answer, plausible distractors that are wrong *according to the source*.
+- **Automated checks** (dev-only scripts, never part of the app): schema
+  validation, permanent unique IDs, no duplicate or near-duplicate questions,
+  balanced position of the correct answer, every explanation block valid,
+  every question has a source reference.
+- Generate in small batches per chapter; check each batch before committing.
+
+## Explanations (below the question)
+
+- Shown **below the question** after answering (in practice mode) or in review.
+- Written **only from the owner's source text**. Memory aids (mnemonics,
+  diagrams) may restructure the source, but must not add facts.
+- Goal: **very highly readable and unforgettable**. Use advanced formatting:
+  - headings, **bold** key terms, short bullet lists
+  - **tables** (comparisons, classifications, indications vs contraindications)
+  - **arrows / flow chains** (cause → effect, pathophysiology, algorithms)
+  - **mind maps** (a central concept with branches)
+  - callout boxes: key point, pearl, pitfall, mnemonic
+  - a short **source quote** with its reference
+- Store explanations as **structured JSON blocks** (paragraph, list, table, flow,
+  mindmap, callout, quote), not raw HTML. The app renders them with its own
+  code (tables in HTML, flows and mind maps as SVG), works offline, and stays
+  consistent and safe.
+- Richer explanations make the data bigger (maybe 15–25 MB for 5000 questions);
+  load chapters on demand to keep the app fast.
+
 ## Data layout
 
 - One JSON file per chapter in `data/`.
