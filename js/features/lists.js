@@ -20,8 +20,12 @@
  * keeps its own questions (e.g. a demo session after chapters were published).
  *
  * The pure helpers ({@link parseListKey}, {@link listTitle},
- * {@link collectQids}, {@link listHref}) run in Node; {@link getList} loads
- * data and storage lazily, so importing this module has no side effects.
+ * {@link collectQids}, {@link listHref}, {@link qidNumber}) run in Node;
+ * {@link getList} loads data and storage lazily, so importing this module
+ * has no side effects. Record lists (bookmarks, notes, …) are built from the
+ * index and the learner's records only: no question file is fetched, so a
+ * list of thousands stays fast. A listed question that was later removed from
+ * its file simply fails to open (screens show "no longer available").
  *
  * @module features/lists
  */
@@ -150,23 +154,64 @@ function idsOf(records, sortKey, keep = () => true) {
 }
 
 /**
+ * The number part of a question id (`"CH03-0012"` → 12; malformed → +Infinity). Pure.
+ * @param {unknown} qid
+ * @returns {number}
+ */
+export function qidNumber(qid) {
+  const m = typeof qid === 'string' ? /-(\d+)$/.exec(qid) : null;
+  return m ? Number(m[1]) : Number.POSITIVE_INFINITY;
+}
+
+/**
+ * @typedef {object} StudyScope
+ * @property {(qid: string) => boolean} has  True for a question of the study chapters.
+ * @property {(qid: string) => number} [rank] Bank position (chapter order, then id number);
+ *   used for the bookmarks order. Default: the id's number.
+ */
+
+/**
+ * @param {string[] | StudyScope | null | undefined} study
+ * @returns {Required<StudyScope>}
+ */
+function scopeOf(study) {
+  if (Array.isArray(study)) {
+    const order = study.filter(isId);
+    const pos = new Map(order.map((q, i) => [q, i]));
+    return { has: (q) => pos.has(q), rank: (q) => pos.get(q) ?? Number.POSITIVE_INFINITY };
+  }
+  if (isObj(study) && typeof study.has === 'function') {
+    const has = /** @type {StudyScope} */ (study).has;
+    const rank = typeof study.rank === 'function' ? /** @type {(q: string) => number} */ (study.rank) : qidNumber;
+    return { has, rank };
+  }
+  return { has: () => false, rank: qidNumber };
+}
+
+/**
  * The question ids of a simple list kind from the learner's records. Pure.
  *
  * @param {string} kind `bookmarks | notes | voice | highlights | flagged | mistakes`.
  * @param {any[]} records The matching store's records (qstate for bookmarks/mistakes,
  *   notes, voice, highlights, reports).
- * @param {string[]} studyQids Study-bank ids in bank order; only these are kept.
+ * @param {string[] | StudyScope} study Which questions may be listed: study-bank ids in
+ *   bank order, or a {@link StudyScope} (membership test + bank rank) so the
+ *   question files need not be loaded.
  * @returns {string[]}
  */
-export function collectQids(kind, records, studyQids) {
-  const order = listOf(studyQids).filter(isId);
-  const study = new Set(order);
+export function collectQids(kind, records, study) {
+  const scope = scopeOf(study);
   /** @type {string[]} */
   let ids;
   switch (kind) {
     case 'bookmarks': {
-      const marked = new Set(idsOf(records, null, (r) => r.bookmarked === true));
-      return order.filter((q) => marked.has(q));
+      ids = idsOf(records, null, (r) => r.bookmarked === true).filter((q) => scope.has(q));
+      const rank = new Map(ids.map((q) => [q, scope.rank(q)]));
+      // Stable: equal ranks keep record order.
+      return ids
+        .map((q, i) => ({ q, i, r: /** @type {number} */ (rank.get(q)) }))
+        .sort((a, b) => (a.r === b.r ? a.i - b.i : a.r < b.r ? -1 : 1))
+        .map((x) => x.q);
     }
     case 'mistakes':
       ids = idsOf(records, 'lastTs', (r) => r.lastCorrect === false);
@@ -182,7 +227,7 @@ export function collectQids(kind, records, studyQids) {
     default:
       return [];
   }
-  return ids.filter((q) => study.has(q));
+  return ids.filter((q) => scope.has(q));
 }
 
 /**
@@ -220,14 +265,28 @@ function searchApi() {
 }
 
 /**
- * Study-bank ids in bank order.
+ * The study scope from the index alone (no question file is loaded): a
+ * question belongs to the study bank when its id prefix maps to one of
+ * `studyChapters()`; its rank is (chapter order, id number).
  * @param {any} data
- * @returns {Promise<string[]>}
+ * @returns {Promise<Required<StudyScope>>}
  */
-async function studyIds(data) {
-  return listOf(await data.loadStudyBank())
-    .map((q) => (isObj(q) ? q.id : null))
-    .filter(isId);
+async function studyScope(data) {
+  const chapters = listOf(await data.studyChapters());
+  const order = new Map(chapters.filter(isObj).map((c, i) => [c.id, i]));
+  /** @param {string} q */
+  const chapterOf = (q) => {
+    const id = data.chapterIdFromQid(q);
+    return typeof id === 'string' && order.has(id) ? id : null;
+  };
+  return {
+    has: (q) => chapterOf(q) !== null,
+    rank: (q) => {
+      const c = chapterOf(q);
+      const n = qidNumber(q);
+      return (c === null ? order.size : /** @type {number} */ (order.get(c))) * 1e9 + (Number.isFinite(n) ? n : 1e9 - 1);
+    },
+  };
 }
 
 /**
@@ -261,10 +320,9 @@ export async function getList(key) {
   }
 
   if (kind === 'search') {
-    const [search, study] = await Promise.all([searchApi(), studyIds(data)]);
-    const allowed = new Set(study);
+    const [search, scope] = await Promise.all([searchApi(), studyScope(data)]);
     const hits = listOf(await search.search(arg, { limit: SEARCH_LIST_LIMIT }));
-    const qids = [...new Set(hits.map((r) => (isObj(r) ? r.qid : null)).filter((q) => isId(q) && allowed.has(q)))];
+    const qids = [...new Set(hits.map((r) => (isObj(r) ? r.qid : null)).filter((q) => isId(q) && scope.has(q)))];
     return { key: k, title: listTitle(kind, arg), qids };
   }
 
@@ -278,8 +336,8 @@ export async function getList(key) {
     records = repo.voiceRepo.all().then((list) => listOf(list).map((v) => (isObj(v) ? { qid: v.qid, ts: v.ts } : null)));
   } else if (kind === 'highlights') records = repo.highlightsRepo.all();
   else records = repo.reportsRepo.all();
-  const [rows, study] = await Promise.all([records, studyIds(data)]);
-  return { key: k, title: listTitle(kind), qids: collectQids(kind, rows, study) };
+  const [rows, scope] = await Promise.all([records, studyScope(data)]);
+  return { key: k, title: listTitle(kind), qids: collectQids(kind, rows, scope) };
 }
 
 /**

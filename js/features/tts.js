@@ -979,6 +979,7 @@ export function createListenButton(question, getContext) {
   const mainIcon = h('span', { class: 'listen-icon' });
   const mainLabel = h('span', { class: 'btn-label' });
   const main = button({ variant: 'secondary', onClick: onMain });
+  main.classList.remove('btn-icon-only'); // the label is added below
   main.classList.add('listen-btn');
   main.append(mainIcon, mainLabel);
   const stopBtn = iconButton({ icon: 'stop', label: 'Stop reading', variant: 'secondary', onClick: () => reader.stop() });

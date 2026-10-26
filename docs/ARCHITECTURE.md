@@ -869,13 +869,15 @@ saved as ink block `"scratch"`.
 
 ### 7.8 `features/notes.js`
 `export function createNoteEditor(qid) → HTMLElement` — auto-growing textarea, autosave (debounced 500ms,
-"Saved" indicator), character count hidden until 1000+.
+"Saved" indicator), character count hidden until 1000+. The element also has `flush()` and `destroy()`.
 
 ### 7.9 `features/voice.js`
 ```js
 export function isVoiceSupported() → boolean
 export function createRecorder() → { start(): Promise, stop(): Promise<{blob, mime, durationMs}>, cancel(), state, onLevel(fn) }
-export function createVoiceNotes(qid) → HTMLElement
+export function createVoiceNotes(qid) → HTMLElement   // + destroy()
+export class VoiceError extends Error                 // .code: denied|no-mic|busy|unsupported|insecure|empty|aborted
+// createRecorder({ maxMs, onAutoStop }?) also exposes elapsedMs. Undo of a delete restores via mergeStore (same id/ts).
 ```
 Mime preference: `audio/webm;codecs=opus`, `audio/mp4`, `audio/webm`, default. Max 5 min (auto-stop).
 UI: big record button, live timer + level meter, stop; list with play/pause, scrubber, duration,
@@ -891,7 +893,8 @@ Prompt: role (cardiac surgery board resident), the question, lettered choices in
 the user's answer, the app's correct answer, request: explain why the answer is correct and others are wrong,
 concise, board-focused. First use shows a one-time notice ("ChatGPT is an outside source and may not match
 your study sources") with Continue/Cancel. Opens with `window.open(url, '_blank', 'noopener')`; if that is
-blocked, copies the prompt and shows a toast with an "Open ChatGPT" link. Disabled with a hint while offline.
+blocked, copies the prompt and shows a toast with an "Open ChatGPT" link. Because `noopener` cannot report a blocked
+pop-up, every open copies the prompt first and shows that toast. Disabled with a hint while offline.
 
 ### 7.11 `features/review.js`
 ```js
@@ -964,7 +967,7 @@ export function createQuestionView(question, {
 | `css/explanation.css` | explain/render.js |
 | `css/annotate.css` | annotate/anchor.js, annotate/highlight.js |
 | `css/ink.css` | annotate/ink.js, annotate/ink-toolbar.js, annotate/scratchpad.js |
-| `css/features.css` | notes.js, voice.js, askgpt.js |
+| `css/features.css` | notes.js, voice.js, askgpt.js, tts.js |
 | `css/review.css` | review.js, backup.js (report sheet, reviewer panel, import dialog) |
 | `css/screen-player.css` | question-view.js, screens player/results/question |
 | `css/screen-home.css` | screens home/chapter/builder/library |
@@ -982,7 +985,10 @@ export function questionSpeechText(question, { choiceOrder, includeExplanation =
   // answer line and the explanation blocks as plain text (arrows read as words: "→" → "leads to")
 export function createReader() → { speak(chunks), pause(), resume(), stop(), state /* idle|speaking|paused */,
   on(event /* 'state'|'chunk' */, fn) }   // chunked to avoid the iOS/Chrome long-utterance cut-off
-export function createListenButton(question, getContext /* () => {choiceOrder, revealed} */) → HTMLElement
+export function createListenButton(question, getContext /* () => {choiceOrder, revealed} */) → HTMLElement // + stop(), destroy()
+export async function listEnglishVoices() → voice[]   // English device voices, best first (waits ≤ 2 s for late voices)
+export async function previewVoice(voice | null, rate?) // speaks a short sample, stops anything else speaking
+// createReader().speak(chunks, { voice?, rate? }?) defaults to ttsVoice/ttsRate; on('error', {message}) too.
 ```
 - Settings: `ttsRate` (0.8–1.4, default 1), `ttsVoice` (voiceURI | null). Settings > Read aloud shows the
   voice picker (English voices only, best first, "Preview"), speed, and the tip: iPhone/iPad: Settings >

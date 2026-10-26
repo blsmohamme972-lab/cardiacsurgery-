@@ -5,6 +5,7 @@
  * `/quiz/<id>`.
  *
  * - {@link sessionTitle} and {@link noQuestionsMessage} are pure.
+ * - {@link startAndOpen} wraps it for buttons: busy state, navigation, toast on failure.
  * - {@link startQuiz} reads the study settings (`shuffleChoices`,
  *   `defaultCount`, `examSecondsPerQuestion`), selects the questions with
  *   `builder.buildQuestionSet()` (or uses an explicit `qids` list) and stores
@@ -248,5 +249,43 @@ export async function startQuiz({
   } catch (err) {
     if (err instanceof SessionError && err.code === 'empty') throw new NoQuestionsError(reason, { cause: err });
     throw err;
+  }
+}
+
+/**
+ * Starts a quiz and opens it: the one-tap path used by every screen button.
+ * Shows a busy state on `trigger` while it works (and ignores repeat taps),
+ * navigates to `/quiz/<id>` on success, and otherwise shows a toast with a
+ * plain-language message and a next step (never a dead end). The router and
+ * the UI kit are imported lazily, so this module stays importable in Node.
+ *
+ * @param {Parameters<typeof startQuiz>[0]} opts Same options as {@link startQuiz}.
+ * @param {{ trigger?: HTMLButtonElement | null }} [ui]
+ * @returns {Promise<string | null>} The new session id, or null when nothing was started.
+ */
+export async function startAndOpen(opts, { trigger } = {}) {
+  if (trigger) {
+    if (trigger.getAttribute('aria-busy') === 'true') return null;
+    trigger.setAttribute('aria-busy', 'true');
+  }
+  try {
+    const id = await startQuiz(opts);
+    const { navigate } = await import('../../core/router.js');
+    navigate(`/quiz/${encodeURIComponent(id)}`);
+    return id;
+  } catch (err) {
+    const known = err instanceof NoQuestionsError;
+    const e = /** @type {any} */ (err);
+    if (!known) console.error('[start] Could not start the quiz:', err);
+    const text = typeof e?.userMessage === 'string' && e.userMessage ? e.userMessage : "Couldn't start the quiz. Please try again.";
+    try {
+      const { toast } = await import('../../ui/components.js');
+      toast(text, { kind: known ? 'info' : 'danger' });
+    } catch {
+      /* No UI kit: the console entry above is all we can do. */
+    }
+    return null;
+  } finally {
+    trigger?.removeAttribute('aria-busy');
   }
 }
