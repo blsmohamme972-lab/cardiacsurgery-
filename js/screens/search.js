@@ -83,6 +83,19 @@ function snippetNodes(snippet) {
 }
 
 /**
+ * The search badge with its faint heartbeat trace (same look as `emptyState()`).
+ * @returns {HTMLElement}
+ */
+function introBadge() {
+  return h(
+    'div',
+    { class: 'empty-icon', 'aria-hidden': 'true' },
+    icon('search', { size: 28 }),
+    h('span', { class: 'empty-ecg' }, h('span', { class: 'ecg-line' })),
+  );
+}
+
+/**
  * Tips shown under an empty field or when nothing matches.
  * @returns {HTMLElement}
  */
@@ -217,7 +230,7 @@ export default {
         h(
           'div',
           { class: 'search-intro' },
-          h('div', { class: 'empty-icon', 'aria-hidden': 'true' }, icon('search', { size: 28 })),
+          introBadge(),
           h('h2', { class: 'empty-title' }, 'Find any question'),
           tipsList(),
           suggestions,
@@ -239,7 +252,7 @@ export default {
           h(
             'div',
             { class: 'search-intro' },
-            h('div', { class: 'empty-icon', 'aria-hidden': 'true' }, icon('search', { size: 28 })),
+            introBadge(),
             h('h2', { class: 'empty-title' }, 'No questions match'),
             h('p', { class: 'empty-text' }, 'Check the spelling, or try fewer or shorter words.'),
             tipsList(),

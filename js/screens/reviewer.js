@@ -21,6 +21,7 @@ import { navigate } from '../core/router.js';
 import { getSetting, setSetting } from '../core/settings.js';
 import { debounce, formatNumber, plural, formatRelative } from '../core/util.js';
 import { setHeader } from '../ui/shell.js';
+import { icon } from '../ui/icons.js';
 import { button, emptyState, segmented, toggle, toast, chip, skeleton } from '../ui/components.js';
 
 /** Rows rendered at first; "Show more" adds this many each time. */
@@ -142,18 +143,24 @@ function offState() {
 }
 
 /**
- * One count tile.
+ * One count tile (same vital-sign look as the Stats overview).
  * @param {string} label
  * @param {number} value
- * @param {string} [tone]
+ * @param {string} [tone] success | warning | danger | neutral (tick + icon colour)
+ * @param {string} [iconName]
  * @returns {HTMLElement}
  */
-function countTile(label, value, tone) {
+function countTile(label, value, tone, iconName) {
   return h(
     'div',
     { class: ['stat-tile', tone && `tone-${tone}`] },
-    h('span', { class: 'stat-tile-label' }, label),
-    h('span', { class: 'stat-tile-value tabular' }, formatNumber(value)),
+    h(
+      'span',
+      { class: 'stat-tile-head' },
+      h('span', { class: 'stat-tile-label' }, label),
+      iconName ? h('span', { class: 'stat-tile-icon', 'aria-hidden': 'true' }, icon(iconName, { size: 18 })) : null,
+    ),
+    h('span', { class: 'stat-tile-value num-display' }, formatNumber(value)),
   );
 }
 
@@ -343,10 +350,10 @@ export default {
           h(
             'div',
             { class: 'stat-tiles' },
-            countTile('Not yet reviewed', unreviewed.length, unreviewed.length ? 'warning' : undefined),
-            countTile('Marked reviewed', reviewedInData, 'success'),
-            countTile('Your approvals', approvals),
-            countTile('Your fix requests', fixes, fixes ? 'danger' : undefined),
+            countTile('Not yet reviewed', unreviewed.length, unreviewed.length ? 'warning' : 'neutral', 'clock'),
+            countTile('Marked reviewed', reviewedInData, 'success', 'check'),
+            countTile('Your approvals', approvals, approvals ? 'success' : 'neutral', 'star'),
+            countTile('Your fix requests', fixes, fixes ? 'danger' : 'neutral', 'flag'),
           ),
           stale
             ? h('p', { class: 'misc-note' }, `${plural(stale, 'question')} changed after you reviewed ${stale === 1 ? 'it' : 'them'}. Please check ${stale === 1 ? 'it' : 'them'} again.`)

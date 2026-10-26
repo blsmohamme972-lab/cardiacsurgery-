@@ -45,6 +45,17 @@ const UPDATE_MESSAGES = Object.freeze({
   error: "Couldn't check right now. Please try again in a moment.",
 });
 
+/** Icon shown beside each section heading (decorative). */
+const SECTION_ICONS = Object.freeze({
+  appearance: 'sun',
+  read: 'volume',
+  study: 'target',
+  data: 'layers',
+  reviewer: 'check',
+  help: 'info',
+  about: 'heart',
+});
+
 /**
  * Saves a setting; tells the user when it only lasts for this session.
  * @param {string} key
@@ -64,6 +75,22 @@ async function save(key, value) {
 }
 
 /**
+ * A section heading with its (decorative) icon badge.
+ * @param {string} id
+ * @param {string} title
+ * @returns {HTMLElement}
+ */
+function sectionHeading(id, title) {
+  const name = /** @type {Record<string, string>} */ (SECTION_ICONS)[id];
+  return h(
+    'h2',
+    { class: ['misc-h2', name && 'has-icon'], id: `set-${id}-h` },
+    name ? h('span', { class: 'misc-h2-icon', 'aria-hidden': 'true' }, icon(name, { size: 16 })) : null,
+    title,
+  );
+}
+
+/**
  * A titled settings section.
  * @param {string} id
  * @param {string} title
@@ -74,7 +101,7 @@ function section(id, title, ...children) {
   return h(
     'section',
     { class: 'misc-section', id: `set-${id}`, 'aria-labelledby': `set-${id}-h` },
-    h('h2', { class: 'misc-h2', id: `set-${id}-h` }, title),
+    sectionHeading(id, title),
     h('div', { class: 'set-group' }, ...children),
   );
 }
@@ -671,7 +698,7 @@ function helpSection(isAlive) {
   return h(
     'section',
     { class: 'misc-section', id: 'set-help', 'aria-labelledby': 'set-help-h' },
-    h('h2', { class: 'misc-h2', id: 'set-help-h' }, 'Help'),
+    sectionHeading('help', 'Help'),
     list,
   );
 }
