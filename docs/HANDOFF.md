@@ -134,4 +134,7 @@ missing modules with `server.setOverride(path, stubText)` from `tests/serve.mjs`
 
 - Talk to the owner in Arabic, short and clear. The app itself is English only.
 - The owner is not a developer and works from a phone: give click-by-click steps with links.
-- No chapter content yet. Content comes later, only from text the owner provides, never from any other source or search.
+- **Write no chapter content at all** (owner, 2026-10-26): the 55 chapter files stay
+  empty. Only when the owner explicitly asks, in a message that gives the source
+  text, may questions be written — and only from that text. Never from any other
+  source, memory or search. Tests and fixtures use neutral placeholder text only.
