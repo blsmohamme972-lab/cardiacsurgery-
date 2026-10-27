@@ -5,7 +5,7 @@
  * aloud (English device voices best first + Preview, speed, how to get a
  * better voice; hidden when the browser can't speak), Study (shuffle,
  * default count, exam seconds per question, auto-advance, timer, drawing
- * input), Your data (export with/without voice notes, import, storage used,
+ * input), Your data (export with/without voice notes or images, import, storage used,
  * protection status), Reviewer mode (+ dashboard link), Help (tour, demo)
  * and About (version, check for update, offline note).
  *
@@ -517,7 +517,7 @@ function dataSection(isAlive) {
     });
 
   const exportAll = button({ label: 'Export backup', icon: 'download', variant: 'primary', onClick: () => void doExport(true, exportAll) });
-  const exportLight = button({ label: 'Without voice notes', icon: 'download', variant: 'secondary', onClick: () => void doExport(false, exportLight) });
+  const exportLight = button({ label: 'Without voice notes or images', icon: 'download', variant: 'secondary', onClick: () => void doExport(false, exportLight) });
 
   const fileInput = /** @type {HTMLInputElement} */ (
     h('input', { type: 'file', accept: '.json,application/json', class: 'visually-hidden', tabindex: '-1', 'aria-hidden': 'true' })

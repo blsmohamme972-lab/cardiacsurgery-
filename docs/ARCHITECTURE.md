@@ -408,7 +408,7 @@ Stroke (all coordinates are fractions of the layer's width/height, rounded to 4 
 
 ```js
 export const DB_NAME = 'cardiac-mcq';
-export const DB_VERSION = 1;
+export const DB_VERSION = 2;  // v1 initial schema; v2 adds `media` (qid, ts) — additive only
 export function openDB(): Promise<IDBDatabase>            // singleton; runs migrations
 export function tx(stores: string|string[], mode: 'readonly'|'readwrite',
                    fn: (stores: Record<string, IDBObjectStore>) => any): Promise<any>
@@ -438,7 +438,9 @@ export const sessionsRepo  = { get(id), put(s), remove(id), all(), latestUnfinis
 export const mediaRepo     = { get(id), byQid(qid), add({qid, blob, mime, width, height}) /* assigns id, ts, bytes */,
                                remove(id), prune(qid, keepIds /* Set|string[] */) /* removes the qid's media not kept */, all() }
 export const ALL_STORES    = ['settings','qstate','attempts','notes','highlights','ink','voice','reports','reviews','sessions','media']
-// inkRepo.set keeps a record while it has strokes OR scene items (deletes only when both are empty).
+// inkRepo.set(qid, block, {qversion, strokes?, scene?}) keeps a record while it has strokes OR scene items
+//   (deletes only when both are empty). mediaRepo.add throws TypeError (bad input) / RangeError (> MEDIA_MAX_BYTES,
+//   25 MB); mediaRepo.prune → removed ids. Pure helpers: MEDIA_MAX_BYTES, checkMediaInput, inkHasContent, importable.
 export async function dumpStore(name) / replaceStore(name, records) / mergeStore(name, records)
 ```
 Every write emits `bus.emit('store:change', {store, key})`.
@@ -524,6 +526,7 @@ Defaults:
   ttsRate: 1 /* 0.8–1.4 */, ttsVoice: null /* voiceURI */,
   scratchView: 'over' /* 'over'|'split'|'full' */, scratchTool: 'pen', scratchColor: '#1d4ed8', scratchSize: 1 /* 0|1|2 */,
   scratchBg: 'dots', scratchOpacity: 0 /* paper opacity in 'over' view, 0–0.9 */ }
+// settings.js exports SCRATCH_TOOLS = ['select','lasso','pen','hl','eraser','shape','line','arrow','rect','ellipse','text','hand']
 ```
 ```js
 export async function initSettings()     // loads from settingsRepo, applies
@@ -966,7 +969,9 @@ export async function requestPersistence() → boolean
 Backup: `{ type: 'cardiac-mcq-backup', formatVersion: 1, appVersion, exportedAt, includesMedia,
 stores: { [storeName]: records[] } }` — voice and media blobs as `{..., blob: null, data: base64, mime}`; without
 media the `voice` and `media` stores are omitted (scratchpad images then show a calm "image not in this backup" placeholder). Merge: per store, newer `updated/ts` wins; attempts deduplicated by `(qid, ts)`.
-Replace: clears every store first (after the user confirms). Import never touches settings `lastRoute`.
+Replace: clears every store first (after the user confirms), except a media store (`voice`, `media`, each on its own)
+that the backup lacks. `includesMedia` = either media store present. `importBackup` result adds `keptMedia`.
+Extra exports: `MEDIA_STORES`, `decodeMediaRecord`, `mediaKeptText(hasVoice, hasImages)`. Import never touches settings `lastRoute`.
 Replace with a backup that has no media keeps the device's voice notes (recordings can't be recovered).
 Everything is validated and decoded before any write; Replace snapshots each store and restores it if a write fails.
 Extra API: `openImportDialog(file) → Promise<result|null>` (summary sheet, Merge (default) / Replace everything);

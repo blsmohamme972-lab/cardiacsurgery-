@@ -384,7 +384,7 @@ function onStorageError(payload) {
   const full = name === 'QuotaExceededError' || /quota|space|full/i.test(payload?.message || '');
   toast(
     full
-      ? 'Storage is full, so changes may not save. Free up space on this device or delete voice notes.'
+      ? 'Storage is full, so changes may not save. Free up space on this device, or delete voice notes or images.'
       : "Couldn't save your last change. Please try again.",
     { kind: 'danger', duration: 8000 },
   );
