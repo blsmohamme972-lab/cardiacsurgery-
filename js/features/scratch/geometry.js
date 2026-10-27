@@ -682,7 +682,7 @@ export function clampPan(pan, viewport, scale, page, margin = 0) {
   const visible = viewport / scale;
   const m = margin / scale;
   if (visible >= page + 2 * m) return -(visible - page) / 2;
-  return clamp(pan, -m, page + m - visible);
+  return clamp(pan, m ? -m : 0, page + m - visible);
 }
 
 /**
@@ -731,8 +731,9 @@ export function insertBox(imgW, imgH, visible, scale) {
   const maxW = visible.w * 0.8;
   const maxH = visible.h * 0.7;
   const natural = 1 / Math.max(scale, 1e-6); // units per image px at 1:1 on screen
-  let k = Math.min(maxW / w0, maxH / h0, natural);
-  if (w0 * k < MIN_SIDE * 4) k = (MIN_SIDE * 4) / w0;
+  const fit = Math.min(maxW / w0, maxH / h0);
+  // Tiny images grow to a usable size (still inside the visible area).
+  const k = Math.max(Math.min(fit, natural), Math.min(fit, (MIN_SIDE * 4) / Math.min(w0, h0)));
   const w = w0 * k;
   const h = h0 * k;
   const cx = clamp(visible.x + visible.w / 2, w / 2, PAGE_W - w / 2);

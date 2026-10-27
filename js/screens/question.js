@@ -160,6 +160,8 @@ export default {
     drawBtn.classList.add('pbar-tool');
     const hlBtn = button({ label: 'Highlight', icon: 'highlighter', variant: 'ghost', onClick: () => void highlightNow() });
     hlBtn.classList.add('pbar-tool');
+    const padBtn = button({ label: 'Scratchpad', icon: 'note', variant: 'ghost', onClick: () => void view.openScratchpad() });
+    padBtn.classList.add('pbar-tool', 'pbar-scratch');
     hlBtn.addEventListener('pointerdown', (e) => e.preventDefault());
     hlBtn.addEventListener('mousedown', (e) => e.preventDefault());
     const nextBtn = /** @type {HTMLButtonElement} */ (
@@ -180,7 +182,7 @@ export default {
     const pbar = h(
       'nav',
       { class: 'pbar', 'aria-label': 'Question navigation' },
-      h('div', { class: 'pbar-inner' }, prevBtn, h('div', { class: 'pbar-tools' }, drawBtn, hlBtn), nextBtn),
+      h('div', { class: 'pbar-inner' }, prevBtn, h('div', { class: 'pbar-tools' }, drawBtn, hlBtn, padBtn), nextBtn),
     );
     const el = h(
       'div',

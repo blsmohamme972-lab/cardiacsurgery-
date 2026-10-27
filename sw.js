@@ -18,7 +18,7 @@
  */
 'use strict';
 
-const VERSION = '2026.10.26-2';
+const VERSION = '2026.10.27-1';
 
 /** Every cache this app creates starts with this prefix (other apps may share the origin). */
 const CACHE_PREFIX = 'cmcq-';
@@ -79,6 +79,11 @@ const APP_SHELL = [
   'js/features/annotate/ink.js',
   'js/features/annotate/ink-toolbar.js',
   'js/features/annotate/scratchpad.js',
+  'js/features/scratch/scene.js',
+  'js/features/scratch/geometry.js',
+  'js/features/scratch/render.js',
+  'js/features/scratch/tools.js',
+  'js/features/scratch/media.js',
   'js/features/notes.js',
   'js/features/voice.js',
   'js/features/askgpt.js',

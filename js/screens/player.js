@@ -8,7 +8,7 @@
  * - Tutor: tap → instant feedback + explanation (question-view.js).
  * - Exam: selection changeable, navigator grid (answered / marked / current),
  *   Finish confirms only when questions are unanswered, time up → auto-finish.
- * - Bottom bar (thumb reach): Prev, Draw, Highlight, Next (→ Finish / See results).
+ * - Bottom bar (thumb reach): Prev, Draw, Highlight, Scratchpad, Next (→ Finish / See results).
  * - Keyboard: 1–5 / A–E choose, ←/→ move, Shift+B (or B once answered) bookmark,
  *   Shift+D (or D once answered) draw, M mark, H highlight, ? shortcuts, Esc.
  * - Always resumable: the index, answers, strikes, marks and timers live in the
@@ -321,6 +321,8 @@ function mountPlayer(initial, byId) {
   // Keep the text selection when the button is pressed.
   hlBtn.addEventListener('pointerdown', (e) => e.preventDefault());
   hlBtn.addEventListener('mousedown', (e) => e.preventDefault());
+  const padBtn = button({ label: 'Scratchpad', icon: 'note', variant: 'ghost', onClick: () => void view?.openScratchpad() });
+  padBtn.classList.add('pbar-tool', 'pbar-scratch');
   const nextLabel = h('span', { class: 'btn-label' }, 'Next');
   const nextIcon = h('span', { class: 'pbar-next-icon', 'aria-hidden': 'true' }, icon('chevron-right', { size: 20 }));
   const nextBtn = /** @type {HTMLButtonElement} */ (
@@ -329,7 +331,7 @@ function mountPlayer(initial, byId) {
   const pbar = h(
     'nav',
     { class: 'pbar', 'aria-label': 'Question navigation' },
-    h('div', { class: 'pbar-inner' }, prevBtn, h('div', { class: 'pbar-tools' }, drawBtn, hlBtn), nextBtn),
+    h('div', { class: 'pbar-inner' }, prevBtn, h('div', { class: 'pbar-tools' }, drawBtn, hlBtn, padBtn), nextBtn),
   );
 
   const el = h(

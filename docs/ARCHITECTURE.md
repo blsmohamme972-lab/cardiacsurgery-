@@ -1095,6 +1095,14 @@ export function openScratchpad(question, { view } = {}) → Promise<void>   // r
   `mediaRepo.prune(qid, referenced ids)` (after undo history is gone). Missing media → placeholder box.
 - Keyboard: V select, P pen, H highlighter, E eraser, S shapes, T text, I image, Space/hand, Ctrl/Cmd+Z / Shift+Z / Y,
   Delete/Backspace, Esc (deselect → close). Every gesture has a visible button.
+- As built (session 5): `openScratchpad(question, {view, choiceOrder})` → Promise (resolves on close, has `.close()`);
+  100% zoom = fit width (range 25–500% of fit). "Over question" = transparent sheet over the real screen (the
+  question is visible, not interactive). Select doubles as lasso (drag on empty paper); double-tap text to edit;
+  pan = two fingers / wheel / Space+drag (one finger when pen-only). Eraser removes strokes and shapes, never
+  images or text. Pinch starting on a selected image scales/rotates it. Images re-encoded WebP (JPEG fallback)
+  0.85, PNG kept when transparent. Failed save keeps the scene in memory + Retry toast; unused media pruned only
+  after a successful save on close. Bottom-bar button class `pbar-scratch`. Module exports are listed in each file's
+  JSDoc. Gaps: text boxes don't rotate; no fill button for shapes.
 
 ## 8. Screens (summary of required UX)
 

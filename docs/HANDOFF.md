@@ -22,6 +22,19 @@ passes the full checks in step 6 below.
 
 
 
+## Session 5b — release 2026.10.27-1 (KirKlin identity + Scratchpad v2) on `main`
+
+- App renamed **KirKlin** (display only; internal ids unchanged). New "Cardiac OR" identity: arterial crimson,
+  venous navy monitor panels, scrub teal, steel neutrals, ECG motif; bundled Inter + Manrope (fonts/, OFL);
+  new icons (heart + ECG, maskable), splash with monitor sweep; every screen restyled; stats chart per the
+  dataviz skill (single hue, accessible tooltip, table view).
+- **Scratchpad v2** (§7.16): opens over the question from the bottom-bar "Scratchpad" button; views Over/Split/Full;
+  select/lasso, pen, highlighter, eraser, shapes, text, images (add/resize/rotate/draw on), undo/redo, zoom/pan, PNG export.
+  DB v2 adds `media` (images), included in backups.
+- Checks at release: validate 0/0, lint 0/0, unit 1018/1018, smoke OK, all 9 tests/visual OK, e2e 24/24, manual SW flow OK.
+- Next: owner feedback from a real phone/iPad (scratchpad gestures, pen, HEIC images untested on devices);
+  adversarial review; retune --chart-2 before any two-series chart; text-box rotation and shape fill button.
+
 ## Session 5 result — v1 RELEASED to `main` (version 2026.10.26-2)
 
 All screens and features are built. At release: `validate` 0/0, `lint` 0/0, unit **945/945**,

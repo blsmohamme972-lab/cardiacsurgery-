@@ -1000,7 +1000,7 @@ export function createQuestionView(question, opts = {}) {
     async openScratchpad() {
       const mod = await loadTool('scratchpad', () => import('./annotate/scratchpad.js'));
       if (!mod || destroyed) return;
-      buildTool('scratchpad', () => mod.openScratchpad(question));
+      buildTool('scratchpad', () => mod.openScratchpad(question, { choiceOrder: state.choiceOrder.slice() }));
     },
     canAskGpt,
     async askGpt() {

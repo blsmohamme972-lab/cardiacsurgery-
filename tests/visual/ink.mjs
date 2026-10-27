@@ -348,32 +348,35 @@ async function main() {
     await page.getByRole('button', { name: 'Scratchpad' }).click();
     const dialog = page.getByRole('dialog');
     await dialog.waitFor();
+    await page.waitForSelector('.scratch[data-ready="true"]');
     const zoomValue = () => page.locator('.scratch-zoom-value').innerText();
-    check((await zoomValue()) === '100%', 'scratchpad opens at 100%');
-    await page.getByRole('button', { name: 'Zoom in' }).click();
+    const padBtn = (name) => page.locator('.scratch').getByRole('button', { name, exact: true });
+    check((await zoomValue()) === '100%', 'scratchpad opens at fit width (100%)');
+    await padBtn('Zoom in').click();
     check((await zoomValue()) === '125%', 'Zoom in → 125%');
-    await page.getByRole('button', { name: 'Zoom out' }).click();
-    await page.getByRole('button', { name: 'Zoom out' }).click();
+    await padBtn('Zoom out').click();
+    await padBtn('Zoom out').click();
     check((await zoomValue()) === '80%', 'Zoom out twice → 80%');
     await page.locator('.scratch-zoom-reset').click();
     check((await zoomValue()) === '100%', 'Reset → 100%');
-    await page.locator('.scratch .ink-toolbar').getByRole('button', { name: 'Pen' }).click();
+    await padBtn('Pen').click();
     const vb = await page.locator('.scratch-viewport').boundingBox();
     await page.mouse.move(vb.x + 60, vb.y + 100);
     await page.mouse.down();
     for (let i = 1; i <= 10; i++) await page.mouse.move(vb.x + 60 + i * 20, vb.y + 100 + Math.sin(i) * 30);
     await page.mouse.up();
     check(
-      (await page.locator('.scratch .ink-toolbar [aria-label="Scratchpad"]').count()) === 0,
+      (await page.locator('.scratch [aria-label="Scratchpad"]').count()) === 0,
       'no scratchpad button inside the scratchpad',
     );
-    await page.locator('.scratch .ink-tb-done').click();
+    await page.locator('.scratch-done').click();
     await page.waitForTimeout(500);
     const scratch = await page.evaluate(async () => {
       const r = await window.__ink.inkRepo.get(window.__ink.question.id, 'scratch');
-      return r ? r.strokes : [];
+      return r && r.scene ? r.scene.items : [];
     });
-    check(scratch.length === 1 && scratch[0].pts[0] > 0.02 && scratch[0].pts[0] < 0.05, 'scratch stroke saved as block "scratch" in page fractions');
+    const s0 = scratch[0];
+    check(scratch.length === 1 && s0.type === 'stroke' && s0.pts[0] > 100 && s0.pts[0] < 500, 'scratch stroke saved as block "scratch" (v2 scene, page units)');
     check((await page.getByRole('dialog').count()) === 0, 'Done closes the scratchpad');
     await context.close();
 
@@ -408,8 +411,10 @@ async function main() {
           await pg.screenshot({ path: path.join(OUT, `toolbar-${name}-${scheme}-popover.png`) });
           await pg.keyboard.press('Escape');
         }
-        await pg.evaluate(() => window.__ink.openScratchpad(window.__ink.question));
-        await pg.getByRole('dialog').waitFor();
+        await pg.evaluate(() => {
+          void window.__ink.openScratchpad(window.__ink.question);
+        });
+        await pg.waitForSelector('.scratch[data-ready="true"]');
         await pg.waitForTimeout(450);
         await pg.screenshot({ path: path.join(OUT, `scratchpad-${name}-${scheme}.png`) });
         await ctx.close();
