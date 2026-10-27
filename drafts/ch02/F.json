@@ -1,0 +1,3613 @@
+[
+ {
+  "id": "F-01",
+  "version": 1,
+  "topic": "Adults: general comments and strategy",
+  "tags": [
+   "circulatory arrest",
+   "thoracoabdominal aorta",
+   "embolism"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "A 68-year-old man with an extensive **thoracoabdominal aortic aneurysm** and a heavily atherosclerotic thoracic aorta is planned for repair using hypothermic CPB with circulatory arrest. Apart from brain protection and optimal exposure, which **additional** benefit of circulatory arrest does the source give for this type of operation?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Freedom from any safe time limit on the arrest period"
+   },
+   {
+    "id": "b",
+    "text": "General agreement that it is the method of choice"
+   },
+   {
+    "id": "c",
+    "text": "No occlusion clamps on the thoracic aorta, so less atheroembolism"
+   },
+   {
+    "id": "d",
+    "text": "Proven superiority over the alternative methods in comparative studies"
+   },
+   {
+    "id": "e",
+    "text": "Better exposure of the brachiocephalic vessels for arch work"
+   }
+  ],
+  "answer": "c",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "For descending thoracic and thoracoabdominal operations, circulatory arrest also ==eliminates the need for thoracic aortic occlusion clamps==, which reduces the risk of **embolization of arteriosclerotic debris**."
+   },
+   {
+    "id": "uses",
+    "type": "table",
+    "caption": "Why hypothermic circulatory arrest is combined with hypothermic CPB in adults",
+    "head": [
+     "Operation",
+     "Benefits"
+    ],
+    "rows": [
+     [
+      "Distal ascending aorta and **aortic arch**",
+      "Brain protection; optimal exposure of the brachiocephalic vessels and proximal descending thoracic aorta"
+     ],
+     [
+      "**Descending thoracic** and **thoracoabdominal** aorta",
+      "Brain protection; optimal exposure; **no occlusion clamps** on the thoracic aorta"
+     ]
+    ]
+   },
+   {
+    "id": "emboli",
+    "type": "flow",
+    "title": "Why avoiding the clamp matters",
+    "steps": [
+     {
+      "text": "No occlusion clamp on the atherosclerotic thoracic aorta"
+     },
+     {
+      "text": "Less embolization of **arteriosclerotic debris**"
+     },
+     {
+      "branches": [
+       {
+        "text": "Brain"
+       },
+       {
+        "text": "Kidneys"
+       },
+       {
+        "text": "Abdominal viscera"
+       },
+       {
+        "text": "Lower extremities"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "pitfall",
+    "type": "callout",
+    "kind": "pitfall",
+    "title": "Not a proven winner",
+    "text": "Opinions differ because alternative methods exist, and **no study has shown one technique superior** to another (details in Chapter 23)."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "it has been used in conjunction with hypothermic CPB, not only to provide brain protection and optimal exposure but also to eliminate the need to place occlusion clamps on the thoracic aorta",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 77"
+   }
+  ],
+  "choiceNotes": {
+   "a": "Safe time limits of the arrest period still apply (discussed in Section I of the chapter).",
+   "b": "**Opinions differ** regarding its use here, because alternative treatment methods exist.",
+   "d": "The source states that **no studies to date** have demonstrated the superiority of one technique over another.",
+   "e": "This is the **exposure** benefit for distal ascending aorta and arch operations, which the stem already excludes."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 77, Adults: General Comments and Strategy"
+   }
+  ]
+ },
+ {
+  "id": "F-02",
+  "version": 1,
+  "topic": "Adults: arterial pressure monitoring",
+  "tags": [
+   "monitoring",
+   "arterial lines",
+   "antegrade cerebral perfusion"
+  ],
+  "difficulty": 1,
+  "reviewed": false,
+  "stem": "During **total arch replacement** under circulatory arrest with antegrade cerebral perfusion (ACP), which arterial pressure monitoring set-up does the source describe as **ideal**?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Bilateral radial lines only, as the lower body is arrested"
+   },
+   {
+    "id": "b",
+    "text": "A single femoral line, as it reflects visceral perfusion"
+   },
+   {
+    "id": "c",
+    "text": "A single right radial line, as it reflects the ACP pressure"
+   },
+   {
+    "id": "d",
+    "text": "The ACP perfusion line pressure alone, without arterial lines"
+   },
+   {
+    "id": "e",
+    "text": "Bilateral radial, lower-body arterial and ACP line pressures"
+   }
+  ],
+  "answer": "e",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "**Multiple arterial lines** are required with ACP: ideally ==bilateral radial==, a ==lower-body== arterial line, and the ==ACP perfusion line pressure==."
+   },
+   {
+    "id": "map",
+    "type": "mindmap",
+    "center": "Pressure monitoring with ACP",
+    "branches": [
+     {
+      "text": "**Right radial**"
+     },
+     {
+      "text": "**Left radial**"
+     },
+     {
+      "text": "**Lower-body** arterial line"
+     },
+     {
+      "text": "**ACP perfusion line** pressure"
+     }
+    ]
+   },
+   {
+    "id": "target",
+    "type": "callout",
+    "kind": "pearl",
+    "title": "Target MAP",
+    "text": "The optimal **mean arterial pressure** is the **same as for routine CPB**, except in patients with **intra- or extracranial arterial obstructions**."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "Ideally, bilateral radial artery pressure and arterial line in the lower body are monitored, and perfusion line pressure of the ACP are also monitored.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 77"
+   }
+  ],
+  "choiceNotes": {
+   "a": "The ideal set-up **also** includes an arterial line in the **lower body** and the ACP perfusion line pressure.",
+   "b": "One lower-body line is only part of the ideal set-up; **bilateral radial** pressures and the ACP line pressure are also monitored.",
+   "c": "**Multiple** arterial lines are required, especially during circulatory arrest with ACP.",
+   "d": "Systemic arterial lines (bilateral radial and lower body) are needed **in addition** to the ACP line pressure."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 77, Arterial Pressure Monitoring"
+   }
+  ]
+ },
+ {
+  "id": "F-03",
+  "version": 1,
+  "topic": "Adults: brain protection",
+  "tags": [
+   "antegrade cerebral perfusion",
+   "aortic arch",
+   "brain protection"
+  ],
+  "difficulty": 1,
+  "reviewed": false,
+  "stem": "A 66-year-old woman undergoes **median sternotomy** for a complicated aortic arch aneurysm. According to the source, what is the **most important advantage** of antegrade cerebral perfusion (ACP) in this setting?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Freedom from the need for systemic hypothermia"
+   },
+   {
+    "id": "b",
+    "text": "Time for a deliberate repair of the complicated arch"
+   },
+   {
+    "id": "c",
+    "text": "An even distribution of intracranial blood flow"
+   },
+   {
+    "id": "d",
+    "text": "Elimination of embolism related to arterial cannulation"
+   },
+   {
+    "id": "e",
+    "text": "An uncluttered operative field around the arch vessels"
+   }
+  ],
+  "answer": "b",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "ACP's most important advantage is the ==luxury of time==, allowing **deliberate repair** of complicated arch aneurysms."
+   },
+   {
+    "id": "pros-cons",
+    "type": "table",
+    "caption": "ACP during median sternotomy for arch surgery",
+    "head": [
+     "Advantage",
+     "Disadvantages"
+    ],
+    "rows": [
+     [
+      "**Luxury of time** for deliberate repair",
+      "**Cluttered** surgical exposure"
+     ],
+     [
+      "",
+      "**Cannulation-origin** embolism"
+     ],
+     [
+      "",
+      "**Uneven** distribution of intracranial blood flow"
+     ]
+    ]
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "the most important advantage of ACP is that it provides the luxury of time, allowing for deliberate repair of complicated arch aneurysms.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 77"
+   }
+  ],
+  "choiceNotes": {
+   "a": "Hypothermia is still used: the source reports an optimal temperature of **20°C to 28°C** with ACP and warns that mild hypothermia is not safe.",
+   "c": "**Uneven distribution** of intracranial blood flow is listed as a **disadvantage** of ACP.",
+   "d": "**Cannulation-origin embolism** is listed as a **disadvantage** of ACP.",
+   "e": "A **cluttered surgical exposure** is listed as a **disadvantage** of ACP."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 77, Brain Protection"
+   }
+  ]
+ },
+ {
+  "id": "F-04",
+  "version": 1,
+  "topic": "Adults: brain protection",
+  "tags": [
+   "stroke",
+   "risk factors",
+   "leukoaraiosis",
+   "shaggy aorta"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "In aortic arch surgery performed using ACP only, the risk factors for **postoperative stroke** were the severity of **leukoaraiosis** of the brain white matter and the presence of a **shaggy aorta**. What conclusion does the source draw?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Stroke is driven mainly by retrograde rather than antegrade perfusion"
+   },
+   {
+    "id": "b",
+    "text": "Stroke is driven mainly by ACP durations beyond 90 minutes"
+   },
+   {
+    "id": "c",
+    "text": "Stroke is driven mainly by the choice of arterial monitoring sites"
+   },
+   {
+    "id": "d",
+    "text": "Stroke is mostly patient- and pathology-dependent"
+   },
+   {
+    "id": "e",
+    "text": "Stroke depends mainly on the cerebral protection technique used"
+   }
+  ],
+  "answer": "d",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "Postoperative stroke after arch surgery is ==primarily patient- and pathology-dependent== and only **marginally** affected by the cerebral protection technique."
+   },
+   {
+    "id": "risk",
+    "type": "table",
+    "caption": "Risk factors in arch surgery using ACP only",
+    "head": [
+     "Outcome",
+     "Risk factors"
+    ],
+    "rows": [
+     [
+      "**Stroke**",
+      "Severity of **leukoaraiosis**; **shaggy** aorta"
+     ],
+     [
+      "**TND** (transient neurologic dysfunction)",
+      "Shaggy aorta; leukoaraiosis; **carotid artery lesion**; **duration of CPB**"
+     ]
+    ]
+   },
+   {
+    "id": "ehrlich-intro",
+    "type": "p",
+    "text": "Other data also stress **patient-related** factors. In 443 aortic arch repairs, significant predictors of TND were:"
+   },
+   {
+    "id": "ehrlich",
+    "type": "list",
+    "items": [
+     "**older age**",
+     "**HCA time**",
+     "**coronary artery disease**",
+     "**hemodynamic instability**",
+     "**emergency** operation"
+    ]
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "Therefore, postoperative stroke is primarily patient- and pathology-dependent and is only marginally affected by cerebral protection technique.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 77"
+   }
+  ],
+  "choiceNotes": {
+   "a": "A meta-analysis found postoperative **stroke and TND similar** between ACP and RCP.",
+   "b": "ACP of **more than 90 minutes** was **not** associated with an increased risk of mortality or poor neurologic outcome.",
+   "c": "Monitoring sites are not cited as stroke risk factors; the risk factors are **patient- and pathology-related**.",
+   "e": "The source concludes the opposite: stroke is **only marginally** affected by cerebral protection technique."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 77, Brain Protection"
+   }
+  ]
+ },
+ {
+  "id": "F-05",
+  "version": 1,
+  "topic": "Adults: brain protection",
+  "tags": [
+   "antegrade cerebral perfusion",
+   "DHCA",
+   "long arrest"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "A complex **total arch replacement** is expected to need a **long period** of brain protection. Which statement reflects the **general consensus** described in the source?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "ACP beyond 90 minutes clearly increases death and poor neurologic outcome"
+   },
+   {
+    "id": "b",
+    "text": "ACP gives better, more uniform protection than DHCA for long durations"
+   },
+   {
+    "id": "c",
+    "text": "The protection method has no influence on transient neurologic dysfunction"
+   },
+   {
+    "id": "d",
+    "text": "DHCA alone gives more uniform brain protection than ACP for long durations"
+   },
+   {
+    "id": "e",
+    "text": "ACP and DHCA protect the brain equally, whatever the duration"
+   }
+  ],
+  "answer": "b",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "There is ==general consensus== that **ACP** provides **better and more uniform** brain protection than **DHCA** for **long durations**."
+   },
+   {
+    "id": "evidence",
+    "type": "list",
+    "items": [
+     "ACP of **> 90 minutes**: no increased risk of mortality or poor neurologic outcome.",
+     "Total arch replacement allocated alternately to DHCA or ACP: transient brain dysfunction **significantly higher with DHCA**.",
+     "717 survivors: brain-protection method did **not** influence stroke, but ACP **reduced TND**.",
+     "Meta-analysis: stroke rates **significantly lower with ACP** than with DHCA.",
+     "Canadian multicenter data: ACP **protective** against mortality, stroke and composite outcomes versus HCA alone."
+    ]
+   },
+   {
+    "id": "pitfall",
+    "type": "callout",
+    "kind": "pitfall",
+    "title": "Few randomized data",
+    "text": "There have been **few randomized comparative studies** of cerebral protection strategies during aortic arch repair."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "There is general consensus that ACP can provide better and more uniform brain protection than can DHCA for long durations.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 77"
+   }
+  ],
+  "choiceNotes": {
+   "a": "ACP of **more than 90 minutes** was **not** associated with an increased risk of mortality or poor neurologic outcome.",
+   "c": "In 717 survivors of ascending and arch surgery, ACP **significantly reduced TND**, and transient brain dysfunction was higher with DHCA in total arch replacement.",
+   "d": "The consensus is the reverse: **ACP** is better and more uniform than DHCA for long durations.",
+   "e": "The consensus favors **ACP** over DHCA for **long** durations."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 77, Brain Protection"
+   },
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 78, Brain Protection"
+   }
+  ]
+ },
+ {
+  "id": "F-06",
+  "version": 1,
+  "topic": "Adults: brain protection",
+  "tags": [
+   "antegrade cerebral perfusion",
+   "retrograde cerebral perfusion",
+   "outcomes"
+  ],
+  "difficulty": 3,
+  "reviewed": false,
+  "stem": "Comparing **antegrade (ACP)** with **retrograde (RCP)** cerebral perfusion for aortic arch surgery, what do the large data sets cited in the source (a 15-study meta-analysis, a Canadian multicenter collaborative and a Japanese national database) show?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Markedly lower stroke rates with RCP than with ACP"
+   },
+   {
+    "id": "b",
+    "text": "Broadly similar stroke and neurologic outcomes"
+   },
+   {
+    "id": "c",
+    "text": "Shorter ventilation time and ICU stay with RCP"
+   },
+   {
+    "id": "d",
+    "text": "Clearly better survival with RCP than with ACP"
+   },
+   {
+    "id": "e",
+    "text": "Higher stroke rates with ACP than with DHCA"
+   }
+  ],
+  "answer": "b",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "ACP and RCP gave ==similar stroke and neurologic outcomes== in the large comparisons; the Japanese data showed only **prolonged ventilation and ICU stay** with RCP."
+   },
+   {
+    "id": "data",
+    "type": "table",
+    "caption": "ACP versus RCP in the cited data",
+    "head": [
+     "Data set",
+     "Finding"
+    ],
+    "rows": [
+     [
+      "Meta-analysis, 15 studies (5060 patients)",
+      "Stroke and TND **similar**"
+     ],
+     [
+      "Canadian multicenter collaborative (2520 patients)",
+      "RCP outcomes **similar** to ACP; ACP protective versus HCA alone"
+     ],
+     [
+      "Japanese database, elective total arch (propensity-matched)",
+      "No difference in survival or neurologic outcome; **longer ventilation and ICU stay** with RCP"
+     ]
+    ]
+   },
+   {
+    "id": "pitfall",
+    "type": "callout",
+    "kind": "pitfall",
+    "title": "Starting with RCP",
+    "text": "Patients undergoing RCP had a **higher incidence of transient neurologic dysfunction** when starting with RCP for **total arch replacement**."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "A recent meta-analysis of 5060 patients in 15 studies by Hu and colleagues suggested that postoperative stroke and TND were similar between ACP and RCP.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 78"
+   }
+  ],
+  "choiceNotes": {
+   "a": "The 15-study meta-analysis found postoperative **stroke and TND similar** between ACP and RCP.",
+   "c": "In the propensity-matched Japanese analysis, the RCP group had **prolonged** ventilation time and ICU stay.",
+   "d": "The propensity-matched analysis showed **essentially no difference** in postoperative survival.",
+   "e": "A meta-analysis found stroke rates **significantly lower** with ACP than with DHCA."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 78, Brain Protection"
+   }
+  ]
+ },
+ {
+  "id": "F-07",
+  "version": 1,
+  "topic": "Adults: amount of brain perfusion in ACP",
+  "tags": [
+   "antegrade cerebral perfusion",
+   "flow",
+   "perfusion pressure"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "During **antegrade cerebral perfusion** for aortic arch surgery, which amount of brain perfusion and perfusion pressure were used in the **standardized** protocol of Kazui and colleagues?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "40 mL/kg/min at a pressure of about 50 mmHg"
+   },
+   {
+    "id": "b",
+    "text": "200 mL/kg/min at a pressure of about 30 mmHg"
+   },
+   {
+    "id": "c",
+    "text": "120 mL/kg/min at a pressure of about 70 mmHg"
+   },
+   {
+    "id": "d",
+    "text": "10–15 mL/kg/min at a pressure of about 50 mmHg"
+   },
+   {
+    "id": "e",
+    "text": "400–500 mL/min at a pressure of about 70 mmHg"
+   }
+  ],
+  "answer": "d",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "Kazui standardized ACP at ==10 to 15 mL/kg/min== with pressure maintained around ==50 mmHg==."
+   },
+   {
+    "id": "compare",
+    "type": "table",
+    "caption": "Two ACP set-ups in the source",
+    "head": [
+     "",
+     "Kazui",
+     "Bachet"
+    ],
+    "rows": [
+     [
+      "Flow",
+      "**10–15 mL/kg/min**",
+      "**400–500 mL/min** (lower)"
+     ],
+     [
+      "Pressure",
+      "Around **50 mmHg**",
+      "**70 mmHg** (higher)"
+     ],
+     [
+      "Core temperature",
+      "Not specified",
+      "**10°C to 12°C** (lower)"
+     ]
+    ],
+    "emphasis": {
+     "col": 1
+    }
+   },
+   {
+    "id": "pearl",
+    "type": "callout",
+    "kind": "pearl",
+    "title": "Upper limit during rewarming",
+    "text": "When ACP flow is increased during rewarming, total flow is kept **below 1000 mL/min** to avoid **brain edema**."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "Kazui and colleagues standardized the amount of brain perfusion during ACP at 10 to 15 mL/kg/min, while pressure was maintained around 50 mmHg.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 78"
+   }
+  ],
+  "choiceNotes": {
+   "a": "**40 mL/kg/min** is the flow for isolated cerebral perfusion in **neonatal** continuous ACP.",
+   "b": "**200 mL/kg/min** is the **neonatal** full CPB flow at the start of continuous ACP set-up.",
+   "c": "**120 mL/kg/min** is a **neonatal** CPB flow after cooling, not the adult ACP standard.",
+   "e": "This is the **lower-flow, higher-pressure** set-up of Bachet and colleagues, used at a core temperature of 10°C to 12°C."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 78, Amount of Brain Perfusion in ACP"
+   },
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 78, Body Temperature"
+   }
+  ]
+ },
+ {
+  "id": "F-08",
+  "version": 1,
+  "topic": "Adults: bilateral versus unilateral perfusion",
+  "tags": [
+   "antegrade cerebral perfusion",
+   "unilateral",
+   "circle of Willis"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "A surgeon plans **right unilateral** antegrade cerebral perfusion for an arch replacement in an elderly patient. Which anatomic fact cited in the source is a reason for concern?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Most clinical studies included only total arch replacements"
+   },
+   {
+    "id": "b",
+    "text": "The right vertebral artery is the main collateral supply to the spinal cord"
+   },
+   {
+    "id": "c",
+    "text": "Vertebral artery hypoplasia or stenosis is seen mainly in the young"
+   },
+   {
+    "id": "d",
+    "text": "The circle of Willis is incomplete in 20% to 30% of the normal population"
+   },
+   {
+    "id": "e",
+    "text": "Transcranial Doppler shows less ischemic risk with right unilateral ACP"
+   }
+  ],
+  "answer": "d",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "The ==circle of Willis is incomplete in 20% to 30%== of the normal population, so perfusing one side may not reach the whole brain."
+   },
+   {
+    "id": "why",
+    "type": "mindmap",
+    "center": "Concerns with unilateral ACP",
+    "branches": [
+     {
+      "text": "**Incomplete circle of Willis**",
+      "children": [
+       "20% to 30% of normal people"
+      ]
+     },
+     {
+      "text": "**Vertebral arteries**",
+      "children": [
+       "Sometimes hypoplastic or stenotic",
+       "Especially in the elderly"
+      ]
+     },
+     {
+      "text": "**Left subclavian artery**",
+      "children": [
+       "Often supplies collaterals to the spinal cord"
+      ]
+     },
+     {
+      "text": "**TCD assessment**",
+      "children": [
+       "More malperfusion with right unilateral ACP"
+      ]
+     }
+    ]
+   },
+   {
+    "id": "controversy",
+    "type": "callout",
+    "kind": "pitfall",
+    "title": "Still controversial",
+    "text": "Unilateral, bilateral or triple perfusion remains debated because most studies **mix hemiarch and total arch** patients; one cannula for the whole brain has been reported with a low stroke rate."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "the incompleteness of the brain circle of Willis is reported as 20% to 30% in the normal population and sometimes the vertebral arteries are hypoplastic or stenotic, especially in elderly patients.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 78"
+   }
+  ],
+  "choiceNotes": {
+   "a": "The controversy persists **because** most clinical studies mixed **hemiarch and total arch** replacement.",
+   "b": "The source names the **left subclavian artery** as an important supplier of collaterals to the spinal cord.",
+   "c": "Hypoplastic or stenotic vertebral arteries occur **especially in elderly** patients.",
+   "e": "Functional assessment with TCD showed a **higher** risk of ischemic brain damage with right unilateral ACP than with bilateral ACP."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 78, Bilateral Versus Unilateral Perfusion"
+   }
+  ]
+ },
+ {
+  "id": "F-09",
+  "version": 1,
+  "topic": "Adults: bilateral versus unilateral perfusion",
+  "tags": [
+   "antegrade cerebral perfusion",
+   "bilateral",
+   "duration"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "A total arch replacement is expected to need a **long ACP time**. Many surgeons perfuse only the brachiocephalic and left common carotid arteries. What did a **meta-analysis of ACP** show about bilateral versus unilateral brain perfusion?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Unilateral perfusion became more superior as ACP time increased"
+   },
+   {
+    "id": "b",
+    "text": "Unilateral perfusion was superior once mild hypothermia was used"
+   },
+   {
+    "id": "c",
+    "text": "Bilateral perfusion became more superior as ACP time increased"
+   },
+   {
+    "id": "d",
+    "text": "The two methods were equal at every ACP duration"
+   },
+   {
+    "id": "e",
+    "text": "Bilateral perfusion was superior only for short ACP times"
+   }
+  ],
+  "answer": "c",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "A meta-analysis of ACP showed ==greater superiority of bilateral brain perfusion== over unilateral perfusion **as the time of ACP increased**."
+   },
+   {
+    "id": "flow",
+    "type": "flow",
+    "title": "Why duration matters",
+    "steps": [
+     {
+      "text": "Unilateral ACP: **brachiocephalic + left common carotid** only"
+     },
+     {
+      "text": "Concerns: circle of Willis incomplete in **20% to 30%**; vertebral arteries may be hypoplastic or stenotic"
+     },
+     {
+      "text": "Longer ACP time",
+      "label": "plus"
+     },
+     {
+      "text": "**Bilateral** perfusion increasingly superior (meta-analysis)"
+     }
+    ]
+   },
+   {
+    "id": "lsa",
+    "type": "callout",
+    "kind": "pearl",
+    "title": "Do not forget the cord",
+    "text": "The **left subclavian artery** is often a supplier of the collateral vessels to the **spinal cord**."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "A meta-analysis of ACP by Angeloni and colleagues demonstrated greater superiority of bilateral brain perfusion over unilateral perfusion as the time of ACP increased.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 78"
+   }
+  ],
+  "choiceNotes": {
+   "a": "The meta-analysis showed the reverse: **bilateral** perfusion gained superiority with longer ACP.",
+   "b": "Mild hypothermia is **not safe** for brain, cord and viscera, **especially** with unilateral ACP.",
+   "d": "The superiority of **bilateral** perfusion **grew** with ACP time.",
+   "e": "The advantage of bilateral perfusion **increased** as ACP time increased, not the reverse."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 78, Bilateral Versus Unilateral Perfusion"
+   }
+  ]
+ },
+ {
+  "id": "F-10",
+  "version": 1,
+  "topic": "Adults: body temperature",
+  "tags": [
+   "temperature",
+   "antegrade cerebral perfusion",
+   "moderate hypothermia"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "A surgeon wants to avoid **deep hypothermia** during arch replacement with antegrade cerebral perfusion because of concerns about **coagulopathy and lung injury**. Which body temperature range has been reported as **optimal** in the setting of antegrade ACP?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "28°C to 34°C"
+   },
+   {
+    "id": "b",
+    "text": "16°C to 18°C"
+   },
+   {
+    "id": "c",
+    "text": "30°C to 32°C"
+   },
+   {
+    "id": "d",
+    "text": "10°C to 12°C"
+   },
+   {
+    "id": "e",
+    "text": "20°C to 28°C"
+   }
+  ],
+  "answer": "e",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "With antegrade ACP, the optimal temperature has been reported as ==20°C to 28°C==; mild hypothermia is **not safe**, especially with **unilateral** ACP."
+   },
+   {
+    "id": "points",
+    "type": "list",
+    "items": [
+     "Trend to avoid **deep** hypothermia: associated **coagulopathy** or **lung injury**.",
+     "**Mild** hypothermia is not safe for **brain, cord and viscera**, especially with unilateral ACP.",
+     "Temperature during circulatory arrest can be safely raised to **28°C** with a **high ACP flow** rate, without more neurologic events.",
+     "Canadian multicenter study: **nadir > 24°C** predicted lower mortality, stroke and composite outcomes.",
+     "Under moderate hypothermia or normothermia, **monitor spinal cord and visceral function** during lower-body arrest."
+    ]
+   },
+   {
+    "id": "site",
+    "type": "callout",
+    "kind": "pearl",
+    "title": "Always state the site",
+    "text": "Report **where** temperature was measured: tympanic, nasopharyngeal, esophageal, brain, rectal or urethral."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "The optimal temperature in the setting of antegrade ACP has been reported to be between 20°C and 28°C.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 78"
+   }
+  ],
+  "choiceNotes": {
+   "a": "This is **mild hypothermia** (28.1°C to 34°C), which is **not safe** for protection of brain, cord and viscera, especially with unilateral ACP.",
+   "b": "**16°C to 18°C** nasopharyngeal is the criterion for establishing circulatory arrest in **neonates and infants**.",
+   "c": "**30°C to 32°C** is the temperature pediatric surface cooling usually reaches by the time CPB starts.",
+   "d": "**10°C to 12°C** is the low core temperature used with Bachet's lower-flow, higher-pressure ACP, not the reported optimal range."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 78, Body Temperature"
+   },
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 31, Definition of Hypothermia"
+   }
+  ]
+ },
+ {
+  "id": "F-11",
+  "version": 1,
+  "topic": "Adults: body temperature",
+  "tags": [
+   "temperature",
+   "visceral ischemia",
+   "rectal temperature"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "During arch replacement with antegrade cerebral perfusion under **moderate hypothermia**, the lower body is in circulatory arrest. Below which **rectal temperature** should the patient be kept, and why?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Below 24°C, because of the risk of coagulopathy"
+   },
+   {
+    "id": "b",
+    "text": "Below 30°C, because of the risk of brain edema"
+   },
+   {
+    "id": "c",
+    "text": "Below 30°C, because of the risk of visceral ischemia"
+   },
+   {
+    "id": "d",
+    "text": "Below 34°C, because of the risk of spinal cord injury"
+   },
+   {
+    "id": "e",
+    "text": "Below 20°C, because of the risk of lung injury"
+   }
+  ],
+  "answer": "c",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "Keep the ==rectal temperature below 30°C== during circulatory arrest, because **visceral ischemia** can occur in patients with poor visceral circulation."
+   },
+   {
+    "id": "flow",
+    "type": "flow",
+    "title": "Lower body during ACP",
+    "steps": [
+     {
+      "text": "ACP perfuses the **brain** only"
+     },
+     {
+      "text": "Lower body (cord, viscera) in **circulatory arrest**"
+     },
+     {
+      "text": "Rectal temperature **below 30°C**",
+      "label": "protect with"
+     },
+     {
+      "text": "Under moderate hypothermia or normothermia: **monitor spinal cord and visceral function**",
+      "label": "and"
+     }
+    ]
+   },
+   {
+    "id": "pitfall",
+    "type": "callout",
+    "kind": "pitfall",
+    "title": "Mild hypothermia is unsafe",
+    "text": "Mild hypothermia is **not safe** for brain, **cord and viscera**, especially with unilateral ACP."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "The rectal temperature should be kept below 30°C during CA because risks of visceral ischemia do exist in patients who have poor visceral circulation.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 78"
+   }
+  ],
+  "choiceNotes": {
+   "a": "Coagulopathy is a reason to **avoid deep** hypothermia; the rectal limit during arrest is **30°C**.",
+   "b": "Brain edema is the reason to keep **total ACP flow below 1000 mL/min** during rewarming, not the rectal temperature limit.",
+   "d": "The stated rectal limit is **30°C**, and the stated risk is **visceral ischemia**.",
+   "e": "Lung injury is another reason to **avoid deep** hypothermia, not to require it."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 78, Body Temperature"
+   }
+  ]
+ },
+ {
+  "id": "F-12",
+  "version": 1,
+  "topic": "Adults: body temperature",
+  "tags": [
+   "moderate hypothermia",
+   "DHCA",
+   "stroke",
+   "meta-analysis"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "A meta-analysis of 9 studies compared aortic arch surgery using **deep hypothermic circulatory arrest (DHCA)** with **moderate hypothermic circulatory arrest (MHCA) plus ACP**. What did it find?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Significantly lower stroke with MHCA + ACP; the rest comparable"
+   },
+   {
+    "id": "b",
+    "text": "Significantly lower stroke with DHCA; other outcomes comparable"
+   },
+   {
+    "id": "c",
+    "text": "Significantly lower mortality with MHCA + ACP; stroke comparable"
+   },
+   {
+    "id": "d",
+    "text": "Significantly less bleeding with MHCA + ACP; stroke comparable"
+   },
+   {
+    "id": "e",
+    "text": "Significantly less renal failure with DHCA; stroke comparable"
+   }
+  ],
+  "answer": "a",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "Stroke rates were ==significantly lower with MHCA + ACP== than with DHCA, with **comparable** temporary neurologic deficit, mortality, renal failure and bleeding."
+   },
+   {
+    "id": "table",
+    "type": "table",
+    "caption": "MHCA + ACP versus DHCA (meta-analysis of 9 studies)",
+    "head": [
+     "Outcome",
+     "Result"
+    ],
+    "rows": [
+     [
+      "**Stroke**",
+      "**Significantly lower** with MHCA + ACP"
+     ],
+     [
+      "Temporary neurologic deficit",
+      "Comparable"
+     ],
+     [
+      "Mortality",
+      "Comparable"
+     ],
+     [
+      "Renal failure",
+      "Comparable"
+     ],
+     [
+      "Bleeding",
+      "Comparable"
+     ]
+    ],
+    "emphasis": {
+     "row": 0
+    }
+   },
+   {
+    "id": "canada",
+    "type": "callout",
+    "kind": "pearl",
+    "title": "Consistent signal",
+    "text": "In the Canadian multicenter study, a **nadir temperature > 24°C** predicted **lower** mortality, stroke and composite outcomes."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "stroke rates were significantly lower in patients undergoing MHCA + ACP, while comparable results were observed with temporary neurologic deficit, mortality, renal failure, or bleeding.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 78"
+   }
+  ],
+  "choiceNotes": {
+   "b": "Stroke rates were significantly lower with **MHCA + ACP**, not with DHCA.",
+   "c": "**Mortality** was comparable; the significant difference was in **stroke**.",
+   "d": "**Bleeding** was comparable; the significant difference was in **stroke**.",
+   "e": "**Renal failure** was comparable; stroke was significantly lower with MHCA + ACP."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 78, Body Temperature"
+   }
+  ]
+ },
+ {
+  "id": "F-13",
+  "version": 1,
+  "topic": "Adults: rewarming during arch surgery",
+  "tags": [
+   "rewarming",
+   "anastomosis sequence",
+   "CPB duration"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "During **total arch replacement** with ACP, the **distal anastomosis** has just been completed. To **minimize CPB duration**, which sequence does the source recommend?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Arch-vessel anastomoses first, then proximal anastomosis, then start rewarming"
+   },
+   {
+    "id": "b",
+    "text": "Proximal anastomosis and arch vessels first, keeping the lower body arrested"
+   },
+   {
+    "id": "c",
+    "text": "Start rewarming, then arch vessels, then the proximal anastomosis"
+   },
+   {
+    "id": "d",
+    "text": "Rewarm with distal reperfusion, then proximal anastomosis, then arch vessels"
+   },
+   {
+    "id": "e",
+    "text": "Delay rewarming until all anastomoses are complete to protect the brain"
+   }
+  ],
+  "answer": "d",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "Start ==rewarming as soon as the distal anastomosis is completed== and antegrade distal reperfusion begins through the **graft branch**; then do the **proximal** anastomosis **before** the arch vessels."
+   },
+   {
+    "id": "seq",
+    "type": "flow",
+    "title": "Sequence to minimize CPB time",
+    "steps": [
+     {
+      "text": "**Distal** anastomosis completed"
+     },
+     {
+      "text": "Antegrade **lower-body reperfusion** through the prosthetic graft branch + **start rewarming**"
+     },
+     {
+      "text": "**Proximal** anastomosis",
+      "label": "then"
+     },
+     {
+      "text": "**Arch-vessel** anastomoses",
+      "label": "then"
+     }
+    ]
+   },
+   {
+    "id": "pearl",
+    "type": "callout",
+    "kind": "pearl",
+    "title": "Watch the brain while rewarming",
+    "text": "Brain oxygenation tends to **decrease** during rewarming, so ACP flow is increased to keep **NIRS** at preoperative values."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "To minimize CPB duration, rewarming should be started as soon as the distal anastomosis is completed and antegrade distal reperfusion to the lower body begins through the prosthetic graft branch.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 78"
+   }
+  ],
+  "choiceNotes": {
+   "a": "Rewarming should start **as soon as** the distal anastomosis is done and distal reperfusion begins, not at the end.",
+   "b": "Antegrade **distal reperfusion** of the lower body begins **right after** the distal anastomosis.",
+   "c": "The **proximal** anastomosis is performed **before** the arch-vessel anastomoses.",
+   "e": "Delaying rewarming lengthens CPB; the source starts rewarming **after the distal anastomosis**."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 78, Body Temperature"
+   }
+  ]
+ },
+ {
+  "id": "F-14",
+  "version": 1,
+  "topic": "Adults: rewarming during arch surgery",
+  "tags": [
+   "rewarming",
+   "NIRS",
+   "brain edema",
+   "antegrade cerebral perfusion"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "During rewarming after total arch replacement, cerebral **NIRS** values fall below preoperative levels while ACP continues. Which adjustment does the source recommend?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Speed up rewarming to restore cerebral metabolism sooner"
+   },
+   {
+    "id": "b",
+    "text": "Reduce ACP flow, since rewarming raises cerebral blood flow"
+   },
+   {
+    "id": "c",
+    "text": "Raise ACP flow to restore NIRS, total flow under 1000 mL/min"
+   },
+   {
+    "id": "d",
+    "text": "Increase ACP flow freely, since higher flow carries no risk"
+   },
+   {
+    "id": "e",
+    "text": "Accept the fall, since cerebral oxygenation rises later in rewarming"
+   }
+  ],
+  "answer": "c",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "Brain oxygenation tends to fall during rewarming: ==increase ACP flow== to keep **NIRS** at preoperative values, but keep total flow ==below 1000 mL/min== to avoid **brain edema**."
+   },
+   {
+    "id": "flow",
+    "type": "flow",
+    "steps": [
+     {
+      "text": "Rewarming"
+     },
+     {
+      "text": "Brain oxygenation (NIRS) **falls**"
+     },
+     {
+      "text": "**Increase ACP flow**",
+      "label": "respond"
+     },
+     {
+      "branches": [
+       {
+        "label": "goal",
+        "text": "Preoperative NIRS values"
+       },
+       {
+        "label": "limit",
+        "text": "Total flow **< 1000 mL/min** (brain edema)"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "pitfall",
+    "type": "callout",
+    "kind": "pitfall",
+    "title": "Do not rush rewarming",
+    "text": "**Faster rewarming** may be associated with a **higher incidence of TND**."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "However, the total flow should be kept below 1000 mL · min–1 to avoid inducing a brain edema.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 78"
+   }
+  ],
+  "choiceNotes": {
+   "a": "**Faster rewarming** may be associated with a **higher** incidence of TND.",
+   "b": "ACP flow is **increased**, because brain oxygenation tends to **decrease** during rewarming.",
+   "d": "Total flow must stay **below 1000 mL/min** to avoid **brain edema**.",
+   "e": "The source acts on the fall: ACP flow is increased to **maintain preoperative NIRS values**."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 78, Body Temperature"
+   }
+  ]
+ },
+ {
+  "id": "F-15",
+  "version": 1,
+  "topic": "Adults: rewarming during arch surgery",
+  "tags": [
+   "rewarming",
+   "cerebral metabolism",
+   "cerebral oxygen saturation"
+  ],
+  "difficulty": 3,
+  "reviewed": false,
+  "stem": "Which statement about the brain during **rewarming** after hypothermic circulatory arrest with selective cerebral perfusion is supported by the source?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Regional SO~2~ falls significantly early in rewarming"
+   },
+   {
+    "id": "b",
+    "text": "Cerebral oxygen metabolism returns to baseline promptly, ahead of blood flow"
+   },
+   {
+    "id": "c",
+    "text": "The effect of rewarming on cerebral metabolism is fully elucidated"
+   },
+   {
+    "id": "d",
+    "text": "Faster rewarming is associated with fewer transient neurologic deficits"
+   },
+   {
+    "id": "e",
+    "text": "Cerebral blood flow recovers late while oxygen metabolism recovers early"
+   }
+  ],
+  "answer": "a",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "Regional ==SO~2~ is significantly decreased in the early rewarming phase==, between 30 and 60 minutes after the start of selective cerebral perfusion."
+   },
+   {
+    "id": "mismatch",
+    "type": "table",
+    "caption": "Recovery during rewarming after moderate hypothermic CPB",
+    "head": [
+     "Variable",
+     "Recovery"
+    ],
+    "rows": [
+     [
+      "**Cerebral blood flow**",
+      "Very **prompt**"
+     ],
+     [
+      "**Cerebral metabolic rate for oxygen**",
+      "**Delayed** return to baseline"
+     ]
+    ]
+   },
+   {
+    "id": "meaning",
+    "type": "flow",
+    "steps": [
+     {
+      "text": "Early rewarming"
+     },
+     {
+      "text": "**Cerebral desaturation**"
+     },
+     {
+      "text": "Suggested correlation with **cerebral damage**"
+     }
+    ]
+   },
+   {
+    "id": "pitfall",
+    "type": "callout",
+    "kind": "pitfall",
+    "text": "**Faster rewarming** may be associated with a **higher incidence of TND**."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "This phenomenon suggests a correlation between cerebral desaturation during early rewarming phase and cerebral damage.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 79"
+   }
+  ],
+  "choiceNotes": {
+   "b": "A randomized study showed a **delay** in return of cerebral metabolic rate for oxygen, in contrast to **prompt** recovery of cerebral blood flow.",
+   "c": "This effect **has not been extensively elucidated** in the literature.",
+   "d": "Faster rewarming may be associated with a **higher** incidence of TND.",
+   "e": "It is the reverse: **blood flow** recovers **promptly** and **oxygen metabolism** is **delayed**."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 78, Body Temperature"
+   },
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 79, Body Temperature"
+   }
+  ]
+ },
+ {
+  "id": "F-16",
+  "version": 1,
+  "topic": "Adults: left thoracotomy for distal aortic arch surgery",
+  "tags": [
+   "left thoracotomy",
+   "open proximal anastomosis",
+   "deep hypothermia"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "During descending thoracic aortic replacement through a **left thoracotomy**, a huge aneurysm precludes clamping of the aortic arch, so an **open proximal anastomosis under deep hypothermia** is planned. What technical advantage does open anastomosis offer?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Safer clamping of the aortic arch close to the aneurysm"
+   },
+   {
+    "id": "b",
+    "text": "Avoidance of femoral cannulation for cardiopulmonary bypass"
+   },
+   {
+    "id": "c",
+    "text": "Avoidance of deep hypothermia and its associated risks"
+   },
+   {
+    "id": "d",
+    "text": "Less risk of injuring nearby structures such as the esophagus"
+   },
+   {
+    "id": "e",
+    "text": "Wide circumferential dissection of the aorta before suturing"
+   }
+  ],
+  "answer": "d",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "Open anastomosis lets the graft be sewn with ==reduced risk of injuring neighboring structures==."
+   },
+   {
+    "id": "structures",
+    "type": "mindmap",
+    "center": "Structures spared by open proximal anastomosis",
+    "branches": [
+     {
+      "text": "**Esophagus**"
+     },
+     {
+      "text": "**Lung and airway**",
+      "children": [
+       "Left lung",
+       "Left main bronchus"
+      ]
+     },
+     {
+      "text": "**Vessels**",
+      "children": [
+       "Pulmonary artery",
+       "Hemiazygos vein",
+       "Thoracic duct"
+      ]
+     },
+     {
+      "text": "**Nerves**",
+      "children": [
+       "Left vagal nerve",
+       "Left recurrent nerve",
+       "Sympathetic trunk"
+      ]
+     }
+    ]
+   },
+   {
+    "id": "rcp",
+    "type": "callout",
+    "kind": "pearl",
+    "title": "Brain during the open anastomosis",
+    "text": "RCP has been applied by **raising central venous pressure** or by perfusing the **superior vena cava** or **right atrium**."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "Open anastomosis facilitates anastomosing the graft with reduced risk of injuring the neighboring structure, such as esophagus, left lung, pulmonary artery, left main bronchus, thoracic duct, hemiazygos vein, sympathetic trunk, left vagal nerve, and left recurrent nerve.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 79"
+   }
+  ],
+  "choiceNotes": {
+   "a": "The technique is used **because** the aneurysm precludes clamping, and the arch is **not clamped**.",
+   "b": "CPB uses the **left common femoral artery** and **right common femoral vein**.",
+   "c": "The open proximal anastomosis is performed **under deep hypothermia**.",
+   "e": "Dissection of the aorta should be kept **minimal** for the anastomosis."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 79, Left Thoracotomy for Distal Aortic Arch Surgery"
+   },
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 79, Proximal Open Anastomosis"
+   }
+  ]
+ },
+ {
+  "id": "F-17",
+  "version": 1,
+  "topic": "Adults: left thoracotomy for distal aortic arch surgery",
+  "tags": [
+   "left thoracotomy",
+   "COPD",
+   "patient selection"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "Which patient feature does the source give as a **restriction** on replacing the descending aorta through a left thoracotomy with open proximal anastomosis under **deep hypothermia**?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Insufficient venous drainage through the femoral venous cannula"
+   },
+   {
+    "id": "b",
+    "text": "A lesion extending from the distal arch to the proximal descending aorta"
+   },
+   {
+    "id": "c",
+    "text": "A shaggy atherosclerotic aorta needing extra arterial inflow"
+   },
+   {
+    "id": "d",
+    "text": "A huge aneurysm that precludes clamping of the aortic arch"
+   },
+   {
+    "id": "e",
+    "text": "Severe COPD with dense adhesions of the left lung to the aorta"
+   }
+  ],
+  "answer": "e",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "In ==severe COPD==, the left lung is usually **densely adherent** to the aorta; manipulation causes significant lung damage and possible **postoperative disability**."
+   },
+   {
+    "id": "limits",
+    "type": "list",
+    "items": [
+     "Restrictions on descending aortic replacement under deep hypothermia:",
+     {
+      "text": "Patient factors",
+      "items": [
+       "**Severe COPD** with left lung adhesions",
+       "**Advanced age**",
+       "**Comorbidities** of the vital organs",
+       "**Severe frailty**"
+      ]
+     }
+    ]
+   },
+   {
+    "id": "flow",
+    "type": "flow",
+    "steps": [
+     {
+      "text": "Severe COPD"
+     },
+     {
+      "text": "Severe **adhesions** of left lung to aorta"
+     },
+     {
+      "text": "Surgical manipulation -> significant **lung damage**"
+     },
+     {
+      "text": "Postoperative **disability**"
+     }
+    ]
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "Patients with severe chronic obstructive lung disease (COPD) usually have severe adhesions of the left lung to the aorta and surgical manipulation causes significant lung damage, which can lead to postoperative disability.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 79"
+   }
+  ],
+  "choiceNotes": {
+   "a": "This is managed with an **additional angled venous cannula in the left pulmonary artery**.",
+   "b": "This is the lesion the approach is designed for, through the **fourth intercostal space**.",
+   "c": "A shaggy aorta is managed by **dividing arterial inflow** between the femoral and axillary arteries.",
+   "d": "This is the **indication** for open proximal anastomosis under deep hypothermia, not a restriction."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 79, Left Thoracotomy for Distal Aortic Arch Surgery"
+   }
+  ]
+ },
+ {
+  "id": "F-18",
+  "version": 1,
+  "topic": "Adults: left thoracotomy approach and exposure",
+  "tags": [
+   "left thoracotomy",
+   "exposure",
+   "positioning"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "A patient with an aneurysm from the **distal arch to the proximal descending aorta** is operated on through a left thoracotomy. How is the pleural cavity entered?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Fourth intercostal space, usually transecting the fifth rib posteriorly"
+   },
+   {
+    "id": "b",
+    "text": "Fifth intercostal space, usually transecting the fourth rib posteriorly"
+   },
+   {
+    "id": "c",
+    "text": "Third intercostal space, usually transecting the fourth rib anteriorly"
+   },
+   {
+    "id": "d",
+    "text": "Fourth intercostal space via an anterior submammary incision alone"
+   },
+   {
+    "id": "e",
+    "text": "Sixth intercostal space, usually without rib transection"
+   }
+  ],
+  "answer": "a",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "For distal arch to proximal descending lesions, enter the left chest through the ==fourth intercostal space==; usually the ==fifth rib is transected posteriorly==."
+   },
+   {
+    "id": "steps",
+    "type": "flow",
+    "title": "Approach and exposure",
+    "steps": [
+     {
+      "text": "**Supine**: groin incisions to expose the **right common femoral vein** and **left common femoral artery**"
+     },
+     {
+      "text": "Tilt to the **right semirecumbent** position"
+     },
+     {
+      "text": "**Posterolateral oblique** incision, subscapular region -> left submammary area"
+     },
+     {
+      "text": "Enter via **4th intercostal space**; fifth rib transected posteriorly; two crossed rib retractors"
+     }
+    ]
+   },
+   {
+    "id": "lung",
+    "type": "callout",
+    "kind": "pearl",
+    "title": "Protect the left lung",
+    "items": [
+     "**Unilateral ventilation** whenever possible",
+     "Wrap the left lung in a **moist pad**",
+     "Tape the **descending aorta**; taping the arch is **not necessary**"
+    ]
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "The left pleural cavity is entered through the fourth intercostal space for the lesions in the distal arch to the proximal descending aorta. Usually, the fifth rib is transected posteriorly.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 79"
+   }
+  ],
+  "choiceNotes": {
+   "b": "Entry is through the **fourth** intercostal space, and the **fifth** rib is transected.",
+   "c": "The source uses the **fourth** intercostal space with the **fifth** rib transected **posteriorly**.",
+   "d": "The incision is **posterolateral oblique**, from the subscapular region to the left submammary area.",
+   "e": "The source uses the **fourth** intercostal space with posterior transection of the fifth rib."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 79, Approach and Exposure"
+   }
+  ]
+ },
+ {
+  "id": "F-19",
+  "version": 1,
+  "topic": "Adults: arterial cannulation and venous drainage",
+  "tags": [
+   "cannulation",
+   "shaggy aorta",
+   "embolism",
+   "axillary artery"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "A patient with a **shaggy atherosclerotic aorta** undergoes distal arch replacement through a left thoracotomy. How should **arterial inflow** for CPB be arranged?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Left common femoral artery alone with a 20–22 Fr cannula"
+   },
+   {
+    "id": "b",
+    "text": "Left axillary artery alone, avoiding the groin entirely"
+   },
+   {
+    "id": "c",
+    "text": "Divide inflow between the femoral and axillary arteries"
+   },
+   {
+    "id": "d",
+    "text": "Femoral artery alone, relying on retrograde flow to clear debris"
+   },
+   {
+    "id": "e",
+    "text": "Right common femoral artery alone with a larger cannula"
+   }
+  ],
+  "answer": "c",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "With a ==shaggy atherosclerotic aorta==, divide arterial inflow in two (==femoral + axillary==) to minimize **debris embolization to the brain** from retrograde perfusion."
+   },
+   {
+    "id": "cannulas",
+    "type": "table",
+    "caption": "CPB for left thoracotomy distal arch surgery",
+    "head": [
+     "Item",
+     "Usual choice"
+    ],
+    "rows": [
+     [
+      "Arterial return",
+      "**Left common femoral artery**, 20–22 Fr thin-wall cannula"
+     ],
+     [
+      "Additional inflow (rare)",
+      "**Left axillary artery**"
+     ],
+     [
+      "Shaggy aorta",
+      "**Divide** inflow: femoral + axillary"
+     ],
+     [
+      "Venous drainage",
+      "Right common femoral vein, 24–27 Fr long multi-hole cannula"
+     ]
+    ]
+   },
+   {
+    "id": "flow",
+    "type": "flow",
+    "steps": [
+     {
+      "text": "Femoral inflow only"
+     },
+     {
+      "text": "**Retrograde** flow up a shaggy aorta"
+     },
+     {
+      "text": "Debris embolization to the **brain**"
+     }
+    ]
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "In patients with a shaggy atherosclerotic aorta, the arterial inflow should be divided in two (the femoral and axillary artery) to minimize debris embolization to the brain due to retrograde arterial perfusion.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 79"
+   }
+  ],
+  "choiceNotes": {
+   "a": "This is the **usual** set-up; with a shaggy aorta the inflow should be **divided** to limit brain embolization from retrograde perfusion.",
+   "b": "The source **divides** inflow between **both** the femoral and axillary arteries.",
+   "d": "**Retrograde arterial perfusion** is the cause of the debris embolization to the brain, not its cure.",
+   "e": "The **right** common femoral **vein** is used for venous drainage; a single femoral inflow still perfuses retrogradely."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 79, Arterial Cannulation and Venous Drainage"
+   }
+  ]
+ },
+ {
+  "id": "F-20",
+  "version": 1,
+  "topic": "Adults: arterial cannulation and venous drainage",
+  "tags": [
+   "venous drainage",
+   "left pulmonary artery",
+   "cannulation"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "During left thoracotomy for distal arch surgery on femoral CPB, drainage through the long femoral venous cannula is **insufficient** and **total bypass** is required. What does the source recommend?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Add an angled cannula in the left pulmonary artery"
+   },
+   {
+    "id": "b",
+    "text": "Pull the femoral venous cannula tip back into the IVC"
+   },
+   {
+    "id": "c",
+    "text": "Add arterial inflow through the left axillary artery"
+   },
+   {
+    "id": "d",
+    "text": "Insert a venting catheter through the left atrial appendage"
+   },
+   {
+    "id": "e",
+    "text": "Clamp the venous line to raise central venous pressure"
+   }
+  ],
+  "answer": "a",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "When venous drainage is insufficient or total bypass is needed, insert an additional ==angled 24–28 Fr venous cannula into the left pulmonary artery== after pericardiotomy."
+   },
+   {
+    "id": "venous",
+    "type": "table",
+    "caption": "Venous drainage and venting",
+    "head": [
+     "Problem",
+     "Solution"
+    ],
+    "rows": [
+     [
+      "Standard drainage",
+      "24–27 Fr long multi-hole cannula from the **right common femoral vein**, tip in the **right atrium** (45–50 cm)"
+     ],
+     [
+      "Insufficient drainage or total bypass",
+      "Angled 24–28 Fr cannula in the **left pulmonary artery**"
+     ],
+     [
+      "**Distended left ventricle**",
+      "LV vent via the **left atrial appendage**"
+     ]
+    ]
+   },
+   {
+    "id": "cool",
+    "type": "callout",
+    "kind": "pearl",
+    "text": "Cooling is stopped at a core temperature of **18°C to 20°C**."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "When venous drainage is not sufficient or when total bypass is required, an additional angled venous cannula 24 to 28 Fr is inserted in the left pulmonary artery after pericardiotomy.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 79"
+   }
+  ],
+  "choiceNotes": {
+   "b": "The tip is placed in the **right atrium** (about 45–50 cm from the femoral puncture).",
+   "c": "Axillary cannulation is for **additional arterial inflow**, not venous drainage.",
+   "d": "A left atrial appendage vent is used when the **left ventricle is distended**, not for poor venous drainage.",
+   "e": "Clamping the venous line to raise CVP is a **de-airing** step of the proximal open anastomosis, not a drainage remedy."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 79, Arterial Cannulation and Venous Drainage"
+   }
+  ]
+ },
+ {
+  "id": "F-21",
+  "version": 1,
+  "topic": "Adults: proximal open anastomosis",
+  "tags": [
+   "open proximal anastomosis",
+   "balloon catheter",
+   "cardioplegia"
+  ],
+  "difficulty": 3,
+  "reviewed": false,
+  "stem": "During replacement of the distal arch and descending aorta **without clamping the arch** (Takamoto method), the upper body is in circulatory arrest and the proximal descending aorta is opened. A **12 Fr aortic occlusion balloon catheter** is then inserted into the ascending aorta. What is its purpose?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "To raise central venous pressure for retrograde perfusion"
+   },
+   {
+    "id": "b",
+    "text": "To perfuse the lower half of the body during the anastomosis"
+   },
+   {
+    "id": "c",
+    "text": "To give antegrade cerebral perfusion into the brachiocephalic artery"
+   },
+   {
+    "id": "d",
+    "text": "To occlude the arch from within so the anastomosis can be closed"
+   },
+   {
+    "id": "e",
+    "text": "To give cardioplegia and stop blood flushing from the heart"
+   }
+  ],
+  "answer": "e",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "The ==12 Fr occlusion balloon== in the ascending aorta delivers **antegrade cardioplegia** and **prevents a blood flush from the heart** into the open field."
+   },
+   {
+    "id": "steps",
+    "type": "flow",
+    "title": "Proximal open anastomosis without arch clamping",
+    "steps": [
+     {
+      "text": "Clamp the **distal side** of the aneurysm -> lower body stays perfused"
+     },
+     {
+      "text": "**Upper-body circulatory arrest**"
+     },
+     {
+      "text": "Incise the proximal descending aorta"
+     },
+     {
+      "text": "**Balloon catheter** into the ascending aorta: cardioplegia + no blood flush"
+     },
+     {
+      "text": "Anastomosis with **minimal** aortic dissection"
+     }
+    ]
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "a 12 Fr aortic occlusion balloon catheter (Pruitt, LeMaitre Vascular, Inc. Burlington, MA) is inserted into the ascending aorta to deliver antegrade cardioplegic solutions and prevent a blood flush from the heart.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 79"
+   }
+  ],
+  "choiceNotes": {
+   "a": "CVP is raised by **clamping the venous line** in deep Trendelenburg, not with the balloon.",
+   "b": "The lower body is perfused because the **distal side** of the aneurysm is **clamped**.",
+   "c": "The balloon sits in the **ascending aorta** for **cardioplegia**; brain perfusion restarts later through the graft side branch.",
+   "d": "The anastomosis is **open**; the balloon blocks blood flush from the heart and carries cardioplegia."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 79, Proximal Open Anastomosis"
+   }
+  ]
+ },
+ {
+  "id": "F-22",
+  "version": 1,
+  "topic": "Adults: proximal open anastomosis",
+  "tags": [
+   "open proximal anastomosis",
+   "de-airing",
+   "central venous pressure"
+  ],
+  "difficulty": 3,
+  "reviewed": false,
+  "stem": "In the same proximal open anastomosis technique, the **dorsal half** of the anastomosis has been completed. What is done **next**, before perfusion of the heart and brain is restarted through the graft side branch?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Defibrillate the heart, then de-air the heart and arch"
+   },
+   {
+    "id": "b",
+    "text": "Lower CVP to below 5 mmHg in reverse Trendelenburg, then de-air"
+   },
+   {
+    "id": "c",
+    "text": "Clamp venous line in deep Trendelenburg to raise CVP, then de-air"
+   },
+   {
+    "id": "d",
+    "text": "Begin systemic rewarming, then de-air the heart and arch"
+   },
+   {
+    "id": "e",
+    "text": "Release the distal clamp to flush debris retrogradely"
+   }
+  ],
+  "answer": "c",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "After the dorsal half, ==CVP is raised to 15–18 mmHg== by **clamping the venous line** with the patient in **deep Trendelenburg**; then the heart and arch are de-aired and debris removed."
+   },
+   {
+    "id": "seq",
+    "type": "flow",
+    "title": "Finishing the open anastomosis",
+    "steps": [
+     {
+      "text": "Dorsal half of anastomosis done"
+     },
+     {
+      "text": "Clamp venous line, deep Trendelenburg -> **CVP 15–18 mmHg**"
+     },
+     {
+      "text": "Extensive **de-airing** of heart and arch; **remove debris**"
+     },
+     {
+      "text": "Restart perfusion of **heart and brain** through the graft side branch"
+     },
+     {
+      "text": "Start **systemic rewarming**"
+     },
+     {
+      "text": "**Defibrillate** the heart"
+     }
+    ]
+   },
+   {
+    "id": "cool",
+    "type": "callout",
+    "kind": "pearl",
+    "text": "With this left thoracotomy approach, cooling is stopped at a core temperature of **18°C to 20°C**."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "After finishing the dorsal half of the anastomosis, elevation of the central venous pressure to 15 to 18 mmHg is performed by clamping the venous line while the patient is in the deep Trendelenburg position.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 79"
+   }
+  ],
+  "choiceNotes": {
+   "a": "The heart is defibrillated **last**, after reperfusion and the start of rewarming.",
+   "b": "CVP is **raised** to 15–18 mmHg in **deep Trendelenburg**.",
+   "d": "Systemic rewarming begins **after** perfusion of the heart and brain is restarted.",
+   "e": "De-airing and debris removal are done from the **heart and arch** after the CVP is raised."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 79, Proximal Open Anastomosis"
+   },
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 79, Arterial Cannulation and Venous Drainage"
+   }
+  ]
+ },
+ {
+  "id": "F-23",
+  "version": 1,
+  "topic": "Pediatric: general strategy",
+  "tags": [
+   "pediatric",
+   "continuous perfusion",
+   "strategy"
+  ],
+  "difficulty": 1,
+  "reviewed": false,
+  "stem": "In the **current era**, what does the source describe as the **primary alternatives** to hypothermic circulatory arrest in neonates, infants and children?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Intermittent perfusion for non-arch operations; HCA for arch repair"
+   },
+   {
+    "id": "b",
+    "text": "Continuous full-body CPB for arch repair; HCA for non-arch operations"
+   },
+   {
+    "id": "c",
+    "text": "Full-body CPB for non-arch operations; continuous ACP for arch repair"
+   },
+   {
+    "id": "d",
+    "text": "Continuous ACP for non-arch operations; HCA for arch repair"
+   },
+   {
+    "id": "e",
+    "text": "HCA for all neonatal operations; continuous CPB for older children"
+   }
+  ],
+  "answer": "c",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "Current primary alternatives: ==continuous full-body CPB== for operations **not involving the arch**, and ==continuous ACP== for **aortic arch repair**."
+   },
+   {
+    "id": "eras",
+    "type": "table",
+    "caption": "How the role of HCA in children has changed",
+    "head": [
+     "Era",
+     "Role of hypothermic circulatory arrest"
+    ],
+    "rows": [
+     [
+      "Previous",
+      "**Essential** for neonatal arch reconstruction and many complex neonatal operations; **reasonable** for most complex operations on full-term neonates and infants; **unreasonable** for simple operations and most complex operations in older infants and children (unless arch reconstruction)"
+     ],
+     [
+      "Current",
+      "**Not essential** for any operation; only one of several options"
+     ]
+    ]
+   },
+   {
+    "id": "survey",
+    "type": "callout",
+    "kind": "pearl",
+    "title": "Practice varies",
+    "text": "In a survey of Congenital Heart Surgeons' Society members, about **one-third avoid** hypothermic circulatory arrest; use among the rest varied widely."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "Currently, the primary alternative to hypothermic circulatory arrest is continuous full-body CPB for all operations not involving aortic arch repair, and continuous ACP for operations involving aortic arch repair.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 79"
+   }
+  ],
+  "choiceNotes": {
+   "a": "Intermittent perfusion **may be useful** when time constraints are anticipated; the primary alternatives are **continuous** techniques.",
+   "b": "The pairing is reversed: **full-body CPB** for non-arch operations, **continuous ACP** for arch repair.",
+   "d": "HCA is **not essential** for any operation; arch repair uses **continuous ACP**, and non-arch operations use full-body CPB.",
+   "e": "This reflects **previous eras**; now all operations at any age can be done with continuous perfusion."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 79, Neonates, Infants, and Children: General Comments and Strategy"
+   }
+  ]
+ },
+ {
+  "id": "F-24",
+  "version": 1,
+  "topic": "Pediatric: general strategy",
+  "tags": [
+   "pediatric",
+   "continuous perfusion",
+   "outcomes",
+   "brain"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "Two criteria are used to judge continuous full-body CPB and continuous ACP against hypothermic circulatory arrest in neonates and infants. What is the **current status** of these criteria according to the source?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Technical outcomes are worse, but brain protection is superior"
+   },
+   {
+    "id": "b",
+    "text": "Brain protection is confirmed; equal technical outcomes are unresolved"
+   },
+   {
+    "id": "c",
+    "text": "Neither is met, so HCA remains essential for arch reconstruction"
+   },
+   {
+    "id": "d",
+    "text": "Technical equivalence is confirmed; brain protection is unresolved"
+   },
+   {
+    "id": "e",
+    "text": "Both criteria are confirmed by well-designed multicenter studies"
+   }
+  ],
+  "answer": "d",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "Criterion 1 (==technical outcomes==) is **met**; criterion 2 (==end-organ, especially brain, preservation==) is **complex, controversial and unresolved**."
+   },
+   {
+    "id": "criteria",
+    "type": "table",
+    "caption": "Judging continuous perfusion against HCA",
+    "head": [
+     "Criterion",
+     "Status"
+    ],
+    "rows": [
+     [
+      "1. Technical outcomes equal to or better than HCA",
+      "**Met**: all neonatal and infant operations, including arch reconstruction, can be done with continuous CPB (with continuous ACP when needed)"
+     ],
+     [
+      "2. End-organ (brain) structure and function preserved as well or better",
+      "**Unresolved**; no well-designed multicenter studies yet"
+     ]
+    ]
+   },
+   {
+    "id": "pitfall",
+    "type": "callout",
+    "kind": "pitfall",
+    "text": "Do not confuse **technical** equivalence (proven) with **neurologic** equivalence (still controversial)."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "This is a complex and controversial criterion with no definitive resolution at this time",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 80"
+   }
+  ],
+  "choiceNotes": {
+   "a": "Technical outcomes are **at least as good** as with HCA; brain protection is **not resolved**.",
+   "b": "It is the reverse: **technical** equivalence is confirmed and **end-organ** protection remains unresolved.",
+   "c": "All operations, **including arch reconstruction**, can be done with continuous perfusion with at least equal technical outcomes.",
+   "e": "**No well-designed multicenter studies** have addressed the end-organ criterion."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 79, Neonates, Infants, and Children: General Comments and Strategy"
+   },
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 80, General Comments and Strategy"
+   }
+  ]
+ },
+ {
+  "id": "F-25",
+  "version": 1,
+  "topic": "Pediatric: hypothermic circulatory arrest",
+  "tags": [
+   "air embolism",
+   "aortic cannula",
+   "circulatory arrest"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "An infant is on CPB with the aortic cannula in the ascending aorta, held by a **hemostatic purse string**; there is **no aortic clamp** distal to the cannula. Just **before CPB is discontinued** to establish circulatory arrest, what should the perfusionist do, and why?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Remove the aortic cannula at once to avoid entraining air"
+   },
+   {
+    "id": "b",
+    "text": "Clamp the arterial tubing, as suction can draw air in at the cannula"
+   },
+   {
+    "id": "c",
+    "text": "Snug the purse string, as a tight purse string prevents air entry"
+   },
+   {
+    "id": "d",
+    "text": "Clamp the venous line to raise the central venous pressure"
+   },
+   {
+    "id": "e",
+    "text": "Leave the arterial line open to keep the aorta at zero pressure"
+   }
+  ],
+  "answer": "b",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "Just before stopping CPB, ==clamp the arterial tubing== so the arterial system stays **pressurized**; remove the clamp as CPB restarts."
+   },
+   {
+    "id": "why",
+    "type": "flow",
+    "title": "How air gets in",
+    "steps": [
+     {
+      "text": "CPB stopped; arterial pump may be **nonocclusive**"
+     },
+     {
+      "text": "Gravity creates **suction** in the arterial system"
+     },
+     {
+      "text": "Aorta at essentially **zero pressure**"
+     },
+     {
+      "text": "**Air drawn in** around the cannula insertion site"
+     }
+    ]
+   },
+   {
+    "id": "pearl",
+    "type": "callout",
+    "kind": "pearl",
+    "title": "When the clamp is not needed",
+    "text": "These precautions are **unnecessary** if a **clamp is placed on the aorta distal to the cannula**; the cannula can then deliver cardioplegia."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "It is critically important to remember that although the purse string around the aortic cannula may be hemostatic, it does not protect against the passage of air.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 80"
+   }
+  ],
+  "choiceNotes": {
+   "a": "The source keeps the cannula and **clamps the arterial tubing**; the cannula is removed only if arch reconstruction is part of the operation.",
+   "c": "A purse string may be hemostatic but **cannot be made snug enough** to prevent air passage.",
+   "d": "Clamping the venous line to raise CVP is a de-airing step in **adult open proximal anastomosis**; it does not stop suction in the arterial line.",
+   "e": "An open, nonocclusive line with the aorta at **zero pressure** is exactly what lets suction draw air in."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 80, Hypothermic Circulatory Arrest: Cannulation"
+   }
+  ]
+ },
+ {
+  "id": "F-26",
+  "version": 1,
+  "topic": "Pediatric: hypothermic circulatory arrest",
+  "tags": [
+   "cooling",
+   "circulatory arrest",
+   "nasopharyngeal temperature"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "During core cooling for hypothermic circulatory arrest in a neonate, the **nasopharyngeal temperature falls to 18°C within 10 minutes**. How long should the cooling period last?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "No more than 10 minutes, since rapid cooling is preferred"
+   },
+   {
+    "id": "b",
+    "text": "At least 15 minutes, as for continuous ACP cooling"
+   },
+   {
+    "id": "c",
+    "text": "At least 60 minutes in every patient"
+   },
+   {
+    "id": "d",
+    "text": "No longer: arrest can start, since the target is reached"
+   },
+   {
+    "id": "e",
+    "text": "At least 20 minutes, sometimes approaching 30 minutes"
+   }
+  ],
+  "answer": "e",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "Cooling before HCA should last ==at least 20 minutes== (sometimes approaching 30), because **rapid cooling is not homogeneous**."
+   },
+   {
+    "id": "cooling",
+    "type": "table",
+    "caption": "Cooling for pediatric HCA",
+    "head": [
+     "Item",
+     "Source guidance"
+    ],
+    "rows": [
+     [
+      "CPB flow during cooling",
+      "Relatively high: **2.2–3.0 L/min/m^2^**"
+     ],
+     [
+      "Cooling duration",
+      "**At least 20 min**, may approach 30 min"
+     ],
+     [
+      "Criterion to start arrest",
+      "Nasopharyngeal **16°C to 18°C** (target and site remain controversial)"
+     ]
+    ]
+   },
+   {
+    "id": "pitfall",
+    "type": "callout",
+    "kind": "pitfall",
+    "title": "Fast is not finished",
+    "text": "Nasopharyngeal temperature can reach 18°C in 10 minutes, but that cooling is **not homogeneous**."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "Therefore, the cooling period should last at least 20 minutes and may at times approach 30 minutes.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 80"
+   }
+  ],
+  "choiceNotes": {
+   "a": "Rapid cooling has been shown to be **suboptimal** for circulatory arrest.",
+   "b": "A minimum of 15 minutes (to 22°C–24°C) applies to **continuous ACP**; before HCA cooling should last **at least 20 minutes**.",
+   "c": "The source states **at least 20 minutes**, sometimes approaching **30 minutes**.",
+   "d": "**Rapid cooling** is suboptimal for circulatory arrest, probably because it is **not homogeneous**."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 80, Hypothermic Circulatory Arrest: Cardiopulmonary Bypass for Cooling"
+   }
+  ]
+ },
+ {
+  "id": "F-27",
+  "version": 1,
+  "topic": "Pediatric: hypothermic circulatory arrest",
+  "tags": [
+   "hematocrit",
+   "neurologic injury",
+   "circulatory arrest"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "During cooling for hypothermic circulatory arrest in a neonate, the perfusate **hematocrit is 0.20**. Which statement reflects the source?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "It is acceptable, as hematocrit is unrelated to neurologic injury"
+   },
+   {
+    "id": "b",
+    "text": "It should be raised above 0.35 for extra neurologic benefit"
+   },
+   {
+    "id": "c",
+    "text": "It should be raised to about 0.40, given a linear risk relation"
+   },
+   {
+    "id": "d",
+    "text": "Raise it: 0.20 causes more neurologic injury than 0.25"
+   },
+   {
+    "id": "e",
+    "text": "It is acceptable during cooling, but not during rewarming"
+   }
+  ],
+  "answer": "d",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "Hematocrit should ==not drop below 0.25 throughout the operation==: 0.20 causes **more neurologic injury** than 0.25, with **no gain** from higher levels."
+   },
+   {
+    "id": "hct",
+    "type": "table",
+    "caption": "Hematocrit and neurologic injury",
+    "head": [
+     "Hematocrit",
+     "Evidence"
+    ],
+    "rows": [
+     [
+      "**0.20**",
+      "Greater neurologic injury"
+     ],
+     [
+      "**0.25**",
+      "Minimum to keep throughout the operation"
+     ],
+     [
+      "Higher than 0.25",
+      "No further improvement"
+     ]
+    ],
+    "emphasis": {
+     "row": 1
+    }
+   },
+   {
+    "id": "phstat",
+    "type": "callout",
+    "kind": "pearl",
+    "title": "Also during cooling",
+    "text": "Mounting evidence suggests **pH-stat** management gives **superior neurologic outcomes**."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "Hematocrit should not be allowed to drop below 0.25 throughout the operation.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 80"
+   }
+  ],
+  "choiceNotes": {
+   "a": "Evidence suggests **0.20 causes greater neurologic injury** than 0.25.",
+   "b": "There is **no improvement** with hematocrit levels higher than 0.25.",
+   "c": "The variable has **not been studied enough** to define a linear relationship.",
+   "e": "Hematocrit should not drop below 0.25 **throughout the operation**."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 80, Hypothermic Circulatory Arrest: Cardiopulmonary Bypass for Cooling"
+   }
+  ]
+ },
+ {
+  "id": "F-28",
+  "version": 1,
+  "topic": "Pediatric: hypothermic circulatory arrest",
+  "tags": [
+   "intermittent perfusion",
+   "circulatory arrest",
+   "safe arrest time"
+  ],
+  "difficulty": 3,
+  "reviewed": false,
+  "stem": "A surgeon plans to **interpose a short period of CPB** during a long hypothermic circulatory arrest in an infant, hoping to extend the safe arrest time. What does the source state?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "No secure evidence; early cerebral flow after CPB is low and uneven"
+   },
+   {
+    "id": "b",
+    "text": "It should never be used, even when time constraints are foreseen"
+   },
+   {
+    "id": "c",
+    "text": "It is unnecessary, as arrest at 16–18°C has no time limit"
+   },
+   {
+    "id": "d",
+    "text": "It works because cerebral blood flow is high right after resuming CPB"
+   },
+   {
+    "id": "e",
+    "text": "It reliably extends the safe duration of circulatory arrest"
+   }
+  ],
+  "answer": "a",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "There is ==no secure evidence== that a short period of CPB **increases the safe duration** of circulatory arrest, though it **may be useful** when time constraints are anticipated."
+   },
+   {
+    "id": "why",
+    "type": "flow",
+    "title": "Why the benefit is uncertain",
+    "steps": [
+     {
+      "text": "CPB resumed briefly"
+     },
+     {
+      "text": "Cerebral blood flow **low** early after resumption"
+     },
+     {
+      "text": "Flow probably **inhomogeneously** distributed"
+     },
+     {
+      "text": "No secure gain in safe arrest time"
+     }
+    ]
+   },
+   {
+    "id": "pearl",
+    "type": "callout",
+    "kind": "pearl",
+    "text": "Use intermittent perfusion as a **tool when time constraints are anticipated**, not as proof of a longer safe arrest."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "There is no secure evidence that interposing a short period of CPB increases safe duration of circulatory arrest",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 80"
+   }
+  ],
+  "choiceNotes": {
+   "b": "When time constraints are **anticipated**, intermittent perfusion **may be useful**.",
+   "c": "Safe circulatory arrest has **time constraints** (discussed in Section I).",
+   "d": "Cerebral blood flow is **low** early after resumption of CPB, and probably inhomogeneous.",
+   "e": "There is **no secure evidence** that it increases safe duration of circulatory arrest."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 80, Hypothermic Circulatory Arrest: Circulatory Arrest"
+   }
+  ]
+ },
+ {
+  "id": "F-29",
+  "version": 1,
+  "topic": "Pediatric: hypothermic circulatory arrest",
+  "tags": [
+   "myocardial management",
+   "cardioplegia",
+   "cooling"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "During cooling for a planned hypothermic circulatory arrest in an infant, which statement about **myocardial management** matches the source?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "One cardioplegia dose usually suffices for arrest up to 30 minutes"
+   },
+   {
+    "id": "b",
+    "text": "A single cardioplegia infusion suffices for arrests up to 60 minutes"
+   },
+   {
+    "id": "c",
+    "text": "Repeated cardioplegia is needed every 10 minutes of any arrest"
+   },
+   {
+    "id": "d",
+    "text": "Cardiac dilatation during cooling is harmless and can be ignored"
+   },
+   {
+    "id": "e",
+    "text": "Cardioplegia can never be given through the aortic cannula"
+   }
+  ],
+  "answer": "a",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "A ==single cardioplegia infusion== usually suffices if circulatory arrest **does not exceed 30 minutes**."
+   },
+   {
+    "id": "rules",
+    "type": "list",
+    "items": [
+     "**Avoid cardiac dilatation** during cooling: reposition venous cannulae if needed for drainage.",
+     "**One dose** of cardioplegia for arrest of **30 minutes or less**.",
+     "Aortic cannula can deliver cardioplegia when the aorta is **clamped distal to it**."
+    ]
+   },
+   {
+    "id": "rewarm",
+    "type": "callout",
+    "kind": "pearl",
+    "title": "Later steps are linked",
+    "text": "Rewarming, myocardial management, de-airing and aortic clamp removal are **interrelated**; each surgical group sets its own protocol."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "A single infusion of cardioplegic solution will usually suffice if circulatory arrest does not exceed 30 minutes.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 80"
+   }
+  ],
+  "choiceNotes": {
+   "b": "The stated limit for a single infusion is **30 minutes**.",
+   "c": "A **single** infusion usually suffices for arrest up to **30 minutes**.",
+   "d": "Dilatation of the heart **must be avoided**; venous cannulae may need repositioning for drainage.",
+   "e": "With a clamp on the aorta **distal to the cannula**, the aortic cannula can deliver cardioplegia."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 80, Hypothermic Circulatory Arrest: Cardiopulmonary Bypass for Cooling"
+   },
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 80, Hypothermic Circulatory Arrest: Cannulation"
+   },
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 80, Rewarming"
+   }
+  ]
+ },
+ {
+  "id": "F-30",
+  "version": 1,
+  "topic": "Pediatric: continuous antegrade cerebral perfusion",
+  "tags": [
+   "continuous ACP",
+   "exposure",
+   "arch reconstruction"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "A neonate is prepared for **arch reconstruction using continuous ACP**. Which exposure step specifically **facilitates exposure of the aorta distal to the ductus arteriosus**?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Mobilizing the brachiocephalic vein in its entirety"
+   },
+   {
+    "id": "b",
+    "text": "Mobilizing the left pulmonary artery to the pericardial reflection"
+   },
+   {
+    "id": "c",
+    "text": "A retraction stitch at the upper pole of the incision"
+   },
+   {
+    "id": "d",
+    "text": "Complete resection of the thymus, when present"
+   },
+   {
+    "id": "e",
+    "text": "Opening the fascia above the brachiocephalic vein"
+   }
+  ],
+  "answer": "b",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "Mobilizing the ==left pulmonary artery to the pericardial reflection== facilitates exposure of the aorta **distal to the ductus arteriosus**."
+   },
+   {
+    "id": "exposure",
+    "type": "table",
+    "caption": "Exposure for continuous ACP (exposure is of prime importance)",
+    "head": [
+     "Step",
+     "Purpose"
+    ],
+    "rows": [
+     [
+      "Skin incision to the sternal notch; retraction stitch at the upper pole",
+      "Upper exposure"
+     ],
+     [
+      "Complete **thymectomy**",
+      "Clear the field"
+     ],
+     [
+      "Mobilize the whole **brachiocephalic vein** and open the fascia above it",
+      "Expose the **brachiocephalic artery** fully"
+     ],
+     [
+      "Mobilize the **three arch vessels** and the **ductus**",
+      "Ready for clips and ligation"
+     ],
+     [
+      "Mobilize the **left pulmonary artery** to the pericardial reflection",
+      "Expose the aorta **distal to the ductus**"
+     ]
+    ]
+   },
+   {
+    "id": "nirs",
+    "type": "callout",
+    "kind": "pearl",
+    "text": "Continuous ACP is reserved for **arch reconstruction or important aortic manipulation**; regional cerebral oxygen monitoring with **NIRS** is routine."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "Mobilizing the left pulmonary artery to the pericardial reflection facilitates exposure of the aorta distal to the ductus arteriosus (if present).",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 81"
+   }
+  ],
+  "choiceNotes": {
+   "a": "This, with opening the fascia above it, serves exposure of the **brachiocephalic artery**.",
+   "c": "This aids the upper incision; the skin incision is taken to the sternal notch.",
+   "d": "Thymectomy is part of general exposure, not the step aimed at the aorta beyond the ductus.",
+   "e": "This step exposes the **brachiocephalic artery** fully."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 81, Continuous Antegrade Cerebral Perfusion: Preparation for Cardiopulmonary Bypass"
+   }
+  ]
+ },
+ {
+  "id": "F-31",
+  "version": 1,
+  "topic": "Pediatric: continuous antegrade cerebral perfusion",
+  "tags": [
+   "continuous ACP",
+   "brachiocephalic artery",
+   "cannulation"
+  ],
+  "difficulty": 3,
+  "reviewed": false,
+  "stem": "For continuous ACP in a neonate, the **brachiocephalic artery is cannulated directly**. Which technical detail is correct?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "A wide purse string is used to make insertion easier"
+   },
+   {
+    "id": "b",
+    "text": "The obturator projects beyond the cannula tip during insertion"
+   },
+   {
+    "id": "c",
+    "text": "A vascular clamp is routinely applied before the arteriotomy"
+   },
+   {
+    "id": "d",
+    "text": "The purse string is placed above the vein, retracting it downward"
+   },
+   {
+    "id": "e",
+    "text": "The cannula goes in to the start of the wire spiral, 2 mm at most"
+   }
+  ],
+  "answer": "e",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "Advance the cannula ==to the start of the wire spiral and no farther than 2 mm==, so flow in the brachiocephalic artery is not obstructed."
+   },
+   {
+    "id": "steps",
+    "type": "flow",
+    "title": "Brachiocephalic artery cannulation",
+    "steps": [
+     {
+      "text": "Retract the brachiocephalic vein **superiorly**"
+     },
+     {
+      "text": "**6-0 polypropylene** purse string **below** the vein, of **limited width**"
+     },
+     {
+      "text": "**6F or 8F** cannula (by weight and artery size); obturator **flush** with tip"
+     },
+     {
+      "text": "Open with a fine-blade knife; insert **without a vascular clamp**"
+     },
+     {
+      "text": "Advance to the wire spiral, **2 mm maximum**; rigorously **de-air** the line"
+     }
+    ]
+   },
+   {
+    "id": "pitfall",
+    "type": "callout",
+    "kind": "pitfall",
+    "text": "Too wide a purse string or too deep a cannula can **narrow or obstruct** the brachiocephalic artery."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "The cannula is advanced to the start of the wire spiral and no farther than 2 mm. The arterial line is then rigorously de-aired.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 81"
+   }
+  ],
+  "choiceNotes": {
+   "a": "The purse-string **width is limited** to prevent narrowing the artery.",
+   "b": "The obturator is **withdrawn until flush** with the catheter tip before insertion.",
+   "c": "Typically the artery is opened with a fine-blade knife and cannulated **without a vascular clamp**.",
+   "d": "The purse string is placed **inferior** to the brachiocephalic vein while retracting the vein **superiorly**."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 81, Continuous Antegrade Cerebral Perfusion: Cannulation"
+   },
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 82, Fig. 2.25"
+   }
+  ]
+ },
+ {
+  "id": "F-32",
+  "version": 1,
+  "topic": "Pediatric: continuous antegrade cerebral perfusion",
+  "tags": [
+   "interrupted aortic arch",
+   "lower-body perfusion",
+   "ductus arteriosus"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "A neonate with **interrupted aortic arch** undergoes repair using continuous ACP through the brachiocephalic artery. How is the **lower body** perfused?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Through the left subclavian artery, left unclipped"
+   },
+   {
+    "id": "b",
+    "text": "Through a cannula in the right superior pulmonary vein"
+   },
+   {
+    "id": "c",
+    "text": "Through the brachiocephalic cannula alone, after early ductal ligation"
+   },
+   {
+    "id": "d",
+    "text": "Through retrograde flow from the IVC cannula"
+   },
+   {
+    "id": "e",
+    "text": "Via a second arterial cannula in the pulmonary trunk and ductus"
+   }
+  ],
+  "answer": "e",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "In interrupted aortic arch, a ==second arterial purse string and cannula in the pulmonary trunk== perfuse the **lower body through the ductus arteriosus**."
+   },
+   {
+    "id": "when",
+    "type": "table",
+    "caption": "Second arterial cannula in the main pulmonary artery",
+    "head": [
+     "Situation",
+     "Action"
+    ],
+    "rows": [
+     [
+      "**Interrupted aortic arch**",
+      "Planned from the start: second purse string in the pulmonary trunk"
+     ],
+     [
+      "Rare inadequate lower-body perfusion (hypoplastic left heart physiology, coarctation)",
+      "Loosen the ductal snare, **snare the branch pulmonary arteries**, add a cannula in the main pulmonary artery"
+     ]
+    ]
+   },
+   {
+    "id": "alt",
+    "type": "callout",
+    "kind": "pearl",
+    "text": "On some occasions, **descending aortic cannulation** is tried to avoid lower-body circulatory arrest."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "For cases of interrupted aortic arch, a second arterial purse string is placed into the pulmonary trunk in preparation for lower-body perfusion through the ductus arteriosus.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 81"
+   }
+  ],
+  "choiceNotes": {
+   "a": "All **three arch vessels**, including the left subclavian artery, are **clipped** for isolated cerebral perfusion.",
+   "b": "The right superior pulmonary vein purse string is for **venting** the left heart.",
+   "c": "In interrupted arch the brachiocephalic cannula cannot reach the lower body; a **second cannula** perfuses it via the ductus.",
+   "d": "The IVC cannula is for **venous drainage**, not perfusion."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 81, Continuous Antegrade Cerebral Perfusion: Cannulation"
+   }
+  ]
+ },
+ {
+  "id": "F-33",
+  "version": 1,
+  "topic": "Pediatric: continuous antegrade cerebral perfusion",
+  "tags": [
+   "ductus arteriosus",
+   "lower-body perfusion",
+   "rectal temperature"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "After CPB starts through the brachiocephalic artery in a neonate with **aortic coarctation**, the ductus arteriosus is **temporarily snared**. How is adequate **lower-body perfusion** judged before the ductus is permanently ligated?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Equal right and left radial artery pressures"
+   },
+   {
+    "id": "b",
+    "text": "An appropriate drop in rectal temperature"
+   },
+   {
+    "id": "c",
+    "text": "A rise in cerebral NIRS saturation"
+   },
+   {
+    "id": "d",
+    "text": "Adequate drainage through the IVC cannula"
+   },
+   {
+    "id": "e",
+    "text": "A drop in nasopharyngeal temperature"
+   }
+  ],
+  "answer": "b",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "The ductus is permanently ligated once lower-body perfusion is ensured, judged by an ==appropriate drop in rectal temperature==."
+   },
+   {
+    "id": "seq",
+    "type": "flow",
+    "steps": [
+     {
+      "text": "CPB via brachiocephalic artery at **200 mL/kg/min**"
+     },
+     {
+      "text": "Vent via right upper pulmonary vein"
+     },
+     {
+      "text": "**Snare** the ductus temporarily"
+     },
+     {
+      "text": "Rectal temperature drops appropriately",
+      "label": "check"
+     },
+     {
+      "branches": [
+       {
+        "label": "yes",
+        "text": "Ligate ductus permanently"
+       },
+       {
+        "label": "no",
+        "text": "Loosen snare, snare branch PAs, cannulate main PA"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "The ductus is permanently ligated when lower-body perfusion is ensured, as judged by an appropriate drop in rectal temperature.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 81"
+   }
+  ],
+  "choiceNotes": {
+   "a": "Bilateral radial monitoring is described for **adult** ACP; the neonatal criterion is **rectal** temperature.",
+   "c": "NIRS monitors **regional cerebral** oxygenation, not lower-body perfusion.",
+   "d": "Venous drainage is confirmed separately; lower-body **perfusion** is judged by rectal temperature.",
+   "e": "The source judges lower-body perfusion by an appropriate drop in **rectal** temperature, not nasopharyngeal temperature."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 81, Continuous Antegrade Cerebral Perfusion: Cannulation"
+   }
+  ]
+ },
+ {
+  "id": "F-34",
+  "version": 1,
+  "topic": "Pediatric: continuous antegrade cerebral perfusion",
+  "tags": [
+   "IVC cannula",
+   "venous drainage",
+   "flow rate"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "At the start of CPB at **200 mL/kg/min** for neonatal arch reconstruction with continuous ACP, why is the **IVC cannula initially oriented superiorly** into the atrium?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "To keep the cannula clear of the ductal snare"
+   },
+   {
+    "id": "b",
+    "text": "To avoid obstructing lower-body venous return"
+   },
+   {
+    "id": "c",
+    "text": "To vent the left heart through the atrial septum"
+   },
+   {
+    "id": "d",
+    "text": "So the caval snares can be tightened at once"
+   },
+   {
+    "id": "e",
+    "text": "To deliver retrograde perfusion to the brain"
+   }
+  ],
+  "answer": "b",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "At high flows (200 mL/kg/min), pointing the IVC cannula ==up into the atrium== avoids **obstructing lower-body venous return**."
+   },
+   {
+    "id": "ivc",
+    "type": "table",
+    "caption": "IVC cannula position through the operation",
+    "head": [
+     "Phase",
+     "CPB flow",
+     "IVC cannula"
+    ],
+    "rows": [
+     [
+      "Start of CPB and cooling",
+      "200 mL/kg/min",
+      "**Up** into the right atrium"
+     ],
+     [
+      "After cooling (aortic clamp, cardioplegia)",
+      "120 mL/kg/min",
+      "Redirected **down** into the IVC; caval snares placed"
+     ],
+     [
+      "Rewarming",
+      "Increased to 200 (printed as mL · kg^-1^)",
+      "Snares off; **up** into the right atrium again"
+     ]
+    ]
+   },
+   {
+    "id": "cannula",
+    "type": "callout",
+    "kind": "pearl",
+    "text": "The cavae are cannulated with **right-angled 12F** cannulae in neonates weighing **2.0 kg or more**."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "The IVC cannula is initially oriented superiorly into the atrium to avoid any potential obstruction of lower-body venous return at these high flow rates.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 81"
+   }
+  ],
+  "choiceNotes": {
+   "a": "The stated reason is to avoid **obstructing lower-body venous return** at high flow.",
+   "c": "The left heart is vented through the **right upper pulmonary vein** purse string.",
+   "d": "The caval snares are placed **later**, after cooling, when the IVC cannula is redirected down.",
+   "e": "Brain perfusion is **antegrade** through the brachiocephalic artery cannula."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 81, Continuous Antegrade Cerebral Perfusion: Cannulation"
+   },
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 82, Cardiopulmonary Bypass and Cooling"
+   },
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 82, Rewarming"
+   }
+  ]
+ },
+ {
+  "id": "F-35",
+  "version": 1,
+  "topic": "Pediatric: continuous antegrade cerebral perfusion",
+  "tags": [
+   "cooling",
+   "continuous ACP",
+   "temperature"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "Once CPB is established for **neonatal arch reconstruction using continuous ACP**, to what temperature and for how long is the patient cooled?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "22°C to 24°C for at least 15 minutes"
+   },
+   {
+    "id": "b",
+    "text": "18°C to 20°C for at least 15 minutes"
+   },
+   {
+    "id": "c",
+    "text": "28°C to 30°C for at least 10 minutes"
+   },
+   {
+    "id": "d",
+    "text": "16°C to 18°C for at least 20 minutes"
+   },
+   {
+    "id": "e",
+    "text": "30°C to 32°C for at least 15 minutes"
+   }
+  ],
+  "answer": "a",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "With continuous ACP, cool to ==22°C to 24°C for at least 15 minutes== to ensure **uniform cooling of the central nervous system**."
+   },
+   {
+    "id": "cooling",
+    "type": "table",
+    "caption": "Neonatal continuous ACP versus HCA cooling",
+    "head": [
+     "",
+     "Continuous ACP",
+     "Hypothermic circulatory arrest"
+    ],
+    "rows": [
+     [
+      "Target",
+      "**22°C to 24°C**",
+      "Nasopharyngeal **16°C to 18°C**"
+     ],
+     [
+      "Minimum cooling time",
+      "**15 min**",
+      "**20 min** (up to 30)"
+     ],
+     [
+      "Acid-base during cooling",
+      "**Alpha-stat** initially",
+      "pH-stat or alpha-stat (pH-stat favored for neurologic outcome)"
+     ],
+     [
+      "Hematocrit",
+      "**25% to 30%**",
+      "Not below **0.25**"
+     ]
+    ]
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "the patient is cooled to 22°C to 24°C for a minimum of 15 minutes to ensure uniform cooling of the central nervous system.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 81"
+   }
+  ],
+  "choiceNotes": {
+   "b": "**18°C to 20°C** is where cooling stops in **adult** left thoracotomy distal arch surgery.",
+   "c": "The source cools to **22°C to 24°C** for a minimum of **15 minutes**.",
+   "d": "Nasopharyngeal **16°C–18°C** after **at least 20 minutes** of cooling is the guidance for **hypothermic circulatory arrest**.",
+   "e": "**30°C to 32°C** is what surface cooling usually reaches by the time CPB starts for HCA."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 81, Cardiopulmonary Bypass and Cooling"
+   },
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 82, Cardiopulmonary Bypass and Cooling"
+   },
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 80, Hypothermic Circulatory Arrest: Cardiopulmonary Bypass for Cooling"
+   }
+  ]
+ },
+ {
+  "id": "F-36",
+  "version": 1,
+  "topic": "Pediatric: continuous antegrade cerebral perfusion",
+  "tags": [
+   "continuous ACP",
+   "flow rate",
+   "pH-stat",
+   "neurovascular clips"
+  ],
+  "difficulty": 3,
+  "reviewed": false,
+  "stem": "During neonatal continuous ACP, the brachiocephalic, left carotid and left subclavian arteries are each clipped with **neurovascular clips**, isolating perfusion to the **head and right arm**. Which flow and acid-base strategy are then used?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "40 mL/kg/min with pH-stat management"
+   },
+   {
+    "id": "b",
+    "text": "40 mL/kg/min with alpha-stat management"
+   },
+   {
+    "id": "c",
+    "text": "120 mL/kg/min with pH-stat management"
+   },
+   {
+    "id": "d",
+    "text": "200 mL/kg/min with alpha-stat management"
+   },
+   {
+    "id": "e",
+    "text": "10–15 mL/kg/min with alpha-stat management"
+   }
+  ],
+  "answer": "a",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "With perfusion isolated to the head and right arm, flow is reduced to ==40 mL/kg/min== and acid-base management shifts to ==pH-stat==."
+   },
+   {
+    "id": "phases",
+    "type": "table",
+    "caption": "Flow and acid-base through neonatal continuous ACP",
+    "head": [
+     "Phase",
+     "CPB flow",
+     "Acid-base"
+    ],
+    "rows": [
+     [
+      "CPB start and cooling",
+      "200 mL/kg/min",
+      "Alpha-stat"
+     ],
+     [
+      "After cooling: aortic clamp, cardioplegia",
+      "120 mL/kg/min",
+      "Alpha-stat (from cooling)"
+     ],
+     [
+      "**Isolated cerebral perfusion** (arch vessels clipped)",
+      "**40 mL/kg/min**",
+      "**pH-stat**"
+     ],
+     [
+      "Total body perfusion re-established",
+      "120–150 mL/kg/min",
+      "Not specified"
+     ],
+     [
+      "Rewarming",
+      "Increased to 200 (printed as mL · kg^-1^)",
+      "Alpha-stat"
+     ]
+    ],
+    "emphasis": {
+     "row": 2
+    }
+   },
+   {
+    "id": "then",
+    "type": "callout",
+    "kind": "pearl",
+    "text": "Next the **ductus** is formally ligated and transected (as appropriate) and the mobilized **descending aorta is clamped distally**."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "At this point, direct perfusion is isolated to the head and right arm, the flow rate is reduced to 40 mL · kg^-1^ · min^-1^, and acid-base management shifts to pH-stat.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 82"
+   }
+  ],
+  "choiceNotes": {
+   "b": "Acid-base management **shifts to pH-stat** at this point; alpha-stat is used during cooling and rewarming.",
+   "c": "**120 mL/kg/min** is the flow after cooling, before the arch vessels are clipped.",
+   "d": "**200 mL/kg/min** with alpha-stat is used at the **start** of CPB and during **rewarming**.",
+   "e": "**10–15 mL/kg/min** is the **adult** standardized ACP flow."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 82, Preparation for Cerebral Perfusion"
+   },
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 82, Fig. 2.26"
+   },
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 81, Cardiopulmonary Bypass and Cooling"
+   },
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 82, Rewarming"
+   }
+  ]
+ },
+ {
+  "id": "F-37",
+  "version": 1,
+  "topic": "Pediatric: continuous antegrade cerebral perfusion",
+  "tags": [
+   "intracardiac repair",
+   "arch reconstruction",
+   "aortic clamp"
+  ],
+  "difficulty": 3,
+  "reviewed": false,
+  "stem": "A neonate with arch hypoplasia and an **associated intracardiac lesion** is on continuous ACP, and the **arch reconstruction is completed**. Which is the **preferred** next step?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Convert to hypothermic circulatory arrest for the intracardiac repair"
+   },
+   {
+    "id": "b",
+    "text": "Rewarm to normothermia, wean, and stage the intracardiac repair"
+   },
+   {
+    "id": "c",
+    "text": "Clamp the ascending aorta first, then release the descending clamp and clips"
+   },
+   {
+    "id": "d",
+    "text": "Repair the intracardiac lesion during continuous ACP before removing the clips"
+   },
+   {
+    "id": "e",
+    "text": "Remove the descending clamp and clips first, then clamp the ascending aorta"
+   }
+  ],
+  "answer": "c",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "Preferred: ==restore total body perfusion first==, with a standard **ascending aortic clamp placed before** releasing the descending clamp and clips, then do the intracardiac repair."
+   },
+   {
+    "id": "seq",
+    "type": "flow",
+    "title": "After the arch is rebuilt",
+    "steps": [
+     {
+      "text": "Arch reconstruction complete"
+     },
+     {
+      "text": "**Intracardiac lesion remaining?**"
+     },
+     {
+      "branches": [
+       {
+        "label": "no",
+        "text": "Remove clamp and clips: total body perfusion **coincides** with myocardial reperfusion"
+       },
+       {
+        "label": "yes",
+        "text": "**Ascending aortic clamp first**, then remove descending clamp and clips"
+       }
+      ]
+     },
+     {
+      "text": "Flow **120–150 mL/kg/min**; more cardioplegia as needed; intracardiac repair"
+     }
+    ]
+   },
+   {
+    "id": "pitfall",
+    "type": "callout",
+    "kind": "pitfall",
+    "text": "Without remaining lesions, removing the clamp and clips **coincides with myocardial reperfusion**; with remaining lesions, the **ascending aortic clamp goes on first**."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "If any remaining intracardiac lesions are present, a standard aortic clamp is placed on the ascending aorta before the descending aortic clamp and the neurovascular clips on the brachiocephalic arteries are removed.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 82"
+   }
+  ],
+  "choiceNotes": {
+   "a": "The source restores **total body perfusion** at 120–150 mL/kg/min for the intracardiac repair.",
+   "b": "The intracardiac repair is done **in the same operation** after total body perfusion is restored.",
+   "d": "This is possible, but the **preferred** method is to restore **total body perfusion** first.",
+   "e": "The ascending aortic clamp goes on **before** the descending clamp and neurovascular clips are removed."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 82, Arch Reconstruction"
+   },
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 82, Reestablishing Total Body Perfusion and Associated Intracardiac Repairs"
+   }
+  ]
+ },
+ {
+  "id": "F-38",
+  "version": 1,
+  "topic": "Pediatric: continuous antegrade cerebral perfusion",
+  "tags": [
+   "decannulation",
+   "brachiocephalic artery",
+   "rewarming"
+  ],
+  "difficulty": 1,
+  "reviewed": false,
+  "stem": "After neonatal arch reconstruction using **brachiocephalic artery cannulation**, the patient is rewarmed to normothermia and weaned from CPB. What does the source stress about the **arterial cannula**?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Remove it before rewarming, to restore native arterial flow"
+   },
+   {
+    "id": "b",
+    "text": "Remove it right after separation from CPB"
+   },
+   {
+    "id": "c",
+    "text": "Leave it in place for some hours as an arterial monitoring line"
+   },
+   {
+    "id": "d",
+    "text": "Keep it until chest closure, in case CPB must be resumed"
+   },
+   {
+    "id": "e",
+    "text": "Advance it into the reconstructed arch before weaning"
+   }
+  ],
+  "answer": "b",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "Remove the arterial cannula from the brachiocephalic artery ==immediately after separation from CPB== to prevent **obstruction or arterial thrombosis**."
+   },
+   {
+    "id": "rewarm",
+    "type": "flow",
+    "title": "Rewarming and weaning",
+    "steps": [
+     {
+      "text": "Myocardial reperfusion, **de-airing**, start rewarming"
+     },
+     {
+      "text": "Remove caval snares; IVC cannula back **up** into the right atrium"
+     },
+     {
+      "text": "CPB flow increased to **200** (printed as mL · kg^-1^); rewarm with **alpha-stat**"
+     },
+     {
+      "text": "Normothermia -> wean; remove caval cannulae"
+     },
+     {
+      "text": "**Immediately** remove the brachiocephalic arterial cannula"
+     }
+    ]
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "To prevent obstruction or arterial thrombosis, it is important to remove the arterial cannula from the brachiocephalic artery immediately after separation from CPB.",
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 82"
+   }
+  ],
+  "choiceNotes": {
+   "a": "CPB continues through it during **rewarming**; it is removed after separation from CPB.",
+   "c": "It is removed **immediately** after separation to prevent **obstruction or arterial thrombosis**.",
+   "d": "The source stresses removal **immediately** after separation from CPB.",
+   "e": "The cannula is never advanced beyond **2 mm**; it is removed after separation."
+  },
+  "source": [
+   {
+    "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+    "loc": "p. 82, Rewarming"
+   }
+  ]
+ }
+]
