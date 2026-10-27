@@ -470,7 +470,7 @@
       },
       {
         "id": "c",
-        "text": "Its appendage is its only trabeculated structure, with no crista terminalis at the base"
+        "text": "Its appendage is the only trabeculated structure within it"
       },
       {
         "id": "d",
@@ -536,110 +536,6 @@
     ]
   },
   {
-    "id": "A-06",
-    "version": 1,
-    "topic": "Right Atrium",
-    "tags": [
-      "right atrium",
-      "triangle of Koch",
-      "conduction system",
-      "AV node"
-    ],
-    "difficulty": 2,
-    "reviewed": false,
-    "stem": "During tricuspid valve repair, the surgeon wants to avoid injuring the **atrioventricular node**. Within which area of the right atrium does it lie?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "The triangle bounded by the coronary sinus, the tendon of Todaro, and the anulus of the septal tricuspid leaflet"
-      },
-      {
-        "id": "b",
-        "text": "The area of the atrial septum enclosed by the C-shaped limbus of the fossa ovalis"
-      },
-      {
-        "id": "c",
-        "text": "The trabeculated portion of the atrium on the far side of the crista terminalis"
-      },
-      {
-        "id": "d",
-        "text": "The area between the eustachian valve and the orifice of the inferior vena cava"
-      },
-      {
-        "id": "e",
-        "text": "The area at the anteroseptal commissure of the tricuspid valve"
-      }
-    ],
-    "answer": "a",
-    "explanation": [
-      {
-        "id": "answer",
-        "type": "callout",
-        "kind": "key",
-        "text": "The **AV node** and the **proximal bundle of His** lie within the ==triangle of Koch==."
-      },
-      {
-        "id": "koch",
-        "type": "mindmap",
-        "center": "Triangle of Koch",
-        "branches": [
-          {
-            "text": "Boundary 1",
-            "children": [
-              "coronary sinus"
-            ]
-          },
-          {
-            "text": "Boundary 2",
-            "children": [
-              "tendon of Todaro"
-            ]
-          },
-          {
-            "text": "Boundary 3",
-            "children": [
-              "anulus of the septal tricuspid leaflet"
-            ]
-          },
-          {
-            "text": "Contents",
-            "children": [
-              "atrioventricular node",
-              "proximal bundle of His"
-            ]
-          }
-        ]
-      },
-      {
-        "id": "fossa",
-        "type": "p",
-        "text": "The **fossa ovalis**, by contrast, sits in the center of the atrial septum, surrounded by the limbus; the coronary sinus is positioned **inferiorly**."
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "Atrioventricular node and proximal portions of bundle of His, portions of the specialized conduction system, lie within the triangle of Koch.",
-        "ref": "Chapter 1: Anatomy and Dimensions, p. 3"
-      }
-    ],
-    "choiceNotes": {
-      "b": "The limbus encloses the **fossa ovalis**, in the center of the atrial septum, not the AV node.",
-      "c": "The crista terminalis separates the trabeculated from the venous portion; the AV node lies in the triangle of Koch.",
-      "d": "The eustachian valve lies at the IVC orifice; the AV node lies in the triangle of Koch.",
-      "e": "The anteroseptal commissure is a tricuspid valve landmark (Fig. 1.2); the AV node lies in the triangle of Koch."
-    },
-    "source": [
-      {
-        "ref": "Chapter 1: Anatomy and Dimensions",
-        "loc": "p. 3, Fig. 1.3"
-      },
-      {
-        "ref": "Chapter 1: Anatomy and Dimensions",
-        "loc": "p. 2, Fig. 1.2"
-      }
-    ]
-  },
-  {
     "id": "A-07",
     "version": 1,
     "topic": "Cardiac Chambers and Major Vessels",
@@ -650,7 +546,7 @@
     ],
     "difficulty": 1,
     "reviewed": false,
-    "stem": "Which cardiac chamber occupies **most of the anterior aspect** of the heart?",
+    "stem": "Which part of the heart occupies **most of its anterior aspect**?",
     "choices": [
       {
         "id": "a",
@@ -740,7 +636,7 @@
     ],
     "difficulty": 3,
     "reviewed": false,
-    "stem": "At the **base of the heart**, where does the aorta originate relative to the pulmonary trunk?",
+    "stem": "Where does the aorta lie relative to the pulmonary trunk at the level of the **pericardial reflection**?",
     "choices": [
       {
         "id": "a",
@@ -760,16 +656,16 @@
       },
       {
         "id": "e",
-        "text": "Directly to the left"
+        "text": "Directly anterior"
       }
     ],
-    "answer": "d",
+    "answer": "a",
     "explanation": [
       {
         "id": "answer",
         "type": "callout",
         "kind": "key",
-        "text": "At the base of the heart the aorta originates ==posterior and to the right== of the pulmonary trunk."
+        "text": "By the pericardial reflection the aorta is ==anterior and to the right== of the pulmonary trunk, although it originates **posterior** and to the right at the base of the heart."
       },
       {
         "id": "levels",
@@ -808,10 +704,10 @@
       }
     ],
     "choiceNotes": {
-      "a": "Anterior and to the right describes the aorta **at the pericardial reflection**, not at its origin.",
       "b": "The aorta lies to the **right** of the pulmonary trunk at both levels described.",
-      "c": "The aorta lies to the **right** of the pulmonary trunk at its origin.",
-      "e": "The aorta lies to the **right**, and posterior, at its origin."
+      "c": "The aorta lies to the **right** of the pulmonary trunk at both levels described.",
+      "d": "Posterior and to the right is where the aorta **originates, at the base of the heart**, not its position at the pericardial reflection.",
+      "e": "At the pericardial reflection the aorta is anterior **and to the right** of the pulmonary trunk."
     },
     "source": [
       {
@@ -914,106 +810,6 @@
     ]
   },
   {
-    "id": "A-10",
-    "version": 1,
-    "topic": "Left Atrium",
-    "tags": [
-      "mitral valve",
-      "right trigone",
-      "bundle of His",
-      "conduction system"
-    ],
-    "difficulty": 2,
-    "reviewed": false,
-    "stem": "During a mitral valve operation viewed from the right side, which area next to the mitral anulus **contains the bundle of His**?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "Left trigone"
-      },
-      {
-        "id": "b",
-        "text": "Right trigone"
-      },
-      {
-        "id": "c",
-        "text": "Base of the left atrial appendage"
-      },
-      {
-        "id": "d",
-        "text": "Orifice of the right inferior pulmonary vein"
-      },
-      {
-        "id": "e",
-        "text": "Septum primum"
-      }
-    ],
-    "answer": "b",
-    "explanation": [
-      {
-        "id": "answer",
-        "type": "callout",
-        "kind": "key",
-        "text": "The ==right trigone== contains the **bundle of His** (stippled area in Fig. 1.4)."
-      },
-      {
-        "id": "view",
-        "type": "flow",
-        "steps": [
-          {
-            "text": "Left atrium opened, viewed from the **right side** at operation"
-          },
-          {
-            "label": "around the mitral anulus",
-            "text": "Two fibrous trigones"
-          },
-          {
-            "branches": [
-              {
-                "label": "Right trigone",
-                "text": "Contains the **bundle of His**"
-              },
-              {
-                "label": "Left trigone",
-                "text": "Greatest risk to the **aortic valve** in MVR"
-              }
-            ]
-          }
-        ],
-        "title": "Fig. 1.4 at a glance"
-      },
-      {
-        "id": "his",
-        "type": "callout",
-        "kind": "pearl",
-        "title": "Conduction tissue nearby",
-        "text": "Within the right atrium, the **AV node and proximal bundle of His** lie in the triangle of Koch."
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "Stippled area indicates position of right trigone, which contains bundle of His.",
-        "ref": "Chapter 1: Anatomy and Dimensions, p. 4"
-      }
-    ],
-    "choiceNotes": {
-      "a": "The left trigone is the area of greatest risk to the **aortic valve** during mitral valve replacement.",
-      "c": "The base of the atrial appendage is labeled in Fig. 1.4, but the bundle of His is in the right trigone.",
-      "d": "The right inferior pulmonary vein orifice is a left atrial landmark, not the site of the bundle of His.",
-      "e": "The septum primum is the flap valve of the fossa ovalis, not the site of the bundle of His."
-    },
-    "source": [
-      {
-        "ref": "Chapter 1: Anatomy and Dimensions",
-        "loc": "p. 4, Fig. 1.4"
-      },
-      {
-        "ref": "Chapter 1: Anatomy and Dimensions",
-        "loc": "p. 3, Fig. 1.3"
-      }
-    ]
-  },
-  {
     "id": "A-11",
     "version": 1,
     "topic": "Left Ventricle",
@@ -1036,7 +832,7 @@
       },
       {
         "id": "c",
-        "text": "Its inlet and outlet valves lie juxtaposed within its base, separated by the anterior AV valve leaflet"
+        "text": "Its inlet and outlet valves lie juxtaposed within its base"
       },
       {
         "id": "d",
@@ -1152,7 +948,7 @@
       },
       {
         "id": "c",
-        "text": "Fine trabeculations limited to the outlet portion of the septum"
+        "text": "Fine trabeculations limited to the outlet (outflow) portion of the septum"
       },
       {
         "id": "d",
@@ -1160,7 +956,7 @@
       },
       {
         "id": "e",
-        "text": "Fine trabeculations on the septum only, with a smooth free wall"
+        "text": "Fine trabeculations on the septum only, with an entirely smooth free wall"
       }
     ],
     "answer": "a",
@@ -1331,15 +1127,15 @@
       },
       {
         "id": "c",
-        "text": "It forms part of the atrioventricular septum"
+        "text": "It forms the muscular portion of the atrioventricular septum"
       },
       {
         "id": "d",
-        "text": "It is the apical continuation of the moderator band"
+        "text": "It continues apically to become the moderator band"
       },
       {
         "id": "e",
-        "text": "The pulmonary valve arises from the apex of a cone of muscle with no septal attachment"
+        "text": "The pulmonary valve arises from a cone of muscle, without septal attachment"
       }
     ],
     "answer": "e",
@@ -1375,8 +1171,8 @@
     "choiceNotes": {
       "a": "The infundibular septum is **muscle**; the reason given is the pulmonary valve's origin from a cone of muscle.",
       "b": "The right ventricular infundibular septum lies **opposite** the aortic valve; only occasionally is it displaced into the left ventricular outflow.",
-      "c": "The AV septum is part of the septum related to the tricuspid septal leaflet attachment (Fig. 1.13), not the cephalad infundibular septum.",
-      "d": "The **TSM**, not the infundibular septum, extends apically to the moderator band."
+      "c": "In Fig. 1.13 the **AV septum** is the septal tissue above the line of attachment of the tricuspid septal leaflet, not the cephalad end of the infundibular septum.",
+      "d": "The **TSM** (septal band), not the infundibular septum, extends apically to become continuous with the moderator band."
     },
     "source": [
       {
@@ -1386,6 +1182,10 @@
       {
         "ref": "Chapter 1: Anatomy and Dimensions",
         "loc": "p. 4, Fig. 1.5"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 8, Fig. 1.13"
       }
     ]
   },
@@ -1878,7 +1678,7 @@
         "type": "callout",
         "kind": "pearl",
         "title": "Identification clue",
-        "text": "Papillary muscles on the septal surface point to the **right** ventricle; the left ventricular septal surface has **none**."
+        "text": "Septal papillary muscles belong to the **tricuspid** valve; **no** papillary muscles attach to the left side of the ventricular septum."
       },
       {
         "id": "quote",
@@ -2079,7 +1879,7 @@
         "type": "callout",
         "kind": "pearl",
         "title": "The other half",
-        "text": "The **leftward half** of the anterior mitral leaflet is not attached to the septum: it is in fibrous continuity with the aortic valve."
+        "text": "The **leftward half** of the anterior mitral leaflet is instead in **fibrous continuity with the aortic valve** (the aortic-mitral anulus)."
       },
       {
         "id": "quote",
@@ -2219,11 +2019,11 @@
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "In the normal heart, which structure lies **opposite the aortic valve** and may occasionally be displaced into the left ventricular outflow beneath it?",
+    "stem": "In the normal heart, which **right ventricular** structure lies **opposite the aortic valve** and may occasionally be displaced into the left ventricular outflow beneath it?",
     "choices": [
       {
         "id": "a",
-        "text": "Moderator band"
+        "text": "Trabecula septomarginalis"
       },
       {
         "id": "b",
@@ -2235,11 +2035,11 @@
       },
       {
         "id": "d",
-        "text": "Right ventricular infundibular (conal) septum"
+        "text": "Infundibular (conal) septum"
       },
       {
         "id": "e",
-        "text": "Trabecular septum"
+        "text": "Apical trabecular septum"
       }
     ],
     "answer": "d",
@@ -2278,10 +2078,10 @@
       }
     ],
     "choiceNotes": {
-      "a": "The moderator band runs from the septum to the right ventricular free wall, continuous with the TSM apically.",
+      "a": "The TSM (septal band) extends apically to become continuous with the **moderator band**; it is not the structure described opposite the aortic valve.",
       "b": "The medial papillary muscle arises from the posterior limb of the septal band.",
       "c": "The septal tricuspid leaflet is the only valvar attachment on the **right** ventricular side of the septum.",
-      "e": "The trabecular septum is part of the sinus septum, not the structure lying opposite the aortic valve."
+      "e": "The trabecular (apical trabecular) portion is part of the **sinus** septum, not the structure lying opposite the aortic valve."
     },
     "source": [
       {
@@ -2317,7 +2117,7 @@
       },
       {
         "id": "b",
-        "text": "Middle layer, with a circumferential pattern"
+        "text": "Middle layer"
       },
       {
         "id": "c",
@@ -2325,11 +2125,11 @@
       },
       {
         "id": "d",
-        "text": "Both the superficial and the deep layers"
+        "text": "Superficial and deep layers"
       },
       {
         "id": "e",
-        "text": "None: all three layers are present in both ventricles"
+        "text": "No layer; all three are in both ventricles"
       }
     ],
     "answer": "b",
@@ -2685,23 +2485,23 @@
     "choices": [
       {
         "id": "a",
-        "text": "Fibrous continuity between the pulmonary and tricuspid valves"
+        "text": "Fibrous pulmonary–tricuspid valve continuity"
       },
       {
         "id": "b",
-        "text": "A freestanding sleeve of subpulmonary myocardium, separate from the ventricular septum"
+        "text": "A freestanding sleeve of subpulmonary myocardium"
       },
       {
         "id": "c",
-        "text": "The septal attachment of the pulmonary valve, which anchors the root"
+        "text": "A septal attachment anchoring the pulmonary valve"
       },
       {
         "id": "d",
-        "text": "A plane of fibrous septation between the myocardial layers"
+        "text": "A fibrous plane between the myocardial layers"
       },
       {
         "id": "e",
-        "text": "The middle circumferential layer beneath the pulmonary valve"
+        "text": "A middle circumferential layer under the valve"
       }
     ],
     "answer": "b",
@@ -2761,6 +2561,331 @@
       {
         "ref": "Chapter 1: Anatomy and Dimensions",
         "loc": "p. 3, Right Ventricle"
+      }
+    ]
+  },
+  {
+    "id": "A-N1",
+    "version": 1,
+    "topic": "Right Atrium",
+    "tags": [
+      "right atrium",
+      "morphologic identification",
+      "catheterization",
+      "inferior vena cava"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "At cardiac catheterization in a child with a complex malformation, the definitive morphologic features of the right atrium are difficult to recognize radiologically. Which observation **often** makes it possible to determine the location of the right atrium?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Opacification of the chamber after a pulmonary artery injection"
+      },
+      {
+        "id": "b",
+        "text": "Passage of a catheter from the inferior vena cava to the heart"
+      },
+      {
+        "id": "c",
+        "text": "Entry of the four pulmonary veins into the chamber"
+      },
+      {
+        "id": "d",
+        "text": "A long, narrow appendage outlined on the angiogram"
+      },
+      {
+        "id": "e",
+        "text": "The chamber’s rightward position on the angiogram"
+      }
+    ],
+    "answer": "b",
+    "explanation": [
+      {
+        "id": "answer",
+        "type": "callout",
+        "kind": "key",
+        "text": "The **hepatic portion of the inferior vena cava usually drains into the right atrium**, so ==passage of a catheter from the IVC to the heart== often locates the right atrium."
+      },
+      {
+        "id": "clues",
+        "type": "table",
+        "head": [
+          "Radiologic clue",
+          "What it shows"
+        ],
+        "rows": [
+          [
+            "Catheter passed from the IVC to the heart",
+            "**Often** locates the right atrium (the hepatic IVC usually drains into it)"
+          ],
+          [
+            "Atrial septum in angiographic profile",
+            "**Occasionally** delineates the limbus of the fossa ovalis"
+          ],
+          [
+            "Outline of the right atrial appendage",
+            "**Sometimes** differentiates its shape from the left atrial appendage"
+          ],
+          [
+            "Right ventricular or pulmonary artery injection",
+            "May well opacify the **left** atrium (with normal pulmonary venous connection)"
+          ]
+        ],
+        "caption": "Finding the atria at angiography",
+        "emphasis": {
+          "col": 1
+        }
+      },
+      {
+        "id": "exclusion",
+        "type": "p",
+        "text": "In general, the **left atrium is located by exclusion**, after identifying the position of the right atrium."
+      },
+      {
+        "id": "position",
+        "type": "callout",
+        "kind": "pitfall",
+        "title": "Position is not identity",
+        "text": "Chambers are identified **by their morphology, regardless of their spatial positions**."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "the hepatic portion of the inferior vena cava usually drains into the right atrium often makes it possible to determine the location of the right atrium by passage of a catheter from the inferior vena cava to the heart",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 1–2"
+      }
+    ],
+    "choiceNotes": {
+      "a": "With normal pulmonary venous connection, a right ventricular or pulmonary artery injection may well opacify the **left** atrium.",
+      "c": "The **left** atrium normally receives the pulmonary venous drainage from the four pulmonary veins.",
+      "d": "A long, narrow (windsock) appendage is the best indicator of a **left** atrium.",
+      "e": "Chambers are identified by their **morphology, regardless of their spatial positions**."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 1, Right Atrium"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 2, Right Atrium"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 3, Left Atrium"
+      }
+    ]
+  },
+  {
+    "id": "A-N2",
+    "version": 1,
+    "topic": "Right Ventricle",
+    "tags": [
+      "right ventricle",
+      "crista supraventricularis",
+      "infundibular septum",
+      "parietal band"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "Many surgeons use the term **crista supraventricularis**. According to the chapter, which structures does this term describe?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Septal band and moderator band"
+      },
+      {
+        "id": "b",
+        "text": "Septal band and medial papillary muscle"
+      },
+      {
+        "id": "c",
+        "text": "Moderator band and anterior papillary muscle"
+      },
+      {
+        "id": "d",
+        "text": "Infundibular septum and parietal band"
+      },
+      {
+        "id": "e",
+        "text": "Infundibular septum and membranous septum"
+      }
+    ],
+    "answer": "d",
+    "explanation": [
+      {
+        "id": "answer",
+        "type": "callout",
+        "kind": "key",
+        "text": "Many surgeons call the ==infundibular septum and the parietal band== the **crista supraventricularis**."
+      },
+      {
+        "id": "infs",
+        "type": "mindmap",
+        "center": "Infundibular (conal) septum",
+        "branches": [
+          {
+            "text": "Separates",
+            "children": [
+              "pulmonary valve from aortic and tricuspid valves"
+            ]
+          },
+          {
+            "text": "Laterally, to the right",
+            "children": [
+              "merges with the free wall beyond the membranous septum",
+              "= parietal extension (parietal band)"
+            ]
+          },
+          {
+            "text": "Medially, to the left",
+            "children": [
+              "merges with the trabecular septum",
+              "between the limbs of the TSM"
+            ]
+          },
+          {
+            "text": "Interventricular?",
+            "children": [
+              "only part of it"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "bands",
+        "type": "callout",
+        "kind": "pitfall",
+        "title": "Parietal band ≠ septal band",
+        "text": "The **septal band** (TSM) is the Y-shaped bundle on the septum that continues apically as the **moderator band**; the **parietal band** is the rightward extension of the infundibular septum."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "Many surgeons call the infundibular septum and the parietal band the crista supraventricularis.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 3"
+      }
+    ],
+    "choiceNotes": {
+      "a": "The septal band (TSM) extends apically to become continuous with the moderator band; neither is part of the crista supraventricularis as defined.",
+      "b": "The medial papillary muscle attaches to the posterior limb of the septal band; neither is part of the crista supraventricularis as defined.",
+      "c": "The anterior papillary muscle fuses with the moderator band; neither is part of the crista supraventricularis as defined.",
+      "e": "The infundibular septum merges with the free wall **beyond** its attachment to the membranous septum; that extension is the parietal band, not the membranous septum."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 3, Right Ventricle"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 6, Fig. 1.9"
+      }
+    ]
+  },
+  {
+    "id": "A-N3",
+    "version": 1,
+    "topic": "Left Ventricle",
+    "tags": [
+      "left ventricle",
+      "left ventricular outflow tract",
+      "mitral valve"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "On a lateral view of the opened left ventricle, the passageway below the aortic valve is called the **left ventricular outflow tract**. Which two structures bound it?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Inlet septum and posterior (mural) mitral leaflet"
+      },
+      {
+        "id": "b",
+        "text": "Trabecular septum and anterior papillary muscle"
+      },
+      {
+        "id": "c",
+        "text": "Outflow septum and posterior (mural) mitral leaflet"
+      },
+      {
+        "id": "d",
+        "text": "Membranous septum and septal tricuspid leaflet"
+      },
+      {
+        "id": "e",
+        "text": "Outflow septum and anterior mitral leaflet"
+      }
+    ],
+    "answer": "e",
+    "explanation": [
+      {
+        "id": "answer",
+        "type": "callout",
+        "kind": "key",
+        "text": "The LVOT is the passageway below the aortic valve bounded by the ==outflow portion of the ventricular septum== and the ==anterior mitral leaflet==."
+      },
+      {
+        "id": "aml",
+        "type": "list",
+        "items": [
+          "The anterior mitral leaflet hinges **partly from the fibrous subaortic curtain** and **partly from the septum** (Fig. 1.10)",
+          "It **separates the outflow portion** of the left ventricle from the remaining **sinus** portion",
+          "It is in **fibrous continuity** with the aortic valve (Fig. 1.14)"
+        ]
+      },
+      {
+        "id": "parts",
+        "type": "table",
+        "head": [
+          "Left ventricular region",
+          "Location (Fig. 1.14)"
+        ],
+        "rows": [
+          [
+            "**Outflow** portion",
+            "Below the aortic valve, between outflow septum and anterior mitral leaflet"
+          ],
+          [
+            "**Inflow** portion",
+            "Beneath and behind the mitral valve"
+          ]
+        ],
+        "caption": "Inflow vs outflow"
+      },
+      {
+        "id": "mural",
+        "type": "callout",
+        "kind": "pitfall",
+        "title": "Which leaflet?",
+        "text": "The **posterior (mural)** leaflet lies against the **posterior free wall**; it is the **anterior** leaflet that bounds the outflow tract."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "Passageway below aortic valve, bounded by outflow portion of ventricular septum and anterior leaflet of mitral valve, is called the left ventricular outflow tract.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 9"
+      }
+    ],
+    "choiceNotes": {
+      "a": "The inlet septum lies immediately beneath the mitral valve, in the sinus (inflow) portion; the posterior leaflet lies against the posterior free wall.",
+      "b": "The trabecular septum is part of the sinus portion, and the papillary muscles arise from the free wall; neither bounds the outflow tract.",
+      "c": "The posterior (mural) leaflet lies against the posterior free wall; the **anterior** leaflet bounds the outflow tract.",
+      "d": "The septal tricuspid leaflet is a **right** ventricular structure."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 9, Fig. 1.14"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 7, Fig. 1.10"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 5, Left Ventricle"
       }
     ]
   }
