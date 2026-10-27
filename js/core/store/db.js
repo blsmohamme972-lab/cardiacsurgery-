@@ -21,7 +21,7 @@
 import { bus } from '../events.js';
 
 export const DB_NAME = 'cardiac-mcq';
-export const DB_VERSION = 1;
+export const DB_VERSION = 2;
 
 /** Time allowed for one open attempt before it is treated as hung. */
 const OPEN_TIMEOUT_MS = 8000;
@@ -45,6 +45,7 @@ export const SCHEMA = Object.freeze({
   reports: Object.freeze({ keyPath: 'id', indexes: Object.freeze(['qid']) }),
   reviews: Object.freeze({ keyPath: 'qid', indexes: Object.freeze([]) }),
   sessions: Object.freeze({ keyPath: 'id', indexes: Object.freeze(['updatedAt']) }),
+  media: Object.freeze({ keyPath: 'id', indexes: Object.freeze(['qid', 'ts']) }),
 });
 
 /**
@@ -111,6 +112,11 @@ export const migrations = [
     ensureStore(db, tx, 'reports', { keyPath: 'id' }, ['qid']);
     ensureStore(db, tx, 'reviews', { keyPath: 'qid' }, []);
     ensureStore(db, tx, 'sessions', { keyPath: 'id' }, ['updatedAt']);
+  },
+  // v2: `media` store for images the user adds in the scratchpad (§4, §7.16).
+  // Additive only: every v1 store and record is left untouched. Idempotent.
+  (db, tx) => {
+    ensureStore(db, tx, 'media', { keyPath: 'id' }, ['qid', 'ts']);
   },
 ];
 

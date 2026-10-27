@@ -161,15 +161,15 @@
   overflow: hidden;
 }
 
-/* The parameter tick: a short accent at the top edge, like a monitor channel colour. */
+/* The channel marker: a short accent bar on the left edge beside the label, like a monitor channel colour. */
 .stat-tile::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: var(--sp-4);
-  width: 22px;
-  height: 3px;
-  border-radius: 0 0 3px 3px;
+  top: calc(var(--sp-3) + 3px);
+  left: 0;
+  width: 3px;
+  height: 18px;
+  border-radius: 0 3px 3px 0;
   background: var(--tile-accent);
 }
 
@@ -364,6 +364,8 @@
   width: 100%;
   min-width: 0;
   opacity: 0.4;
+  -webkit-mask-position: center;
+  mask-position: center;
 }
 
 /* Alive: a solid heart in the trace colour that beats a few times, then rests. */

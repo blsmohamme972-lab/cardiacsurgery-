@@ -42,7 +42,18 @@ export const DEFAULTS = Object.freeze({
   lastRoute: null,
   ttsRate: 1, // read-aloud speed, 0.8 – 1.4
   ttsVoice: null, // voiceURI of the chosen device voice, or null = best available
+  scratchView: 'over', // scratchpad view: 'over' | 'split' | 'full'
+  scratchTool: 'pen', // last scratchpad tool (SCRATCH_TOOLS)
+  scratchColor: '#1d4ed8',
+  scratchSize: 1, // 0 | 1 | 2 (thin, medium, thick)
+  scratchBg: 'dots', // paper template: 'plain' | 'dots' | 'grid' | 'lines'
+  scratchOpacity: 0, // paper opacity in the 'over' view, 0 – 0.9
 });
+
+/** Scratchpad tools that may be remembered as `scratchTool` (§7.16). */
+export const SCRATCH_TOOLS = Object.freeze([
+  'select', 'lasso', 'pen', 'hl', 'eraser', 'shape', 'line', 'arrow', 'rect', 'ellipse', 'text', 'hand',
+]);
 
 /** Font scale bounds. */
 export const FONT_SCALE_MIN = 0.85;
@@ -77,6 +88,9 @@ const numberIn = (min, max, decimals = 0) => (v) => {
   return Math.round(Math.min(max, Math.max(min, n)) * f) / f;
 };
 
+/** @param {any} v */
+const hexColor = (v) => (typeof v === 'string' && /^#[0-9a-f]{6}$/i.test(v) ? v.toLowerCase() : INVALID);
+
 /**
  * Validators/normalisers for known keys. Unknown keys are stored as given.
  * @type {Record<string, (v: any) => any>}
@@ -98,13 +112,19 @@ const SANITIZERS = {
   drawInput: oneOf(['auto', 'finger', 'pen']),
   highlightColor: oneOf(['yellow', 'green', 'blue', 'pink']),
   inkTool: oneOf(['pen', 'hl', 'eraser']),
-  inkColor: (v) => (typeof v === 'string' && /^#[0-9a-f]{6}$/i.test(v) ? v.toLowerCase() : INVALID),
+  inkColor: hexColor,
   inkSize: numberIn(0.001, 0.05, 4),
   reviewerMode: bool,
   tourDone: bool,
   askGptNoticeSeen: bool,
   ttsRate: numberIn(0.8, 1.4, 2),
   ttsVoice: (v) => (v === null || (typeof v === 'string' && v.length > 0 && v.length <= 512) ? v : INVALID),
+  scratchView: oneOf(['over', 'split', 'full']),
+  scratchTool: oneOf(SCRATCH_TOOLS),
+  scratchColor: hexColor,
+  scratchSize: numberIn(0, 2),
+  scratchBg: oneOf(['plain', 'dots', 'grid', 'lines']),
+  scratchOpacity: numberIn(0, 0.9, 2),
   lastRoute: (v) => (v === null || (typeof v === 'string' && v.startsWith('/') && v.length <= 2048) ? v : INVALID),
 };
 

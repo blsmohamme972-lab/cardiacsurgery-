@@ -627,7 +627,8 @@ venous navy hero surfaces `--venous --venous-2 --hero-grad` with `--on-venous --
 (crimson-pink light, monitor green dark); scrub teal accent `--teal --teal-soft --teal-contrast`; `--brand-grad`;
 chart colours `--chart-1 --chart-2 --chart-track`. Steel-cool neutrals. Fonts: `--font-sans` = Inter (body/UI),
 `--font-display` = Manrope (headings, `.num-display` numbers). `base.css` provides `.num-display` and the decorative
-`.ecg-line` (+ `.ecg-line--sweep`, still with reduced motion). All text pairs ≥ 4.5:1 in both themes.
+`.ecg-line` (+ `.ecg-line--sweep`, still with reduced motion). Brand classes in `shell.css`: `.brand-badge`,
+`.brand-mark` (`--full`), `.wordmark-accent` (the crimson "Klin" of the KirKlin wordmark). All text pairs ≥ 4.5:1 in both themes.
 Theme: `<html data-theme="light|dark">`.
 
 Breakpoints: phone `< 700px` (bottom tab bar), tablet `≥ 700px` (side rail),

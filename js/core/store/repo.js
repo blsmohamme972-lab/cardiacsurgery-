@@ -23,9 +23,13 @@ import * as db from './db.js';
  * @typedef {{ id: string, qid: string, qversion: number, block: string, quote: string,
  *   prefix: string, suffix: string, start: number, color: string, ts: number, updated?: number }} Highlight
  * @typedef {{ tool: 'pen' | 'hl', color: string, size: number, pts: number[] }} Stroke
- * @typedef {{ id: string, qid: string, block: string, qversion: number, strokes: Stroke[], updated: number }} InkRecord
+ * @typedef {{ v: number, page: { w: number, h: number, bg: string }, items: any[] }} Scene
+ * @typedef {{ id: string, qid: string, block: string, qversion: number, strokes: Stroke[], scene?: Scene,
+ *   updated: number }} InkRecord
  * @typedef {{ id: string, qid: string, blob: Blob | null, mime: string, durationMs: number, ts: number }} VoiceNote
  * @typedef {{ id: string, qid: string, qversion: number, reason: string, text: string, ts: number }} Report
+ * @typedef {{ id: string, qid: string, blob: Blob | null, mime: string, width: number, height: number,
+ *   bytes: number, ts: number }} MediaRecord
  * @typedef {{ qid: string, qversion: number, status: 'ok' | 'fix', comment: string, ts: number }} Review
  * @typedef {Record<string, any> & { id: string, updatedAt: number, finishedAt: number | null }} Session
  */
@@ -42,6 +46,7 @@ export const ALL_STORES = Object.freeze([
   'reports',
   'reviews',
   'sessions',
+  'media',
 ]);
 
 /** Settings keys that a backup import must never overwrite. */
@@ -423,6 +428,19 @@ export function inkId(qid, block) {
   return `${qid}|${block}`;
 }
 
+/**
+ * Whether an ink record (or the data passed to `inkRepo.set`) has anything
+ * worth keeping: at least one stroke, or at least one scene item.
+ * @param {{ strokes?: unknown, scene?: any } | null | undefined} rec
+ * @returns {boolean}
+ */
+export function inkHasContent(rec) {
+  if (!rec || typeof rec !== 'object') return false;
+  if (Array.isArray(rec.strokes) && rec.strokes.length > 0) return true;
+  const items = rec.scene && typeof rec.scene === 'object' ? rec.scene.items : null;
+  return Array.isArray(items) && items.length > 0;
+}
+
 /** Hand-drawn ink, one record per question block. */
 export const inkRepo = Object.freeze({
   /**
@@ -443,24 +461,34 @@ export const inkRepo = Object.freeze({
   },
 
   /**
-   * Saves the strokes of one block, or deletes the record when there are none.
+   * Saves the ink of one block. The record is kept while it has strokes OR
+   * scene items (scratchpad v2); it is deleted only when both are empty.
+   * `scene` is stored as given (omit it for plain block ink).
    * @param {string} qid
    * @param {string} block
-   * @param {{ qversion: number, strokes: Stroke[] }} data
+   * @param {{ qversion: number, strokes?: Stroke[], scene?: Scene | null }} data
    * @returns {Promise<InkRecord | null>} The stored record, or null when deleted.
    */
-  set(qid, block, { qversion, strokes } = /** @type {any} */ ({})) {
+  set(qid, block, { qversion, strokes, scene } = /** @type {any} */ ({})) {
     requireId(qid, 'qid');
     requireId(block, 'block');
     const id = inkId(qid, block);
     return withLock(`ink:${id}`, async () => {
-      if (!Array.isArray(strokes) || strokes.length === 0) {
+      if (!inkHasContent({ strokes, scene })) {
         await db.del('ink', id);
         changed('ink', id);
         return null;
       }
       /** @type {InkRecord} */
-      const rec = { id, qid, block, qversion: num(qversion) || 1, strokes, updated: Date.now() };
+      const rec = {
+        id,
+        qid,
+        block,
+        qversion: num(qversion) || 1,
+        strokes: Array.isArray(strokes) ? strokes : [],
+        updated: Date.now(),
+      };
+      if (scene && typeof scene === 'object') rec.scene = scene;
       await db.put('ink', rec);
       changed('ink', id);
       return rec;
@@ -521,6 +549,120 @@ export const voiceRepo = Object.freeze({
   /** @returns {Promise<VoiceNote[]>} Newest first. */
   async all() {
     return sortBy(await db.getAll('voice'), 'ts', -1);
+  },
+});
+
+// ---------------------------------------------------------------------------
+// media
+// ---------------------------------------------------------------------------
+
+/** Largest image blob accepted (images are downscaled before storing; this is a safety net). */
+export const MEDIA_MAX_BYTES = 25 * 1024 * 1024;
+/** Accepted image types (`image/<subtype>`, optional parameters). */
+const MEDIA_MIME = /^image\/[a-z0-9.+-]+(\s*;.*)?$/i;
+
+/**
+ * @param {unknown} v
+ * @returns {v is Blob}
+ */
+function isBlob(v) {
+  if (typeof Blob !== 'undefined' && v instanceof Blob) return true;
+  return Boolean(v) && typeof (/** @type {any} */ (v).size) === 'number' && typeof (/** @type {any} */ (v).type) === 'string'
+    && typeof (/** @type {any} */ (v).arrayBuffer) === 'function';
+}
+
+/**
+ * Checks the input of `mediaRepo.add` and returns the normalised fields.
+ * Throws a TypeError (or RangeError for size) with a developer-facing message.
+ * @param {{ qid?: unknown, blob?: unknown, mime?: unknown, width?: unknown, height?: unknown }} m
+ * @returns {{ qid: string, blob: Blob, mime: string, width: number, height: number, bytes: number }}
+ */
+export function checkMediaInput(m) {
+  if (!m || typeof m !== 'object') throw new TypeError('media must be an object');
+  const qid = requireId(m.qid, 'media.qid');
+  if (!isBlob(m.blob)) throw new TypeError('media needs an image blob');
+  const blob = /** @type {Blob} */ (m.blob);
+  const mime = String(m.mime || blob.type || '').trim();
+  if (!MEDIA_MIME.test(mime)) throw new TypeError(`media mime must be an image type, got "${mime}"`);
+  const bytes = blob.size;
+  if (!(bytes > 0)) throw new TypeError('media blob is empty');
+  if (bytes > MEDIA_MAX_BYTES) throw new RangeError('media blob is too large');
+  const width = Math.round(num(m.width));
+  const height = Math.round(num(m.height));
+  if (width <= 0 || height <= 0) throw new TypeError('media needs a positive width and height');
+  return { qid, blob, mime, width, height, bytes };
+}
+
+/** Images the user adds (scratchpad), already downscaled. */
+export const mediaRepo = Object.freeze({
+  /**
+   * @param {string} id
+   * @returns {Promise<MediaRecord | null>}
+   */
+  get(id) {
+    return db.get('media', requireId(id, 'media id'));
+  },
+
+  /**
+   * @param {string} qid
+   * @returns {Promise<MediaRecord[]>} Oldest first.
+   */
+  async byQid(qid) {
+    return sortBy(await db.getAllByIndex('media', 'qid', requireId(qid, 'qid')), 'ts');
+  },
+
+  /**
+   * Stores an image; assigns `id` (util.uid), `ts` and `bytes` (= blob.size).
+   * Validates the blob (non-empty, ≤ MEDIA_MAX_BYTES), mime (`image/*`) and size.
+   * @param {{ qid: string, blob: Blob, mime?: string, width: number, height: number }} m
+   * @returns {Promise<MediaRecord>}
+   */
+  async add(m) {
+    const fields = checkMediaInput(m);
+    /** @type {MediaRecord} */
+    const rec = { id: uid(), ...fields, ts: Date.now() };
+    await db.put('media', rec);
+    changed('media', rec.id);
+    return rec;
+  },
+
+  /**
+   * @param {string} id
+   * @returns {Promise<void>}
+   */
+  async remove(id) {
+    await db.del('media', requireId(id, 'media id'));
+    changed('media', id);
+  },
+
+  /**
+   * Removes the question's media whose id is not in `keepIds` (one transaction).
+   * @param {string} qid
+   * @param {Set<string> | string[] | Iterable<string>} [keepIds]
+   * @returns {Promise<string[]>} The removed ids.
+   */
+  async prune(qid, keepIds = []) {
+    requireId(qid, 'qid');
+    const keep = keepIds instanceof Set ? keepIds : new Set(keepIds ?? []);
+    const removed = await db.tx('media', 'readwrite', async (s) => {
+      const keys = /** @type {IDBValidKey[]} */ (await db.reqP(s.media.index('qid').getAllKeys(qid)));
+      /** @type {string[]} */
+      const gone = [];
+      for (const key of keys) {
+        if (keep.has(/** @type {string} */ (key))) continue;
+        s.media.delete(key);
+        gone.push(/** @type {string} */ (key));
+      }
+      return gone;
+    });
+    const list = Array.isArray(removed) ? removed : [];
+    for (const id of list) changed('media', id);
+    return list;
+  },
+
+  /** @returns {Promise<MediaRecord[]>} Newest first. */
+  async all() {
+    return sortBy(await db.getAll('media'), 'ts', -1);
   },
 });
 
@@ -709,12 +851,12 @@ function assertStore(name) {
 }
 
 /**
- * Prepares one imported record, or returns null to skip it.
+ * Prepares one imported record, or returns null to skip it (exported for tests).
  * @param {string} name
  * @param {any} rec
  * @returns {any | null}
  */
-function importable(name, rec) {
+export function importable(name, rec) {
   if (!rec || typeof rec !== 'object' || Array.isArray(rec)) return null;
   const { keyPath, autoIncrement } = db.SCHEMA[name];
   const copy = { ...rec };
@@ -730,7 +872,16 @@ function importable(name, rec) {
     if (!Number.isFinite(copy.updatedAt)) copy.updatedAt = Number.isFinite(copy.createdAt) ? copy.createdAt : 0;
     if (copy.finishedAt === undefined) copy.finishedAt = null;
   }
-  if (name === 'ink' && (!Array.isArray(copy.strokes) || copy.strokes.length === 0)) return null;
+  if (name === 'ink') {
+    if (!inkHasContent(copy)) return null;
+    if (!Array.isArray(copy.strokes)) copy.strokes = [];
+  }
+  if (name === 'media') {
+    if (typeof copy.qid !== 'string' || copy.qid === '' || !isBlob(copy.blob)) return null;
+    if (typeof copy.mime !== 'string' || !MEDIA_MIME.test(copy.mime)) copy.mime = copy.blob.type || 'image/png';
+    copy.bytes = copy.blob.size;
+    if (!Number.isFinite(copy.ts)) copy.ts = 0;
+  }
   return copy;
 }
 

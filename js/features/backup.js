@@ -4,18 +4,19 @@
  * Backup file (JSON):
  * `{ type: 'cardiac-mcq-backup', formatVersion: 1, appVersion, exportedAt (ISO), includesMedia,
  *    stores: { [storeName]: records[] } }`
- * Voice records carry their audio as base64: `{ ...record, blob: null, data: '<base64>', mime }`.
- * Without media the `voice` store is omitted.
+ * Voice notes and images (`voice`, `media` stores) carry their bytes as base64:
+ * `{ ...record, blob: null, data: '<base64>', mime }`. Without media both stores are omitted.
  *
  * Safety rules:
  * - A file is validated completely (shape of every record, per store, §4) before
  *   anything is written. A bad file throws {@link BackupError} with a plain-language
  *   `userMessage` and nothing on the device changes.
- * - Replace mode decodes every voice note first, takes a snapshot of every store it
+ * - Replace mode decodes every voice note and image first, takes a snapshot of every store it
  *   will replace, and puts the snapshot back if a write fails, so data is never
  *   left half-destroyed.
  * - Import never touches the device's `lastRoute` setting.
- * - Large backups: audio is converted to base64 in slices and the export JSON is
+ * - Replace keeps the device's voice notes / images when the backup has no such store.
+ * - Large backups: audio and images are converted to base64 in slices and the export JSON is
  *   assembled as Blob parts, so no single giant string is built.
  *
  * Pure parts (validation, merge planning, base64) are exported for unit tests.
@@ -46,6 +47,12 @@ export const MAX_RECORDS_PER_STORE = 2_000_000;
 /** Settings that are device-specific: never exported, never imported. */
 const DEVICE_SETTINGS = new Set(['lastRoute']);
 
+/** Stores whose records hold a Blob, written as base64 (`data`) and left out without media. */
+export const MEDIA_STORES = Object.freeze(['voice', 'media']);
+
+/** Default mime per media store when a record has none. */
+const MEDIA_DEFAULT_MIME = Object.freeze({ voice: 'audio/webm', media: 'image/png' });
+
 /** Highlight colors (§4). */
 const HL_COLORS = new Set(['yellow', 'green', 'blue', 'pink']);
 
@@ -58,6 +65,7 @@ export const STORE_LABELS = Object.freeze({
   highlights: 'Highlights',
   ink: 'Drawings',
   voice: 'Voice notes',
+  media: 'Images',
   reports: 'Problem reports',
   reviews: 'Reviews',
   settings: 'Settings',
@@ -222,6 +230,26 @@ function isStroke(s) {
 }
 
 /**
+ * Scratchpad v2 scene (§4): `{ v, page: {w, h, bg?}, items: Item[] }`. Items are checked
+ * for shape only (an id and a known type; images name their media id) so newer item
+ * fields still import.
+ * @param {unknown} s
+ * @returns {boolean}
+ */
+function isScene(s) {
+  if (!isObj(s)) return false;
+  const sc = /** @type {any} */ (s);
+  if (!isNum(sc.v) || !isObj(sc.page) || !Array.isArray(sc.items)) return false;
+  return sc.items.every(
+    (/** @type {any} */ it) =>
+      isObj(it) && isId(it.id) && SCENE_ITEM_TYPES.has(it.type) && (it.type !== 'image' || isId(it.media)),
+  );
+}
+
+/** Scene item types (§4). */
+const SCENE_ITEM_TYPES = new Set(['stroke', 'image', 'text', 'shape']);
+
+/**
  * Per-store record checks (§4). Each returns `null` when the record is fine,
  * else a short reason (for developers; users get a summary).
  * @type {Readonly<Record<string, (r: any) => string | null>>}
@@ -272,7 +300,11 @@ export const RECORD_CHECKS = Object.freeze({
     if (!isId(r.block)) return 'block';
     if (r.id !== `${r.qid}|${r.block}`) return 'id';
     if (!optional(r.qversion, isVersion)) return 'qversion';
-    if (!Array.isArray(r.strokes) || r.strokes.length === 0 || !r.strokes.every(isStroke)) return 'strokes';
+    if (!optional(r.strokes, (v) => Array.isArray(v) && v.every(isStroke))) return 'strokes';
+    if (!nullable(r.scene, isScene)) return 'scene';
+    const strokes = Array.isArray(r.strokes) ? r.strokes.length : 0;
+    const items = isObj(r.scene) ? r.scene.items.length : 0;
+    if (strokes + items === 0) return 'strokes';
     if (!isNum(r.updated)) return 'updated';
     return null;
   },
@@ -283,6 +315,17 @@ export const RECORD_CHECKS = Object.freeze({
     if (!isStr(r.data) || r.data === '' || !isBase64(r.data)) return 'data';
     if (!isStr(r.mime) || !/^[a-z]+\/[a-z0-9.+-]+/i.test(r.mime) || r.mime.length > 120) return 'mime';
     if (!optional(r.durationMs, isCount)) return 'durationMs';
+    if (!isNum(r.ts)) return 'ts';
+    return null;
+  },
+  media: (r) => {
+    if (!isId(r.id)) return 'id';
+    if (!isId(r.qid)) return 'qid';
+    if (r.blob !== null && r.blob !== undefined) return 'blob';
+    if (!isStr(r.data) || r.data === '' || !isBase64(r.data)) return 'data';
+    if (!isStr(r.mime) || !/^image\/[a-z0-9.+-]+/i.test(r.mime) || r.mime.length > 120) return 'mime';
+    if (!isNum(r.width) || r.width <= 0 || !isNum(r.height) || r.height <= 0) return 'size';
+    if (!optional(r.bytes, isCount)) return 'bytes';
     if (!isNum(r.ts)) return 'ts';
     return null;
   },
@@ -388,7 +431,7 @@ export function validateBackup(obj) {
   if (bad) throw corrupt(details, bad);
 
   for (const name of ALL_STORES) counts[name] ??= 0;
-  const includesMedia = Array.isArray(stores.voice);
+  const includesMedia = MEDIA_STORES.some((name) => Array.isArray(stores[name]));
   /** @type {BackupData} */
   const data = {
     type: BACKUP_TYPE,
@@ -452,6 +495,7 @@ const KEY_PATHS = Object.freeze({
   highlights: 'id',
   ink: 'id',
   voice: 'id',
+  media: 'id',
   reports: 'id',
   reviews: 'qid',
   sessions: 'id',
@@ -536,19 +580,33 @@ export function decodeVoiceRecord(rec) {
 }
 
 /**
- * Records ready to store for one store (voice decoded, device settings removed).
- * Throws BackupError 'corrupt' when audio can't be decoded.
+ * Turns a backup image record into a stored one (base64 → Blob; `bytes` = blob size).
+ * Throws when the data is empty or not base64.
+ * @param {any} rec
+ * @returns {any}
+ */
+export function decodeMediaRecord(rec) {
+  const out = decodeVoiceRecord(rec);
+  if (!out.blob.size) throw new TypeError('empty image');
+  out.bytes = out.blob.size;
+  return out;
+}
+
+/**
+ * Records ready to store for one store (voice/images decoded, device settings removed).
+ * Throws BackupError 'corrupt' when audio or an image can't be decoded.
  * @param {string} name
  * @param {any[]} records
  * @returns {any[]}
  */
 function prepareRecords(name, records) {
   if (name === 'settings') return records.filter((r) => !DEVICE_SETTINGS.has(r.key));
-  if (name !== 'voice') return records;
+  if (!MEDIA_STORES.includes(name)) return records;
   try {
-    return records.map(decodeVoiceRecord);
+    return records.map(name === 'media' ? decodeMediaRecord : decodeVoiceRecord);
   } catch (err) {
-    throw new BackupError('corrupt', `A voice note in this backup is damaged. ${NOTHING_CHANGED} Try another backup file.`, {
+    const what = name === 'media' ? 'An image' : 'A voice note';
+    throw new BackupError('corrupt', `${what} in this backup is damaged. ${NOTHING_CHANGED} Try another backup file.`, {
       cause: err,
     });
   }
@@ -563,8 +621,9 @@ const PART_TARGET = 512 * 1024;
 
 /**
  * Builds a backup of everything on this device.
- * Voice audio is base64-encoded in slices and the JSON is assembled as Blob parts.
- * A voice note whose audio can't be read is left out (counted in `skipped`).
+ * Voice audio and images are base64-encoded in slices and the JSON is assembled as
+ * Blob parts. Without media the `voice` and `media` stores are left out. A voice note
+ * or image whose bytes can't be read is left out (counted in `skipped`).
  *
  * @param {{ includeMedia?: boolean, now?: number, dump?: (name: string) => Promise<any[]> }} [opts]
  *   `now` and `dump` are for tests.
@@ -599,14 +658,15 @@ export async function exportBackup({ includeMedia = true, now = Date.now(), dump
   let skipped = 0;
   let firstStore = true;
   for (const name of ALL_STORES) {
-    if (name === 'voice' && !includeMedia) continue;
+    const isMedia = MEDIA_STORES.includes(name);
+    if (isMedia && !includeMedia) continue;
     let records = await dump(name);
     if (name === 'settings') records = records.filter((r) => r && !DEVICE_SETTINGS.has(r.key));
     push(`${firstStore ? '' : ','}${JSON.stringify(name)}:[`);
     firstStore = false;
     let n = 0;
     for (const rec of records) {
-      if (name === 'voice') {
+      if (isMedia) {
         const blob = rec?.blob;
         /** @type {string[] | null} */
         let b64 = null;
@@ -614,14 +674,19 @@ export async function exportBackup({ includeMedia = true, now = Date.now(), dump
           try {
             b64 = await blobToBase64Parts(blob);
           } catch (err) {
-            console.warn('[backup] a voice note could not be read; left out', err);
+            console.warn(`[backup] a ${name} record could not be read; left out`, err);
           }
         }
         if (!b64) {
           skipped++;
           continue;
         }
-        const copy = { ...rec, blob: null, mime: rec.mime || blob.type || 'audio/webm' };
+        const copy = {
+          ...rec,
+          blob: null,
+          mime: rec.mime || blob.type || /** @type {Record<string, string>} */ (MEDIA_DEFAULT_MIME)[name],
+        };
+        if (name === 'media') copy.bytes = blob.size;
         delete copy.data;
         const head = JSON.stringify(copy);
         push(`${n ? ',' : ''}${head.slice(0, -1)},"data":"`);
@@ -766,7 +831,7 @@ const REPO_ADAPTER = Object.freeze({ dump: dumpStore, replace: replaceStore, mer
 
 /**
  * @typedef {{ mode: 'merge' | 'replace', stores: Record<string, { added: number, updated: number, skipped: number }>,
- *   added: number, updated: number, skipped: number, keptVoice: boolean }} ImportResult
+ *   added: number, updated: number, skipped: number, keptVoice: boolean, keptMedia: boolean }} ImportResult
  */
 
 /**
@@ -787,8 +852,8 @@ function isQuota(err) {
  * Imports a validated backup.
  * - `merge`: per store, newer `updated`/`ts` wins; attempts deduplicated by `(qid, ts)`;
  *   settings only adds keys the device doesn't have. Nothing is deleted.
- * - `replace`: every store present in the backup — and every other store except `voice`
- *   when the backup has no media (those voice notes are kept) — is cleared and filled
+ * - `replace`: every store present in the backup — and every other store except `voice` /
+ *   `media` when the backup lacks them (those voice notes / images are kept) — is cleared and filled
  *   from the backup. Everything is decoded and a snapshot taken first; if a write fails
  *   the replaced stores are restored.
  * Never touches `lastRoute`. Every changed store emits `store:change` (via the repo).
@@ -802,7 +867,15 @@ export async function importBackup(data, { mode, adapter = REPO_ADAPTER } = /** 
   const backup = validated.has(/** @type {object} */ (data)) ? data : validateBackup(data).data;
   const present = ALL_STORES.filter((name) => Array.isArray(backup.stores[name]));
   /** @type {ImportResult} */
-  const result = { mode, stores: {}, added: 0, updated: 0, skipped: 0, keptVoice: !backup.includesMedia };
+  const result = {
+    mode,
+    stores: {},
+    added: 0,
+    updated: 0,
+    skipped: 0,
+    keptVoice: !present.includes('voice'),
+    keptMedia: !present.includes('media'),
+  };
 
   if (mode === 'merge') {
     // 1. Plan every store and decode the audio that will be written — before any write.
@@ -842,7 +915,7 @@ export async function importBackup(data, { mode, adapter = REPO_ADAPTER } = /** 
   }
 
   // replace
-  const targets = ALL_STORES.filter((name) => present.includes(name) || name !== 'voice' || backup.includesMedia);
+  const targets = ALL_STORES.filter((name) => present.includes(name) || !MEDIA_STORES.includes(name));
   /** @type {Record<string, any[]>} */
   const prepared = {};
   for (const name of targets) prepared[name] = prepareRecords(name, backup.stores[name] ?? []);
@@ -902,7 +975,7 @@ function importError(err, partial) {
   if (isQuota(err)) {
     return new BackupError(
       'quota',
-      `There isn't enough storage space to import this backup.${after} Free up space, or import a backup made without voice notes.`,
+      `There isn't enough storage space to import this backup.${after} Free up space, or import a backup made without voice notes and images.`,
       { cause: err },
     );
   }
@@ -991,6 +1064,33 @@ export function importResultMessage(result) {
 let dialogSeq = 0;
 
 /**
+ * What Replace keeps on the device, in plain language ('' when the backup has both media stores).
+ * @param {boolean} hasVoice The backup has a `voice` store.
+ * @param {boolean} hasImages The backup has a `media` store.
+ * @returns {string}
+ */
+export function mediaKeptText(hasVoice, hasImages) {
+  if (hasVoice && hasImages) return '';
+  if (!hasVoice && !hasImages) return 'Voice notes and images on this device are kept (this backup has none).';
+  return hasVoice
+    ? 'Images on this device are kept (this backup has none).'
+    : 'Voice notes on this device are kept (this backup has none).';
+}
+
+/**
+ * Chip telling whether the backup carries voice notes / images.
+ * @param {boolean} hasVoice
+ * @param {boolean} hasImages
+ * @returns {HTMLElement}
+ */
+function mediaChip(hasVoice, hasImages) {
+  if (hasVoice && hasImages) return chip('Includes voice notes and images', { kind: 'info', icon: 'image' });
+  if (hasVoice) return chip('Includes voice notes', { kind: 'info', icon: 'mic' });
+  if (hasImages) return chip('Includes images', { kind: 'info', icon: 'image' });
+  return chip('No voice notes or images in this backup', { kind: 'neutral', icon: 'mic' });
+}
+
+/**
  * Formats the backup date for people: "26 Oct 2026, 14:05".
  * @param {number} ms
  * @returns {string}
@@ -1006,7 +1106,7 @@ function formatBackupDate(ms) {
 /**
  * The flow Settings runs after the user picked a backup file: reads + validates
  * it (sheet with a spinner meanwhile), shows a summary (date, item counts, voice
- * notes or not) with the choice Merge (recommended, default) / Replace everything
+ * notes / images or not) with the choice Merge (recommended, default) / Replace everything
  * (danger, confirmed), imports, and shows a result toast. A bad file shows a
  * plain-language explanation with "Choose another file".
  *
@@ -1110,9 +1210,10 @@ export function openImportDialog(file) {
         );
       };
 
-      const replaceText = `Deletes the study data on this device and puts the backup in its place.${
-        data.includesMedia ? '' : ' Voice notes on this device are kept (this backup has none).'
-      }`;
+      const hasVoice = Array.isArray(data.stores.voice);
+      const hasImages = Array.isArray(data.stores.media);
+      const kept = mediaKeptText(hasVoice, hasImages);
+      const replaceText = `Deletes the study data on this device and puts the backup in its place.${kept ? ` ${kept}` : ''}`;
 
       body.replaceChildren(
         h(
@@ -1128,9 +1229,7 @@ export function openImportDialog(file) {
         h(
           'div',
           { class: 'bk-media' },
-          data.includesMedia
-            ? chip('Includes voice notes', { kind: 'info', icon: 'mic' })
-            : chip('No voice notes in this backup', { kind: 'neutral', icon: 'mic' }),
+          mediaChip(hasVoice, hasImages),
         ),
         h(
           'fieldset',
