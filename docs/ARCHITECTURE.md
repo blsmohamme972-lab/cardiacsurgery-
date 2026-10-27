@@ -844,7 +844,7 @@ export const CALLOUT_KINDS                                // ['key','pearl','pit
   arrow labels, branch rows side by side (stack on narrow screens).
 - Mind map: central node with branches and leaf chips, HTML/CSS (two columns on wide,
   stacked on phone) with connector lines drawn by CSS. Text stays real, selectable text.
-- Callouts: icon + color per kind (key=primary, pearl=info, pitfall=danger, mnemonic=warning).
+- Callouts: icon + color per kind (key=primary, pearl=teal, pitfall=danger, mnemonic=warning).
 - Quote: left rule, citation line.
 All text is real DOM text so highlights and search work.
 

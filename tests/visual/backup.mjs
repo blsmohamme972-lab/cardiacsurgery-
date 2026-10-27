@@ -4,11 +4,12 @@
  *
  * Serves the repo with tests/serve.mjs on a random port and an in-memory harness page
  * (tokens/base/components/review CSS + sheet/toast slots), then in Chromium:
- * 1. seeds IndexedDB through js/core/store/repo.js (incl. a voice blob),
+ * 1. seeds IndexedDB through js/core/store/repo.js (incl. a voice blob, an image and a scratchpad scene),
  * 2. exports a backup with saveFile() and captures the download,
  * 3. wipes every store, imports through openImportDialog() with Merge, checks the round trip
  *    (voice bytes identical, lastRoute untouched), merges again (no duplicates),
  * 4. imports with Replace everything (confirm sheet) and checks extra device data is gone,
+ *    then a backup made without media: Replace keeps the device's voice notes and images,
  * 5. opens a corrupt file and a review file → plain-language error state,
  * 6. sends a report and approves in the reviewer panel,
  * and takes screenshots of the report sheet, reviewer panel and import dialog at
@@ -135,7 +136,7 @@ async function snapshot(page) {
       for (const r of rows) {
         const copy = { ...r };
         if (name === 'attempts') delete copy.id;
-        if (name === 'voice') copy.blob = copy.blob ? [...new Uint8Array(await copy.blob.arrayBuffer())].join(',') : null;
+        if (name === 'voice' || name === 'media') copy.blob = copy.blob ? [...new Uint8Array(await copy.blob.arrayBuffer())].join(',') : null;
         out[name].push(Object.fromEntries(Object.entries(copy).sort(([a], [b]) => a.localeCompare(b))));
       }
       out[name].sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b)));
@@ -164,6 +165,20 @@ try {
       await repo.inkRepo.set('DEMO-0001', 'stem', { qversion: 1, strokes: [{ tool: 'pen', color: '#1d4ed8', size: 0.006, pts: [0.1, 0.1, 0.5, 0.2, 0.3, 0.6] }] });
       const bytes = new Uint8Array(250_001).map((_, i) => (i * 31 + 3) & 255);
       await repo.voiceRepo.add({ qid: 'DEMO-0001', blob: new Blob([bytes], { type: 'audio/webm' }), mime: 'audio/webm', durationMs: 4200 });
+      const imgBytes = new Uint8Array(180_002).map((_, i) => (i * 17 + 5) & 255);
+      const img = await repo.mediaRepo.add({ qid: 'DEMO-0001', blob: new Blob([imgBytes], { type: 'image/jpeg' }), width: 1600, height: 1200 });
+      await repo.inkRepo.set('DEMO-0001', 'scratch', {
+        qversion: 1,
+        strokes: [],
+        scene: {
+          v: 2,
+          page: { w: 2000, h: 3000, bg: 'dots' },
+          items: [
+            { id: 'it1', type: 'image', media: img.id, x: 100, y: 100, w: 800, h: 600, rot: 0 },
+            { id: 'it2', type: 'stroke', tool: 'pen', color: '#1d4ed8', size: 6, pts: [150, 150, 0.5, 300, 320, 0.6] },
+          ],
+        },
+      });
       await repo.reportsRepo.add({ qid: 'DEMO-0001', qversion: 1, reason: 'Other', text: 'Alpha step' });
       await repo.reviewsRepo.set('DEMO-0001', { qversion: 1, status: 'fix', comment: 'Sample comment' });
       await repo.sessionsRepo.put({ id: 's1', mode: 'tutor', qids: ['DEMO-0001'], answers: {}, index: 0, createdAt: 1761480000000, updatedAt: 1761480002000, finishedAt: null });
@@ -187,6 +202,9 @@ try {
     const parsed = JSON.parse(text);
     check(parsed.type === 'cardiac-mcq-backup' && parsed.formatVersion === 1, 'export header');
     check(parsed.stores.voice?.length === 1 && parsed.stores.voice[0].blob === null && parsed.stores.voice[0].data.length > 300000, 'voice exported as base64');
+    check(parsed.stores.media?.length === 1 && parsed.stores.media[0].blob === null && parsed.stores.media[0].data.length > 240000
+      && parsed.stores.media[0].mime === 'image/jpeg' && parsed.stores.media[0].bytes === 180002, 'image exported as base64');
+    check(parsed.stores.ink.some((r) => r.block === 'scratch' && r.scene?.items?.length === 2), 'scratchpad scene exported');
     check(!parsed.stores.settings.some((r) => r.key === 'lastRoute'), 'lastRoute not exported');
 
     // Wipe, keep a device lastRoute, import with Merge through the dialog.
@@ -207,6 +225,8 @@ try {
     await openDialog(text);
     await page.waitForSelector('.bk-option-input');
     check((await page.textContent('.bk-counts')).includes('Voice notes'), 'summary lists voice notes');
+    check((await page.textContent('.bk-counts')).includes('Images'), 'summary lists images');
+    check((await page.textContent('.bk-media')).trim() === 'Includes voice notes and images', 'media chip (with media)');
     check(await page.isChecked('.bk-option-merge .bk-option-input'), 'merge is the default');
     await page.click('.bk-import-btn');
     await page.waitForFunction(() => window.__importResult !== undefined);
@@ -247,6 +267,29 @@ try {
     check(!afterReplace.notes.some((n) => n.qid === 'DEMO-0002'), 'replace removed extra device note');
     check(JSON.stringify(strip(afterReplace)) === JSON.stringify(strip(original)), `replace round trip matches: ${diff(strip(original), strip(afterReplace))}`);
     check(afterReplace.settings.find((r) => r.key === 'lastRoute')?.value === '/library', 'lastRoute untouched by replace');
+
+    // A backup made without media: Replace keeps the device's voice notes and images.
+    const lightText = await page.evaluate(async () => {
+      const b = await import('../../js/features/backup.js');
+      return (await b.exportBackup({ includeMedia: false })).blob.text();
+    });
+    const light = JSON.parse(lightText);
+    check(light.includesMedia === false && !('voice' in light.stores) && !('media' in light.stores), 'export without media omits voice + media');
+    await closeSheets(page);
+    await openDialog(lightText);
+    await page.waitForSelector('.bk-option-input');
+    check((await page.textContent('.bk-media')).trim() === 'No voice notes or images in this backup', 'media chip (without media)');
+    check(/Voice notes and images on this device are kept/.test(await page.textContent('.bk-option-replace')), 'replace text says media is kept');
+    await page.click('.bk-option-replace');
+    await page.click('.bk-import-btn');
+    await page.waitForSelector('.sheet-root:last-child .btn-danger');
+    await page.click('.sheet-root:last-child .btn-danger');
+    await page.waitForFunction(() => window.__importResult !== undefined);
+    const lightResult = await page.evaluate(() => window.__importResult);
+    check(lightResult?.keptVoice === true && lightResult?.keptMedia === true, 'replace result reports kept voice + media');
+    const afterLight = await snapshot(page);
+    check(JSON.stringify(afterLight.media) === JSON.stringify(original.media), 'device images kept (bytes identical)');
+    check(JSON.stringify(afterLight.voice) === JSON.stringify(original.voice), 'device voice notes kept');
 
     // Corrupt and wrong files.
     for (const [content, expect] of [
