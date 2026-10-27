@@ -72,7 +72,7 @@
         "id": "uniform",
         "type": "callout",
         "kind": "pearl",
-        "text": "The interrelationships among the heart valves in normally formed hearts are **remarkably uniform**, so they are reliable landmarks."
+        "text": "The interrelationships among the heart valves in normally formed hearts are **remarkably uniform**."
       },
       {
         "id": "trap",
@@ -190,7 +190,7 @@
         "id": "right-vs-left",
         "type": "callout",
         "kind": "pitfall",
-        "text": "Only the **right** trigone joins **both AV anuli** and is pierced by the His bundle; the **left** trigone joins only the LV–aortic junction and the **mitral** anulus."
+        "text": "The source describes the **right** trigone as joining **both AV anuli** and the membranous septum and as **pierced by the His bundle**; it places the **left** trigone between the LV–aortic junction and the **mitral** anulus."
       },
       {
         "id": "source-quote",
@@ -200,15 +200,19 @@
       }
     ],
     "choiceNotes": {
-      "a": "The left fibrous trigone lies **more anteriorly and to the left**, between the LV–aortic junction and the **mitral** anulus only; it does not join the tricuspid anulus.",
+      "a": "The source places the left fibrous trigone **more anteriorly and to the left**, between the LV–aortic junction and the **mitral** anulus; the dense junction that includes the tricuspid anulus and membranous septum is the **right** trigone.",
       "b": "The tendon of the infundibulum is a fibrous band joining the **pulmonary valve** to the central cardiac skeleton.",
       "c": "The tendon of Todaro joins the central fibrous body, but it is not the junction of the two AV anuli and the membranous septum.",
-      "e": "The sinutubular junction is a component of the aortic root, not part of the central fibrous body."
+      "e": "The sinutubular junction is listed with the aortic cusps and sinuses in the coordinated action of the aortic root (p. 18); it is not described as part of the central fibrous body."
     },
     "source": [
       {
         "ref": "Chapter 1: Anatomy and Dimensions",
         "loc": "p. 14, Cardiac Valves"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 18, Aortic Valve"
       }
     ]
   },
@@ -223,7 +227,7 @@
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "Which fibrous structure joins the more superiorly placed **pulmonary valve** to the central cardiac skeleton?",
+    "stem": "Which fibrous band joins the **pulmonary valve** to the central cardiac skeleton?",
     "choices": [
       {
         "id": "a",
@@ -239,7 +243,7 @@
       },
       {
         "id": "d",
-        "text": "Membranous septum"
+        "text": "Membranous ventricular septum"
       },
       {
         "id": "e",
@@ -259,19 +263,19 @@
         "type": "table",
         "head": [
           "Fibrous band",
-          "Joins the central fibrous body to…"
+          "Description"
         ],
         "rows": [
           [
             "**Tendon of the infundibulum**",
-            "The ==pulmonary valve== (more superiorly placed)"
+            "Joins the more superiorly placed ==pulmonary valve== to the central cardiac skeleton"
           ],
           [
             "**Tendon of Todaro**",
-            "Joins the central fibrous body (see AV node)"
+            "Continuation of the eustachian valve that runs to the central fibrous body"
           ]
         ],
-        "caption": "Two tendons that reach the central skeleton",
+        "caption": "Two fibrous bands that reach the central skeleton",
         "emphasis": {
           "col": 1
         }
@@ -298,12 +302,16 @@
       "a": "The left fibrous trigone lies between the LV–aortic junction and the **mitral** anulus.",
       "b": "The right fibrous trigone joins the mitral and tricuspid anuli, the LV–aortic junction and the membranous septum, not the pulmonary valve.",
       "c": "The tendon of Todaro joins the central fibrous body, but it is not described as joining the pulmonary valve.",
-      "d": "The membranous septum merges with the AV anuli to form the fibrous skeleton; it is not the band that joins the pulmonary valve."
+      "d": "The membranous septum merges with the mitral and tricuspid anuli to form the fibrous skeleton; it is not the band that joins the pulmonary valve."
     },
     "source": [
       {
         "ref": "Chapter 1: Anatomy and Dimensions",
         "loc": "p. 14, Cardiac Valves"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 13, Atrioventricular Node"
       }
     ]
   },
@@ -375,7 +383,7 @@
         "id": "leaflets",
         "type": "callout",
         "kind": "pearl",
-        "text": "The mitral valve is **bicuspid**: an **anterior** (aortic, septal) and a **posterior** (mural, ventricular) leaflet, with tissue that could be called **commissural leaflets** at the commissures."
+        "text": "The mitral valve is **bicuspid**: an **anterior** (aortic, septal) and a **posterior** (mural, ventricular) leaflet; tissue that could be called **commissural leaflets** is usually present at the commissures."
       },
       {
         "id": "source-quote",
@@ -446,18 +454,18 @@
         "head": [
           "Zone",
           "What it is",
-          "Direct chordal insertions"
+          "Chordae"
         ],
         "rows": [
           [
             "**Rough zone**",
             "Region of **closure**",
-            "Yes"
+            "Lam and colleagues name **rough zone chordae** (including strut chordae)"
           ],
           [
             "**Clear zone**",
             "The remaining leaflet",
-            "==None=="
+            "==Devoid of direct chordal insertions=="
           ]
         ],
         "caption": "Anterior mitral leaflet zones",
@@ -497,6 +505,10 @@
       {
         "ref": "Chapter 1: Anatomy and Dimensions",
         "loc": "p. 14, Mitral Valve"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 17, Mitral Valve"
       }
     ]
   },
@@ -602,7 +614,7 @@
       "a": "The anterior leaflet is the **larger** leaflet and inserts on about **one-third** of the anulus.",
       "b": "The posterior leaflet is the **smaller** leaflet and inserts on about **two-thirds** of the anulus.",
       "c": "Triangular shape with a smooth free margin describes the **anterior** leaflet.",
-      "d": "The **posterior** leaflet is the scalloped one, usually with three segments."
+      "d": "The **posterior** leaflet is the one that typically has a scalloped appearance; the anterior leaflet has a relatively smooth free margin."
     },
     "source": [
       {
@@ -696,7 +708,7 @@
         "id": "rcc",
         "type": "callout",
         "kind": "pitfall",
-        "text": "The **right coronary** cusp is not above the mitral valve; the continuity lies beneath the **left coronary** and **noncoronary** cusps."
+        "text": "The continuity lies beneath half the **left coronary** cusp and half the **noncoronary** cusp; the **right coronary** cusp is not part of this description."
       },
       {
         "id": "source-quote",
@@ -714,7 +726,11 @@
     "source": [
       {
         "ref": "Chapter 1: Anatomy and Dimensions",
-        "loc": "p. 14, Mitral Valve; Fig. 1.24"
+        "loc": "p. 14, Mitral Valve"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 15, Fig. 1.24"
       }
     ]
   },
@@ -758,12 +774,12 @@
         "id": "key",
         "type": "callout",
         "kind": "key",
-        "text": "The **left–noncoronary commissure** (the posterior commissure of the aortic valve) sits **directly over the midpoint of the anterior mitral leaflet**."
+        "text": "The **commissure between the left and noncoronary sinuses** of the aortic valve sits **directly over the middle of the anterior mitral leaflet**."
       },
       {
         "id": "fig-view",
         "type": "p",
-        "text": "Fig. 1.24A shows the same thing from the mitral side: the **posterior commissure** of the aortic valve is directly over the **midpoint of the anterior mitral leaflet**, and the **subaortic curtain** is the aortic–mitral anulus."
+        "text": "Fig. 1.25A states the same relationship: the commissure between the left and noncoronary sinuses is located directly above the **midpoint of the anterior leaflet** of the mitral valve."
       },
       {
         "id": "not-commissure",
@@ -775,7 +791,7 @@
         "id": "dashed-line",
         "type": "callout",
         "kind": "pearl",
-        "text": "In Fig. 1.25A the same midpoint line divides the chordal attachments to the **anterior** and **posterior** papillary muscles."
+        "text": "In Fig. 1.25A a dashed line marks the **midpoint of both anterior and posterior leaflets**, separating the chordal attachments to the **anterior** and **posterior** papillary muscles."
       },
       {
         "id": "source-quote",
@@ -797,11 +813,7 @@
       },
       {
         "ref": "Chapter 1: Anatomy and Dimensions",
-        "loc": "p. 15, Fig. 1.24"
-      },
-      {
-        "ref": "Chapter 1: Anatomy and Dimensions",
-        "loc": "p. 16, Fig. 1.25"
+        "loc": "p. 16, Fig. 1.25A"
       },
       {
         "ref": "Chapter 1: Anatomy and Dimensions",
@@ -955,7 +967,7 @@
         "id": "key",
         "type": "callout",
         "kind": "key",
-        "text": "The **basal zone**, close to the anulus, is unique to the **posterior** leaflet and receives chordae **directly from left ventricular trabeculae**."
+        "text": "The **basal zone**, close to the anulus, is described for the **posterior** leaflet and receives chordae **directly from left ventricular trabeculae**."
       },
       {
         "id": "post-zones",
@@ -978,7 +990,7 @@
           ],
           [
             "**Basal** (near anulus)",
-            "No",
+            "Not described",
             "==Yes: chordae directly from LV trabeculae=="
           ]
         ],
@@ -991,7 +1003,7 @@
         "id": "unique",
         "type": "callout",
         "kind": "pitfall",
-        "text": "Only the **posterior** leaflet has a basal zone; the anterior leaflet has only rough and clear zones."
+        "text": "The source describes a **basal zone** only for the **posterior** leaflet; for the anterior leaflet it describes **rough** and **clear** zones."
       },
       {
         "id": "source-quote",
@@ -1002,7 +1014,7 @@
     ],
     "choiceNotes": {
       "a": "The rough zone is the region of closure; it is not described as receiving chordae from trabeculae.",
-      "b": "The clear zone is the leaflet region beyond the closure ridge; on the anterior leaflet it has no direct chordal insertions.",
+      "b": "The clear zone is the remaining leaflet beyond the region of closure; on the anterior leaflet it is devoid of direct chordal insertions.",
       "d": "Most chordae insert on the free leaflet edge, but they arise from the **papillary muscles**, not directly from trabeculae.",
       "e": "Commissural chordae arise from the **highest tip of the papillary muscle**, not directly from trabeculae."
     },
@@ -1201,7 +1213,7 @@
     ],
     "choiceNotes": {
       "a": "The left half of both leaflets is the territory of the **anterolateral** papillary muscle.",
-      "c": "Each leaflet receives chordae from **both** papillary muscles; no papillary muscle supplies one whole leaflet.",
+      "c": "Each leaflet receives chordae from **both** papillary muscles; the posteromedial muscle goes to the right-sided half of **both** leaflets.",
       "d": "Each leaflet receives chordae from **both** papillary muscles; the posteromedial muscle supplies half of each leaflet.",
       "e": "The posteromedial muscle supplies the **same** (right-sided) half of both leaflets."
     },
@@ -1239,7 +1251,7 @@
       },
       {
         "id": "d",
-        "text": "They are crescent shaped, conforming to the curvature of the free wall"
+        "text": "They are crescent shaped, conforming to the free wall"
       },
       {
         "id": "e",
@@ -1312,11 +1324,11 @@
     "choices": [
       {
         "id": "a",
-        "text": "The belly supporting the commissural chordae arises separately from the ventricular wall"
+        "text": "The commissural belly arises separately from the ventricular wall"
       },
       {
         "id": "b",
-        "text": "The belly supporting the commissural chordae arises from the ventricular septum"
+        "text": "The commissural belly arises from the ventricular septum"
       },
       {
         "id": "c",
@@ -1380,7 +1392,7 @@
       "b": "The source says it arises separately from the **ventricular wall**; the septum is not mentioned.",
       "c": "Commissural chordae are **shorter** than the others.",
       "d": "Commissural chordae usually originate from the **highest tip** of the papillary muscle.",
-      "e": "Each leaflet receives chordae from both papillary muscle groups; the bellies are not limited to the anterior leaflet."
+      "e": "Each leaflet receives chordae from **both** papillary muscles; no belly is described as limited to the anterior leaflet."
     },
     "source": [
       {
@@ -1516,7 +1528,7 @@
       },
       {
         "id": "c",
-        "text": "They insert at the base of both mitral leaflets equally"
+        "text": "They insert at the base of the anterior leaflet only"
       },
       {
         "id": "d",
@@ -1524,7 +1536,7 @@
       },
       {
         "id": "e",
-        "text": "They insert at the base of the leaflet and apply only to the posterior leaflet"
+        "text": "They insert at the base of the posterior leaflet only"
       }
     ],
     "answer": "e",
@@ -1585,7 +1597,7 @@
     "choiceNotes": {
       "a": "Insertion on the free margin defines **first-order** chordae.",
       "b": "Insertion a few to several millimeters back from the free edge defines **second-order** chordae.",
-      "c": "Third-order chordae apply **only to the posterior** leaflet.",
+      "c": "Third-order chordae insert at the leaflet base, which is applicable **only to the posterior** leaflet.",
       "d": "Origin from the highest tip of the papillary muscle describes the **commissural** chordae."
     },
     "source": [
@@ -1716,7 +1728,7 @@
       },
       {
         "id": "d",
-        "text": "It acts like a shelf that stops the movement of the anterior leaflet"
+        "text": "It acts as a shelf that stops the anterior leaflet"
       },
       {
         "id": "e",
@@ -2203,15 +2215,15 @@
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "Of major surgical importance in tricuspid valve operations is the proximity of the conduction system to the septal leaflet. Where is the **bundle of His** usually found relative to the tricuspid **anteroseptal commissure**?",
+    "stem": "During **tricuspid valve repair**, the surgeon places sutures close to the septal leaflet and its **anteroseptal commissure**. Where does the bundle of His usually lie relative to this commissure?",
     "choices": [
       {
         "id": "a",
-        "text": "At the base of the anterior papillary muscle of the right ventricle"
+        "text": "About 5 mm superior to it, within the anterior leaflet"
       },
       {
         "id": "b",
-        "text": "Within the anterior leaflet, about 5 mm superior to the anteroseptal commissure"
+        "text": "About 20 mm inferior to it, along the moderator band"
       },
       {
         "id": "c",
@@ -2219,11 +2231,11 @@
       },
       {
         "id": "d",
-        "text": "Beneath the interventricular membranous septum, about 5 mm inferior to the anteroseptal commissure"
+        "text": "About 5 mm inferior to it, beneath the membranous septum"
       },
       {
         "id": "e",
-        "text": "At the junction of the superior vena cava and the right atrial appendage"
+        "text": "At the base of the anterior papillary muscle"
       }
     ],
     "answer": "d",
@@ -2270,10 +2282,10 @@
       }
     ],
     "choiceNotes": {
-      "a": "The base of the anterior papillary muscle is where the **right bundle branch** ends, not where the His bundle penetrates the trigone.",
-      "b": "The His bundle lies **inferior** to the commissure, beneath the membranous septum, not within the anterior leaflet.",
-      "c": "The posterior leaflet is attached to the free wall, away from the septal conduction tissue.",
-      "e": "The superior vena cava–right atrial appendage junction is the site of the **sinus node**."
+      "a": "The His bundle lies **inferior** to the commissure, beneath the membranous septum, not within the anterior leaflet.",
+      "b": "The source gives **about 5 mm**; the moderator band is the course of the **right bundle branch** toward the anterior papillary muscle (p. 13).",
+      "c": "The posterior leaflet is attached wholly to the free wall; the source places the His bundle beneath the membranous septum, running along the crest of the muscular septum.",
+      "e": "The base of the anterior papillary muscle is where the **right bundle branch** runs to (p. 13), not where the His bundle penetrates the right trigone."
     },
     "source": [
       {
@@ -2283,10 +2295,6 @@
       {
         "ref": "Chapter 1: Anatomy and Dimensions",
         "loc": "p. 13, Bundle of His and Bundle Branches"
-      },
-      {
-        "ref": "Chapter 1: Anatomy and Dimensions",
-        "loc": "p. 10, Sinus Node"
       }
     ]
   },
@@ -2411,7 +2419,7 @@
       },
       {
         "id": "e",
-        "text": "The area of coaptation lies at the base of the cusp near the anulus"
+        "text": "Each cusp has a straight, horizontal line of attachment"
       }
     ],
     "answer": "c",
@@ -2449,9 +2457,10 @@
             ]
           },
           {
-            "text": "**Coaptation**",
+            "text": "**Attachment**",
             "children": [
-              "The lunular regions form it on closure"
+              "**Crownlike** area of attachment",
+              "**U-shaped** when the aortic wall is flattened out (Fig. 1.24)"
             ]
           }
         ]
@@ -2473,12 +2482,16 @@
       "a": "The free edge is of **tougher** consistency than the remainder of the cusp.",
       "b": "The lunulae are **extremely thin**, crescent-shaped portions on either side of the nodulus.",
       "d": "The lunulae are occasionally fenestrated **near the commissures**.",
-      "e": "The thin **lunulae** beside each nodulus, at the free edge, form the area of coaptation."
+      "e": "Fig. 1.24 shows a **crownlike** area of attachment; with the aortic wall flattened out, the attachment of the aortic valve is **U-shaped**."
     },
     "source": [
       {
         "ref": "Chapter 1: Anatomy and Dimensions",
         "loc": "p. 18, Aortic Valve"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 15, Fig. 1.24"
       }
     ]
   },
@@ -2643,7 +2656,7 @@
           ],
           [
             "**Crown-shaped anulus**",
-            "**U-shaped** attachment of each cusp (Fig. 1.24)"
+            "**Crownlike** area of attachment; **U-shaped** when the aortic wall is flattened out (Fig. 1.24)"
           ],
           [
             "**Fibrous trigones** and **sinutubular junction**",
@@ -2671,7 +2684,7 @@
     "choiceNotes": {
       "a": "The fibrous trigones take part in the root's coordinated action, but the source credits the **sinuses** for keeping the open cusps off the wall.",
       "c": "The sinutubular junction is part of the root, but Fig. 1.25B credits the **sinuses of Valsalva**.",
-      "d": "The lunulae are thin crescent-shaped coaptation areas of the cusp, not the space behind it.",
+      "d": "The lunulae are extremely thin, crescent-shaped portions of the cusp beside each nodulus; the source credits the **sinuses of Valsalva**.",
       "e": "The noduli Arantii are fibrous nodules at the midpoint of each free edge, not the reason the cusps avoid the wall."
     },
     "source": [
@@ -2840,15 +2853,19 @@
         "type": "flow",
         "steps": [
           {
-            "text": "**Pulmonary valve cusps**"
+            "text": "**Pulmonary valve cusps**: supported entirely by **freestanding musculature**, no direct relationship with the ventricular septum"
           },
           {
-            "text": "**Subpulmonary infundibulum** (freestanding musculature)",
-            "label": "supported entirely by"
+            "text": "**Subpulmonary infundibulum** lifts the valve away from the ventricular septum",
+            "label": "and"
           },
           {
-            "text": "**First septal branch of the LAD** pierces the septum",
-            "label": "below its shortest part"
+            "text": "**First septal branch of the LAD** pierces the septum below the infundibulum's **shortest part**",
+            "label": "beneath it"
+          },
+          {
+            "text": "The artery is **protected** by the subpulmonary infundibulum",
+            "label": "so"
           }
         ],
         "title": "From valve down to the septal artery"
@@ -2899,7 +2916,7 @@
     ],
     "difficulty": 3,
     "reviewed": false,
-    "stem": "A commissure of the pulmonary valve was found adjacent to a commissure of the aortic valve in 199 of 200 specimens. Based on this relationship, which terminology was suggested for the cusps of **each arterial valve**?",
+    "stem": "Kerr and Goss found that a commissure of the pulmonary valve lies **adjacent to a commissure of the aortic valve**. Based on this relationship, which terminology did they suggest for the cusps of **each arterial valve**?",
     "choices": [
       {
         "id": "a",
@@ -2985,6 +3002,102 @@
       {
         "ref": "Chapter 1: Anatomy and Dimensions",
         "loc": "p. 18, Pulmonary Valve; Aortic Valve"
+      }
+    ]
+  },
+  {
+    "id": "C-N1",
+    "version": 1,
+    "topic": "Tricuspid valve surgical anatomy",
+    "tags": [
+      "tricuspid valve",
+      "membranous septum",
+      "septal leaflet"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "In the normal heart, beneath which part of the tricuspid valve does the **membranous septum** usually lie?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The anterior leaflet, superior to the anteroseptal commissure"
+      },
+      {
+        "id": "b",
+        "text": "The posterior leaflet, along its attachment to the free wall"
+      },
+      {
+        "id": "c",
+        "text": "The septal leaflet, inferior to the anteroseptal commissure"
+      },
+      {
+        "id": "d",
+        "text": "The septal leaflet, at its fold near the posterior wall"
+      },
+      {
+        "id": "e",
+        "text": "The anterior leaflet, at its notch near the commissure"
+      }
+    ],
+    "answer": "c",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "The **membranous septum** usually lies beneath the **septal leaflet**, **inferior to the anteroseptal commissure**."
+      },
+      {
+        "id": "relations",
+        "type": "flow",
+        "title": "Tricuspid landmarks near the conduction system",
+        "steps": [
+          {
+            "text": "**Anteroseptal commissure**"
+          },
+          {
+            "text": "**Membranous septum** beneath the **septal leaflet**",
+            "label": "usually inferior to it"
+          },
+          {
+            "text": "**Bundle of His** penetrates the right trigone beneath its interventricular component (usually about **5 mm** inferior to the commissure)",
+            "label": "and"
+          }
+        ]
+      },
+      {
+        "id": "variable",
+        "type": "callout",
+        "kind": "pitfall",
+        "text": "Attachments are **variable**: parts of **either** the septal or the anterior leaflet may attach to the membranous septum."
+      },
+      {
+        "id": "importance",
+        "type": "callout",
+        "kind": "pearl",
+        "text": "Of **major surgical importance** is the proximity of the conduction system to the **septal leaflet** and its **anteroseptal commissure**."
+      },
+      {
+        "id": "source-quote",
+        "type": "quote",
+        "text": "The membranous septum usually lies beneath the septal leaflet inferior to the anteroseptal commissure, but attachments at the septal and anterior leaflets are variable, so parts of either may attach to the membranous septum.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 18"
+      }
+    ],
+    "choiceNotes": {
+      "a": "The usual site is beneath the **septal** leaflet, **inferior** to the commissure; because attachments are variable, parts of the anterior leaflet may also attach to the membranous septum.",
+      "b": "The posterior leaflet is attached **wholly to the ventricular free wall**.",
+      "d": "The fold marks the transition between the septal leaflet's attachments to the **posterior wall** and to the **septum**; it is not where the membranous septum lies.",
+      "e": "The notch near the anteroseptal commissure is a feature of the anterior leaflet that is told apart from a true commissure by its chordal attachments; it does not mark the membranous septum."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 18, Tricuspid Valve"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 17, Tricuspid Valve"
       }
     ]
   }
