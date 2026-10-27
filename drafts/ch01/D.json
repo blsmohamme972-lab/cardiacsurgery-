@@ -113,7 +113,7 @@
   ],
   "difficulty": 2,
   "reviewed": false,
-  "stem": "On coronary angiography, the circle and the loop of the coronary arteries are each best displayed in a particular projection. Which pairing is correct?",
+  "stem": "On the coronary angiograms of Fig. 1.27, the circle and the loop of the coronary arteries are each displayed in a particular projection. Which pairing is correct?",
   "choices": [
    {
     "id": "a",
@@ -170,8 +170,8 @@
     "id": "left-dom",
     "type": "callout",
     "kind": "pearl",
-    "title": "One injection, whole loop",
-    "text": "In panel C the circulation is **left dominant**, so a single left coronary injection demonstrates both components of the loop."
+    "title": "Panel C",
+    "text": "In panel C (left coronary injection, **RAO**), the **left dominant** circulation allows demonstration of **both components of the loop**: LAD and posterior descending artery."
    },
    {
     "id": "quote",
@@ -599,7 +599,7 @@
   ],
   "difficulty": 2,
   "reviewed": false,
-  "stem": "Angiography before coronary artery bypass grafting in a 58-year-old man shows the posterior descending artery arising as the last branch of the left circumflex artery. Which statement about this pattern is correct?",
+  "stem": "Angiography before coronary artery bypass grafting shows the posterior descending artery arising as the last branch of the left circumflex artery. Which statement about this pattern is correct?",
   "choices": [
    {
     "id": "a",
@@ -615,7 +615,7 @@
    },
    {
     "id": "d",
-    "text": "Here the posterior descending artery is the terminal branch of the RCA"
+    "text": "The ventricular septum still receives part of its supply from the RCA"
    },
    {
     "id": "e",
@@ -679,7 +679,7 @@
   "choiceNotes": {
    "a": "Left dominance occurs in only about **10% to 15%** of hearts.",
    "b": "The reverse: left dominance is **more frequent in males**.",
-   "d": "That defines a **right** dominant circulation.",
+   "d": "In left dominant hearts the **entire** septal blood supply is from the **left** coronary artery (p. 21).",
    "e": "About 1% is the frequency of an **absent left main** coronary artery."
   },
   "source": [
@@ -729,7 +729,7 @@
    },
    {
     "id": "e",
-    "text": "Left posterolateral (marginal) arteries"
+    "text": "Left posterolateral arteries"
    }
   ],
   "answer": "e",
@@ -779,7 +779,7 @@
    {
     "id": "quote",
     "type": "quote",
-    "text": "Those branches supplying the inferior surface of the left ventricle … (or in one with a codominant system in which the right coronary artery gives rise only to a posterior descending artery) are termed left posterolateral (marginal) arteries.",
+    "text": "Those branches supplying the inferior surface of the left ventricle in a heart with a left dominant system (or in one with a codominant system in which the right coronary artery gives rise only to a posterior descending artery) are termed left posterolateral (marginal) arteries.",
     "ref": "Chapter 1: Anatomy and Dimensions, p. 20"
    }
   ],
@@ -1009,7 +1009,7 @@
   ],
   "difficulty": 2,
   "reviewed": false,
-  "stem": "An additional vessel originates from the left main coronary artery and courses parallel to the diagonal branches of the left anterior descending artery. Formerly called the ramus intermedius, this artery is now termed the:",
+  "stem": "An additional vessel originates from the left main coronary artery near its bifurcation. Formerly called the ramus intermedius, this artery is now termed the:",
   "choices": [
    {
     "id": "a",
@@ -1924,7 +1924,7 @@
    "a": "The anterior right atrial artery often gives origin to the **sinus node** artery.",
    "c": "The **sinus node** artery originates from the second or third centimeter of the RCA in many hearts.",
    "d": "The acute marginal courses toward the apex and does not supply the AV node.",
-   "e": "The AV node artery arises at the crux, before the RCA divides into the PDA and posterolateral segment."
+   "e": "The posterior descending artery descends in the posterior interventricular sulcus; the AV node artery comes from the RCA's **U-turn at the crux**, not from the PDA near the apex."
   },
   "source": [
    {
@@ -2038,7 +2038,7 @@
   ],
   "difficulty": 2,
   "reviewed": false,
-  "stem": "During aortic root surgery, a small ostium separate from the right coronary ostium is seen in the aortic sinus; its artery supplies the right ventricular infundibulum. This vessel is termed the:",
+  "stem": "During aortic root surgery, an ostium separate from the right coronary ostium is seen in the aortic sinus; its artery supplies the right ventricular infundibulum. This vessel is termed the:",
   "choices": [
    {
     "id": "a",
@@ -2098,7 +2098,7 @@
     "id": "rsda",
     "type": "callout",
     "kind": "pitfall",
-    "title": "Two arteries reach the infundibular region",
+    "title": "Do not confuse with the right superior descending artery",
     "text": "The **right superior descending artery** also gives branches to the ventriculoinfundibular fold, but it comes **from the RCA** (first centimeter)."
    },
    {
@@ -2145,7 +2145,7 @@
    },
    {
     "id": "b",
-    "text": "Left anterior descending artery, via four to six large septal arteries"
+    "text": "Left anterior descending artery, via large septal arteries"
    },
    {
     "id": "c",
@@ -2207,7 +2207,7 @@
     "type": "callout",
     "kind": "pearl",
     "title": "Left dominant hearts",
-    "text": "In the **10%** of hearts with a left dominant circulation, the **entire** septal blood supply is from the **left** coronary artery."
+    "text": "In hearts with a **left dominant** circulation, the **entire** blood supply of the septum is from the **left** coronary artery."
    },
    {
     "id": "quote",
@@ -3097,7 +3097,7 @@
    {
     "id": "why",
     "type": "p",
-    "text": "It lies near the junction of the **apical septum** and the **free wall**. The LAD supplies the septum, gives (usually small) branches to the **right ventricular free wall**, and supplies the **apical portion of both ventricles**."
+    "text": "Location: near the junction of the **apical septum** and the **free wall**. Related LAD facts from the chapter: it supplies the septum, gives (usually small) branches to the **right ventricular free wall**, and supplies the **apical portion of both ventricles**."
    },
    {
     "id": "right-not-rca",
