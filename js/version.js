@@ -14,4 +14,4 @@
  * Version of the app files the page was loaded from.
  * @type {string}
  */
-export const APP_VERSION = '2026.10.27-2';
+export const APP_VERSION = '2026.10.27-3';

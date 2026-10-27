@@ -81,6 +81,22 @@ const CONSOLE_ALLOWLIST = [
 const demo = JSON.parse(await readFile(path.join(ROOT, 'data', 'demo.json'), 'utf8'));
 /** @type {Map<string, string>} qid → correct choice id */
 const ANSWERS = new Map(demo.questions.map((q) => [q.id, q.answer]));
+
+// Real data: published chapters (tested by the "published chapter" test). Every other test runs on a
+// demo-mode copy of the index (nothing published), so content releases never change those flows.
+const realIndex = JSON.parse(await readFile(path.join(ROOT, 'data', 'index.json'), 'utf8'));
+const PUBLISHED = realIndex.chapters.filter((c) => c.published === true);
+/** @type {Map<string, any[]>} chapter id → questions */
+const PUBLISHED_QUESTIONS = new Map();
+for (const c of PUBLISHED) {
+  const file = JSON.parse(await readFile(path.join(ROOT, c.file), 'utf8'));
+  PUBLISHED_QUESTIONS.set(c.id, file.questions);
+  for (const q of file.questions) ANSWERS.set(q.id, q.answer);
+}
+const DEMO_MODE_INDEX = JSON.stringify({
+  ...realIndex,
+  chapters: realIndex.chapters.map((c) => ({ ...c, published: false })),
+});
 const SEARCH_QID = demo.questions[0].id;
 /** A word from the first demo stem (plain letters, 5+ chars). */
 const SEARCH_WORD = (String(demo.questions[0].stem).match(/[A-Za-z]{5,}/g) || ['timed'])
@@ -505,6 +521,26 @@ const TESTS = [
     },
   },
   {
+    name: 'published chapter (real data): listed on Home, practice answers it',
+    realData: true,
+    async run({ page, server }) {
+      if (PUBLISHED.length === 0) return; // nothing published yet: covered by the demo-mode tests
+      const first = PUBLISHED[0];
+      await openApp(page, server.url);
+      await homeHeading(page).waitFor();
+      assert((await page.getByText('Demo mode.').count()) === 0, 'the demo-mode note is shown although a chapter is published');
+      await page.getByRole('link', { name: new RegExp(escapeRe(first.title)) }).first().waitFor();
+      const qid = await startPractice(page);
+      assert(PUBLISHED.some((c) => qid.startsWith(c.prefix + '-')), `practice opened ${qid}, not a published chapter question`);
+      await answerCorrectly(page, qid);
+      const q = PUBLISHED_QUESTIONS.get(PUBLISHED.find((c) => qid.startsWith(c.prefix + '-')).id).find((x) => x.id === qid);
+      await waitUntil(
+        async () => (await page.locator('.qv-explain .explain [data-block]').count()) >= q.explanation.length,
+        'every explanation block of the published question rendered',
+      );
+    },
+  },
+  {
     name: 'update banner after a version bump',
     sw: true,
     async run({ page, server }) {
@@ -582,6 +618,7 @@ try {
         pageErrors.push(`console.error: ${text.split('\n')[0]}`);
       });
       let error = '';
+      if (!test.realData) server.setOverride('data/index.json', DEMO_MODE_INDEX);
       try {
         await test.run({ page, context, server, vp });
       } catch (err) {

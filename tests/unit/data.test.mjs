@@ -56,9 +56,21 @@ async function stubFetch(url) {
   return new Response(typeof route === 'string' ? route : JSON.stringify(route), { status: 200 });
 }
 
-/** Serves the real data/index.json, data/demo.json and data/ch01–ch55.json from disk. */
+/**
+ * The real data/index.json with every chapter unpublished (demo mode), so these tests don't change when
+ * the owner publishes content. Chapter files and the demo are served from disk.
+ * @returns {Promise<any>}
+ */
+async function demoModeIndex() {
+  const index = JSON.parse(await readFile(new URL('data/index.json', ROOT), 'utf8'));
+  for (const c of index.chapters) c.published = false;
+  return index;
+}
+const DEMO_MODE_INDEX = await demoModeIndex();
+
+/** Serves the real data files (index as a demo-mode copy) from disk. */
 function serveRealData() {
-  routes = { 'data/index.json': DISK, 'data/demo.json': DISK };
+  routes = { 'data/index.json': structuredClone(DEMO_MODE_INDEX), 'data/demo.json': DISK };
   for (let n = 1; n <= 55; n++) routes[`data/ch${String(n).padStart(2, '0')}.json`] = DISK;
 }
 
@@ -198,7 +210,7 @@ after(() => {
 // Real data files
 // ---------------------------------------------------------------------------
 
-describe('real data files (55 chapters, none published yet)', () => {
+describe('real data files (55 chapters, index served unpublished)', () => {
   beforeEach(serveRealData);
 
   test('loadIndex lists no chapters and no parts and turns demo mode on', async () => {
@@ -565,7 +577,7 @@ describe('malformed index entries', () => {
 describe('missing or invalid demo entry', () => {
   test('no demo and nothing published: empty study set, index still loads', async () => {
     serveRealData();
-    const index = JSON.parse(await readFile(new URL('data/index.json', ROOT), 'utf8'));
+    const index = structuredClone(DEMO_MODE_INDEX);
     delete index.demo;
     routes['data/index.json'] = index;
     const warnings = muteWarnings();

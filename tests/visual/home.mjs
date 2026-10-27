@@ -110,6 +110,13 @@ function missingFileStubs() {
 const server = await startServer({ port: 0 });
 const stubs = missingFileStubs();
 for (const [rel, text] of stubs) server.setOverride(rel, text);
+// Run on a demo-mode copy of the index (nothing published) so content releases don't change these checks.
+{
+  const { readFileSync } = await import('node:fs');
+  const idx = JSON.parse(readFileSync(new URL('../../data/index.json', import.meta.url), 'utf8'));
+  for (const c of idx.chapters) c.published = false;
+  server.setOverride('data/index.json', JSON.stringify(idx));
+}
 const browser = await chromium.launch();
 await mkdir(OUT, { recursive: true });
 
