@@ -12,7 +12,7 @@
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "In a large series of patients undergoing aortic surgery with **deep hypothermic circulatory arrest (DHCA)**, how did outcomes change with the duration of circulatory arrest?",
+    "stem": "In a reported study of **656 patients** undergoing aortic surgery with **deep hypothermic circulatory arrest (DHCA)**, how did stroke and mortality relate to the duration of circulatory arrest?",
     "choices": [
       {
         "id": "a",
@@ -41,7 +41,7 @@
         "id": "key",
         "type": "callout",
         "kind": "key",
-        "text": "In 656 patients having aortic surgery with DHCA, **stroke** increased after ==40 minutes== of circulatory arrest, and **mortality** increased markedly after ==65 minutes==."
+        "text": "In that study of **656 patients** having aortic surgery with DHCA, **stroke** increased after ==40 minutes== of circulatory arrest, and the **mortality rate** increased markedly after ==65 minutes==."
       },
       {
         "id": "thresholds",
@@ -68,10 +68,10 @@
       {
         "id": "order",
         "type": "flow",
-        "title": "As arrest time lengthens",
+        "title": "As arrest time lengthened (656-patient DHCA series)",
         "steps": [
           {
-            "text": "Circulatory arrest under DHCA"
+            "text": "Circulatory arrest under DHCA (this series)"
           },
           {
             "label": "> 40 min",
@@ -87,8 +87,8 @@
         "id": "pitfall",
         "type": "callout",
         "kind": "pitfall",
-        "title": "Brain first",
-        "text": "The **neurologic** threshold (stroke, 40 min) comes **before** the mortality threshold (65 min). Do not swap them."
+        "title": "Stroke threshold first",
+        "text": "In this series the **neurologic** threshold (stroke, 40 min) came **before** the mortality threshold (65 min). These are the findings of one reported study, not universal limits; do not swap them."
       },
       {
         "id": "quote",
@@ -126,7 +126,7 @@
     "choices": [
       {
         "id": "a",
-        "text": "It maintains cerebral hypothermia by continuously cooling the whole head"
+        "text": "It maintains cerebral hypothermia by cooling the whole head"
       },
       {
         "id": "b",
@@ -513,7 +513,7 @@
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "An infant is cooled for circulatory arrest using **CPB alone (core cooling)** rather than surface cooling. Compared with surface cooling, which temperature pattern is expected?",
+    "stem": "A patient is cooled for circulatory arrest using **CPB alone (core cooling)** rather than surface cooling. Compared with surface cooling, which temperature pattern is expected?",
     "choices": [
       {
         "id": "a",
@@ -521,7 +521,7 @@
       },
       {
         "id": "b",
-        "text": "The rectal-nasopharyngeal relationship reverses and regional differences are considerable"
+        "text": "Rectal-nasopharyngeal order reverses; regional differences are considerable"
       },
       {
         "id": "c",
@@ -634,7 +634,7 @@
       },
       {
         "id": "c",
-        "text": "Other phenomena, such as microvascular occlusion causing no-reflow, occur during arrest"
+        "text": "Other phenomena during arrest, such as no-reflow, cause damage"
       },
       {
         "id": "d",
@@ -703,6 +703,14 @@
       {
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
         "loc": "p. 32, No-Reflow Phenomenon"
+      },
+      {
+        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+        "loc": "p. 31, Oxygen Consumption During Hypothermia"
+      },
+      {
+        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+        "loc": "p. 32, Oxygen Consumption During Hypothermia in Tissue Slices and Isolated Organs"
       }
     ]
   },
@@ -913,7 +921,7 @@
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "During aortic arch surgery, brain temperature is estimated from surrogate sites rather than measured directly at the jugular bulb. Besides the nasopharynx and tympanic membrane, which site has the **best correlation** with jugular bulb temperature?",
+    "stem": "During aortic arch surgery, brain temperature is estimated from surrogate sites rather than measured directly by jugular bulb temperature. Besides the nasopharynx and tympanic membrane, which site has the **best correlation** with jugular bulb temperature?",
     "choices": [
       {
         "id": "a",
@@ -925,11 +933,11 @@
       },
       {
         "id": "c",
-        "text": "Arterial blood outlet of the CPB circuit"
+        "text": "CPB arterial outlet"
       },
       {
         "id": "d",
-        "text": "Skeletal muscle"
+        "text": "Midesophagus"
       },
       {
         "id": "e",
@@ -950,20 +958,20 @@
         "caption": "Temperature sites during arch surgery",
         "head": [
           "Site",
-          "Used as"
+          "What the source says"
         ],
         "rows": [
           [
             "Nasopharynx, tympanic membrane",
-            "**Brain** temperature (many use them even during circulatory arrest)"
+            "**Best correlation** with jugular bulb temperature; many use them as **brain** temperature, even during circulatory arrest"
           ],
           [
             "CPB arterial blood outlet",
-            "Best correlation with jugular bulb temperature"
+            "**Best correlation** with jugular bulb temperature; some studies recommend it as a surrogate for cerebral temperature during CPB"
           ],
           [
             "Rectum, bladder",
-            "**Systemic core** temperature"
+            "Used as a **systemic core** temperature"
           ]
         ],
         "emphasis": {
@@ -983,10 +991,10 @@
       }
     ],
     "choiceNotes": {
-      "a": "Rectal temperature is used as a **systemic core** temperature, not as a best surrogate for brain temperature.",
-      "b": "Bladder temperature is used as a **systemic core** temperature, not as a best surrogate for brain temperature.",
-      "d": "Skeletal muscle is not among the sites with the best correlation; with surface cooling, skin and muscles become cooler than inner organs.",
-      "e": "Extremity skin is not among the sites with the best correlation; with surface cooling, skin becomes cooler than inner organs."
+      "a": "Rectal temperature is used as a **systemic core** temperature; the sites with the best correlation with jugular bulb temperature are the nasopharynx, tympanic membrane and **CPB arterial outlet**.",
+      "b": "Bladder temperature is used as a **systemic core** temperature; the sites with the best correlation with jugular bulb temperature are the nasopharynx, tympanic membrane and **CPB arterial outlet**.",
+      "d": "The midesophagus is one of the varied sites used to estimate temperature, but it is not among the sites with the best correlation with jugular bulb temperature (nasopharynx, tympanic membrane, **CPB arterial outlet**).",
+      "e": "Extremity skin is one of the varied sites used to estimate temperature, but it is not among the sites with the best correlation with jugular bulb temperature; with surface cooling, skin becomes cooler than inner organs."
     },
     "source": [
       {
@@ -996,6 +1004,10 @@
       {
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
         "loc": "p. 30, Hypotheses"
+      },
+      {
+        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+        "loc": "p. 34, Temperature and Duration"
       }
     ]
   },
@@ -1027,11 +1039,11 @@
       },
       {
         "id": "d",
-        "text": "Tissue oxygen stores buffer consumption during periods of low flow"
+        "text": "Q~10~ values are identical in every tissue"
       },
       {
         "id": "e",
-        "text": "For practical purposes, tissue and cellular oxygen stores do not exist"
+        "text": "Tissues and cells have practically no oxygen stores"
       }
     ],
     "answer": "e",
@@ -1081,7 +1093,7 @@
       "a": "The relationship of V̇O~2~ to temperature is **not linear** (Box 2.1).",
       "b": "The index applies to the anesthetized subject **in whom shivering is prevented**.",
       "c": "V̇O~2~ is **not reduced to near zero** at temperatures close to 0°C.",
-      "d": "For all practical purposes, tissue and cellular oxygen stores **do not exist**."
+      "d": "Q~10~ **differs from tissue to tissue** (on average about 2); the use of V̇O~2~ as a marker rests on the absence of tissue and cellular oxygen stores."
     },
     "source": [
       {
@@ -1224,7 +1236,7 @@
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "Studies of tissue slices and isolated organs suggest an average **Q~10~ of about 2**. Using the van't Hoff relation, if a tissue's metabolic rate at 37°C is taken as 100%, its expected metabolic rate at **27°C** is about",
+    "stem": "Box 2.1 defines **Q~10~** so that when T~1~ − T~2~ is 10°C, Q~10~ is simply the ratio of the metabolic rates k~1~/k~2~. Applying this definition to a tissue with a Q~10~ of **2**, if its metabolic rate at 37°C is taken as 100%, its metabolic rate at **27°C** is",
     "choices": [
       {
         "id": "a",
@@ -1253,7 +1265,7 @@
         "id": "key",
         "type": "callout",
         "kind": "key",
-        "text": "For a 10°C difference, **Q~10~ is simply the ratio** of the two metabolic rates. With Q~10~ = 2, cooling 37°C -> 27°C ==halves== the rate: 100% ÷ 2 = **50%**."
+        "text": "This is a direct application of the definition: for a 10°C difference, **Q~10~ = k~1~/k~2~**. With Q~10~ = 2, the rate at 27°C = rate at 37°C ÷ 2, so cooling 37°C -> 27°C ==halves== the rate: 100% ÷ 2 = **50%**."
       },
       {
         "id": "calc",
@@ -1294,10 +1306,10 @@
       }
     ],
     "choiceNotes": {
-      "a": "25% would require **two** 10°C steps (halving twice); 37°C -> 27°C is one step, so the rate is halved once.",
-      "c": "67% would require a Q~10~ of 1.5; with Q~10~ = 2 the rate at 27°C is 100% ÷ 2 = 50%.",
-      "d": "80% would require a much smaller Q~10~; with Q~10~ = 2 a 10°C fall halves the rate.",
-      "e": "20% would need a Q~10~ of 5; with Q~10~ = 2 the rate at 27°C is 50%."
+      "a": "25% corresponds to a Q~10~ of **4** (100 ÷ 4); with Q~10~ = 2 a single 10°C fall gives 100 ÷ 2 = **50%**.",
+      "c": "67% corresponds to a Q~10~ of about **1.5** (100 ÷ 1.5); with Q~10~ = 2 the rate at 27°C is 100 ÷ 2 = **50%**.",
+      "d": "80% corresponds to a Q~10~ of **1.25** (100 ÷ 1.25); with Q~10~ = 2 the rate at 27°C is 100 ÷ 2 = **50%**.",
+      "e": "20% corresponds to a Q~10~ of **5** (100 ÷ 5); with Q~10~ = 2 the rate at 27°C is 100 ÷ 2 = **50%**."
     },
     "source": [
       {
@@ -1342,11 +1354,11 @@
       },
       {
         "id": "d",
-        "text": "Oxygen delivery has been compromised by an inadequate flow rate"
+        "text": "Oxygen delivery is limited by an inadequate flow rate"
       },
       {
         "id": "e",
-        "text": "Metabolic activity has stopped in some of the organs"
+        "text": "Metabolic activity has ceased at the lower temperature"
       }
     ],
     "answer": "d",
@@ -1394,10 +1406,10 @@
       }
     ],
     "choiceNotes": {
-      "a": "Tissue and cellular oxygen stores are **trivial**; they cannot explain the extra fall in V̇O~2~.",
+      "a": "Tissue and cellular oxygen stores are **trivial**, so there are essentially no stores to use up.",
       "b": "Energy requirements are **reduced** by hypothermia; a high Q~10~ suggests limited delivery, not a higher requirement.",
       "c": "Vasodilatation is the effect of **heating**, which ensures oxygen access and gives the lower Q~10~ of about 1.9.",
-      "e": "V̇O~2~ is **not reduced to near zero** even close to 0°C; metabolic activity continues."
+      "e": "V̇O~2~ is **not reduced to near zero** even at temperatures close to 0°C; metabolic activity continues."
     },
     "source": [
       {
@@ -1422,7 +1434,7 @@
     "choices": [
       {
         "id": "a",
-        "text": "Arteriovenous shunting or shutdown of perfusion in some body areas"
+        "text": "Arteriovenous shunting or regional perfusion shutdown"
       },
       {
         "id": "b",
@@ -1529,7 +1541,7 @@
       },
       {
         "id": "d",
-        "text": "Increased whole-body oxygen consumption from catecholamine release"
+        "text": "Catecholamine-driven rise in whole-body oxygen consumption"
       },
       {
         "id": "e",
@@ -1798,23 +1810,23 @@
     "choices": [
       {
         "id": "a",
-        "text": "A fall in endothelin-1 release, reversed when ischemia occurs under hypothermia"
+        "text": "Endothelin-1 release falls; hypothermia reverses the fall"
       },
       {
         "id": "b",
-        "text": "An almost twofold rise in endothelin-1 release, augmented under hypothermia"
+        "text": "Endothelin-1 nearly doubles; hypothermia augments the response"
       },
       {
         "id": "c",
-        "text": "An anticoagulant endothelial response that protects against microthrombosis"
+        "text": "An anticoagulant response that prevents microthrombosis"
       },
       {
         "id": "d",
-        "text": "Release of endothelial relaxing factors only, with no change in constricting factors"
+        "text": "Relaxing-factor release only; constricting factors unchanged"
       },
       {
         "id": "e",
-        "text": "An almost twofold rise in endothelin-1 release, blunted when ischemia occurs under hypothermia"
+        "text": "Endothelin-1 nearly doubles; hypothermia blunts the response"
       }
     ],
     "answer": "e",
@@ -1823,7 +1835,7 @@
         "id": "key",
         "type": "callout",
         "kind": "key",
-        "text": "Hypoxia then reoxygenation causes an ==almost twofold increase in endothelin-1== release by endothelial cells; this response is **blunted when ischemia is induced under hypothermia**."
+        "text": "Hypoxia then reoxygenation causes an ==almost twofold increase in endothelin-1== release by endothelial cells; this response **can be blunted when ischemia is induced under hypothermia**."
       },
       {
         "id": "et1",
@@ -1868,8 +1880,8 @@
       }
     ],
     "choiceNotes": {
-      "a": "Endothelin-1 release **increases** almost twofold, and hypothermia **blunts** that response.",
-      "b": "Hypothermia **blunts** the endothelin-1 response; it does not augment it.",
+      "a": "Endothelin-1 release **increases** almost twofold after hypoxia and reoxygenation, and the response can be **blunted** when ischemia is induced under hypothermic conditions.",
+      "b": "The endothelin-1 response can be **blunted** (not augmented) when ischemia is induced under hypothermic conditions.",
       "c": "Hypoxia may promote a **procoagulant** response in endothelial cells, which can result in intravascular microthrombosis.",
       "d": "Hypoxic endothelial injury involves altered expression of **both** relaxing and constricting factors, with increased endothelin-1."
     },
@@ -1892,7 +1904,7 @@
     ],
     "difficulty": 1,
     "reviewed": false,
-    "stem": "An infant is **surface cooled to 25°C** before circulatory arrest. Which change in the blood is expected during cooling?",
+    "stem": "An infant is **surface cooled to 25°C** before circulatory arrest. Which change in the blood has been demonstrated during such cooling?",
     "choices": [
       {
         "id": "a",
@@ -1953,7 +1965,7 @@
         "id": "pitfall",
         "type": "callout",
         "kind": "pitfall",
-        "text": "Fluid moves **out of** the circulating plasma into the interstitium, not the other way round."
+        "text": "The proposed shift is plasma moving **out of** the circulation (sequestered in parts of the vascular bed or leaking into the interstitium), not fluid entering it."
       },
       {
         "id": "quote",
@@ -1966,7 +1978,7 @@
       "a": "Surface cooling produced **hemoconcentration** and a **decreased** plasma volume.",
       "b": "Hemoconcentration was **progressive** and plasma volume **decreased**.",
       "d": "Plasma volume **decreased**; that is what concentrates the blood.",
-      "e": "Plasma **leaks into** the interstitial fluid compartment, causing hemoconcentration rather than hemodilution."
+      "e": "Plasma may **leak into** the interstitial fluid compartment (and be sequestered in the vascular bed), giving hemoconcentration rather than hemodilution."
     },
     "source": [
       {
