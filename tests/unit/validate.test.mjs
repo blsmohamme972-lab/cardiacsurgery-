@@ -40,6 +40,14 @@ function makeRoot() {
   const root = mkdtempSync(path.join(os.tmpdir(), 'cmcq-validate-'));
   tempRoots.push(root);
   cpSync(path.join(REPO, 'data'), path.join(root, 'data'), { recursive: true });
+  // A clean skeleton: every book chapter empty and unpublished (real content must not change these tests).
+  const index = JSON.parse(readFileSync(path.join(root, 'data/index.json'), 'utf8'));
+  for (const c of index.chapters) {
+    c.published = false;
+    c.count = 0;
+    writeFileSync(path.join(root, c.file), `${JSON.stringify({ schemaVersion: 1, chapter: c.id, questions: [] }, null, 2)}\n`);
+  }
+  writeFileSync(path.join(root, 'data/index.json'), `${JSON.stringify(index, null, 2)}\n`);
   return root;
 }
 

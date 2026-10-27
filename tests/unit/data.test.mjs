@@ -283,7 +283,8 @@ describe('real data files (55 chapters, none published yet)', () => {
   test('loadChapter with includeUnpublished loads it; the memo does not leak to normal calls', async () => {
     const { chapter, questions } = await loadChapter('ch01', { includeUnpublished: true });
     assert.equal(chapter.id, 'ch01');
-    assert.deepEqual(questions, []);
+    assert.ok(Array.isArray(questions));
+    assert.ok(questions.every((q) => q.id.startsWith('CH01-') && q.chapterId === 'ch01'));
     assert.equal(fetched('data/ch01.json'), true);
     await rejectsWith(loadChapter('ch01'), 'unknown-chapter');
     await rejectsWith(loadChapter('ch01', { includeUnpublished: 'yes' }), 'unknown-chapter');

@@ -722,7 +722,7 @@
     "topic": "Left Atrium",
     "tags": [
       "mitral valve replacement",
-      "left trigone",
+      "left fibrous trigone",
       "aortic valve",
       "surgical risk"
     ],
@@ -1123,7 +1123,7 @@
       },
       {
         "id": "b",
-        "text": "It lies within the left ventricular outflow tract beneath the aortic valve"
+        "text": "It is formed by the anterior (superior) extension of the trabecula septomarginalis"
       },
       {
         "id": "c",
@@ -1131,7 +1131,7 @@
       },
       {
         "id": "d",
-        "text": "It continues apically to become the moderator band"
+        "text": "It is separated from the septum by the ventriculoinfundibular fold"
       },
       {
         "id": "e",
@@ -1170,9 +1170,9 @@
     ],
     "choiceNotes": {
       "a": "The infundibular septum is **muscle**; the reason given is the pulmonary valve's origin from a cone of muscle.",
-      "b": "The right ventricular infundibular septum lies **opposite** the aortic valve; only occasionally is it displaced into the left ventricular outflow.",
+      "b": "The anterior (superior) extension of the **TSM** is a **separate** component of the outlet septum; the reason given is the pulmonary valve’s origin from a cone of muscle.",
       "c": "In Fig. 1.13 the **AV septum** is the septal tissue above the line of attachment of the tricuspid septal leaflet, not the cephalad end of the infundibular septum.",
-      "d": "The **TSM** (septal band), not the infundibular septum, extends apically to become continuous with the moderator band."
+      "d": "The **ventriculoinfundibular fold** is part of the right ventricular free wall, partially overlain by the parietal band; it is not the reason given."
     },
     "source": [
       {
@@ -1201,7 +1201,7 @@
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "The **parietal band** (parietal extension of the infundibular septum) lies anterior to which structure?",
+    "stem": "The **parietal band** lies anterior to which structure?",
     "choices": [
       {
         "id": "a",
@@ -1912,7 +1912,7 @@
     "tags": [
       "mitral valve",
       "aortic valve",
-      "aortic-mitral continuity"
+      "aortic–mitral continuity"
     ],
     "difficulty": 2,
     "reviewed": false,
@@ -2015,7 +2015,7 @@
       "left ventricle",
       "infundibular septum",
       "aortic valve",
-      "left ventricular outflow"
+      "left ventricular outflow tract"
     ],
     "difficulty": 2,
     "reviewed": false,
@@ -2475,33 +2475,33 @@
     "version": 1,
     "topic": "Myoarchitecture of the Ventricles",
     "tags": [
-      "Ross operation",
+      "ross operation",
       "pulmonary autograft",
       "subpulmonary infundibulum"
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "During a **Ross operation**, the surgeon separates the pulmonary trunk from the right ventricular outflow tract for use as an autograft. Which anatomic feature makes this separation **safe**?",
+    "stem": "Merrick and colleagues studied the muscular **subpulmonary infundibulum**, the anatomic feature used when the pulmonary trunk is taken as an autograft in the **Ross operation**. According to Van Praagh, to which structures does this subsemilunar infundibulum **“belong”**?",
     "choices": [
       {
         "id": "a",
-        "text": "Fibrous pulmonary–tricuspid valve continuity"
+        "text": "The right ventricle, not the great arteries"
       },
       {
         "id": "b",
-        "text": "A freestanding sleeve of subpulmonary myocardium"
+        "text": "The great arteries, not the ventricles"
       },
       {
         "id": "c",
-        "text": "A septal attachment anchoring the pulmonary valve"
+        "text": "The ventricular septum, not the free wall"
       },
       {
         "id": "d",
-        "text": "A fibrous plane between the myocardial layers"
+        "text": "The left ventricle, not the right ventricle"
       },
       {
         "id": "e",
-        "text": "A middle circumferential layer under the valve"
+        "text": "The atrioventricular septum"
       }
     ],
     "answer": "b",
@@ -2510,7 +2510,12 @@
         "id": "answer",
         "type": "callout",
         "kind": "key",
-        "text": "A ==freestanding sleeve of myocardium== supports the pulmonary valve, **separate from the underlying ventricular septum**, so the pulmonary trunk can be safely separated from the RVOT."
+        "text": "Van Praagh argues that the subsemilunar infundibulum ==“belongs” to the great arteries==, **not the ventricles**."
+      },
+      {
+        "id": "sleeve",
+        "type": "p",
+        "text": "Merrick and colleagues point out a **freestanding sleeve of myocardium** supporting the pulmonary valve, **separate from the underlying anatomic ventricular septum**."
       },
       {
         "id": "ross",
@@ -2521,7 +2526,7 @@
           },
           {
             "label": "identified by",
-            "text": "Changing directions of muscle fibers (surgeons' **“layers”**)"
+            "text": "Changing directions of muscle fibers (surgeons’ **“layers”** of the septum)"
           },
           {
             "label": "allows",
@@ -2534,33 +2539,22 @@
         ]
       },
       {
-        "id": "belongs",
-        "type": "callout",
-        "kind": "pearl",
-        "title": "Whose infundibulum?",
-        "text": "The subsemilunar infundibulum is argued to “belong” to the **great arteries**, not the ventricles."
-      },
-      {
         "id": "quote",
         "type": "quote",
-        "text": "This anatomic feature makes safe separation of the pulmonary trunk from the right ventricular outflow tract possible for use as a valve substitute (autograft) in the Ross operation",
+        "text": "Van Praagh argues this subsemilunar infundibulum “belongs” to the great arteries, not the ventricles.",
         "ref": "Chapter 1: Anatomy and Dimensions, p. 9"
       }
     ],
     "choiceNotes": {
-      "a": "The infundibular septum **separates** the pulmonary valve from the tricuspid valve; no such fibrous continuity is described.",
-      "c": "In the normal heart the pulmonary valve arises from a cone of muscle and **does not have a septal attachment**.",
-      "d": "**No** planes of fibrous septation exist between the myocardial layers.",
-      "e": "The middle circumferential layer is present **only in the left** ventricle."
+      "a": "Van Praagh argues that the subsemilunar infundibulum belongs to the **great arteries**, not the ventricles.",
+      "c": "Merrick describes a freestanding sleeve of myocardium **separate from the underlying anatomic ventricular septum**.",
+      "d": "Van Praagh assigns it to the **great arteries**, not to either ventricle.",
+      "e": "The subpulmonary infundibulum supports the **pulmonary valve**; Van Praagh assigns it to the great arteries."
     },
     "source": [
       {
         "ref": "Chapter 1: Anatomy and Dimensions",
         "loc": "p. 9, Myoarchitecture of the Ventricles"
-      },
-      {
-        "ref": "Chapter 1: Anatomy and Dimensions",
-        "loc": "p. 3, Right Ventricle"
       }
     ]
   },

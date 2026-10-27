@@ -1,3133 +1,3128 @@
 [
- {
-  "id": "D-01",
-  "version": 1,
-  "topic": "Coronary Arteries: circle and loop",
-  "tags": [
-   "coronary arteries",
-   "circle-loop concept",
-   "LAD",
-   "posterior descending artery"
-  ],
-  "difficulty": 1,
-  "reviewed": false,
-  "stem": "In the circle-and-loop concept of coronary artery anatomy, which pair of arteries forms the **loop** that encircles the ventricular septum?",
-  "choices": [
-   {
-    "id": "a",
-    "text": "Right coronary and left circumflex arteries"
-   },
-   {
-    "id": "b",
-    "text": "Left main and left circumflex arteries"
-   },
-   {
-    "id": "c",
-    "text": "Left anterior descending and posterior descending arteries"
-   },
-   {
-    "id": "d",
-    "text": "Left anterior descending and left circumflex arteries"
-   },
-   {
-    "id": "e",
-    "text": "Right coronary and acute marginal arteries"
-   }
-  ],
-  "answer": "c",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "The **loop** = **left anterior descending** (in front) + **posterior descending** artery (behind), encircling the septum at right angles to the circle."
-   },
-   {
-    "id": "circle-vs-loop",
-    "type": "table",
-    "head": [
-     "",
-     "Circle",
-     "Loop"
+  {
+    "id": "D-01",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "circle-loop concept",
+      "left anterior descending artery",
+      "posterior descending artery"
     ],
-    "rows": [
-     [
-      "Arteries",
-      "**Right coronary** + **left circumflex**",
-      "**LAD** + **posterior descending**"
-     ],
-     [
-      "Where",
-      "Traverse the **AV sulci**",
-      "Between the ventricles, **encircling the septum**"
-     ],
-     [
-      "Relation",
-      "Around the heart",
-      "At **right angles** to the circle"
-     ]
+    "difficulty": 1,
+    "reviewed": false,
+    "stem": "In the circle-and-loop concept of coronary artery anatomy, which pair of arteries forms the **loop** that encircles the ventricular septum?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Right coronary and left circumflex arteries"
+      },
+      {
+        "id": "b",
+        "text": "Left main and left circumflex arteries"
+      },
+      {
+        "id": "c",
+        "text": "Left anterior descending and posterior descending arteries"
+      },
+      {
+        "id": "d",
+        "text": "Left anterior descending and left circumflex arteries"
+      },
+      {
+        "id": "e",
+        "text": "Right coronary and acute marginal arteries"
+      }
     ],
-    "emphasis": {
-     "col": 2
-    }
-   },
-   {
-    "id": "septum",
-    "type": "callout",
-    "kind": "pearl",
-    "title": "Why the loop matters",
-    "text": "The ventricular septum receives its blood supply from the loop that encircles it: **LAD in front**, **posterior descending artery behind**."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "The loop between the ventricles and at right angles to the circle is formed by the left anterior descending (interventricular) coronary artery and the posterior descending (interventricular) coronary artery as they encircle the septum.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 18"
-   }
-  ],
-  "choiceNotes": {
-   "a": "These two form the **circle**, as they traverse the AV sulci, not the loop.",
-   "b": "The left main ends by bifurcating into the LAD and circumflex; the circumflex is the left part of the **circle**.",
-   "d": "The LAD is part of the loop, but the circumflex forms the left component of the **circle**.",
-   "e": "The acute marginal is an RCA branch at the acute margin; the loop is formed by the two interventricular (descending) arteries."
-  },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 18, Coronary Arteries"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 19, Fig. 1.27"
-   }
-  ]
- },
- {
-  "id": "D-02",
-  "version": 1,
-  "topic": "Coronary Arteries: circle and loop",
-  "tags": [
-   "coronary arteries",
-   "circle-loop concept",
-   "angiography"
-  ],
-  "difficulty": 2,
-  "reviewed": false,
-  "stem": "On the coronary angiograms of Fig. 1.27, the circle and the loop of the coronary arteries are each displayed in a particular projection. Which pairing is correct?",
-  "choices": [
-   {
-    "id": "a",
-    "text": "Circle in the LAO projection; loop in the RAO projection"
-   },
-   {
-    "id": "b",
-    "text": "Circle in the RAO projection; loop in the LAO projection"
-   },
-   {
-    "id": "c",
-    "text": "Circle and loop both in the LAO projection"
-   },
-   {
-    "id": "d",
-    "text": "Circle and loop both in the RAO projection"
-   }
-  ],
-  "answer": "a",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "**Circle -> LAO**, **Loop -> RAO** (Fig. 1.27)."
-   },
-   {
-    "id": "panels",
-    "type": "table",
-    "head": [
-     "Panel",
-     "Injection / view",
-     "What it shows"
+    "answer": "c",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "The **loop** = **left anterior descending** (in front) + **posterior descending** artery (behind), encircling the septum at right angles to the circle."
+      },
+      {
+        "id": "circle-vs-loop",
+        "type": "table",
+        "head": [
+          "",
+          "Circle",
+          "Loop"
+        ],
+        "rows": [
+          [
+            "Arteries",
+            "**Right coronary** + **left circumflex**",
+            "**LAD** + **posterior descending**"
+          ],
+          [
+            "Where",
+            "Traverse the **AV sulci**",
+            "Between the ventricles, **encircling the septum**"
+          ],
+          [
+            "Relation",
+            "Around the heart",
+            "At **right angles** to the circle"
+          ]
+        ],
+        "emphasis": {
+          "col": 2
+        }
+      },
+      {
+        "id": "septum",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "Why the loop matters",
+        "text": "The ventricular septum receives its blood supply from the loop that encircles it: **LAD in front**, **posterior descending artery behind**."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "The loop between the ventricles and at right angles to the circle is formed by the left anterior descending (interventricular) coronary artery and the posterior descending (interventricular) coronary artery as they encircle the septum.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 18"
+      }
     ],
-    "rows": [
-     [
-      "A",
-      "Right coronary, **LAO**",
-      "RCA = right component of the circle (right dominant)"
-     ],
-     [
-      "B",
-      "Left coronary, **LAO**",
-      "Left circumflex = left component of the circle (left dominant)"
-     ],
-     [
-      "C",
-      "Left coronary, **RAO**",
-      "Both loop components: **LAD** and **posterior descending**"
-     ]
+    "choiceNotes": {
+      "a": "These two form the **circle**, as they traverse the AV sulci, not the loop.",
+      "b": "The left main ends by bifurcating into the LAD and circumflex; the circumflex is the left part of the **circle**.",
+      "d": "The LAD is part of the loop, but the circumflex forms the left component of the **circle**.",
+      "e": "The acute marginal is an RCA branch at the acute margin; the loop is formed by the two interventricular (descending) arteries."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 18, Coronary Arteries"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 19, Fig. 1.27"
+      }
     ]
-   },
-   {
-    "id": "left-dom",
-    "type": "callout",
-    "kind": "pearl",
-    "title": "Panel C",
-    "text": "In panel C (left coronary injection, **RAO**), the **left dominant** circulation allows demonstration of **both components of the loop**: LAD and posterior descending artery."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "Circle is formed by right coronary and left circumflex arteries and is displayed in the LAO projection. Loop is formed by left anterior descending and posterior descending arteries and is demonstrated in the right anterior oblique (RAO) projection.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 19"
-   }
-  ],
-  "choiceNotes": {
-   "b": "Reversed: the circle (RCA + circumflex) is displayed in **LAO**, the loop (LAD + PDA) in **RAO**.",
-   "c": "LAO displays the circle; the loop is demonstrated in **RAO**.",
-   "d": "RAO demonstrates the loop; the circle is displayed in **LAO**."
   },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 19, Fig. 1.27"
-   }
-  ]
- },
- {
-  "id": "D-03",
-  "version": 1,
-  "topic": "Coronary Arteries: right coronary artery",
-  "tags": [
-   "coronary arteries",
-   "right coronary artery",
-   "crux",
-   "dominance"
-  ],
-  "difficulty": 2,
-  "reviewed": false,
-  "stem": "In a heart with a right dominant circulation, the extension of the right coronary artery across the crux, along the posterior AV groove, that gives inferior surface (marginal) branches to the diaphragmatic surface of the left ventricle is termed the:",
-  "choices": [
-   {
-    "id": "a",
-    "text": "Acute marginal artery"
-   },
-   {
-    "id": "b",
-    "text": "Posterior descending artery"
-   },
-   {
-    "id": "c",
-    "text": "Left AV artery"
-   },
-   {
-    "id": "d",
-    "text": "Right posterolateral segment"
-   },
-   {
-    "id": "e",
-    "text": "Atrial circumflex artery"
-   }
-  ],
-  "answer": "d",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "Beyond the crux, a right dominant RCA continues in the AV groove as the **right posterolateral segment**, which sends marginal branches to the **inferior (diaphragmatic) surface of the LV**."
-   },
-   {
-    "id": "crux",
-    "type": "p",
-    "text": "**Crux cordis**: the area along the posterior aspect of the AV groove where the **atrial and ventricular septa meet**."
-   },
-   {
-    "id": "rca-end",
-    "type": "flow",
-    "steps": [
-     {
-      "text": "**RCA** in the right AV groove"
-     },
-     {
-      "text": "Crosses the **crux** (deep U-turn)",
-      "label": "then"
-     },
-     {
-      "branches": [
-       {
-        "label": "groove",
-        "text": "**Right posterolateral segment** -> inferior surface branches to the back of the LV"
-       },
-       {
-        "label": "sulcus",
-        "text": "**Right posterior descending** -> posterior interventricular sulcus"
-       }
-      ]
-     }
+  {
+    "id": "D-02",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "circle-loop concept",
+      "angiography"
     ],
-    "title": "Right dominant RCA at the crux"
-   },
-   {
-    "id": "not-always",
-    "type": "callout",
-    "kind": "pitfall",
-    "title": "Right dominant does not guarantee inferior LV branches",
-    "text": "A right dominant artery may terminate **only as the posterior descending artery**, giving no branches to the inferior LV surface."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "the extension of the right coronary artery across the crux cordis, the area along the posterior aspect of the AV groove where the atrial and ventricular septa meet, termed the right posterolateral segment.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 18"
-   }
-  ],
-  "choiceNotes": {
-   "a": "The acute marginal arises at the **acute margin** and courses most of the way to the apex.",
-   "b": "The PDA descends in the **posterior interventricular sulcus**; at the crux the RCA bifurcates into the PDA **and** the right posterolateral segment artery.",
-   "c": "The left AV artery is the extension of the **circumflex**, present only in **left dominant** systems.",
-   "e": "The atrial circumflex artery arises from the proximal **left circumflex** and courses around the left atrium."
-  },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 18, Coronary Arteries"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20, Fig. 1.28"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20, Right Coronary Artery"
-   }
-  ]
- },
- {
-  "id": "D-04",
-  "version": 1,
-  "topic": "Coronary Arteries: right coronary artery",
-  "tags": [
-   "coronary arteries",
-   "right coronary artery",
-   "left ventricle"
-  ],
-  "difficulty": 2,
-  "reviewed": false,
-  "stem": "In terms of the number and volume of vessel segments involved, which statement best describes the territory of the right coronary artery?",
-  "choices": [
-   {
-    "id": "a",
-    "text": "It serves the right side of the heart more than the left side"
-   },
-   {
-    "id": "b",
-    "text": "It serves the left side of the heart more than the right side"
-   },
-   {
-    "id": "c",
-    "text": "It serves only the right atrium and right ventricle"
-   },
-   {
-    "id": "d",
-    "text": "It serves both sides equally in a right dominant heart"
-   },
-   {
-    "id": "e",
-    "text": "It serves the left ventricle only in a left dominant heart"
-   }
-  ],
-  "answer": "b",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "Even if it does not supply a large portion of the posterior LV wall, the **RCA serves the left side of the heart more than the right side** (number and volume of vessel segments)."
-   },
-   {
-    "id": "left-side",
-    "type": "list",
-    "items": [
-     "**Right posterolateral segment** -> marginal branches to the inferior surface of the LV (most right dominant hearts)",
-     "**Posterior descending artery** -> septal, right ventricular **and left ventricular** branches"
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "On the coronary angiograms of Fig. 1.27, the circle and the loop of the coronary arteries are each displayed in a particular projection. Which pairing is correct?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Circle in the LAO projection; loop in the RAO projection"
+      },
+      {
+        "id": "b",
+        "text": "Circle in the RAO projection; loop in the LAO projection"
+      },
+      {
+        "id": "c",
+        "text": "Circle and loop both in the LAO projection"
+      },
+      {
+        "id": "d",
+        "text": "Circle and loop both in the RAO projection"
+      }
+    ],
+    "answer": "a",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "**Circle -> LAO**, **Loop -> RAO** (Fig. 1.27)."
+      },
+      {
+        "id": "panels",
+        "type": "table",
+        "head": [
+          "Panel",
+          "Injection / view",
+          "What it shows"
+        ],
+        "rows": [
+          [
+            "A",
+            "Right coronary, **LAO**",
+            "RCA = right component of the circle (right dominant)"
+          ],
+          [
+            "B",
+            "Left coronary, **LAO**",
+            "Left circumflex = left component of the circle (left dominant)"
+          ],
+          [
+            "C",
+            "Left coronary, **RAO**",
+            "Both loop components: **LAD** and **posterior descending**"
+          ]
+        ]
+      },
+      {
+        "id": "left-dom",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "Panel C",
+        "text": "In panel C (left coronary injection, **RAO**), the **left dominant** circulation allows demonstration of **both components of the loop**: LAD and posterior descending artery."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "Circle is formed by right coronary and left circumflex arteries and is displayed in the LAO projection. Loop is formed by left anterior descending and posterior descending arteries and is demonstrated in the right anterior oblique (RAO) projection.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 19"
+      }
+    ],
+    "choiceNotes": {
+      "b": "Reversed: the circle (RCA + circumflex) is displayed in **LAO**, the loop (LAD + PDA) in **RAO**.",
+      "c": "LAO displays the circle; the loop is demonstrated in **RAO**.",
+      "d": "RAO demonstrates the loop; the circle is displayed in **LAO**."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 19, Fig. 1.27"
+      }
     ]
-   },
-   {
-    "id": "pda-only",
-    "type": "callout",
-    "kind": "pitfall",
-    "title": "Right dominant is not the same as inferior LV supply",
-    "text": "A right dominant artery may terminate **only as the posterior descending artery**, without branches to the inferior LV surface."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "it nevertheless serves the left side of the heart to a greater extent than it does the right side in terms of the number and volume of vessel segments involved.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 18"
-   }
-  ],
-  "choiceNotes": {
-   "a": "The reverse: the source says it serves the **left** side to a greater extent.",
-   "c": "Its posterolateral segment supplies the inferior LV surface in most right dominant hearts, and its PDA gives left ventricular and septal branches.",
-   "d": "Not equally: the left side is served **to a greater extent** than the right.",
-   "e": "In a left dominant heart the posterior descending artery and inferior LV branches come from the **circumflex**."
   },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 18, Coronary Arteries"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20, Right Coronary Artery"
-   }
-  ]
- },
- {
-  "id": "D-05",
-  "version": 1,
-  "topic": "Coronary Arteries: circle and loop",
-  "tags": [
-   "coronary arteries",
-   "left ventricle",
-   "myocardial territories"
-  ],
-  "difficulty": 2,
-  "reviewed": false,
-  "stem": "According to the circle-loop description of left ventricular blood supply, the **lateral part of the anterior portion** of the left ventricle is supplied by:",
-  "choices": [
-   {
-    "id": "a",
-    "text": "Diagonal branches of the LAD alone"
-   },
-   {
-    "id": "b",
-    "text": "Obtuse marginal arteries from the posterior half of the circle"
-   },
-   {
-    "id": "c",
-    "text": "Septal branches of the posterior descending artery"
-   },
-   {
-    "id": "d",
-    "text": "Inferior surface branches of the right posterolateral segment"
-   },
-   {
-    "id": "e",
-    "text": "First branches of both the LAD and the left circumflex arteries"
-   }
-  ],
-  "answer": "e",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "**Lateral part of the anterior LV** = first branches of **both** the LAD **and** the circumflex."
-   },
-   {
-    "id": "lv-map",
-    "type": "table",
-    "head": [
-     "LV region",
-     "Supplied by"
+  {
+    "id": "D-03",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "right coronary artery",
+      "crux",
+      "dominance"
     ],
-    "rows": [
-     [
-      "Anterior portion",
-      "**Diagonal branches** of the LAD (the loop)"
-     ],
-     [
-      "Lateral part of anterior portion",
-      "**First branches of both LAD and circumflex**"
-     ],
-     [
-      "Back (posterior wall)",
-      "Parallel **obtuse marginal** arteries from the posterior half of the circle"
-     ],
-     [
-      "Inferior (diaphragmatic) surface",
-      "Inferior surface (marginal) branches of the **right posterolateral segment** (right dominant)"
-     ],
-     [
-      "Ventricular septum",
-      "The loop: **LAD in front**, **PDA behind**"
-     ]
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "In a heart with a right dominant circulation, the extension of the right coronary artery across the crux, along the posterior AV groove, that gives inferior surface (marginal) branches to the diaphragmatic surface of the left ventricle is termed the:",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Acute marginal artery"
+      },
+      {
+        "id": "b",
+        "text": "Posterior descending artery"
+      },
+      {
+        "id": "c",
+        "text": "Left AV artery"
+      },
+      {
+        "id": "d",
+        "text": "Right posterolateral segment"
+      },
+      {
+        "id": "e",
+        "text": "Atrial circumflex artery"
+      }
     ],
-    "caption": "Left ventricular blood supply (circle-loop view)",
-    "emphasis": {
-     "col": 1
-    }
-   },
-   {
-    "id": "posterior-half",
-    "type": "callout",
-    "kind": "pearl",
-    "title": "Posterior half of the circle",
-    "text": "Formed on the left by the **left circumflex** and on the right (right dominant hearts) by the **right posterolateral segment**."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "that to the lateral part of the anterior portion comes from the first branches of both the left anterior descending and circumflex arteries.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 18"
-   }
-  ],
-  "choiceNotes": {
-   "a": "Diagonals of the LAD supply the **anterior** portion of the LV; its **lateral** part also receives the first circumflex branches.",
-   "b": "These parallel obtuse marginal arteries supply the **back** of the LV.",
-   "c": "PDA septal arteries supply only a small zone of the septum near the posterior interventricular sulcus and the AV node region.",
-   "d": "These branches supply the **inferior (diaphragmatic)** surface of the LV."
-  },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 18, Coronary Arteries"
-   }
-  ]
- },
- {
-  "id": "D-06",
-  "version": 1,
-  "topic": "Coronary Arteries: dominance",
-  "tags": [
-   "coronary arteries",
-   "dominance",
-   "posterior descending artery"
-  ],
-  "difficulty": 1,
-  "reviewed": false,
-  "stem": "In coronary anatomy, the term **dominance** expresses variability in which feature?",
-  "choices": [
-   {
-    "id": "a",
-    "text": "The origin of the posterior descending artery"
-   },
-   {
-    "id": "b",
-    "text": "The origin of the sinus node artery"
-   },
-   {
-    "id": "c",
-    "text": "The relative caliber of the two coronary ostia"
-   },
-   {
-    "id": "d",
-    "text": "The length of the left main coronary artery"
-   },
-   {
-    "id": "e",
-    "text": "The artery that supplies the AV node"
-   }
-  ],
-  "answer": "a",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "**Dominance** = which artery gives rise to the **posterior descending artery (PDA)**."
-   },
-   {
-    "id": "patterns",
-    "type": "table",
-    "head": [
-     "Pattern",
-     "PDA arises from"
+    "answer": "d",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Beyond the crux, a right dominant RCA continues in the AV groove as the **right posterolateral segment**, which sends marginal branches to the **inferior (diaphragmatic) surface of the LV**."
+      },
+      {
+        "id": "crux",
+        "type": "p",
+        "text": "**Crux cordis**: the area along the posterior aspect of the AV groove where the **atrial and ventricular septa meet**."
+      },
+      {
+        "id": "rca-end",
+        "type": "flow",
+        "steps": [
+          {
+            "text": "**RCA** in the right AV groove"
+          },
+          {
+            "text": "Crosses the **crux** (deep U-turn)",
+            "label": "then"
+          },
+          {
+            "branches": [
+              {
+                "label": "groove",
+                "text": "**Right posterolateral segment** -> inferior surface branches to the back of the LV"
+              },
+              {
+                "label": "sulcus",
+                "text": "**Right posterior descending** -> posterior interventricular sulcus"
+              }
+            ]
+          }
+        ],
+        "title": "Right dominant RCA at the crux"
+      },
+      {
+        "id": "not-always",
+        "type": "callout",
+        "kind": "pitfall",
+        "title": "Right dominant does not guarantee inferior LV branches",
+        "text": "A right dominant artery may terminate **only as the posterior descending artery**, giving no branches to the inferior LV surface."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "the extension of the right coronary artery across the crux cordis, the area along the posterior aspect of the AV groove where the atrial and ventricular septa meet, termed the right posterolateral segment.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 18"
+      }
     ],
-    "rows": [
-     [
-      "**Right dominant**",
-      "**Terminal branch** of the right coronary artery"
-     ],
-     [
-      "**Left dominant**",
-      "A branch, **usually the last one**, of the left circumflex"
-     ]
+    "choiceNotes": {
+      "a": "The acute marginal arises at the **acute margin** and courses most of the way to the apex.",
+      "b": "The PDA descends in the **posterior interventricular sulcus**; at the crux the RCA bifurcates into the PDA **and** the right posterolateral segment artery.",
+      "c": "The left AV artery is the extension of the **circumflex**, present only in **left dominant** systems.",
+      "e": "The atrial circumflex artery arises from the proximal **left circumflex** and courses around the left atrium."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 18, Coronary Arteries"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20, Fig. 1.28"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20, Right Coronary Artery"
+      }
     ]
-   },
-   {
-    "id": "cabg",
-    "type": "callout",
-    "kind": "pearl",
-    "title": "Why surgeons care",
-    "text": "Whether the right or left coronary artery supplies the PDA is important in **evaluating coronary artery disease** and in **planning CABG**."
-   },
-   {
-    "id": "av-node",
-    "type": "callout",
-    "kind": "pitfall",
-    "title": "Consequence, not definition",
-    "text": "The AV node is **usually** supplied by the dominant coronary artery, but dominance itself is defined only by the PDA origin."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "Variability in the origin of the posterior descending artery is expressed by the term dominance.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 18"
-   }
-  ],
-  "choiceNotes": {
-   "b": "The sinus node artery origin (right coronary in 55% to 65%) is not what defines dominance.",
-   "c": "Dominance is defined by the origin of the PDA, not by vessel size.",
-   "d": "Left main length (usually 10 to 20 mm) is unrelated to dominance.",
-   "e": "The AV node is **usually** supplied by the dominant artery, a consequence of dominance, not its definition."
   },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 18, Coronary Arteries"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 19, Coronary Arteries"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 22, Coronary Arterial Supply to Specialized Areas of the Heart"
-   }
-  ]
- },
- {
-  "id": "D-07",
-  "version": 1,
-  "topic": "Coronary Arteries: dominance",
-  "tags": [
-   "coronary arteries",
-   "dominance",
-   "left circumflex artery",
-   "CABG"
-  ],
-  "difficulty": 2,
-  "reviewed": false,
-  "stem": "Angiography before coronary artery bypass grafting shows the posterior descending artery arising as the last branch of the left circumflex artery. Which statement about this pattern is correct?",
-  "choices": [
-   {
-    "id": "a",
-    "text": "It is the usual pattern, present in most hearts"
-   },
-   {
-    "id": "b",
-    "text": "It is more frequent in females than in males"
-   },
-   {
-    "id": "c",
-    "text": "It occurs in about 10% to 15% of hearts, more often in males"
-   },
-   {
-    "id": "d",
-    "text": "The ventricular septum still receives part of its supply from the RCA"
-   },
-   {
-    "id": "e",
-    "text": "It occurs in about 1% of hearts"
-   }
-  ],
-  "answer": "c",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "PDA from the circumflex = **left dominant** circulation: about **10% to 15%** of hearts, **more frequent in males**."
-   },
-   {
-    "id": "left-dom",
-    "type": "mindmap",
-    "center": "Left dominant circulation",
-    "branches": [
-     {
-      "text": "Definition",
-      "children": [
-       "PDA is a branch, usually the last, of the left circumflex"
-      ]
-     },
-     {
-      "text": "Frequency",
-      "children": [
-       "about 10% to 15% of hearts",
-       "more frequent in males than females"
-      ]
-     },
-     {
-      "text": "Where the PDA arises",
-      "children": [
-       "at or usually before the crux"
-      ]
-     },
-     {
-      "text": "Septum",
-      "children": [
-       "entire blood supply from the left coronary artery"
-      ]
-     }
+  {
+    "id": "D-04",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "right coronary artery",
+      "left ventricle"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "In terms of the number and volume of vessel segments involved, which statement best describes the territory of the right coronary artery?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It serves the right side of the heart more than the left side"
+      },
+      {
+        "id": "b",
+        "text": "It serves the left side of the heart more than the right side"
+      },
+      {
+        "id": "c",
+        "text": "It serves only the right atrium and right ventricle"
+      },
+      {
+        "id": "d",
+        "text": "It serves both sides equally in a right dominant heart"
+      },
+      {
+        "id": "e",
+        "text": "It serves the left ventricle only in a left dominant heart"
+      }
+    ],
+    "answer": "b",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Even if it does not supply a large portion of the posterior LV wall, the **RCA serves the left side of the heart more than the right side** (number and volume of vessel segments)."
+      },
+      {
+        "id": "left-side",
+        "type": "list",
+        "items": [
+          "**Right posterolateral segment** -> marginal branches to the inferior surface of the LV (most right dominant hearts)",
+          "**Posterior descending artery** -> septal, right ventricular **and left ventricular** branches"
+        ]
+      },
+      {
+        "id": "pda-only",
+        "type": "callout",
+        "kind": "pitfall",
+        "title": "Right dominant is not the same as inferior LV supply",
+        "text": "A right dominant artery may terminate **only as the posterior descending artery**, without branches to the inferior LV surface."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "it nevertheless serves the left side of the heart to a greater extent than it does the right side in terms of the number and volume of vessel segments involved.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 18"
+      }
+    ],
+    "choiceNotes": {
+      "a": "The reverse: the source says it serves the **left** side to a greater extent.",
+      "c": "Its posterolateral segment supplies the inferior LV surface in most right dominant hearts, and its PDA gives left ventricular and septal branches.",
+      "d": "Not equally: the left side is served **to a greater extent** than the right.",
+      "e": "In a left dominant heart the posterior descending artery and inferior LV branches come from the **circumflex**."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 18, Coronary Arteries"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20, Right Coronary Artery"
+      }
     ]
-   },
-   {
-    "id": "plan",
-    "type": "callout",
-    "kind": "pearl",
-    "title": "Surgical relevance",
-    "text": "Knowing whether the right or left artery supplies the PDA is important in **evaluating coronary artery disease** and **planning CABG**."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "A left dominant circulation, which occurs in about 10% to 15% of hearts, is one in which the posterior descending coronary artery is a branch, usually the last one, of the left circumflex coronary artery.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 18-19"
-   }
-  ],
-  "choiceNotes": {
-   "a": "Left dominance occurs in only about **10% to 15%** of hearts.",
-   "b": "The reverse: left dominance is **more frequent in males**.",
-   "d": "In left dominant hearts the **entire** septal blood supply is from the **left** coronary artery (p. 21).",
-   "e": "About 1% is the frequency of an **absent left main** coronary artery."
   },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 18-19, Coronary Arteries"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20, Left Circumflex Coronary Artery"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 21, Coronary Arterial Supply to Specialized Areas of the Heart"
-   }
-  ]
- },
- {
-  "id": "D-08",
-  "version": 1,
-  "topic": "Coronary Arteries: left circumflex artery",
-  "tags": [
-   "coronary arteries",
-   "left circumflex artery",
-   "dominance",
-   "codominant"
-  ],
-  "difficulty": 3,
-  "reviewed": false,
-  "stem": "In a codominant system in which the right coronary artery gives rise only to a posterior descending artery, the circumflex branches that supply the inferior surface of the left ventricle are termed:",
-  "choices": [
-   {
-    "id": "a",
-    "text": "Right posterolateral arteries"
-   },
-   {
-    "id": "b",
-    "text": "Diagonal arteries"
-   },
-   {
-    "id": "c",
-    "text": "Atrial circumflex arteries"
-   },
-   {
-    "id": "d",
-    "text": "Acute marginal arteries"
-   },
-   {
-    "id": "e",
-    "text": "Left posterolateral arteries"
-   }
-  ],
-  "answer": "e",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "Circumflex branches to the **inferior LV surface** (left dominant **or** codominant with an RCA that gives only a PDA) = **left posterolateral (marginal) arteries**."
-   },
-   {
-    "id": "who-feeds-inferior",
-    "type": "table",
-    "head": [
-     "System",
-     "PDA from",
-     "Inferior LV surface branches"
+  {
+    "id": "D-05",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "left ventricle",
+      "myocardial territories"
     ],
-    "rows": [
-     [
-      "Right dominant",
-      "RCA (terminal branch)",
-      "**Right** posterolateral arteries, from the right posterolateral segment (most hearts)"
-     ],
-     [
-      "Codominant",
-      "RCA, which gives **only** the PDA",
-      "**Left** posterolateral arteries (circumflex)"
-     ],
-     [
-      "Left dominant",
-      "Circumflex, at or usually before the crux",
-      "**Left** posterolateral arteries from the **left AV artery**"
-     ]
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "According to the circle-loop description of left ventricular blood supply, the **lateral part of the anterior portion** of the left ventricle is supplied by:",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Diagonal branches of the LAD alone"
+      },
+      {
+        "id": "b",
+        "text": "Obtuse marginal arteries from the posterior half of the circle"
+      },
+      {
+        "id": "c",
+        "text": "Septal branches of the posterior descending artery"
+      },
+      {
+        "id": "d",
+        "text": "Right ventricular branches of the right coronary artery"
+      },
+      {
+        "id": "e",
+        "text": "First branches of both the LAD and the left circumflex arteries"
+      }
     ],
-    "emphasis": {
-     "col": 2
-    }
-   },
-   {
-    "id": "left-av",
-    "type": "callout",
-    "kind": "pearl",
-    "title": "Left AV artery (Fig. 1.28)",
-    "text": "The extension of the circumflex present **only in left dominant systems**; it gives left posterolateral arteries before ending as the left posterior descending artery."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "Those branches supplying the inferior surface of the left ventricle in a heart with a left dominant system (or in one with a codominant system in which the right coronary artery gives rise only to a posterior descending artery) are termed left posterolateral (marginal) arteries.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 20"
-   }
-  ],
-  "choiceNotes": {
-   "a": "Right posterolateral arteries come from the **right** posterolateral segment of a right dominant RCA.",
-   "b": "Diagonals are LAD branches supplying the LV free wall anteriorly and laterally.",
-   "c": "The atrial circumflex is a large proximal circumflex branch coursing around the **left atrium**.",
-   "d": "The acute marginal is a right coronary branch at the acute margin of the heart."
-  },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20, Left Circumflex Coronary Artery"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20, Fig. 1.28"
-   }
-  ]
- },
- {
-  "id": "D-09",
-  "version": 1,
-  "topic": "Coronary Arteries: left main coronary artery",
-  "tags": [
-   "coronary arteries",
-   "left main coronary artery"
-  ],
-  "difficulty": 1,
-  "reviewed": false,
-  "stem": "The left main coronary artery arises from its ostium in the left sinus of Valsalva. To reach the left AV groove, it normally courses between:",
-  "choices": [
-   {
-    "id": "a",
-    "text": "The aorta and the superior vena cava"
-   },
-   {
-    "id": "b",
-    "text": "The pulmonary trunk and the left atrial appendage"
-   },
-   {
-    "id": "c",
-    "text": "The pulmonary trunk and the right atrial appendage"
-   },
-   {
-    "id": "d",
-    "text": "The left atrial appendage and the left pulmonary veins"
-   },
-   {
-    "id": "e",
-    "text": "The aorta and the right ventricular infundibulum"
-   }
-  ],
-  "answer": "b",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "Left main: **left sinus of Valsalva** -> between the **pulmonary trunk** and the **left atrial appendage** -> **left AV groove**."
-   },
-   {
-    "id": "lm-map",
-    "type": "mindmap",
-    "center": "Left main coronary artery",
-    "branches": [
-     {
-      "text": "Origin",
-      "children": [
-       "ostium in the left sinus of Valsalva"
-      ]
-     },
-     {
-      "text": "Course",
-      "children": [
-       "between pulmonary trunk and left atrial appendage",
-       "reaches the left AV groove"
-      ]
-     },
-     {
-      "text": "Length",
-      "children": [
-       "usually 10 to 20 mm",
-       "range 0 to 40 mm"
-      ]
-     },
-     {
-      "text": "End",
-      "children": [
-       "bifurcates into LAD and left circumflex"
-      ]
-     }
+    "answer": "e",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "**Lateral part of the anterior LV** = first branches of **both** the LAD **and** the circumflex."
+      },
+      {
+        "id": "lv-map",
+        "type": "table",
+        "head": [
+          "LV region",
+          "Supplied by"
+        ],
+        "rows": [
+          [
+            "Anterior portion",
+            "**Diagonal branches** of the LAD (the loop)"
+          ],
+          [
+            "Lateral part of anterior portion",
+            "**First branches of both LAD and circumflex**"
+          ],
+          [
+            "Back (posterior wall)",
+            "Parallel **obtuse marginal** arteries from the posterior half of the circle"
+          ],
+          [
+            "Inferior (diaphragmatic) surface",
+            "Inferior surface (marginal) branches of the **right posterolateral segment** (right dominant)"
+          ],
+          [
+            "Ventricular septum",
+            "The loop: **LAD in front**, **PDA behind**"
+          ]
+        ],
+        "caption": "Left ventricular blood supply (circle-loop view)",
+        "emphasis": {
+          "col": 1
+        }
+      },
+      {
+        "id": "posterior-half",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "Posterior half of the circle",
+        "text": "Formed on the left by the **left circumflex** and on the right (right dominant hearts) by the **right posterolateral segment**."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "that to the lateral part of the anterior portion comes from the first branches of both the left anterior descending and circumflex arteries.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 18"
+      }
+    ],
+    "choiceNotes": {
+      "a": "Diagonals of the LAD supply the **anterior** portion of the LV; its **lateral** part also receives the first circumflex branches.",
+      "b": "These parallel obtuse marginal arteries supply the **back** of the LV.",
+      "c": "PDA septal arteries supply only a small zone of the septum near the posterior interventricular sulcus and the AV node region.",
+      "d": "Right coronary branches to the right ventricle supply the **right** ventricle; the lateral part of the anterior LV gets the first branches of **both the LAD and the circumflex**."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 18, Coronary Arteries"
+      }
     ]
-   },
-   {
-    "id": "next",
-    "type": "callout",
-    "kind": "pearl",
-    "title": "What follows",
-    "text": "The **left circumflex** leaves the left main at about **90 degrees**, its first few centimeters lying **medial to the base of the left atrial appendage**."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "It normally courses between the pulmonary trunk and the left atrial appendage to reach the left AV groove.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 19"
-   }
-  ],
-  "choiceNotes": {
-   "a": "The superior vena cava is where the **sinus node artery** ends; the left main runs between the pulmonary trunk and the left atrial appendage.",
-   "c": "The right atrial appendage is related to the **sinus node artery** from the RCA, not to the left main.",
-   "d": "The source places the left main between the **pulmonary trunk** and the left atrial appendage.",
-   "e": "The infundibulum is supplied by infundibular branches of the proximal RCA or a separate conus artery; the source places the left main between the pulmonary trunk and the left atrial appendage."
   },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 19, Left Main Coronary Artery"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20, Left Circumflex Coronary Artery"
-   }
-  ]
- },
- {
-  "id": "D-10",
-  "version": 1,
-  "topic": "Coronary Arteries: left main coronary artery",
-  "tags": [
-   "coronary arteries",
-   "left main coronary artery",
-   "variants",
-   "angiography"
-  ],
-  "difficulty": 2,
-  "reviewed": false,
-  "stem": "Coronary angiography shows the left anterior descending and left circumflex arteries arising directly from the aorta through separate ostia. This finding represents:",
-  "choices": [
-   {
-    "id": "a",
-    "text": "Dual origin of the right coronary artery from the right sinus"
-   },
-   {
-    "id": "b",
-    "text": "A conus artery arising separately from the aortic sinus"
-   },
-   {
-    "id": "c",
-    "text": "A left dominant coronary circulation"
-   },
-   {
-    "id": "d",
-    "text": "Absence of the left main coronary artery"
-   },
-   {
-    "id": "e",
-    "text": "A first diagonal branch arising from the left main"
-   }
-  ],
-  "answer": "d",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "Separate aortic ostia for the LAD and circumflex = **absent left main coronary artery**, rare (**1%** of persons)."
-   },
-   {
-    "id": "lm-variants",
-    "type": "table",
-    "head": [
-     "Left main finding",
-     "Meaning"
+  {
+    "id": "D-06",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "dominance",
+      "posterior descending artery"
     ],
-    "rows": [
-     [
-      "Usual",
-      "One left main, 10 to 20 mm (range 0 to 40 mm), bifurcating into LAD and circumflex"
-     ],
-     [
-      "Additional vessel parallel to diagonals",
-      "**First diagonal** of the LAD (formerly ramus intermedius)"
-     ],
-     [
-      "**LAD and circumflex from separate aortic ostia**",
-      "**Left main absent** (1%)"
-     ]
+    "difficulty": 1,
+    "reviewed": false,
+    "stem": "In coronary anatomy, the term **dominance** expresses variability in which feature?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The origin of the posterior descending artery"
+      },
+      {
+        "id": "b",
+        "text": "The origin of the sinus node artery"
+      },
+      {
+        "id": "c",
+        "text": "The relative caliber of the two coronary ostia"
+      },
+      {
+        "id": "d",
+        "text": "The length of the left main coronary artery"
+      },
+      {
+        "id": "e",
+        "text": "The artery that supplies the AV node"
+      }
+    ],
+    "answer": "a",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "**Dominance** = which artery gives rise to the **posterior descending artery (PDA)**."
+      },
+      {
+        "id": "patterns",
+        "type": "table",
+        "head": [
+          "Pattern",
+          "PDA arises from"
+        ],
+        "rows": [
+          [
+            "**Right dominant**",
+            "**Terminal branch** of the right coronary artery"
+          ],
+          [
+            "**Left dominant**",
+            "A branch, **usually the last one**, of the left circumflex"
+          ]
+        ]
+      },
+      {
+        "id": "cabg",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "Why surgeons care",
+        "text": "Whether the right or left coronary artery supplies the PDA is important in **evaluating coronary artery disease** and in **planning CABG**."
+      },
+      {
+        "id": "av-node",
+        "type": "callout",
+        "kind": "pitfall",
+        "title": "Consequence, not definition",
+        "text": "The AV node is **usually** supplied by the dominant coronary artery, but dominance itself is defined only by the PDA origin."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "Variability in the origin of the posterior descending artery is expressed by the term dominance.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 18"
+      }
+    ],
+    "choiceNotes": {
+      "b": "The sinus node artery origin (right coronary in 55% to 65%) is not what defines dominance.",
+      "c": "Dominance is defined by the origin of the PDA, not by vessel size.",
+      "d": "Left main length (usually 10 to 20 mm) is unrelated to dominance.",
+      "e": "The AV node is **usually** supplied by the dominant artery, a consequence of dominance, not its definition."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 18, Coronary Arteries"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 19, Coronary Arteries"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 22, Coronary Arterial Supply to Specialized Areas of the Heart"
+      }
     ]
-   },
-   {
-    "id": "not-dominance",
-    "type": "callout",
-    "kind": "pitfall",
-    "title": "Do not call it dominance",
-    "text": "**Dominance** refers only to which artery gives rise to the posterior descending artery."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "Rarely (in 1% of persons), the left main coronary artery is absent, with the left anterior descending and left circumflex coronary arteries originating directly from the aorta via separate ostia.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 19"
-   }
-  ],
-  "choiceNotes": {
-   "a": "Dual origin from the right sinus is a variation of the **right** coronary artery.",
-   "b": "The conus artery is the separately arising artery to the **right ventricular infundibulum**.",
-   "c": "Dominance describes the origin of the **posterior descending artery**, not separate LAD and circumflex ostia.",
-   "e": "The first diagonal (formerly ramus intermedius) is an **additional** vessel from an existing left main."
   },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 19, Left Main Coronary Artery"
-   }
-  ]
- },
- {
-  "id": "D-11",
-  "version": 1,
-  "topic": "Coronary Arteries: left main coronary artery",
-  "tags": [
-   "coronary arteries",
-   "left main coronary artery",
-   "diagonal",
-   "ramus intermedius"
-  ],
-  "difficulty": 2,
-  "reviewed": false,
-  "stem": "An additional vessel originates from the left main coronary artery near its bifurcation. Formerly called the ramus intermedius, this artery is now termed the:",
-  "choices": [
-   {
-    "id": "a",
-    "text": "First diagonal branch of the LAD"
-   },
-   {
-    "id": "b",
-    "text": "First obtuse marginal branch of the circumflex"
-   },
-   {
-    "id": "c",
-    "text": "Atrial circumflex artery"
-   },
-   {
-    "id": "d",
-    "text": "First septal branch of the LAD"
-   },
-   {
-    "id": "e",
-    "text": "Left AV artery"
-   }
-  ],
-  "answer": "a",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "The old **ramus intermedius** is now called the **first diagonal branch** of the LAD."
-   },
-   {
-    "id": "lad-cx-branches",
-    "type": "table",
-    "head": [
-     "Branch",
-     "Origin",
-     "Course / territory"
+  {
+    "id": "D-07",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "dominance",
+      "left circumflex artery",
+      "coronary artery bypass grafting"
     ],
-    "rows": [
-     [
-      "**First diagonal** (ex-ramus intermedius)",
-      "Left main, near its bifurcation",
-      "Parallel to the diagonals; obtuse margin between diagonal and circumflex marginal branches"
-     ],
-     [
-      "Diagonals",
-      "LAD",
-      "Obliquely between LAD and circumflex; LV free wall anteriorly and laterally"
-     ],
-     [
-      "Septals",
-      "LAD",
-      "Almost perpendicular, into the ventricular septum"
-     ],
-     [
-      "Obtuse marginals",
-      "Circumflex",
-      "Obtuse margin of the heart"
-     ]
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "Angiography before coronary artery bypass grafting shows the posterior descending artery arising as the last branch of the left circumflex artery. Which statement about this pattern is correct?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It is the usual pattern, present in most hearts"
+      },
+      {
+        "id": "b",
+        "text": "It is more frequent in females than in males"
+      },
+      {
+        "id": "c",
+        "text": "It occurs in about 10% to 15% of hearts, more often in males"
+      },
+      {
+        "id": "d",
+        "text": "The ventricular septum still receives part of its supply from the RCA"
+      },
+      {
+        "id": "e",
+        "text": "It occurs in about 1% of hearts"
+      }
+    ],
+    "answer": "c",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "PDA from the circumflex = **left dominant** circulation: about **10% to 15%** of hearts, **more frequent in males**."
+      },
+      {
+        "id": "left-dom",
+        "type": "mindmap",
+        "center": "Left dominant circulation",
+        "branches": [
+          {
+            "text": "Definition",
+            "children": [
+              "PDA is a branch, usually the last, of the left circumflex"
+            ]
+          },
+          {
+            "text": "Frequency",
+            "children": [
+              "about 10% to 15% of hearts",
+              "more frequent in males than females"
+            ]
+          },
+          {
+            "text": "Where the PDA arises",
+            "children": [
+              "at or usually before the crux"
+            ]
+          },
+          {
+            "text": "Septum",
+            "children": [
+              "entire blood supply from the left coronary artery"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "plan",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "Surgical relevance",
+        "text": "Knowing whether the right or left artery supplies the PDA is important in **evaluating coronary artery disease** and **planning CABG**."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "A left dominant circulation, which occurs in about 10% to 15% of hearts, is one in which the posterior descending coronary artery is a branch, usually the last one, of the left circumflex coronary artery.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 18-19"
+      }
+    ],
+    "choiceNotes": {
+      "a": "Left dominance occurs in only about **10% to 15%** of hearts.",
+      "b": "The reverse: left dominance is **more frequent in males**.",
+      "d": "In left dominant hearts the **entire** septal blood supply is from the **left** coronary artery (p. 21).",
+      "e": "About 1% is the frequency of an **absent left main** coronary artery."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 18-19, Coronary Arteries"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20, Left Circumflex Coronary Artery"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 21, Coronary Arterial Supply to Specialized Areas of the Heart"
+      }
     ]
-   },
-   {
-    "id": "fig",
-    "type": "callout",
-    "kind": "pearl",
-    "title": "Figure clue",
-    "text": "Fig. 1.28 labels it segment **15**: the first diagonal, which may originate near the left main bifurcation."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "Such an additional artery (formerly called a ramus intermedius) is termed the first diagonal branch of the left anterior descending artery.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 19"
-   }
-  ],
-  "choiceNotes": {
-   "b": "Obtuse marginals are **ventricular branches of the circumflex** supplying the obtuse margin.",
-   "c": "The atrial circumflex arises from the proximal circumflex and courses around the **left atrium**.",
-   "d": "Septal arteries leave the LAD almost perpendicularly and course **into the septum**.",
-   "e": "The left AV artery is the circumflex extension present only in **left dominant** systems."
   },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 19, Left Main Coronary Artery"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20, Fig. 1.28"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 21, Fig. 1.29"
-   }
-  ]
- },
- {
-  "id": "D-12",
-  "version": 1,
-  "topic": "Coronary Arteries: left anterior descending artery",
-  "tags": [
-   "coronary arteries",
-   "LAD",
-   "apex"
-  ],
-  "difficulty": 2,
-  "reviewed": false,
-  "stem": "In most hearts, the left anterior descending artery does not stop at the apex but extends around it into the posterior interventricular sulcus. As a result, it supplies:",
-  "choices": [
-   {
-    "id": "a",
-    "text": "The posteromedial papillary muscle of the left ventricle"
-   },
-   {
-    "id": "b",
-    "text": "The apical portion of the left ventricle only"
-   },
-   {
-    "id": "c",
-    "text": "The apical portion of both the right and left ventricles"
-   },
-   {
-    "id": "d",
-    "text": "The inferior left ventricular surface via posterolateral branches"
-   },
-   {
-    "id": "e",
-    "text": "The AV node via short posterior septal branches"
-   }
-  ],
-  "answer": "c",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "Wrapping around the apex, the LAD supplies the **apical portion of both ventricles**."
-   },
-   {
-    "id": "lad-map",
-    "type": "mindmap",
-    "center": "Left anterior descending",
-    "branches": [
-     {
-      "text": "Course",
-      "children": [
-       "continuation of the left main",
-       "anterior interventricular sulcus -> apex",
-       "usually around the apex into the posterior sulcus"
-      ]
-     },
-     {
-      "text": "Depth",
-      "children": [
-       "part may be buried in muscle"
-      ]
-     },
-     {
-      "text": "Branches",
-      "children": [
-       "right ventricular free wall (usually small)",
-       "septum",
-       "left ventricular free wall"
-      ]
-     },
-     {
-      "text": "Territory",
-      "children": [
-       "apical portion of right and left ventricles"
-      ]
-     }
+  {
+    "id": "D-08",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "left circumflex artery",
+      "dominance",
+      "codominant"
+    ],
+    "difficulty": 3,
+    "reviewed": false,
+    "stem": "In a heart with a **left dominant** system, the circumflex branches that supply the inferior surface of the left ventricle are termed:",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Right posterolateral arteries"
+      },
+      {
+        "id": "b",
+        "text": "Diagonal arteries"
+      },
+      {
+        "id": "c",
+        "text": "Atrial circumflex arteries"
+      },
+      {
+        "id": "d",
+        "text": "Acute marginal arteries"
+      },
+      {
+        "id": "e",
+        "text": "Left posterolateral arteries"
+      }
+    ],
+    "answer": "e",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Circumflex branches to the **inferior LV surface** (left dominant **or** codominant with an RCA that gives only a PDA) = **left posterolateral (marginal) arteries**."
+      },
+      {
+        "id": "who-feeds-inferior",
+        "type": "table",
+        "head": [
+          "System",
+          "PDA from",
+          "Inferior LV surface branches"
+        ],
+        "rows": [
+          [
+            "Right dominant",
+            "RCA (terminal branch)",
+            "**Right** posterolateral arteries, from the right posterolateral segment (most hearts)"
+          ],
+          [
+            "Codominant",
+            "RCA, which gives **only** the PDA",
+            "**Left** posterolateral arteries (circumflex)"
+          ],
+          [
+            "Left dominant",
+            "Circumflex, at or usually before the crux",
+            "**Left** posterolateral arteries from the **left AV artery**"
+          ]
+        ],
+        "emphasis": {
+          "col": 2
+        }
+      },
+      {
+        "id": "left-av",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "Left AV artery (Fig. 1.28)",
+        "text": "The extension of the circumflex present **only in left dominant systems**; it gives left posterolateral arteries before ending as the left posterior descending artery."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "Those branches supplying the inferior surface of the left ventricle in a heart with a left dominant system (or in one with a codominant system in which the right coronary artery gives rise only to a posterior descending artery) are termed left posterolateral (marginal) arteries.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 20"
+      }
+    ],
+    "choiceNotes": {
+      "a": "Right posterolateral arteries come from the **right** posterolateral segment of a right dominant RCA.",
+      "b": "Diagonals are LAD branches supplying the LV free wall anteriorly and laterally.",
+      "c": "The atrial circumflex is a large proximal circumflex branch coursing around the **left atrium**.",
+      "d": "The acute marginal is a right coronary branch at the acute margin of the heart."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20, Left Circumflex Coronary Artery"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20, Fig. 1.28"
+      }
     ]
-   },
-   {
-    "id": "loop-link",
-    "type": "callout",
-    "kind": "pearl",
-    "title": "Part of the loop",
-    "text": "Running in the anterior sulcus, the LAD is the front half of the **loop** that encircles the septum."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "In most cases, this artery extends around the apex into the posterior interventricular sulcus, supplying the apical portion of both right and left ventricles.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 20"
-   }
-  ],
-  "choiceNotes": {
-   "a": "The posteromedial papillary muscle is supplied by terminal branches of the **right or circumflex** arteries.",
-   "b": "Not only the LV: the source says the apical portion of **both** ventricles.",
-   "d": "Posterolateral branches to the inferior LV come from the right posterolateral segment or the circumflex.",
-   "e": "Short septal arteries near the AV node come from the **posterior descending** artery."
   },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20, Left Anterior Descending Coronary Artery"
-   }
-  ]
- },
- {
-  "id": "D-13",
-  "version": 1,
-  "topic": "Coronary Arteries: left anterior descending artery",
-  "tags": [
-   "coronary arteries",
-   "LAD",
-   "collaterals",
-   "loop of Vieussens"
-  ],
-  "difficulty": 1,
-  "reviewed": false,
-  "stem": "One or more right ventricular branches of the left anterior descending artery connect with infundibular branches from the proximal right coronary artery. This important route for collateral flow is the:",
-  "choices": [
-   {
-    "id": "a",
-    "text": "Kugel artery"
-   },
-   {
-    "id": "b",
-    "text": "Right superior descending artery"
-   },
-   {
-    "id": "c",
-    "text": "Circle of the AV sulci"
-   },
-   {
-    "id": "d",
-    "text": "Atrial circumflex artery"
-   },
-   {
-    "id": "e",
-    "text": "Loop of Vieussens"
-   }
-  ],
-  "answer": "e",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "LAD right ventricular branches <-> proximal RCA infundibular branches = **loop of Vieussens**, an important collateral route."
-   },
-   {
-    "id": "vieussens",
-    "type": "flow",
-    "steps": [
-     {
-      "text": "**LAD**"
-     },
-     {
-      "text": "Right ventricular branches",
-      "label": "gives"
-     },
-     {
-      "text": "Infundibular branches",
-      "label": "connect with"
-     },
-     {
-      "text": "Proximal **RCA**",
-      "label": "arising from"
-     }
+  {
+    "id": "D-09",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "left main coronary artery"
     ],
-    "title": "Loop of Vieussens"
-   },
-   {
-    "id": "other-collateral",
-    "type": "callout",
-    "kind": "pearl",
-    "title": "Another collateral source",
-    "text": "The short **septal arteries of the posterior descending artery** may also serve as an important source of collateral circulation."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "One or more branches to the right ventricle connect with infundibular branches from the proximal right coronary artery. This important route for collateral flow is the loop of Vieussens.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 20"
-   }
-  ],
-  "choiceNotes": {
-   "a": "The Kugel artery runs through the interatrial septum to the crux and anastomoses with the **AV node artery**.",
-   "b": "The right superior descending artery is an atrial vessel from the first centimeter of the RCA that supplies the **His bundle and AV node**.",
-   "c": "The circle is the RCA plus circumflex in the AV sulci, not an infundibular collateral.",
-   "d": "The atrial circumflex is a proximal circumflex branch coursing around the **left atrium**."
-  },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20, Left Anterior Descending Coronary Artery"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 21, Coronary Arterial Supply to Specialized Areas of the Heart"
-   }
-  ]
- },
- {
-  "id": "D-14",
-  "version": 1,
-  "topic": "Coronary Arteries: left anterior descending artery",
-  "tags": [
-   "coronary arteries",
-   "LAD",
-   "septal arteries",
-   "angiography"
-  ],
-  "difficulty": 2,
-  "reviewed": false,
-  "stem": "On angiography, which feature is described as sometimes helpful in identifying the left anterior descending artery?",
-  "choices": [
-   {
-    "id": "a",
-    "text": "A deep U-turn as it crosses the crux"
-   },
-   {
-    "id": "b",
-    "text": "Septal arteries arising almost perpendicularly from it"
-   },
-   {
-    "id": "c",
-    "text": "Origin at about a 90-degree angle from the left main"
-   },
-   {
-    "id": "d",
-    "text": "Branches that exit the AV sulcus in a looping fashion"
-   },
-   {
-    "id": "e",
-    "text": "A long branch running along the acute margin"
-   }
-  ],
-  "answer": "b",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "**Septal arteries leave the LAD almost perpendicularly**: a sign that helps identify the LAD on angiography."
-   },
-   {
-    "id": "septal-vs-diagonal",
-    "type": "table",
-    "head": [
-     "",
-     "Septal arteries",
-     "Diagonal arteries"
+    "difficulty": 1,
+    "reviewed": false,
+    "stem": "The left main coronary artery arises from its ostium in the left sinus of Valsalva. To reach the left AV groove, it normally courses between:",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The aorta and the superior vena cava"
+      },
+      {
+        "id": "b",
+        "text": "The pulmonary trunk and the left atrial appendage"
+      },
+      {
+        "id": "c",
+        "text": "The pulmonary trunk and the right atrial appendage"
+      },
+      {
+        "id": "d",
+        "text": "The left atrial appendage and the left pulmonary veins"
+      },
+      {
+        "id": "e",
+        "text": "The aorta and the right ventricular infundibulum"
+      }
     ],
-    "rows": [
-     [
-      "Angle from LAD",
-      "**Almost perpendicular**",
-      "**Oblique**"
-     ],
-     [
-      "Where",
-      "Into the ventricular septum",
-      "On the surface, between LAD and circumflex"
-     ],
-     [
-      "Supply",
-      "Septum",
-      "LV free wall, anteriorly and laterally"
-     ]
+    "answer": "b",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Left main: **left sinus of Valsalva** -> between the **pulmonary trunk** and the **left atrial appendage** -> **left AV groove**."
+      },
+      {
+        "id": "lm-map",
+        "type": "mindmap",
+        "center": "Left main coronary artery",
+        "branches": [
+          {
+            "text": "Origin",
+            "children": [
+              "ostium in the left sinus of Valsalva"
+            ]
+          },
+          {
+            "text": "Course",
+            "children": [
+              "between pulmonary trunk and left atrial appendage",
+              "reaches the left AV groove"
+            ]
+          },
+          {
+            "text": "Length",
+            "children": [
+              "usually 10 to 20 mm",
+              "range 0 to 40 mm"
+            ]
+          },
+          {
+            "text": "End",
+            "children": [
+              "bifurcates into LAD and left circumflex"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "next",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "What follows",
+        "text": "The **left circumflex** leaves the left main at about **90 degrees**, its first few centimeters lying **medial to the base of the left atrial appendage**."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "It normally courses between the pulmonary trunk and the left atrial appendage to reach the left AV groove.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 19"
+      }
+    ],
+    "choiceNotes": {
+      "a": "The superior vena cava is where the **sinus node artery** ends; the left main runs between the pulmonary trunk and the left atrial appendage.",
+      "c": "The right atrial appendage is related to the **sinus node artery** from the RCA, not to the left main.",
+      "d": "The source places the left main between the **pulmonary trunk** and the left atrial appendage.",
+      "e": "The infundibulum is supplied by infundibular branches of the proximal RCA or a separate conus artery; the source places the left main between the pulmonary trunk and the left atrial appendage."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 19, Left Main Coronary Artery"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20, Left Circumflex Coronary Artery"
+      }
     ]
-   },
-   {
-    "id": "signatures",
-    "type": "table",
-    "head": [
-     "Artery",
-     "Recognizable feature"
-    ],
-    "rows": [
-     [
-      "LAD",
-      "Septals arise almost perpendicularly"
-     ],
-     [
-      "Left circumflex",
-      "Leaves the left main at about 90 degrees; first few cm medial to the left atrial appendage base"
-     ],
-     [
-      "Right coronary",
-      "Deep U-turn at the crux; looping exit of RV branches from the AV sulcus"
-     ]
-    ],
-    "caption": "Quick identification"
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "The septal arteries arise almost perpendicularly from the left anterior descending coronary artery, a characteristic sometimes helpful in angiographic identification of the anterior descending artery.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 20"
-   }
-  ],
-  "choiceNotes": {
-   "a": "The deep U-turn at the crux is characteristic of the **right coronary artery**.",
-   "c": "The **left circumflex** originates from the left main at about 90 degrees.",
-   "d": "RCA branches to the anterior RV free wall loop out of the AV sulcus because of the artery's depth in it.",
-   "e": "The acute marginal is a long, relatively constant **RCA** branch."
   },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20, Left Anterior Descending Coronary Artery"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20, Left Circumflex Coronary Artery"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20, Right Coronary Artery"
-   }
-  ]
- },
- {
-  "id": "D-15",
-  "version": 1,
-  "topic": "Coronary Arteries: left anterior descending artery",
-  "tags": [
-   "coronary arteries",
-   "LAD",
-   "variants"
-  ],
-  "difficulty": 3,
-  "reviewed": false,
-  "stem": "Which variation is described for the **left anterior descending** artery?",
-  "choices": [
-   {
-    "id": "a",
-    "text": "Dual origin from the right sinus of Valsalva"
-   },
-   {
-    "id": "b",
-    "text": "Early bifurcation into two diverging trunks near its ostium"
-   },
-   {
-    "id": "c",
-    "text": "Termination before the obtuse margin of the heart"
-   },
-   {
-    "id": "d",
-    "text": "Existence as two parallel vessels of about equal size"
-   },
-   {
-    "id": "e",
-    "text": "Origin of the sinus node artery from its first few millimeters"
-   }
-  ],
-  "answer": "d",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "LAD variations are **infrequent**; in about **4%** of hearts it exists as **two parallel vessels of about equal size**."
-   },
-   {
-    "id": "variants",
-    "type": "table",
-    "head": [
-     "Artery",
-     "Described variations"
+  {
+    "id": "D-10",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "left main coronary artery",
+      "variants",
+      "angiography"
     ],
-    "rows": [
-     [
-      "**LAD**",
-      "Two parallel equal vessels (about 4%); may end before the apex or reach the posterior AV groove"
-     ],
-     [
-      "Left main",
-      "Absent in 1% (separate LAD and circumflex ostia)"
-     ],
-     [
-      "Left circumflex",
-      "Rarely ends before the obtuse margin; may give the sinus node artery; origin, length and marginals vary often"
-     ],
-     [
-      "Right coronary",
-      "Dual origin from the right sinus; early bifurcation into two equal trunks (about 10%); separate conus artery (half)"
-     ]
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "Coronary angiography shows the left anterior descending and left circumflex arteries arising directly from the aorta through separate ostia. This finding represents:",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Dual origin of the right coronary artery from the right sinus"
+      },
+      {
+        "id": "b",
+        "text": "A conus artery arising separately from the aortic sinus"
+      },
+      {
+        "id": "c",
+        "text": "A left dominant coronary circulation"
+      },
+      {
+        "id": "d",
+        "text": "Absence of the left main coronary artery"
+      },
+      {
+        "id": "e",
+        "text": "A codominant coronary circulation"
+      }
     ],
-    "emphasis": {
-     "col": 1
-    }
-   },
-   {
-    "id": "frequency",
-    "type": "callout",
-    "kind": "pitfall",
-    "title": "Common vs infrequent",
-    "text": "Variations of the **circumflex** and **right coronary** arteries are **common**; those of the **LAD** are **infrequent**."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "Variations in the left anterior descending artery are infrequent, although in about 4% of hearts, it exists as two parallel vessels of about equal size.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 20"
-   }
-  ],
-  "choiceNotes": {
-   "a": "Dual origin from the right sinus is described for the **right coronary artery**.",
-   "b": "Bifurcation within a few millimeters of the ostium into two equal trunks is an **RCA** variation (about 10% of hearts).",
-   "c": "Rare termination before the obtuse margin is described for the **left circumflex**.",
-   "e": "The sinus node artery occasionally arises from the first few millimeters of the **left circumflex**."
-  },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20, Left Anterior Descending Coronary Artery"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20, Left Circumflex Coronary Artery"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20-21, Right Coronary Artery"
-   }
-  ]
- },
- {
-  "id": "D-16",
-  "version": 1,
-  "topic": "Coronary Arteries: left circumflex artery",
-  "tags": [
-   "coronary arteries",
-   "left circumflex artery",
-   "atrial branches"
-  ],
-  "difficulty": 2,
-  "reviewed": false,
-  "stem": "A large branch originating from the proximal left circumflex artery and coursing around the left atrium near the AV groove is termed the:",
-  "choices": [
-   {
-    "id": "a",
-    "text": "Left AV artery"
-   },
-   {
-    "id": "b",
-    "text": "First obtuse marginal artery"
-   },
-   {
-    "id": "c",
-    "text": "Left posterolateral artery"
-   },
-   {
-    "id": "d",
-    "text": "Right superior descending artery"
-   },
-   {
-    "id": "e",
-    "text": "Atrial circumflex artery"
-   }
-  ],
-  "answer": "e",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "Proximal circumflex branch running **around the left atrium near the AV groove** = **atrial circumflex artery**."
-   },
-   {
-    "id": "lcx-map",
-    "type": "mindmap",
-    "center": "Left circumflex artery",
-    "branches": [
-     {
-      "text": "Origin",
-      "children": [
-       "from the left main at about 90 degrees",
-       "first few cm medial to the left atrial appendage base"
-      ]
-     },
-     {
-      "text": "Atrial branches",
-      "children": [
-       "atrial circumflex artery",
-       "occasionally the sinus node artery (first few mm)"
-      ]
-     },
-     {
-      "text": "Ventricular branches",
-      "children": [
-       "obtuse marginal arteries",
-       "may be embedded in muscle"
-      ]
-     },
-     {
-      "text": "Left dominant",
-      "children": [
-       "gives the PDA at or usually before the crux",
-       "extension = left AV artery"
-      ]
-     },
-     {
-      "text": "Variations",
-      "children": [
-       "rarely ends before the obtuse margin",
-       "origin, length and marginals vary often"
-      ]
-     }
+    "answer": "d",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Separate aortic ostia for the LAD and circumflex = **absent left main coronary artery**, rare (**1%** of persons)."
+      },
+      {
+        "id": "lm-variants",
+        "type": "table",
+        "head": [
+          "Left main finding",
+          "Meaning"
+        ],
+        "rows": [
+          [
+            "Usual",
+            "One left main, 10 to 20 mm (range 0 to 40 mm), bifurcating into LAD and circumflex"
+          ],
+          [
+            "Additional vessel parallel to diagonals",
+            "**First diagonal** of the LAD (formerly ramus intermedius)"
+          ],
+          [
+            "**LAD and circumflex from separate aortic ostia**",
+            "**Left main absent** (1%)"
+          ]
+        ]
+      },
+      {
+        "id": "not-dominance",
+        "type": "callout",
+        "kind": "pitfall",
+        "title": "Do not call it dominance",
+        "text": "**Dominance** refers only to which artery gives rise to the posterior descending artery."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "Rarely (in 1% of persons), the left main coronary artery is absent, with the left anterior descending and left circumflex coronary arteries originating directly from the aorta via separate ostia.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 19"
+      }
+    ],
+    "choiceNotes": {
+      "a": "Dual origin from the right sinus is a variation of the **right** coronary artery.",
+      "b": "The conus artery is the separately arising artery to the **right ventricular infundibulum**.",
+      "c": "Dominance describes the origin of the **posterior descending artery**, not separate LAD and circumflex ostia.",
+      "e": "Codominance concerns the origin of the **posterior descending artery** (for example, a right coronary artery giving rise only to a PDA), not separate LAD and circumflex ostia."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 19, Left Main Coronary Artery"
+      }
     ]
-   },
-   {
-    "id": "atrial-vs-av",
-    "type": "callout",
-    "kind": "pitfall",
-    "title": "Atrial circumflex vs left AV artery",
-    "text": "**Atrial circumflex**: proximal, goes around the left atrium. **Left AV artery**: distal extension, only in left dominant hearts, gives left posterolateral arteries."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "A large branch originating from the proximal left circumflex artery and coursing around the left atrium near the AV groove is termed the atrial circumflex artery.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 20"
-   }
-  ],
-  "choiceNotes": {
-   "a": "The left AV artery is the **distal** extension of the circumflex in left dominant systems.",
-   "b": "Obtuse marginals are **ventricular** branches supplying the obtuse margin.",
-   "c": "Left posterolateral arteries supply the **inferior surface of the LV**.",
-   "d": "The right superior descending artery arises within the first centimeter of the **right** coronary artery."
   },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20, Left Circumflex Coronary Artery"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20, Fig. 1.28"
-   }
-  ]
- },
- {
-  "id": "D-17",
-  "version": 1,
-  "topic": "Coronary Arteries: left circumflex artery",
-  "tags": [
-   "coronary arteries",
-   "obtuse marginal",
-   "intramyocardial artery",
-   "CABG"
-  ],
-  "difficulty": 1,
-  "reviewed": false,
-  "stem": "During coronary artery bypass grafting, an obtuse marginal artery cannot be seen on the surface because it is embedded in muscle. Which finding is described as helping to identify its position at operation?",
-  "choices": [
-   {
-    "id": "a",
-    "text": "Altered color (reddish or light tan) of the thin overlying muscle"
-   },
-   {
-    "id": "b",
-    "text": "Its position medial to the base of the left atrial appendage"
-   },
-   {
-    "id": "c",
-    "text": "Septal branches leaving it at an almost perpendicular angle"
-   },
-   {
-    "id": "d",
-    "text": "A characteristic deep U-turn along its course on the LV"
-   },
-   {
-    "id": "e",
-    "text": "Branches leaving the AV sulcus in a looping fashion"
-   }
-  ],
-  "answer": "a",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "A buried obtuse marginal is found by the **altered color (reddish or light tan)** of the thin muscle layer over it, compared with the rest of the ventricular wall."
-   },
-   {
-    "id": "om-facts",
-    "type": "list",
-    "items": [
-     "**Obtuse marginal arteries** = ventricular branches of the circumflex",
-     "They supply the **obtuse margin** of the heart",
-     "They **may be embedded in muscle**",
-     "Clue at operation: **color change** of the overlying thin muscle"
+  {
+    "id": "D-11",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "left main coronary artery",
+      "diagonal",
+      "ramus intermedius"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "An additional vessel originates from the left main coronary artery near its bifurcation. Formerly called the ramus intermedius, this artery is now termed the:",
+    "choices": [
+      {
+        "id": "a",
+        "text": "First diagonal branch of the LAD"
+      },
+      {
+        "id": "b",
+        "text": "First obtuse marginal branch of the circumflex"
+      },
+      {
+        "id": "c",
+        "text": "Atrial circumflex artery"
+      },
+      {
+        "id": "d",
+        "text": "First septal branch of the LAD"
+      },
+      {
+        "id": "e",
+        "text": "Left AV artery"
+      }
+    ],
+    "answer": "a",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "The old **ramus intermedius** is now called the **first diagonal branch** of the LAD."
+      },
+      {
+        "id": "lad-cx-branches",
+        "type": "table",
+        "head": [
+          "Branch",
+          "Origin",
+          "Course / territory"
+        ],
+        "rows": [
+          [
+            "**First diagonal** (ex-ramus intermedius)",
+            "Left main, near its bifurcation",
+            "Parallel to the diagonals; obtuse margin between diagonal and circumflex marginal branches"
+          ],
+          [
+            "Diagonals",
+            "LAD",
+            "Obliquely between LAD and circumflex; LV free wall anteriorly and laterally"
+          ],
+          [
+            "Septals",
+            "LAD",
+            "Almost perpendicular, into the ventricular septum"
+          ],
+          [
+            "Obtuse marginals",
+            "Circumflex",
+            "Obtuse margin of the heart"
+          ]
+        ]
+      },
+      {
+        "id": "fig",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "Figure clue",
+        "text": "Fig. 1.28 labels it segment **15**: the first diagonal, which may originate near the left main bifurcation."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "Such an additional artery (formerly called a ramus intermedius) is termed the first diagonal branch of the left anterior descending artery.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 19"
+      }
+    ],
+    "choiceNotes": {
+      "b": "Obtuse marginals are **ventricular branches of the circumflex** supplying the obtuse margin.",
+      "c": "The atrial circumflex arises from the proximal circumflex and courses around the **left atrium**.",
+      "d": "Septal arteries leave the LAD almost perpendicularly and course **into the septum**.",
+      "e": "The left AV artery is the circumflex extension present only in **left dominant** systems."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 19, Left Main Coronary Artery"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20, Fig. 1.28"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 21, Fig. 1.29"
+      }
     ]
-   },
-   {
-    "id": "lad-too",
-    "type": "callout",
-    "kind": "pearl",
-    "title": "Buried vessels elsewhere",
-    "text": "Part of the **LAD** may also be buried in muscle."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "Often their position can then be identified at operation by the altered color (reddish or light tan) of the overlying thin muscle layer compared with that of the remainder of the ventricular wall.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 20"
-   }
-  ],
-  "choiceNotes": {
-   "b": "The **initial few centimeters of the circumflex itself** lie medial to the base of the left atrial appendage.",
-   "c": "Almost perpendicular septal branches identify the **LAD** on angiography.",
-   "d": "The deep U-turn is made by the **right coronary artery** at the crux.",
-   "e": "Looping exit from the AV sulcus describes **RCA** branches to the anterior RV free wall."
   },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20, Left Circumflex Coronary Artery"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20, Left Anterior Descending Coronary Artery"
-   }
-  ]
- },
- {
-  "id": "D-18",
-  "version": 1,
-  "topic": "Coronary Arteries: right coronary artery",
-  "tags": [
-   "coronary arteries",
-   "right coronary artery",
-   "right atriotomy",
-   "structures at risk"
-  ],
-  "difficulty": 2,
-  "reviewed": false,
-  "stem": "A surgeon makes an oblique right atriotomy. Which branch of the right coronary artery is frequently severed by this incision?",
-  "choices": [
-   {
-    "id": "a",
-    "text": "Anterior right atrial artery"
-   },
-   {
-    "id": "b",
-    "text": "Acute marginal artery"
-   },
-   {
-    "id": "c",
-    "text": "Lateral right atrial artery"
-   },
-   {
-    "id": "d",
-    "text": "Conus artery"
-   },
-   {
-    "id": "e",
-    "text": "AV node artery"
-   }
-  ],
-  "answer": "c",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "The **lateral right atrial artery** is frequently severed by an **oblique right atriotomy**."
-   },
-   {
-    "id": "rca-course",
-    "type": "flow",
-    "steps": [
-     {
-      "text": "**RCA** courses down the right AV groove"
-     },
-     {
-      "text": "RV free-wall branches (looping exit) and **anterior right atrial artery** (often gives the sinus node artery)",
-      "label": "proximally"
-     },
-     {
-      "text": "**Lateral right atrial artery** (cut by an oblique right atriotomy)",
-      "label": "more distally"
-     },
-     {
-      "text": "**Acute marginal artery** toward the apex",
-      "label": "acute margin"
-     },
-     {
-      "text": "Deep **U-turn**: AV node artery; then right PDA + right posterolateral segment",
-      "label": "crux"
-     }
+  {
+    "id": "D-12",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "left anterior descending artery",
+      "apex"
     ],
-    "title": "Right coronary artery, proximal to distal"
-   },
-   {
-    "id": "atriotomy",
-    "type": "callout",
-    "kind": "pearl",
-    "title": "At the right atrium",
-    "text": "Two RCA atrial branches to tell apart: the **anterior** right atrial artery (often gives the sinus node artery) and the **lateral** right atrial artery (incision risk)."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "More distally, a lateral right atrial artery usually arises (this artery is frequently severed when an oblique right atriotomy is made).",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 20"
-   }
-  ],
-  "choiceNotes": {
-   "a": "The anterior right atrial artery arises more proximally and often gives origin to the **sinus node artery**.",
-   "b": "The acute marginal arises at the acute margin and courses toward the **apex**.",
-   "d": "The conus artery supplies the right ventricular **infundibulum**.",
-   "e": "The AV node artery arises at the apex of the RCA U-turn at the **crux**."
-  },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20, Right Coronary Artery"
-   }
-  ]
- },
- {
-  "id": "D-19",
-  "version": 1,
-  "topic": "Coronary Arterial Supply to Specialized Areas",
-  "tags": [
-   "coronary arteries",
-   "AV node",
-   "conduction system",
-   "crux"
-  ],
-  "difficulty": 2,
-  "reviewed": false,
-  "stem": "In a heart with a right dominant circulation, from which part of the right coronary artery does the AV node artery arise?",
-  "choices": [
-   {
-    "id": "a",
-    "text": "The anterior right atrial artery near the atrial appendage"
-   },
-   {
-    "id": "b",
-    "text": "The apex of the deep U-turn as the artery crosses the crux"
-   },
-   {
-    "id": "c",
-    "text": "The second or third centimeter of the artery"
-   },
-   {
-    "id": "d",
-    "text": "The acute marginal artery at the acute margin"
-   },
-   {
-    "id": "e",
-    "text": "The right posterior descending artery near the apex"
-   }
-  ],
-  "answer": "b",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "The **AV node artery** arises from the **apex of the deep U-turn** that the RCA makes as it crosses the **crux**."
-   },
-   {
-    "id": "crux",
-    "type": "flow",
-    "steps": [
-     {
-      "text": "RCA reaches the **crux**"
-     },
-     {
-      "text": "Characteristic **deep U-turn**",
-      "label": "takes a"
-     },
-     {
-      "text": "**AV node artery** from the apex of the turn: courses superiorly and anteriorly, ends with a distinctive angulation",
-      "label": "gives off"
-     },
-     {
-      "branches": [
-       {
-        "label": "then",
-        "text": "Right **posterior descending** artery"
-       },
-       {
-        "label": "and",
-        "text": "Right **posterolateral segment** artery"
-       }
-      ]
-     }
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "In most hearts, the left anterior descending artery does not stop at the apex but extends around it into the posterior interventricular sulcus. As a result, it supplies:",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The posteromedial papillary muscle of the left ventricle"
+      },
+      {
+        "id": "b",
+        "text": "The apical portion of the left ventricle only"
+      },
+      {
+        "id": "c",
+        "text": "The apical portion of both the right and left ventricles"
+      },
+      {
+        "id": "d",
+        "text": "The inferior left ventricular surface via posterolateral branches"
+      },
+      {
+        "id": "e",
+        "text": "The AV node via short posterior septal branches"
+      }
+    ],
+    "answer": "c",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Wrapping around the apex, the LAD supplies the **apical portion of both ventricles**."
+      },
+      {
+        "id": "lad-map",
+        "type": "mindmap",
+        "center": "Left anterior descending",
+        "branches": [
+          {
+            "text": "Course",
+            "children": [
+              "continuation of the left main",
+              "anterior interventricular sulcus -> apex",
+              "usually around the apex into the posterior sulcus"
+            ]
+          },
+          {
+            "text": "Depth",
+            "children": [
+              "part may be buried in muscle"
+            ]
+          },
+          {
+            "text": "Branches",
+            "children": [
+              "right ventricular free wall (usually small)",
+              "septum",
+              "left ventricular free wall"
+            ]
+          },
+          {
+            "text": "Territory",
+            "children": [
+              "apical portion of right and left ventricles"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "loop-link",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "Part of the loop",
+        "text": "Running in the anterior sulcus, the LAD is the front half of the **loop** that encircles the septum."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "In most cases, this artery extends around the apex into the posterior interventricular sulcus, supplying the apical portion of both right and left ventricles.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 20"
+      }
+    ],
+    "choiceNotes": {
+      "a": "The posteromedial papillary muscle is supplied by terminal branches of the **right or circumflex** arteries.",
+      "b": "Not only the LV: the source says the apical portion of **both** ventricles.",
+      "d": "Posterolateral branches to the inferior LV come from the right posterolateral segment or the circumflex.",
+      "e": "Short septal arteries near the AV node come from the **posterior descending** artery."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20, Left Anterior Descending Coronary Artery"
+      }
     ]
-   },
-   {
-    "id": "dominant",
-    "type": "callout",
-    "kind": "pearl",
-    "title": "Rule of thumb",
-    "text": "The AV node is **usually supplied by the dominant coronary artery**."
-   },
-   {
-    "id": "pda-early",
-    "type": "callout",
-    "kind": "pitfall",
-    "title": "PDA origin varies",
-    "text": "The posterior descending artery **frequently arises before the crux**; its anatomy has numerous variations."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "The right coronary artery in most hearts crosses the crux, where it takes a characteristic deep U-turn, giving off the AV node artery at the apex of the turn.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 20"
-   }
-  ],
-  "choiceNotes": {
-   "a": "The anterior right atrial artery often gives origin to the **sinus node** artery.",
-   "c": "The **sinus node** artery originates from the second or third centimeter of the RCA in many hearts.",
-   "d": "The acute marginal courses toward the apex and does not supply the AV node.",
-   "e": "The posterior descending artery descends in the posterior interventricular sulcus; the AV node artery comes from the RCA's **U-turn at the crux**, not from the PDA near the apex."
   },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20, Right Coronary Artery"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 21, Fig. 1.29"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 22, Coronary Arterial Supply to Specialized Areas of the Heart; Fig. 1.30"
-   }
-  ]
- },
- {
-  "id": "D-20",
-  "version": 1,
-  "topic": "Coronary Arteries: right coronary artery",
-  "tags": [
-   "coronary arteries",
-   "right coronary artery",
-   "acute marginal",
-   "septum"
-  ],
-  "difficulty": 3,
-  "reviewed": false,
-  "stem": "In 10% to 20% of hearts, which branch of the right coronary artery crosses the diaphragmatic surface of the right ventricle and reaches the anterior aspect of the diaphragmatic portion of the ventricular septum, to which it gives branches?",
-  "choices": [
-   {
-    "id": "a",
-    "text": "Conus artery"
-   },
-   {
-    "id": "b",
-    "text": "Posterior descending artery"
-   },
-   {
-    "id": "c",
-    "text": "Right posterolateral segment artery"
-   },
-   {
-    "id": "d",
-    "text": "Acute marginal artery"
-   },
-   {
-    "id": "e",
-    "text": "Anterior right atrial artery"
-   }
-  ],
-  "answer": "d",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "The **acute marginal artery** can cross the RV diaphragmatic surface and reach the diaphragmatic septum (**10% to 20%** of hearts)."
-   },
-   {
-    "id": "am-facts",
-    "type": "list",
-    "items": [
-     "Arises in the region of the **acute margin** of the heart",
-     "**Relatively constant**, long and often large",
-     "Courses **most of the way to the apex**",
-     "Other RCA branches to the RV are simply called **right ventricular branches**",
-     "10% to 20%: reaches and supplies the **diaphragmatic portion of the septum**"
+  {
+    "id": "D-13",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "left anterior descending artery",
+      "collaterals",
+      "loop of vieussens"
+    ],
+    "difficulty": 1,
+    "reviewed": false,
+    "stem": "One or more right ventricular branches of the left anterior descending artery connect with infundibular branches from the proximal right coronary artery. This important route for collateral flow is the:",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Kugel artery"
+      },
+      {
+        "id": "b",
+        "text": "Right superior descending artery"
+      },
+      {
+        "id": "c",
+        "text": "Circle of the AV sulci"
+      },
+      {
+        "id": "d",
+        "text": "Atrial circumflex artery"
+      },
+      {
+        "id": "e",
+        "text": "Loop of Vieussens"
+      }
+    ],
+    "answer": "e",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "LAD right ventricular branches <-> proximal RCA infundibular branches = **loop of Vieussens**, an important collateral route."
+      },
+      {
+        "id": "vieussens",
+        "type": "flow",
+        "steps": [
+          {
+            "text": "**LAD**"
+          },
+          {
+            "text": "Right ventricular branches",
+            "label": "gives"
+          },
+          {
+            "text": "Infundibular branches",
+            "label": "connect with"
+          },
+          {
+            "text": "Proximal **RCA**",
+            "label": "arising from"
+          }
+        ],
+        "title": "Loop of Vieussens"
+      },
+      {
+        "id": "other-collateral",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "Another collateral source",
+        "text": "The short **septal arteries of the posterior descending artery** may also serve as an important source of collateral circulation."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "One or more branches to the right ventricle connect with infundibular branches from the proximal right coronary artery. This important route for collateral flow is the loop of Vieussens.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 20"
+      }
+    ],
+    "choiceNotes": {
+      "a": "The Kugel artery runs through the interatrial septum to the crux and anastomoses with the **AV node artery**.",
+      "b": "The right superior descending artery is an atrial vessel from the first centimeter of the RCA that supplies the **His bundle and AV node**.",
+      "c": "The circle is the RCA plus circumflex in the AV sulci, not an infundibular collateral.",
+      "d": "The atrial circumflex is a proximal circumflex branch coursing around the **left atrium**."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20, Left Anterior Descending Coronary Artery"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 21, Coronary Arterial Supply to Specialized Areas of the Heart"
+      }
     ]
-   },
-   {
-    "id": "septum",
-    "type": "callout",
-    "kind": "pearl",
-    "title": "An extra septal source",
-    "text": "Most septal supply is from LAD septals; PDA septals supply a small zone near the posterior sulcus, and in 10% to 20% of hearts the acute marginal also gives septal branches."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "The acute marginal artery crosses the diaphragmatic surface of the right ventricle in 10% to 20% of hearts and reaches the anterior aspect of the diaphragmatic portion of the ventricular septum, to which it gives branches.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 21"
-   }
-  ],
-  "choiceNotes": {
-   "a": "The conus artery supplies the right ventricular **infundibulum**.",
-   "b": "The PDA descends in the **posterior interventricular sulcus**; the branch described crossing the RV diaphragmatic surface is the acute marginal.",
-   "c": "The right posterolateral segment continues in the AV groove to the **inferior surface of the LV**.",
-   "e": "The anterior right atrial artery arises proximally and often gives origin to the **sinus node artery**."
   },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20, Right Coronary Artery"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 21, Right Coronary Artery; Fig. 1.29"
-   }
-  ]
- },
- {
-  "id": "D-21",
-  "version": 1,
-  "topic": "Coronary Arteries: right coronary artery",
-  "tags": [
-   "coronary arteries",
-   "right coronary artery",
-   "conus artery",
-   "variants"
-  ],
-  "difficulty": 2,
-  "reviewed": false,
-  "stem": "During aortic root surgery, an ostium separate from the right coronary ostium is seen in the aortic sinus; its artery supplies the right ventricular infundibulum. This vessel is termed the:",
-  "choices": [
-   {
-    "id": "a",
-    "text": "Sinus node artery"
-   },
-   {
-    "id": "b",
-    "text": "Right superior descending artery"
-   },
-   {
-    "id": "c",
-    "text": "Acute marginal artery"
-   },
-   {
-    "id": "d",
-    "text": "Lateral right atrial artery"
-   },
-   {
-    "id": "e",
-    "text": "Conus artery"
-   }
-  ],
-  "answer": "e",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "When the infundibular artery arises **separately from the aortic sinus** (about **half** of cases), it is the **conus artery**."
-   },
-   {
-    "id": "rca-variants",
-    "type": "table",
-    "head": [
-     "RCA variation",
-     "How often"
+  {
+    "id": "D-14",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "left anterior descending artery",
+      "septal arteries",
+      "angiography"
     ],
-    "rows": [
-     [
-      "Dual origin from the right sinus of Valsalva",
-      "Described (variations are common)"
-     ],
-     [
-      "Bifurcation within a few mm of the ostium into two equal, diverging trunks",
-      "About 10%"
-     ],
-     [
-      "**Infundibular artery arising separately = conus artery**",
-      "**Half** of cases"
-     ]
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "On angiography, which feature is described as sometimes helpful in identifying the left anterior descending artery?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Bifurcation into two equal trunks just beyond its ostium"
+      },
+      {
+        "id": "b",
+        "text": "Septal arteries arising almost perpendicularly from it"
+      },
+      {
+        "id": "c",
+        "text": "Origin at about a 90-degree angle from the left main"
+      },
+      {
+        "id": "d",
+        "text": "Branches that exit the AV sulcus in a looping fashion"
+      },
+      {
+        "id": "e",
+        "text": "A long branch running along the acute margin"
+      }
     ],
-    "emphasis": {
-     "col": 0
-    }
-   },
-   {
-    "id": "rsda",
-    "type": "callout",
-    "kind": "pitfall",
-    "title": "Do not confuse with the right superior descending artery",
-    "text": "The **right superior descending artery** also gives branches to the ventriculoinfundibular fold, but it comes **from the RCA** (first centimeter)."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "In half the cases, the artery supplying the right ventricular infundibulum arises separately from the aortic sinus and is then termed the conus artery.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 21"
-   }
-  ],
-  "choiceNotes": {
-   "a": "The sinus node artery arises from the RCA (often via the anterior right atrial artery) or from the circumflex/left main, and goes to the **SVC**.",
-   "b": "It gives branches to the ventriculoinfundibular fold, but it arises **within the first centimeter of the RCA**, not from its own aortic ostium.",
-   "c": "The acute marginal is a distal RCA branch at the acute margin.",
-   "d": "The lateral right atrial artery is an RCA branch to the right atrium."
-  },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20-21, Right Coronary Artery"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 22, Coronary Arterial Supply to Specialized Areas of the Heart"
-   }
-  ]
- },
- {
-  "id": "D-22",
-  "version": 1,
-  "topic": "Coronary Arterial Supply to Specialized Areas",
-  "tags": [
-   "coronary arteries",
-   "ventricular septum",
-   "septal arteries",
-   "LAD"
-  ],
-  "difficulty": 1,
-  "reviewed": false,
-  "stem": "Which artery provides the **predominant** blood supply to the ventricular septum?",
-  "choices": [
-   {
-    "id": "a",
-    "text": "Posterior descending artery, via long septal arteries"
-   },
-   {
-    "id": "b",
-    "text": "Left anterior descending artery, via large septal arteries"
-   },
-   {
-    "id": "c",
-    "text": "Right coronary artery, via the acute marginal artery"
-   },
-   {
-    "id": "d",
-    "text": "Left circumflex artery, via the obtuse marginal arteries"
-   },
-   {
-    "id": "e",
-    "text": "AV node artery, via its septal branches"
-   }
-  ],
-  "answer": "b",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "Most of the septum is fed by the **LAD** through **four to six large septal arteries, 70 to 80 mm long**."
-   },
-   {
-    "id": "septals",
-    "type": "table",
-    "head": [
-     "",
-     "LAD septals",
-     "PDA septals"
+    "answer": "b",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "**Septal arteries leave the LAD almost perpendicularly**: a sign that helps identify the LAD on angiography."
+      },
+      {
+        "id": "septal-vs-diagonal",
+        "type": "table",
+        "head": [
+          "",
+          "Septal arteries",
+          "Diagonal arteries"
+        ],
+        "rows": [
+          [
+            "Angle from LAD",
+            "**Almost perpendicular**",
+            "**Oblique**"
+          ],
+          [
+            "Where",
+            "Into the ventricular septum",
+            "On the surface, between LAD and circumflex"
+          ],
+          [
+            "Supply",
+            "Septum",
+            "LV free wall, anteriorly and laterally"
+          ]
+        ]
+      },
+      {
+        "id": "signatures",
+        "type": "table",
+        "head": [
+          "Artery",
+          "Recognizable feature"
+        ],
+        "rows": [
+          [
+            "LAD",
+            "Septals arise almost perpendicularly"
+          ],
+          [
+            "Left circumflex",
+            "Leaves the left main at about 90 degrees; first few cm medial to the left atrial appendage base"
+          ],
+          [
+            "Right coronary",
+            "Deep U-turn at the crux; looping exit of RV branches from the AV sulcus"
+          ]
+        ],
+        "caption": "Quick identification"
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "The septal arteries arise almost perpendicularly from the left anterior descending coronary artery, a characteristic sometimes helpful in angiographic identification of the anterior descending artery.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 20"
+      }
     ],
-    "rows": [
-     [
-      "Number / size",
-      "**4 to 6 large**",
-      "Small"
-     ],
-     [
-      "Length",
-      "**70 to 80 mm**",
-      "Rarely more than **15 mm** (except the AV node artery)"
-     ],
-     [
-      "Territory",
-      "Most of the septum",
-      "Small zone near the posterior sulcus and the AV node region"
-     ],
-     [
-      "Extra role",
-      "Supply the distal bundle branches and Purkinje network",
-      "Important source of **collateral** circulation"
-     ]
-    ],
-    "emphasis": {
-     "col": 1
-    }
-   },
-   {
-    "id": "left-dom",
-    "type": "callout",
-    "kind": "pearl",
-    "title": "Left dominant hearts",
-    "text": "In hearts with a **left dominant** circulation, the **entire** blood supply of the septum is from the **left** coronary artery."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "The predominant blood supply to the ventricular septum is from the left anterior descending coronary artery via four to six large septal arteries 70 to 80 mm in length.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 21"
-   }
-  ],
-  "choiceNotes": {
-   "a": "PDA septal arteries are short (rarely more than 15 mm) and supply only a small posterior zone.",
-   "c": "The acute marginal reaches the diaphragmatic septum in only 10% to 20% of hearts.",
-   "d": "Obtuse marginals supply the obtuse margin and back of the LV, not the septum.",
-   "e": "The AV node artery supplies the AV node, His bundle and proximal few millimeters of the bundle branches."
-  },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 21, Coronary Arterial Supply to Specialized Areas of the Heart"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 22, Fig. 1.30"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 23, Coronary Arterial Supply to Specialized Areas of the Heart"
-   }
-  ]
- },
- {
-  "id": "D-23",
-  "version": 1,
-  "topic": "Coronary Arterial Supply to Specialized Areas",
-  "tags": [
-   "coronary arteries",
-   "ventricular septum",
-   "septal arteries"
-  ],
-  "difficulty": 2,
-  "reviewed": false,
-  "stem": "Until their final terminations, the septal arteries from both the anterior and the posterior descending arteries course along which side of the ventricular septum?",
-  "choices": [
-   {
-    "id": "a",
-    "text": "The right ventricular side, where pressure is lower"
-   },
-   {
-    "id": "b",
-    "text": "The left ventricular side, where pressure is lower"
-   },
-   {
-    "id": "c",
-    "text": "The left ventricular side, where pressure is higher"
-   },
-   {
-    "id": "d",
-    "text": "The right ventricular side, where pressure is higher"
-   },
-   {
-    "id": "e",
-    "text": "The midline of the septum, equidistant from both sides"
-   }
-  ],
-  "answer": "a",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "Septal arteries (from LAD **and** PDA) run along the **right ventricular side** of the septum, where **pressure is lower**."
-   },
-   {
-    "id": "septal-path",
-    "type": "flow",
-    "steps": [
-     {
-      "text": "LAD and PDA"
-     },
-     {
-      "text": "Septal arteries",
-      "label": "give"
-     },
-     {
-      "text": "Course along the **RV side** of the septum (lower pressure)",
-      "label": "until their final terminations"
-     }
+    "choiceNotes": {
+      "a": "Bifurcation within a few millimeters of the ostium into two diverging trunks of equal size is a **right coronary** variation (about 10% of hearts).",
+      "c": "The **left circumflex** originates from the left main at about 90 degrees.",
+      "d": "RCA branches to the anterior RV free wall loop out of the AV sulcus because of the artery's depth in it.",
+      "e": "The acute marginal is a long, relatively constant **RCA** branch."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20, Left Anterior Descending Coronary Artery"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20, Left Circumflex Coronary Artery"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20, Right Coronary Artery"
+      }
     ]
-   },
-   {
-    "id": "two-sources",
-    "type": "callout",
-    "kind": "pearl",
-    "title": "Same course, different size",
-    "text": "LAD septals are 4 to 6 large vessels of 70 to 80 mm; PDA septals are rarely longer than 15 mm."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "Until their final terminations, the septal arteries from both anterior and posterior descending arteries course along the right ventricular side of the septum, where pressure is lower than on the left side.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 21"
-   }
-  ],
-  "choiceNotes": {
-   "b": "They run on the **right** side; pressure is lower on the right side than on the left.",
-   "c": "They run on the right ventricular side, the **lower**-pressure side.",
-   "d": "The side is correct, but pressure there is **lower** than on the left.",
-   "e": "The source places them along the **right ventricular side**, not the midline."
   },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 21, Coronary Arterial Supply to Specialized Areas of the Heart"
-   }
-  ]
- },
- {
-  "id": "D-24",
-  "version": 1,
-  "topic": "Coronary Arterial Supply to Specialized Areas",
-  "tags": [
-   "coronary arteries",
-   "sinus node artery",
-   "conduction system"
-  ],
-  "difficulty": 1,
-  "reviewed": false,
-  "stem": "The sinus node artery most commonly originates from which artery?",
-  "choices": [
-   {
-    "id": "a",
-    "text": "Left circumflex artery"
-   },
-   {
-    "id": "b",
-    "text": "Left main coronary artery"
-   },
-   {
-    "id": "c",
-    "text": "Left anterior descending artery"
-   },
-   {
-    "id": "d",
-    "text": "Right coronary artery"
-   },
-   {
-    "id": "e",
-    "text": "Posterior descending artery"
-   }
-  ],
-  "answer": "d",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "Sinus node artery: from the **right coronary artery in 55% to 65%**; from the **left circumflex or left main** in the rest."
-   },
-   {
-    "id": "sa-artery",
-    "type": "table",
-    "head": [
-     "Feature",
-     "Finding"
+  {
+    "id": "D-15",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "left anterior descending artery",
+      "variants"
     ],
-    "rows": [
-     [
-      "Number",
-      "Single in **89%**, double in **11%**"
-     ],
-     [
-      "Origin",
-      "**RCA 55% to 65%**; otherwise left circumflex or left main"
-     ],
-     [
-      "From the RCA",
-      "Second or third centimeter in many hearts; often via the **anterior right atrial artery**"
-     ],
-     [
-      "From the circumflex",
-      "Occasionally from its first few millimeters"
-     ]
+    "difficulty": 3,
+    "reviewed": false,
+    "stem": "Which variation is described for the **left anterior descending** artery?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Dual origin from the right sinus of Valsalva"
+      },
+      {
+        "id": "b",
+        "text": "Early bifurcation into two diverging trunks near its ostium"
+      },
+      {
+        "id": "c",
+        "text": "Termination before the obtuse margin of the heart"
+      },
+      {
+        "id": "d",
+        "text": "Existence as two parallel vessels of about equal size"
+      },
+      {
+        "id": "e",
+        "text": "Origin of the sinus node artery from its first few millimeters"
+      }
     ],
-    "emphasis": {
-     "col": 1
-    }
-   },
-   {
-    "id": "fig",
-    "type": "callout",
-    "kind": "pearl",
-    "title": "Fig. 1.29",
-    "text": "The sinoatrial node branch is drawn from the **proximal portion** of the right coronary artery."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "Its origin is from the right coronary artery in 55% to 65% of cases and from the left circumflex or left main coronary artery in the remainder.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 21"
-   }
-  ],
-  "choiceNotes": {
-   "a": "The circumflex (first few millimeters) is an occasional source, in the minority of hearts.",
-   "b": "The left main is a source only in the minority, together with the circumflex.",
-   "c": "The LAD is not listed as an origin of the sinus node artery.",
-   "e": "The posterior descending artery gives septal and ventricular branches, not the sinus node artery."
-  },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 21, Coronary Arterial Supply to Specialized Areas of the Heart"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20, Right Coronary Artery"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20, Left Circumflex Coronary Artery"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 21, Fig. 1.29"
-   }
-  ]
- },
- {
-  "id": "D-25",
-  "version": 1,
-  "topic": "Coronary Arterial Supply to Specialized Areas",
-  "tags": [
-   "coronary arteries",
-   "sinus node artery",
-   "superior vena cava"
-  ],
-  "difficulty": 2,
-  "reviewed": false,
-  "stem": "When the sinus node artery arises from the right coronary artery, it courses posteriorly and superiorly over the anterior wall of the right atrium, beneath the right atrial appendage. How does it end?",
-  "choices": [
-   {
-    "id": "a",
-    "text": "It encircles the base of the inferior vena cava"
-   },
-   {
-    "id": "b",
-    "text": "It passes through the central fibrous body"
-   },
-   {
-    "id": "c",
-    "text": "It encircles the base of the superior vena cava"
-   },
-   {
-    "id": "d",
-    "text": "It anastomoses with the AV node artery at the crux"
-   },
-   {
-    "id": "e",
-    "text": "It runs along the anterior border of the fossa ovalis"
-   }
-  ],
-  "answer": "c",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "The sinus node artery ends by **encircling the base of the superior vena cava**: clockwise, counterclockwise, or both ways after bifurcating."
-   },
-   {
-    "id": "sa-course",
-    "type": "flow",
-    "steps": [
-     {
-      "text": "**RCA** origin"
-     },
-     {
-      "text": "Posteriorly and superiorly over the anterior right atrial wall, beneath the right atrial appendage",
-      "label": "courses"
-     },
-     {
-      "text": "May penetrate the **interatrial septum**",
-      "label": "on the way"
-     },
-     {
-      "text": "Base of the **SVC**",
-      "label": "reaches"
-     },
-     {
-      "branches": [
-       {
-        "label": "1",
-        "text": "Clockwise"
-       },
-       {
-        "label": "2",
-        "text": "Counterclockwise"
-       },
-       {
-        "label": "3",
-        "text": "Bifurcates, both directions"
-       }
-      ]
-     }
+    "answer": "d",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "LAD variations are **infrequent**; in about **4%** of hearts it exists as **two parallel vessels of about equal size**."
+      },
+      {
+        "id": "variants",
+        "type": "table",
+        "head": [
+          "Artery",
+          "Described variations"
+        ],
+        "rows": [
+          [
+            "**LAD**",
+            "Two parallel equal vessels (about 4%); may end before the apex or reach the posterior AV groove"
+          ],
+          [
+            "Left main",
+            "Absent in 1% (separate LAD and circumflex ostia)"
+          ],
+          [
+            "Left circumflex",
+            "Rarely ends before the obtuse margin; may give the sinus node artery; origin, length and marginals vary often"
+          ],
+          [
+            "Right coronary",
+            "Dual origin from the right sinus; early bifurcation into two equal trunks (about 10%); separate conus artery (half)"
+          ]
+        ],
+        "emphasis": {
+          "col": 1
+        }
+      },
+      {
+        "id": "frequency",
+        "type": "callout",
+        "kind": "pitfall",
+        "title": "Common vs infrequent",
+        "text": "Variations of the **circumflex** and **right coronary** arteries are **common**; those of the **LAD** are **infrequent**."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "Variations in the left anterior descending artery are infrequent, although in about 4% of hearts, it exists as two parallel vessels of about equal size.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 20"
+      }
     ],
-    "title": "Sinus node artery from the RCA (Fig. 1.31)"
-   },
-   {
-    "id": "from-lcx",
-    "type": "callout",
-    "kind": "pearl",
-    "title": "If it comes from the circumflex",
-    "text": "It courses over the **left atrial wall**, variably penetrates the interatrial septum, ascends to the SVC base and encircles it in the same ways."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "It then encircles the cava clockwise or counterclockwise, or bifurcates and encircles it in both directions.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 22"
-   }
-  ],
-  "choiceNotes": {
-   "a": "The source describes encircling the **superior** vena cava, not the inferior.",
-   "b": "Passage through the central fibrous body describes the **right superior descending artery**.",
-   "d": "Anastomosis with the AV node artery at the crux describes the **Kugel artery**.",
-   "e": "The anterior border of the fossa ovalis is the course of the **right superior descending artery**."
-  },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 21-22, Coronary Arterial Supply to Specialized Areas of the Heart"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 22, Fig. 1.31"
-   }
-  ]
- },
- {
-  "id": "D-26",
-  "version": 1,
-  "topic": "Coronary Arterial Supply to Specialized Areas",
-  "tags": [
-   "coronary arteries",
-   "AV node",
-   "Kugel artery",
-   "conduction system"
-  ],
-  "difficulty": 2,
-  "reviewed": false,
-  "stem": "An accessory artery arises from the proximal segment of either the right coronary or the left circumflex artery and courses through the interatrial septum to the crux, where it anastomoses with the AV node artery. This vessel is the:",
-  "choices": [
-   {
-    "id": "a",
-    "text": "Right superior descending artery"
-   },
-   {
-    "id": "b",
-    "text": "Atrial circumflex artery"
-   },
-   {
-    "id": "c",
-    "text": "Sinus node artery"
-   },
-   {
-    "id": "d",
-    "text": "Conus artery"
-   },
-   {
-    "id": "e",
-    "text": "Kugel artery"
-   }
-  ],
-  "answer": "e",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "The **Kugel artery** is an important **accessory** blood supply to the AV node."
-   },
-   {
-    "id": "kugel",
-    "type": "mindmap",
-    "center": "Kugel artery",
-    "branches": [
-     {
-      "text": "Origin",
-      "children": [
-       "proximal RCA or proximal left circumflex"
-      ]
-     },
-     {
-      "text": "Course",
-      "children": [
-       "through the interatrial septum",
-       "to the crux"
-      ]
-     },
-     {
-      "text": "Anastomoses",
-      "children": [
-       "AV node artery (at the crux)",
-       "sinus node artery branches (atrial septum)"
-      ]
-     },
-     {
-      "text": "Role",
-      "children": [
-       "supplies the AV node in 40% of normal hearts"
-      ]
-     }
+    "choiceNotes": {
+      "a": "Dual origin from the right sinus is described for the **right coronary artery**.",
+      "b": "Bifurcation within a few millimeters of the ostium into two equal trunks is an **RCA** variation (about 10% of hearts).",
+      "c": "Rare termination before the obtuse margin is described for the **left circumflex**.",
+      "e": "The sinus node artery occasionally arises from the first few millimeters of the **left circumflex**."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20, Left Anterior Descending Coronary Artery"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20, Left Circumflex Coronary Artery"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20-21, Right Coronary Artery"
+      }
     ]
-   },
-   {
-    "id": "av-sources",
-    "type": "table",
-    "head": [
-     "AV node supply",
-     "Note"
-    ],
-    "rows": [
-     [
-      "AV node artery",
-      "From the RCA U-turn at the crux; usually the dominant artery"
-     ],
-     [
-      "**Kugel artery**",
-      "**40%** of normal hearts"
-     ],
-     [
-      "Right superior descending artery",
-      "70% of hearts in one study"
-     ]
-    ],
-    "caption": "Sources of AV node blood supply"
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "The Kugel artery is the source of blood supply to the AV node in 40% of normal hearts.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 22"
-   }
-  ],
-  "choiceNotes": {
-   "a": "It arises within the first centimeter of the **RCA** and runs along the fossa ovalis and through the central fibrous body.",
-   "b": "The atrial circumflex courses **around the left atrium** near the AV groove.",
-   "c": "The sinus node artery ascends to and encircles the **superior vena cava**.",
-   "d": "The conus artery supplies the right ventricular **infundibulum**."
   },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 22, Coronary Arterial Supply to Specialized Areas of the Heart"
-   }
-  ]
- },
- {
-  "id": "D-27",
-  "version": 1,
-  "topic": "Coronary Arterial Supply to Specialized Areas",
-  "tags": [
-   "coronary arteries",
-   "AV node",
-   "bundle of His",
-   "right superior descending artery"
-  ],
-  "difficulty": 3,
-  "reviewed": false,
-  "stem": "An atrial artery arises within the first centimeter of the right coronary artery, gives branches to the ventriculoinfundibular fold, penetrates the right atrium, runs along the anterior border of the fossa ovalis, and passes through the central fibrous body to supply the bundle of His and the triangle of Koch. This artery is the:",
-  "choices": [
-   {
-    "id": "a",
-    "text": "Kugel artery"
-   },
-   {
-    "id": "b",
-    "text": "Right superior descending artery"
-   },
-   {
-    "id": "c",
-    "text": "Lateral right atrial artery"
-   },
-   {
-    "id": "d",
-    "text": "Anterior right atrial artery"
-   },
-   {
-    "id": "e",
-    "text": "Sinus node artery"
-   }
-  ],
-  "answer": "b",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "The **right superior descending artery** runs from the first centimeter of the RCA to the **His bundle and triangle of Koch, including the AV node**."
-   },
-   {
-    "id": "rsda",
-    "type": "flow",
-    "steps": [
-     {
-      "text": "First centimeter of the **RCA**"
-     },
-     {
-      "text": "Branches to the **ventriculoinfundibular fold**",
-      "label": "gives"
-     },
-     {
-      "text": "Penetrates the **right atrium**",
-      "label": "then"
-     },
-     {
-      "text": "Anterior border of the **fossa ovalis**",
-      "label": "along"
-     },
-     {
-      "text": "**Central fibrous body** -> bundle of His and triangle of Koch (AV node)",
-      "label": "through"
-     }
+  {
+    "id": "D-16",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "left circumflex artery",
+      "atrial branches"
     ],
-    "title": "Course of the right superior descending artery"
-   },
-   {
-    "id": "seventy",
-    "type": "callout",
-    "kind": "pearl",
-    "title": "How often it matters",
-    "text": "It supplied the AV node in **70%** of hearts studied by Abuin and Nieponice."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "The artery goes through the central fibrous body and supplies the bundle of His and the area within the triangle of Koch, including the AV node.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 22-23"
-   }
-  ],
-  "choiceNotes": {
-   "a": "The Kugel artery may also come from the circumflex and runs through the interatrial septum to the **crux** to join the AV node artery.",
-   "c": "The lateral right atrial artery is the one frequently cut in an **oblique right atriotomy**.",
-   "d": "The anterior right atrial artery often gives origin to the **sinus node artery**.",
-   "e": "The sinus node artery ends around the base of the **superior vena cava**."
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "A large branch originating from the proximal left circumflex artery and coursing around the left atrium near the AV groove is termed the:",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Left AV artery"
+      },
+      {
+        "id": "b",
+        "text": "First obtuse marginal artery"
+      },
+      {
+        "id": "c",
+        "text": "Left posterolateral artery"
+      },
+      {
+        "id": "d",
+        "text": "Right superior descending artery"
+      },
+      {
+        "id": "e",
+        "text": "Atrial circumflex artery"
+      }
+    ],
+    "answer": "e",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Proximal circumflex branch running **around the left atrium near the AV groove** = **atrial circumflex artery**."
+      },
+      {
+        "id": "lcx-map",
+        "type": "mindmap",
+        "center": "Left circumflex artery",
+        "branches": [
+          {
+            "text": "Origin",
+            "children": [
+              "from the left main at about 90 degrees",
+              "first few cm medial to the left atrial appendage base"
+            ]
+          },
+          {
+            "text": "Atrial branches",
+            "children": [
+              "atrial circumflex artery",
+              "occasionally the sinus node artery (first few mm)"
+            ]
+          },
+          {
+            "text": "Ventricular branches",
+            "children": [
+              "obtuse marginal arteries",
+              "may be embedded in muscle"
+            ]
+          },
+          {
+            "text": "Left dominant",
+            "children": [
+              "gives the PDA at or usually before the crux",
+              "extension = left AV artery"
+            ]
+          },
+          {
+            "text": "Variations",
+            "children": [
+              "rarely ends before the obtuse margin",
+              "origin, length and marginals vary often"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "atrial-vs-av",
+        "type": "callout",
+        "kind": "pitfall",
+        "title": "Atrial circumflex vs left AV artery",
+        "text": "**Atrial circumflex**: proximal, goes around the left atrium. **Left AV artery**: distal extension, only in left dominant hearts, gives left posterolateral arteries."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "A large branch originating from the proximal left circumflex artery and coursing around the left atrium near the AV groove is termed the atrial circumflex artery.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 20"
+      }
+    ],
+    "choiceNotes": {
+      "a": "The left AV artery is the **distal** extension of the circumflex in left dominant systems.",
+      "b": "Obtuse marginals are **ventricular** branches supplying the obtuse margin.",
+      "c": "Left posterolateral arteries supply the **inferior surface of the LV**.",
+      "d": "The right superior descending artery arises within the first centimeter of the **right** coronary artery."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20, Left Circumflex Coronary Artery"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20, Fig. 1.28"
+      }
+    ]
   },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 22-23, Coronary Arterial Supply to Specialized Areas of the Heart"
-   }
-  ]
- },
- {
-  "id": "D-28",
-  "version": 1,
-  "topic": "Coronary Arterial Supply to Specialized Areas",
-  "tags": [
-   "coronary arteries",
-   "AV node",
-   "structures at risk",
-   "mitral valve",
-   "Ross procedure"
-  ],
-  "difficulty": 3,
-  "reviewed": false,
-  "stem": "A surgeon plans an extended transseptal approach to the mitral valve, which requires dissection in the AV groove. Injury to which arteries is a described risk of this dissection?",
-  "choices": [
-   {
-    "id": "a",
-    "text": "Kugel artery and right superior descending artery"
-   },
-   {
-    "id": "b",
-    "text": "Conus artery and acute marginal artery"
-   },
-   {
-    "id": "c",
-    "text": "Diagonal and septal branches of the LAD"
-   },
-   {
-    "id": "d",
-    "text": "Obtuse marginal and left posterolateral arteries"
-   },
-   {
-    "id": "e",
-    "text": "Loop of Vieussens and its infundibular branches"
-   }
-  ],
-  "answer": "a",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "Dissection **around the RCA** or **in the AV groove** puts the **Kugel artery** and the **right superior descending artery** at risk."
-   },
-   {
-    "id": "ops",
-    "type": "table",
-    "head": [
-     "Operation",
-     "Dissection"
+  {
+    "id": "D-17",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "obtuse marginal",
+      "intramyocardial artery",
+      "coronary artery bypass grafting"
     ],
-    "rows": [
-     [
-      "Aortic root replacement",
-      "Around the right coronary artery"
-     ],
-     [
-      "Ross procedure",
-      "Around the right coronary artery"
-     ],
-     [
-      "Extended transseptal approach to the mitral valve",
-      "In the AV groove"
-     ]
+    "difficulty": 1,
+    "reviewed": false,
+    "stem": "During coronary artery bypass grafting, an obtuse marginal artery cannot be seen on the surface because it is embedded in muscle. Which finding is described as helping to identify its position at operation?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Altered color (reddish or light tan) of the thin overlying muscle"
+      },
+      {
+        "id": "b",
+        "text": "Its position medial to the base of the left atrial appendage"
+      },
+      {
+        "id": "c",
+        "text": "Its origin at about a 90-degree angle from the left main"
+      },
+      {
+        "id": "d",
+        "text": "Its course along the anterior interventricular sulcus"
+      },
+      {
+        "id": "e",
+        "text": "Branches leaving the AV sulcus in a looping fashion"
+      }
     ],
-    "caption": "Operations that endanger these arteries"
-   },
-   {
-    "id": "why",
-    "type": "callout",
-    "kind": "pearl",
-    "title": "What they supply",
-    "text": "Both are AV node sources: the **Kugel artery** (40% of normal hearts) and the **right superior descending artery** (70% in one study), which also supplies the **bundle of His**."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "The Kugel artery and the right superior descending artery are at risk of injury in operations requiring dissection around the right coronary artery (aortic root replacement, Ross procedure) and in the AV groove (extended transseptal approaches to the mitral valve).",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 23"
-   }
-  ],
-  "choiceNotes": {
-   "b": "The source does not list these as at risk in AV groove dissection.",
-   "c": "These LAD branches are not named as at risk in this dissection.",
-   "d": "These are ventricular branches of the circumflex; they are not named as at risk here.",
-   "e": "This is an LAD-to-RCA collateral on the RV; it is not named as at risk here."
+    "answer": "a",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "A buried obtuse marginal is found by the **altered color (reddish or light tan)** of the thin muscle layer over it, compared with the rest of the ventricular wall."
+      },
+      {
+        "id": "om-facts",
+        "type": "list",
+        "items": [
+          "**Obtuse marginal arteries** = ventricular branches of the circumflex",
+          "They supply the **obtuse margin** of the heart",
+          "They **may be embedded in muscle**",
+          "Clue at operation: **color change** of the overlying thin muscle"
+        ]
+      },
+      {
+        "id": "lad-too",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "Buried vessels elsewhere",
+        "text": "Part of the **LAD** may also be buried in muscle."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "Often their position can then be identified at operation by the altered color (reddish or light tan) of the overlying thin muscle layer compared with that of the remainder of the ventricular wall.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 20"
+      }
+    ],
+    "choiceNotes": {
+      "b": "The **initial few centimeters of the circumflex itself** lie medial to the base of the left atrial appendage.",
+      "c": "It is the **left circumflex itself** that originates from the left main at about 90 degrees; this does not locate a buried marginal.",
+      "d": "The **LAD** courses along the anterior interventricular sulcus (part of it may be buried in muscle).",
+      "e": "Looping exit from the AV sulcus describes **RCA** branches to the anterior RV free wall."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20, Left Circumflex Coronary Artery"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20, Left Anterior Descending Coronary Artery"
+      }
+    ]
   },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 23, Coronary Arterial Supply to Specialized Areas of the Heart"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 22, Coronary Arterial Supply to Specialized Areas of the Heart"
-   }
-  ]
- },
- {
-  "id": "D-29",
-  "version": 1,
-  "topic": "Coronary Arterial Supply to Specialized Areas",
-  "tags": [
-   "coronary arteries",
-   "conduction system",
-   "bundle branches",
-   "LAD"
-  ],
-  "difficulty": 2,
-  "reviewed": false,
-  "stem": "Beyond their proximal few millimeters, the bundle branches and the Purkinje arborization within the septum are supplied by:",
-  "choices": [
-   {
-    "id": "a",
-    "text": "The AV node artery"
-   },
-   {
-    "id": "b",
-    "text": "Septal arteries of the posterior descending artery"
-   },
-   {
-    "id": "c",
-    "text": "The Kugel artery"
-   },
-   {
-    "id": "d",
-    "text": "Septal arteries of the left anterior descending artery"
-   },
-   {
-    "id": "e",
-    "text": "The sinus node artery"
-   }
-  ],
-  "answer": "d",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "Distal bundle branches and the **Purkinje** network in the septum = **LAD septal arteries**."
-   },
-   {
-    "id": "conduction-supply",
-    "type": "table",
-    "head": [
-     "Conduction tissue",
-     "Arterial supply"
+  {
+    "id": "D-18",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "right coronary artery",
+      "right atriotomy",
+      "surgical risk"
     ],
-    "rows": [
-     [
-      "AV node",
-      "AV node artery (usually the dominant artery); accessory: Kugel and right superior descending arteries"
-     ],
-     [
-      "Bundle of His + proximal few mm of bundle branches",
-      "**AV node artery**"
-     ],
-     [
-      "Remainder of bundle branches + Purkinje in the septum",
-      "**Septal arteries of the LAD**"
-     ]
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "A surgeon makes an oblique right atriotomy. Which branch of the right coronary artery is frequently severed by this incision?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Anterior right atrial artery"
+      },
+      {
+        "id": "b",
+        "text": "Acute marginal artery"
+      },
+      {
+        "id": "c",
+        "text": "Lateral right atrial artery"
+      },
+      {
+        "id": "d",
+        "text": "Conus artery"
+      },
+      {
+        "id": "e",
+        "text": "AV node artery"
+      }
     ],
-    "emphasis": {
-     "col": 1
-    }
-   },
-   {
-    "id": "split",
-    "type": "callout",
-    "kind": "pearl",
-    "title": "Think in two halves",
-    "text": "Proximal conduction tissue -> **AV node artery**; distal (septal) conduction tissue -> **LAD**."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "The remainder of the bundle branches and the Purkinje arborization within the septum are supplied by septal arteries originating from the left anterior descending artery.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 23"
-   }
-  ],
-  "choiceNotes": {
-   "a": "The AV node artery supplies the bundle of His and only the **proximal few millimeters** of the bundle branches.",
-   "b": "PDA septals are short and supply a small zone near the posterior sulcus and the AV node region.",
-   "c": "The Kugel artery is an accessory supply to the **AV node**.",
-   "e": "The sinus node artery goes to the base of the **superior vena cava**."
+    "answer": "c",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "The **lateral right atrial artery** is frequently severed by an **oblique right atriotomy**."
+      },
+      {
+        "id": "rca-course",
+        "type": "flow",
+        "steps": [
+          {
+            "text": "**RCA** courses down the right AV groove"
+          },
+          {
+            "text": "RV free-wall branches (looping exit) and **anterior right atrial artery** (often gives the sinus node artery)",
+            "label": "proximally"
+          },
+          {
+            "text": "**Lateral right atrial artery** (cut by an oblique right atriotomy)",
+            "label": "more distally"
+          },
+          {
+            "text": "**Acute marginal artery** toward the apex",
+            "label": "acute margin"
+          },
+          {
+            "text": "Deep **U-turn**: AV node artery; then right PDA + right posterolateral segment",
+            "label": "crux"
+          }
+        ],
+        "title": "Right coronary artery, proximal to distal"
+      },
+      {
+        "id": "atriotomy",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "At the right atrium",
+        "text": "Two RCA atrial branches to tell apart: the **anterior** right atrial artery (often gives the sinus node artery) and the **lateral** right atrial artery (incision risk)."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "More distally, a lateral right atrial artery usually arises (this artery is frequently severed when an oblique right atriotomy is made).",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 20"
+      }
+    ],
+    "choiceNotes": {
+      "a": "The anterior right atrial artery arises more proximally and often gives origin to the **sinus node artery**.",
+      "b": "The acute marginal arises at the acute margin and courses toward the **apex**.",
+      "d": "The conus artery supplies the right ventricular **infundibulum**.",
+      "e": "The AV node artery arises at the apex of the RCA U-turn at the **crux**."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20, Right Coronary Artery"
+      }
+    ]
   },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 23, Coronary Arterial Supply to Specialized Areas of the Heart"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 22, Coronary Arterial Supply to Specialized Areas of the Heart"
-   }
-  ]
- },
- {
-  "id": "D-30",
-  "version": 1,
-  "topic": "Coronary Arterial Supply to Specialized Areas",
-  "tags": [
-   "coronary arteries",
-   "papillary muscles",
-   "mitral valve",
-   "left ventricle"
-  ],
-  "difficulty": 2,
-  "reviewed": false,
-  "stem": "The arterial supply of the **posteromedial** papillary muscle of the left ventricle comes from:",
-  "choices": [
-   {
-    "id": "a",
-    "text": "Branches of the LAD, sometimes with circumflex marginals"
-   },
-   {
-    "id": "b",
-    "text": "Septal branches of the left anterior descending artery"
-   },
-   {
-    "id": "c",
-    "text": "Terminal branches of the right or circumflex arteries"
-   },
-   {
-    "id": "d",
-    "text": "The AV node artery from the right coronary U-turn"
-   },
-   {
-    "id": "e",
-    "text": "The acute marginal artery of the right coronary artery"
-   }
-  ],
-  "answer": "c",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "**Posteromedial** papillary muscle = terminal branches of the **right or circumflex** artery, depending on which supplies the **inferior LV surface**."
-   },
-   {
-    "id": "pms",
-    "type": "table",
-    "head": [
-     "Papillary muscle",
-     "Arterial supply"
+  {
+    "id": "D-19",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "atrioventricular node",
+      "conduction system",
+      "crux"
     ],
-    "rows": [
-     [
-      "LV **anterolateral**",
-      "Primarily one or more **LAD** branches; may also get circumflex marginals"
-     ],
-     [
-      "LV **posteromedial**",
-      "Terminal branches of the **right or circumflex** artery (whichever supplies the inferior LV)"
-     ],
-     [
-      "RV **anterolateral**",
-      "Branches of the **LAD**"
-     ]
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "In a heart with a right dominant circulation, from which part of the right coronary artery does the AV node artery arise?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The anterior right atrial artery near the atrial appendage"
+      },
+      {
+        "id": "b",
+        "text": "The apex of the deep U-turn as the artery crosses the crux"
+      },
+      {
+        "id": "c",
+        "text": "The second or third centimeter of the artery"
+      },
+      {
+        "id": "d",
+        "text": "The acute marginal artery at the acute margin"
+      },
+      {
+        "id": "e",
+        "text": "The right posterior descending artery near the apex"
+      }
     ],
-    "emphasis": {
-     "col": 1
-    }
-   },
-   {
-    "id": "depends",
-    "type": "callout",
-    "kind": "pitfall",
-    "title": "It depends on dominance",
-    "text": "Who supplies the inferior LV surface (right posterolateral segment vs circumflex) decides who supplies the posteromedial papillary muscle."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "The arterial supply of the posteromedial papillary muscle of the left ventricle is from terminal branches of the right or circumflex arteries, depending on the distribution of these arteries to the inferior surface of the left ventricle.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 23"
-   }
-  ],
-  "choiceNotes": {
-   "a": "This describes the **anterolateral** papillary muscle of the left ventricle.",
-   "b": "LAD septals supply the septum and its conduction tissue.",
-   "d": "The AV node artery supplies the AV node, His bundle and proximal bundle branches.",
-   "e": "The acute marginal courses most of the way to the apex; it is not named as a papillary muscle supply."
+    "answer": "b",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "The **AV node artery** arises from the **apex of the deep U-turn** that the RCA makes as it crosses the **crux**."
+      },
+      {
+        "id": "crux",
+        "type": "flow",
+        "steps": [
+          {
+            "text": "RCA reaches the **crux**"
+          },
+          {
+            "text": "Characteristic **deep U-turn**",
+            "label": "takes a"
+          },
+          {
+            "text": "**AV node artery** from the apex of the turn: courses superiorly and anteriorly, ends with a distinctive angulation",
+            "label": "gives off"
+          },
+          {
+            "branches": [
+              {
+                "label": "then",
+                "text": "Right **posterior descending** artery"
+              },
+              {
+                "label": "and",
+                "text": "Right **posterolateral segment** artery"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dominant",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "Rule of thumb",
+        "text": "The AV node is **usually supplied by the dominant coronary artery**."
+      },
+      {
+        "id": "pda-early",
+        "type": "callout",
+        "kind": "pitfall",
+        "title": "PDA origin varies",
+        "text": "The posterior descending artery **frequently arises before the crux**; its anatomy has numerous variations."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "The right coronary artery in most hearts crosses the crux, where it takes a characteristic deep U-turn, giving off the AV node artery at the apex of the turn.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 20"
+      }
+    ],
+    "choiceNotes": {
+      "a": "The anterior right atrial artery often gives origin to the **sinus node** artery.",
+      "c": "The **sinus node** artery originates from the second or third centimeter of the RCA in many hearts.",
+      "d": "The acute marginal courses toward the apex and does not supply the AV node.",
+      "e": "The posterior descending artery descends in the posterior interventricular sulcus; the AV node artery comes from the RCA's **U-turn at the crux**, not from the PDA near the apex."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20, Right Coronary Artery"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 21, Fig. 1.29"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 22, Coronary Arterial Supply to Specialized Areas of the Heart; Fig. 1.30"
+      }
+    ]
   },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 23, Coronary Arterial Supply to Specialized Areas of the Heart"
-   }
-  ]
- },
- {
-  "id": "D-31",
-  "version": 1,
-  "topic": "Coronary Arterial Supply to Specialized Areas",
-  "tags": [
-   "coronary arteries",
-   "papillary muscles",
-   "right ventricle",
-   "LAD"
-  ],
-  "difficulty": 2,
-  "reviewed": false,
-  "stem": "The anterolateral papillary muscle of the **right** ventricle, located near the junction of the apical septum and free wall, is supplied by branches from which artery?",
-  "choices": [
-   {
-    "id": "a",
-    "text": "Acute marginal artery"
-   },
-   {
-    "id": "b",
-    "text": "Conus artery"
-   },
-   {
-    "id": "c",
-    "text": "Right posterolateral segment artery"
-   },
-   {
-    "id": "d",
-    "text": "Left anterior descending artery"
-   },
-   {
-    "id": "e",
-    "text": "Posterior descending artery"
-   }
-  ],
-  "answer": "d",
-  "explanation": [
-   {
-    "id": "key",
-    "type": "callout",
-    "kind": "key",
-    "text": "A right ventricular structure fed by a left artery: the **RV anterolateral papillary muscle** gets **LAD** branches."
-   },
-   {
-    "id": "why",
-    "type": "p",
-    "text": "Location: near the junction of the **apical septum** and the **free wall**. Related LAD facts from the chapter: it supplies the septum, gives (usually small) branches to the **right ventricular free wall**, and supplies the **apical portion of both ventricles**."
-   },
-   {
-    "id": "right-not-rca",
-    "type": "callout",
-    "kind": "pitfall",
-    "title": "Right ventricle does not mean right coronary",
-    "text": "This RV papillary muscle is an **LAD** territory, like the **LV anterolateral** papillary muscle (primarily LAD branches)."
-   },
-   {
-    "id": "quote",
-    "type": "quote",
-    "text": "The anterolateral papillary muscle of the right ventricle, located near the junction of the apical septum and free wall, is supplied by branches from the left anterior descending coronary artery.",
-    "ref": "Chapter 1: Anatomy and Dimensions, p. 23"
-   }
-  ],
-  "choiceNotes": {
-   "a": "Although on the right side, this papillary muscle is supplied by the **LAD**, not by the acute marginal.",
-   "b": "The conus artery supplies the right ventricular **infundibulum**.",
-   "c": "The right posterolateral segment supplies the **inferior surface of the left ventricle**.",
-   "e": "The source names the **LAD** as the supply of this muscle, not the posterior descending artery."
+  {
+    "id": "D-20",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "right coronary artery",
+      "acute marginal",
+      "septum"
+    ],
+    "difficulty": 3,
+    "reviewed": false,
+    "stem": "In 10% to 20% of hearts, which branch of the right coronary artery crosses the diaphragmatic surface of the right ventricle and reaches the anterior aspect of the diaphragmatic portion of the ventricular septum, to which it gives branches?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Conus artery"
+      },
+      {
+        "id": "b",
+        "text": "Posterior descending artery"
+      },
+      {
+        "id": "c",
+        "text": "Right posterolateral segment artery"
+      },
+      {
+        "id": "d",
+        "text": "Acute marginal artery"
+      },
+      {
+        "id": "e",
+        "text": "Anterior right atrial artery"
+      }
+    ],
+    "answer": "d",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "The **acute marginal artery** can cross the RV diaphragmatic surface and reach the diaphragmatic septum (**10% to 20%** of hearts)."
+      },
+      {
+        "id": "am-facts",
+        "type": "list",
+        "items": [
+          "Arises in the region of the **acute margin** of the heart",
+          "**Relatively constant**, long and often large",
+          "Courses **most of the way to the apex**",
+          "Other RCA branches to the RV are simply called **right ventricular branches**",
+          "10% to 20%: reaches and supplies the **diaphragmatic portion of the septum**"
+        ]
+      },
+      {
+        "id": "septum",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "An extra septal source",
+        "text": "Most septal supply is from LAD septals; PDA septals supply a small zone near the posterior sulcus, and in 10% to 20% of hearts the acute marginal also gives septal branches."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "The acute marginal artery crosses the diaphragmatic surface of the right ventricle in 10% to 20% of hearts and reaches the anterior aspect of the diaphragmatic portion of the ventricular septum, to which it gives branches.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 21"
+      }
+    ],
+    "choiceNotes": {
+      "a": "The conus artery supplies the right ventricular **infundibulum**.",
+      "b": "The PDA descends in the **posterior interventricular sulcus**; the branch described crossing the RV diaphragmatic surface is the acute marginal.",
+      "c": "The right posterolateral segment continues in the AV groove to the **inferior surface of the LV**.",
+      "e": "The anterior right atrial artery arises proximally and often gives origin to the **sinus node artery**."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20, Right Coronary Artery"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 21, Right Coronary Artery; Fig. 1.29"
+      }
+    ]
   },
-  "source": [
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 23, Coronary Arterial Supply to Specialized Areas of the Heart"
-   },
-   {
-    "ref": "Chapter 1: Anatomy and Dimensions",
-    "loc": "p. 20, Left Anterior Descending Coronary Artery"
-   }
-  ]
- }
+  {
+    "id": "D-21",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "right coronary artery",
+      "conus artery",
+      "variants"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "During aortic root surgery, an ostium separate from the right coronary ostium is seen in the aortic sinus; its artery supplies the right ventricular infundibulum. This vessel is termed the:",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Sinus node artery"
+      },
+      {
+        "id": "b",
+        "text": "Right superior descending artery"
+      },
+      {
+        "id": "c",
+        "text": "Acute marginal artery"
+      },
+      {
+        "id": "d",
+        "text": "Lateral right atrial artery"
+      },
+      {
+        "id": "e",
+        "text": "Conus artery"
+      }
+    ],
+    "answer": "e",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "When the infundibular artery arises **separately from the aortic sinus** (about **half** of cases), it is the **conus artery**."
+      },
+      {
+        "id": "rca-variants",
+        "type": "table",
+        "head": [
+          "RCA variation",
+          "How often"
+        ],
+        "rows": [
+          [
+            "Dual origin from the right sinus of Valsalva",
+            "Described (variations are common)"
+          ],
+          [
+            "Bifurcation within a few mm of the ostium into two equal, diverging trunks",
+            "About 10%"
+          ],
+          [
+            "**Infundibular artery arising separately = conus artery**",
+            "**Half** of cases"
+          ]
+        ],
+        "emphasis": {
+          "col": 0
+        }
+      },
+      {
+        "id": "rsda",
+        "type": "callout",
+        "kind": "pitfall",
+        "title": "Do not confuse with the right superior descending artery",
+        "text": "The **right superior descending artery** also gives branches to the ventriculoinfundibular fold, but it comes **from the RCA** (first centimeter)."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "In half the cases, the artery supplying the right ventricular infundibulum arises separately from the aortic sinus and is then termed the conus artery.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 21"
+      }
+    ],
+    "choiceNotes": {
+      "a": "The sinus node artery arises from the RCA (often via the anterior right atrial artery) or from the circumflex/left main, and goes to the **SVC**.",
+      "b": "It gives branches to the ventriculoinfundibular fold, but it arises **within the first centimeter of the RCA**, not from its own aortic ostium.",
+      "c": "The acute marginal is a distal RCA branch at the acute margin.",
+      "d": "The lateral right atrial artery is an RCA branch to the right atrium."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20-21, Right Coronary Artery"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 22, Coronary Arterial Supply to Specialized Areas of the Heart"
+      }
+    ]
+  },
+  {
+    "id": "D-22",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "ventricular septum",
+      "septal arteries",
+      "left anterior descending artery"
+    ],
+    "difficulty": 1,
+    "reviewed": false,
+    "stem": "Which artery provides the **predominant** blood supply to the ventricular septum?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Posterior descending artery, via long septal arteries"
+      },
+      {
+        "id": "b",
+        "text": "Left anterior descending artery, via large septal arteries"
+      },
+      {
+        "id": "c",
+        "text": "Right coronary artery, via the conus artery"
+      },
+      {
+        "id": "d",
+        "text": "Left circumflex artery, via the obtuse marginal arteries"
+      },
+      {
+        "id": "e",
+        "text": "AV node artery, via its septal branches"
+      }
+    ],
+    "answer": "b",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Most of the septum is fed by the **LAD** through **four to six large septal arteries, 70 to 80 mm long**."
+      },
+      {
+        "id": "septals",
+        "type": "table",
+        "head": [
+          "",
+          "LAD septals",
+          "PDA septals"
+        ],
+        "rows": [
+          [
+            "Number / size",
+            "**4 to 6 large**",
+            "Small"
+          ],
+          [
+            "Length",
+            "**70 to 80 mm**",
+            "Rarely more than **15 mm** (except the AV node artery)"
+          ],
+          [
+            "Territory",
+            "Most of the septum",
+            "Small zone near the posterior sulcus and the AV node region"
+          ],
+          [
+            "Extra role",
+            "Supply the distal bundle branches and Purkinje network",
+            "Important source of **collateral** circulation"
+          ]
+        ],
+        "emphasis": {
+          "col": 1
+        }
+      },
+      {
+        "id": "left-dom",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "Left dominant hearts",
+        "text": "In hearts with a **left dominant** circulation, the **entire** blood supply of the septum is from the **left** coronary artery."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "The predominant blood supply to the ventricular septum is from the left anterior descending coronary artery via four to six large septal arteries 70 to 80 mm in length.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 21"
+      }
+    ],
+    "choiceNotes": {
+      "a": "PDA septal arteries are short (rarely more than 15 mm) and supply only a small posterior zone.",
+      "c": "The conus artery supplies the **right ventricular infundibulum**; the septum is predominantly supplied by the LAD.",
+      "d": "Obtuse marginals supply the obtuse margin and back of the LV, not the septum.",
+      "e": "The AV node artery supplies the AV node, His bundle and proximal few millimeters of the bundle branches."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 21, Coronary Arterial Supply to Specialized Areas of the Heart"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 22, Fig. 1.30"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 23, Coronary Arterial Supply to Specialized Areas of the Heart"
+      }
+    ]
+  },
+  {
+    "id": "D-23",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "ventricular septum",
+      "septal arteries"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "Until their final terminations, the **septal arteries** course along which side of the ventricular septum?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The right ventricular side, where pressure is lower"
+      },
+      {
+        "id": "b",
+        "text": "The left ventricular side, where pressure is lower"
+      },
+      {
+        "id": "c",
+        "text": "The left ventricular side, where pressure is higher"
+      },
+      {
+        "id": "d",
+        "text": "The right ventricular side, where pressure is higher"
+      },
+      {
+        "id": "e",
+        "text": "The midline of the septum, equidistant from both sides"
+      }
+    ],
+    "answer": "a",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Septal arteries (from LAD **and** PDA) run along the **right ventricular side** of the septum, where **pressure is lower**."
+      },
+      {
+        "id": "septal-path",
+        "type": "flow",
+        "steps": [
+          {
+            "text": "LAD and PDA"
+          },
+          {
+            "text": "Septal arteries",
+            "label": "give"
+          },
+          {
+            "text": "Course along the **RV side** of the septum (lower pressure)",
+            "label": "until their final terminations"
+          }
+        ]
+      },
+      {
+        "id": "two-sources",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "Same course, different size",
+        "text": "LAD septals are 4 to 6 large vessels of 70 to 80 mm; PDA septals are rarely longer than 15 mm."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "Until their final terminations, the septal arteries from both anterior and posterior descending arteries course along the right ventricular side of the septum, where pressure is lower than on the left side.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 21"
+      }
+    ],
+    "choiceNotes": {
+      "b": "They run on the **right** side; pressure is lower on the right side than on the left.",
+      "c": "They run on the right ventricular side, the **lower**-pressure side.",
+      "d": "The side is correct, but pressure there is **lower** than on the left.",
+      "e": "The source places them along the **right ventricular side**, not the midline."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 21, Coronary Arterial Supply to Specialized Areas of the Heart"
+      }
+    ]
+  },
+  {
+    "id": "D-24",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "sinus node artery",
+      "conduction system"
+    ],
+    "difficulty": 1,
+    "reviewed": false,
+    "stem": "The sinus node artery most commonly originates from which artery?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Left circumflex artery"
+      },
+      {
+        "id": "b",
+        "text": "Left main coronary artery"
+      },
+      {
+        "id": "c",
+        "text": "Left anterior descending artery"
+      },
+      {
+        "id": "d",
+        "text": "Right coronary artery"
+      },
+      {
+        "id": "e",
+        "text": "Posterior descending artery"
+      }
+    ],
+    "answer": "d",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Sinus node artery: from the **right coronary artery in 55% to 65%**; from the **left circumflex or left main** in the rest."
+      },
+      {
+        "id": "sa-artery",
+        "type": "table",
+        "head": [
+          "Feature",
+          "Finding"
+        ],
+        "rows": [
+          [
+            "Number",
+            "Single in **89%**, double in **11%**"
+          ],
+          [
+            "Origin",
+            "**RCA 55% to 65%**; otherwise left circumflex or left main"
+          ],
+          [
+            "From the RCA",
+            "Second or third centimeter in many hearts; often via the **anterior right atrial artery**"
+          ],
+          [
+            "From the circumflex",
+            "Occasionally from its first few millimeters"
+          ]
+        ],
+        "emphasis": {
+          "col": 1
+        }
+      },
+      {
+        "id": "fig",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "Fig. 1.29",
+        "text": "The sinoatrial node branch is drawn from the **proximal portion** of the right coronary artery."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "Its origin is from the right coronary artery in 55% to 65% of cases and from the left circumflex or left main coronary artery in the remainder.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 21"
+      }
+    ],
+    "choiceNotes": {
+      "a": "The circumflex (first few millimeters) is an occasional source, in the minority of hearts.",
+      "b": "The left main is a source only in the minority, together with the circumflex.",
+      "c": "The LAD is not listed as an origin of the sinus node artery.",
+      "e": "The posterior descending artery gives septal and ventricular branches, not the sinus node artery."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 21, Coronary Arterial Supply to Specialized Areas of the Heart"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20, Right Coronary Artery"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20, Left Circumflex Coronary Artery"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 21, Fig. 1.29"
+      }
+    ]
+  },
+  {
+    "id": "D-25",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "sinus node artery",
+      "superior vena cava"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "The sinus node artery may course posteriorly and superiorly over the anterior wall of the right atrium, beneath the right atrial appendage. How does it end?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It encircles the base of the inferior vena cava"
+      },
+      {
+        "id": "b",
+        "text": "It passes through the central fibrous body"
+      },
+      {
+        "id": "c",
+        "text": "It encircles the base of the superior vena cava"
+      },
+      {
+        "id": "d",
+        "text": "It anastomoses with the AV node artery at the crux"
+      },
+      {
+        "id": "e",
+        "text": "It runs along the anterior border of the fossa ovalis"
+      }
+    ],
+    "answer": "c",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "The sinus node artery ends by **encircling the base of the superior vena cava**: clockwise, counterclockwise, or both ways after bifurcating."
+      },
+      {
+        "id": "sa-course",
+        "type": "flow",
+        "steps": [
+          {
+            "text": "**RCA** origin"
+          },
+          {
+            "text": "Posteriorly and superiorly over the anterior right atrial wall, beneath the right atrial appendage",
+            "label": "courses"
+          },
+          {
+            "text": "May penetrate the **interatrial septum**",
+            "label": "on the way"
+          },
+          {
+            "text": "Base of the **SVC**",
+            "label": "reaches"
+          },
+          {
+            "branches": [
+              {
+                "label": "1",
+                "text": "Clockwise"
+              },
+              {
+                "label": "2",
+                "text": "Counterclockwise"
+              },
+              {
+                "label": "3",
+                "text": "Bifurcates, both directions"
+              }
+            ]
+          }
+        ],
+        "title": "Sinus node artery from the RCA (Fig. 1.31)"
+      },
+      {
+        "id": "from-lcx",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "If it comes from the circumflex",
+        "text": "It courses over the **left atrial wall**, variably penetrates the interatrial septum, ascends to the SVC base and encircles it in the same ways."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "It then encircles the cava clockwise or counterclockwise, or bifurcates and encircles it in both directions.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 22"
+      }
+    ],
+    "choiceNotes": {
+      "a": "The source describes encircling the **superior** vena cava, not the inferior.",
+      "b": "Passage through the central fibrous body describes the **right superior descending artery**.",
+      "d": "Anastomosis with the AV node artery at the crux describes the **Kugel artery**.",
+      "e": "The anterior border of the fossa ovalis is the course of the **right superior descending artery**."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 21-22, Coronary Arterial Supply to Specialized Areas of the Heart"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 22, Fig. 1.31"
+      }
+    ]
+  },
+  {
+    "id": "D-26",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "atrioventricular node",
+      "kugel artery",
+      "conduction system"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "An accessory artery arises from the proximal segment of either the right coronary or the left circumflex artery and courses through the interatrial septum to the crux, where it anastomoses with the AV node artery. This vessel is the:",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Right superior descending artery"
+      },
+      {
+        "id": "b",
+        "text": "Atrial circumflex artery"
+      },
+      {
+        "id": "c",
+        "text": "Sinus node artery"
+      },
+      {
+        "id": "d",
+        "text": "Conus artery"
+      },
+      {
+        "id": "e",
+        "text": "Kugel artery"
+      }
+    ],
+    "answer": "e",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "The **Kugel artery** is an important **accessory** blood supply to the AV node."
+      },
+      {
+        "id": "kugel",
+        "type": "mindmap",
+        "center": "Kugel artery",
+        "branches": [
+          {
+            "text": "Origin",
+            "children": [
+              "proximal RCA or proximal left circumflex"
+            ]
+          },
+          {
+            "text": "Course",
+            "children": [
+              "through the interatrial septum",
+              "to the crux"
+            ]
+          },
+          {
+            "text": "Anastomoses",
+            "children": [
+              "AV node artery (at the crux)",
+              "sinus node artery branches (atrial septum)"
+            ]
+          },
+          {
+            "text": "Role",
+            "children": [
+              "supplies the AV node in 40% of normal hearts"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "av-sources",
+        "type": "table",
+        "head": [
+          "AV node supply",
+          "Note"
+        ],
+        "rows": [
+          [
+            "AV node artery",
+            "From the RCA U-turn at the crux; usually the dominant artery"
+          ],
+          [
+            "**Kugel artery**",
+            "**40%** of normal hearts"
+          ],
+          [
+            "Right superior descending artery",
+            "70% of hearts in one study"
+          ]
+        ],
+        "caption": "Sources of AV node blood supply"
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "The Kugel artery is the source of blood supply to the AV node in 40% of normal hearts.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 22"
+      }
+    ],
+    "choiceNotes": {
+      "a": "It arises within the first centimeter of the **RCA** and runs along the fossa ovalis and through the central fibrous body.",
+      "b": "The atrial circumflex courses **around the left atrium** near the AV groove.",
+      "c": "The sinus node artery ascends to and encircles the **superior vena cava**.",
+      "d": "The conus artery supplies the right ventricular **infundibulum**."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 22, Coronary Arterial Supply to Specialized Areas of the Heart"
+      }
+    ]
+  },
+  {
+    "id": "D-27",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "atrioventricular node",
+      "bundle of his",
+      "right superior descending artery"
+    ],
+    "difficulty": 3,
+    "reviewed": false,
+    "stem": "An atrial artery arises within the first centimeter of the right coronary artery, gives branches to the ventriculoinfundibular fold, penetrates the right atrium, runs along the anterior border of the fossa ovalis, and passes through the central fibrous body to supply the bundle of His and the triangle of Koch. This artery is the:",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Kugel artery"
+      },
+      {
+        "id": "b",
+        "text": "Right superior descending artery"
+      },
+      {
+        "id": "c",
+        "text": "Lateral right atrial artery"
+      },
+      {
+        "id": "d",
+        "text": "Anterior right atrial artery"
+      },
+      {
+        "id": "e",
+        "text": "Sinus node artery"
+      }
+    ],
+    "answer": "b",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "The **right superior descending artery** runs from the first centimeter of the RCA to the **His bundle and triangle of Koch, including the AV node**."
+      },
+      {
+        "id": "rsda",
+        "type": "flow",
+        "steps": [
+          {
+            "text": "First centimeter of the **RCA**"
+          },
+          {
+            "text": "Branches to the **ventriculoinfundibular fold**",
+            "label": "gives"
+          },
+          {
+            "text": "Penetrates the **right atrium**",
+            "label": "then"
+          },
+          {
+            "text": "Anterior border of the **fossa ovalis**",
+            "label": "along"
+          },
+          {
+            "text": "**Central fibrous body** -> bundle of His and triangle of Koch (AV node)",
+            "label": "through"
+          }
+        ],
+        "title": "Course of the right superior descending artery"
+      },
+      {
+        "id": "seventy",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "How often it matters",
+        "text": "It supplied the AV node in **70%** of hearts studied by Abuin and Nieponice."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "The artery goes through the central fibrous body and supplies the bundle of His and the area within the triangle of Koch, including the AV node.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 22-23"
+      }
+    ],
+    "choiceNotes": {
+      "a": "The Kugel artery may also come from the circumflex and runs through the interatrial septum to the **crux** to join the AV node artery.",
+      "c": "The lateral right atrial artery is the one frequently cut in an **oblique right atriotomy**.",
+      "d": "The anterior right atrial artery often gives origin to the **sinus node artery**.",
+      "e": "The sinus node artery ends around the base of the **superior vena cava**."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 22-23, Coronary Arterial Supply to Specialized Areas of the Heart"
+      }
+    ]
+  },
+  {
+    "id": "D-28",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "atrioventricular node",
+      "surgical risk",
+      "mitral valve",
+      "ross operation"
+    ],
+    "difficulty": 3,
+    "reviewed": false,
+    "stem": "A surgeon plans an extended transseptal approach to the mitral valve, which requires dissection in the AV groove. Injury to which arteries is a described risk of this dissection?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Kugel artery and right superior descending artery"
+      },
+      {
+        "id": "b",
+        "text": "Conus artery and acute marginal artery"
+      },
+      {
+        "id": "c",
+        "text": "Diagonal and septal branches of the LAD"
+      },
+      {
+        "id": "d",
+        "text": "Obtuse marginal and left posterolateral arteries"
+      }
+    ],
+    "answer": "a",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Dissection **around the RCA** or **in the AV groove** puts the **Kugel artery** and the **right superior descending artery** at risk."
+      },
+      {
+        "id": "ops",
+        "type": "table",
+        "head": [
+          "Operation",
+          "Dissection"
+        ],
+        "rows": [
+          [
+            "Aortic root replacement",
+            "Around the right coronary artery"
+          ],
+          [
+            "Ross procedure",
+            "Around the right coronary artery"
+          ],
+          [
+            "Extended transseptal approach to the mitral valve",
+            "In the AV groove"
+          ]
+        ],
+        "caption": "Operations that endanger these arteries"
+      },
+      {
+        "id": "why",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "What they supply",
+        "text": "Both are AV node sources: the **Kugel artery** (40% of normal hearts) and the **right superior descending artery** (70% in one study), which also supplies the **bundle of His**."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "The Kugel artery and the right superior descending artery are at risk of injury in operations requiring dissection around the right coronary artery (aortic root replacement, Ross procedure) and in the AV groove (extended transseptal approaches to the mitral valve).",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 23"
+      }
+    ],
+    "choiceNotes": {
+      "b": "The source does not list these as at risk in AV groove dissection.",
+      "c": "These LAD branches are not named as at risk in this dissection.",
+      "d": "These are ventricular branches of the circumflex; they are not named as at risk here."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 23, Coronary Arterial Supply to Specialized Areas of the Heart"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 22, Coronary Arterial Supply to Specialized Areas of the Heart"
+      }
+    ]
+  },
+  {
+    "id": "D-29",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "conduction system",
+      "bundle branches",
+      "left anterior descending artery"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "Beyond their proximal few millimeters, the bundle branches and the Purkinje arborization within the septum are supplied by:",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The AV node artery"
+      },
+      {
+        "id": "b",
+        "text": "Septal arteries of the posterior descending artery"
+      },
+      {
+        "id": "c",
+        "text": "The Kugel artery"
+      },
+      {
+        "id": "d",
+        "text": "Septal arteries of the left anterior descending artery"
+      },
+      {
+        "id": "e",
+        "text": "The sinus node artery"
+      }
+    ],
+    "answer": "d",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Distal bundle branches and the **Purkinje** network in the septum = **LAD septal arteries**."
+      },
+      {
+        "id": "conduction-supply",
+        "type": "table",
+        "head": [
+          "Conduction tissue",
+          "Arterial supply"
+        ],
+        "rows": [
+          [
+            "AV node",
+            "AV node artery (usually the dominant artery); accessory: Kugel and right superior descending arteries"
+          ],
+          [
+            "Bundle of His + proximal few mm of bundle branches",
+            "**AV node artery**"
+          ],
+          [
+            "Remainder of bundle branches + Purkinje in the septum",
+            "**Septal arteries of the LAD**"
+          ]
+        ],
+        "emphasis": {
+          "col": 1
+        }
+      },
+      {
+        "id": "split",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "Think in two halves",
+        "text": "Proximal conduction tissue -> **AV node artery**; distal (septal) conduction tissue -> **LAD**."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "The remainder of the bundle branches and the Purkinje arborization within the septum are supplied by septal arteries originating from the left anterior descending artery.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 23"
+      }
+    ],
+    "choiceNotes": {
+      "a": "The AV node artery supplies the bundle of His and only the **proximal few millimeters** of the bundle branches.",
+      "b": "PDA septals are short and supply a small zone near the posterior sulcus and the AV node region.",
+      "c": "The Kugel artery is an accessory supply to the **AV node**.",
+      "e": "The sinus node artery goes to the base of the **superior vena cava**."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 23, Coronary Arterial Supply to Specialized Areas of the Heart"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 22, Coronary Arterial Supply to Specialized Areas of the Heart"
+      }
+    ]
+  },
+  {
+    "id": "D-30",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "papillary muscles",
+      "mitral valve",
+      "left ventricle"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "The arterial supply of the **posteromedial** papillary muscle of the left ventricle comes from:",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Branches of the LAD, sometimes with circumflex marginals"
+      },
+      {
+        "id": "b",
+        "text": "Septal branches of the left anterior descending artery"
+      },
+      {
+        "id": "c",
+        "text": "Terminal branches of the right or circumflex arteries"
+      },
+      {
+        "id": "d",
+        "text": "The AV node artery from the right coronary U-turn"
+      },
+      {
+        "id": "e",
+        "text": "The acute marginal artery of the right coronary artery"
+      }
+    ],
+    "answer": "c",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "**Posteromedial** papillary muscle = terminal branches of the **right or circumflex** artery, depending on which supplies the **inferior LV surface**."
+      },
+      {
+        "id": "pms",
+        "type": "table",
+        "head": [
+          "Papillary muscle",
+          "Arterial supply"
+        ],
+        "rows": [
+          [
+            "LV **anterolateral**",
+            "Primarily one or more **LAD** branches; may also get circumflex marginals"
+          ],
+          [
+            "LV **posteromedial**",
+            "Terminal branches of the **right or circumflex** artery (whichever supplies the inferior LV)"
+          ],
+          [
+            "RV **anterolateral**",
+            "Branches of the **LAD**"
+          ]
+        ],
+        "emphasis": {
+          "col": 1
+        }
+      },
+      {
+        "id": "depends",
+        "type": "callout",
+        "kind": "pitfall",
+        "title": "It depends on dominance",
+        "text": "Who supplies the inferior LV surface (right posterolateral segment vs circumflex) decides who supplies the posteromedial papillary muscle."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "The arterial supply of the posteromedial papillary muscle of the left ventricle is from terminal branches of the right or circumflex arteries, depending on the distribution of these arteries to the inferior surface of the left ventricle.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 23"
+      }
+    ],
+    "choiceNotes": {
+      "a": "This describes the **anterolateral** papillary muscle of the left ventricle.",
+      "b": "LAD septals supply the septum and its conduction tissue.",
+      "d": "The AV node artery supplies the AV node, His bundle and proximal bundle branches.",
+      "e": "The acute marginal courses most of the way to the apex; it is not named as a papillary muscle supply."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 23, Coronary Arterial Supply to Specialized Areas of the Heart"
+      }
+    ]
+  },
+  {
+    "id": "D-31",
+    "version": 1,
+    "topic": "Coronary Arteries",
+    "tags": [
+      "coronary arteries",
+      "papillary muscles",
+      "right ventricle",
+      "left anterior descending artery"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "The anterolateral papillary muscle of the **right** ventricle, located near the junction of the apical septum and free wall, is supplied by branches from which artery?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Acute marginal artery"
+      },
+      {
+        "id": "b",
+        "text": "Conus artery"
+      },
+      {
+        "id": "c",
+        "text": "Right posterolateral segment artery"
+      },
+      {
+        "id": "d",
+        "text": "Left anterior descending artery"
+      },
+      {
+        "id": "e",
+        "text": "Posterior descending artery"
+      }
+    ],
+    "answer": "d",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "A right ventricular structure fed by a left artery: the **RV anterolateral papillary muscle** gets **LAD** branches."
+      },
+      {
+        "id": "why",
+        "type": "p",
+        "text": "Location: near the junction of the **apical septum** and the **free wall**. Related LAD facts from the chapter: it supplies the septum, gives (usually small) branches to the **right ventricular free wall**, and supplies the **apical portion of both ventricles**."
+      },
+      {
+        "id": "right-not-rca",
+        "type": "callout",
+        "kind": "pitfall",
+        "title": "Right ventricle does not mean right coronary",
+        "text": "This RV papillary muscle is an **LAD** territory, like the **LV anterolateral** papillary muscle (primarily LAD branches)."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "The anterolateral papillary muscle of the right ventricle, located near the junction of the apical septum and free wall, is supplied by branches from the left anterior descending coronary artery.",
+        "ref": "Chapter 1: Anatomy and Dimensions, p. 23"
+      }
+    ],
+    "choiceNotes": {
+      "a": "Although on the right side, this papillary muscle is supplied by the **LAD**, not by the acute marginal.",
+      "b": "The conus artery supplies the right ventricular **infundibulum**.",
+      "c": "The right posterolateral segment supplies the **inferior surface of the left ventricle**.",
+      "e": "The source names the **LAD** as the supply of this muscle, not the posterior descending artery."
+    },
+    "source": [
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 23, Coronary Arterial Supply to Specialized Areas of the Heart"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 20, Left Anterior Descending Coronary Artery"
+      }
+    ]
+  }
 ]

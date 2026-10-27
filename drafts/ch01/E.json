@@ -2,7 +2,7 @@
   {
     "id": "E-01",
     "version": 1,
-    "topic": "Optimal size of cardiovascular pathways",
+    "topic": "Dimensions",
     "tags": [
       "dimensions",
       "minimal work",
@@ -121,7 +121,7 @@
   {
     "id": "E-02",
     "version": 1,
-    "topic": "Allometric scaling of pathway dimensions",
+    "topic": "Dimensions",
     "tags": [
       "dimensions",
       "allometry",
@@ -221,7 +221,7 @@
   {
     "id": "E-03",
     "version": 1,
-    "topic": "Normalization of pathway dimensions",
+    "topic": "Dimensions",
     "tags": [
       "normalization",
       "indexing",
@@ -317,7 +317,7 @@
   {
     "id": "E-04",
     "version": 1,
-    "topic": "Subjective vs measured size assessment",
+    "topic": "Dimensions",
     "tags": [
       "dimensions",
       "outcome prediction",
@@ -417,7 +417,7 @@
   {
     "id": "E-05",
     "version": 1,
-    "topic": "Dimensions of the pathway",
+    "topic": "Dimensions",
     "tags": [
       "dimensions",
       "cross-sectional area",
@@ -441,7 +441,7 @@
       },
       {
         "id": "d",
-        "text": "Express its diameter as a ratio to the descending aorta"
+        "text": "Average the diameters measured in systole and diastole"
       },
       {
         "id": "e",
@@ -534,7 +534,7 @@
       "a": "A single diameter with an assumed **circular** shape is the approach for round structures, not for an elliptical one.",
       "b": "Autopsy measurement is a different source of dimensions; the stem concerns an orifice seen on imaging.",
       "c": "Indexing is normalization to body size; it does not give the cross-sectional area.",
-      "d": "Comparing with another structure is a **ratio** (normalization), not a way to obtain area."
+      "d": "Phase of the cardiac cycle is a factor to control when interpreting measurements; it is not the method for an elliptical area."
     },
     "source": [
       {
@@ -546,7 +546,7 @@
   {
     "id": "E-06",
     "version": 1,
-    "topic": "Imaging modalities for pathway dimensions",
+    "topic": "Dimensions",
     "tags": [
       "echocardiography",
       "imaging",
@@ -628,7 +628,7 @@
   {
     "id": "E-07",
     "version": 1,
-    "topic": "Age-related LVOT geometry",
+    "topic": "Dimensions",
     "tags": [
       "left ventricular outflow tract",
       "aging",
@@ -728,7 +728,7 @@
   {
     "id": "E-08",
     "version": 1,
-    "topic": "Normalization of pathway dimensions",
+    "topic": "Dimensions",
     "tags": [
       "normalization",
       "ratio",
@@ -826,7 +826,7 @@
   {
     "id": "E-09",
     "version": 1,
-    "topic": "Standardization of dimensions (z score)",
+    "topic": "Dimensions",
     "tags": [
       "z score",
       "standardization",
@@ -921,7 +921,7 @@
   {
     "id": "E-10",
     "version": 1,
-    "topic": "Standardization of dimensions (z score)",
+    "topic": "Dimensions",
     "tags": [
       "z score",
       "percentile",
@@ -937,7 +937,7 @@
       },
       {
         "id": "b",
-        "text": "The diameter as a ratio to the descending aorta"
+        "text": "The observed diameter as a percentage of the mean normal"
       },
       {
         "id": "c",
@@ -996,7 +996,7 @@
     ],
     "choiceNotes": {
       "a": "Dividing by BSA is indexing (\"per square meter BSA\"), not a z value.",
-      "b": "Relating a dimension to another structure is a **ratio**.",
+      "b": "A z value is not a percentage of the mean; a specific z value corresponds to the **percentile of the normal population**.",
       "c": "Echo vs autopsy differences are a comparison of measurement methods; z values make them less important.",
       "d": "The z value expresses the difference in **standard deviations**, not in millimeters, and maps to a percentile of normals."
     },
@@ -1010,7 +1010,7 @@
   {
     "id": "E-11",
     "version": 1,
-    "topic": "Limitations of z scores",
+    "topic": "Dimensions",
     "tags": [
       "z score",
       "standardization",
@@ -1101,7 +1101,7 @@
   {
     "id": "E-12",
     "version": 1,
-    "topic": "Autopsy vs in vivo dimensions",
+    "topic": "Dimensions",
     "tags": [
       "autopsy",
       "fixation",
@@ -1179,7 +1179,7 @@
   {
     "id": "E-13",
     "version": 1,
-    "topic": "Echo vs autopsy valve dimensions",
+    "topic": "Dimensions",
     "tags": [
       "echocardiography",
       "autopsy",
@@ -1291,7 +1291,7 @@
   {
     "id": "E-14",
     "version": 1,
-    "topic": "Normal valve diameter tables",
+    "topic": "Dimensions",
     "tags": [
       "normal values",
       "valve diameter",

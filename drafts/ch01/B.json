@@ -19,7 +19,7 @@
       },
       {
         "id": "b",
-        "text": "Its valve lies posterior and to the right of the other semilunar valve"
+        "text": "It arises from the morphologic left ventricle"
       },
       {
         "id": "c",
@@ -91,7 +91,7 @@
     ],
     "choiceNotes": {
       "a": "Coronary origin is **not definitive**: occasionally one, or rarely both, coronary arteries may connect to the pulmonary trunk.",
-      "b": "This is the **normal** aortic valve position in situs solitus, but identity of the aorta is established by its brachiocephalic branches.",
+      "b": "Identity of the aorta is established by its origin of the **brachiocephalic arteries**, not by the ventricle it arises from.",
       "d": "In situs solitus the **pulmonary** valve is normally the anterior one; position does not establish identity.",
       "e": "Giving rise to the pulmonary arterial system defines the **pulmonary trunk**, not the aorta."
     },
@@ -219,11 +219,11 @@
     "choices": [
       {
         "id": "a",
-        "text": "Fibrous continuity between the aortic valve and the anterior mitral leaflet"
+        "text": "Higher pressure in the right ventricle than in the left"
       },
       {
         "id": "b",
-        "text": "A more apical septal attachment of the tricuspid valve than of the mitral valve"
+        "text": "Papillary muscles attached to the left ventricular septal surface"
       },
       {
         "id": "c",
@@ -235,7 +235,7 @@
       },
       {
         "id": "e",
-        "text": "The AV node lying on the right atrial side of the central fibrous body"
+        "text": "An infundibulum present in the left ventricle only"
       }
     ],
     "answer": "d",
@@ -289,15 +289,19 @@
       }
     ],
     "choiceNotes": {
-      "a": "True (Fig. 1.14), but it is a feature of the left ventricle, not the stated main cause of septal asymmetry.",
-      "b": "This is why the **AV septum** exists; it is not the stated main cause of ventricular septal asymmetry.",
+      "a": "Pressure is **higher in the left** ventricle (it makes the sinus septal surface concave on the left); the **main** cause of asymmetry is the right ventricular infundibulum.",
+      "b": "**No** papillary muscles attach to the left side of the ventricular septum.",
       "c": "The moderator band carries the right bundle branch toward the anterior papillary muscle; it is not given as the cause of asymmetry.",
-      "e": "This locates the AV node; it does not explain the asymmetry of the ventricular septal surfaces."
+      "e": "The infundibulum is present in the **right** ventricle only (Van Praagh and colleagues argue only that a small portion of the subsemilunar conus lies just beneath the right aortic cusp)."
     },
     "source": [
       {
         "ref": "Chapter 1: Anatomy and Dimensions",
         "loc": "p. 10, Ventricular Septum"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 8, Left Ventricle"
       }
     ]
   },
@@ -491,31 +495,31 @@
     "tags": [
       "aortic angulation",
       "aorta",
-      "ageing"
+      "aortic aneurysm"
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "**Aortic angulation** describes the orientation of which structures, and how does it change with age?",
+    "stem": "**Aortic angulation** is the orientation of the ventriculoaortic junction and proximal aorta with the long axis of the left ventricle. Increased angulation may be associated with altered flow in the proximal aorta. Which consequence of this altered flow does the source describe?",
     "choices": [
       {
         "id": "a",
-        "text": "The aortic arch relative to the descending aorta; it decreases with older age"
+        "text": "Calcific stenosis and thickening of the aortic valve cusps"
       },
       {
         "id": "b",
-        "text": "The ventriculoaortic junction and proximal aorta relative to the right ventricular outflow tract; it increases with older age"
+        "text": "Progressive narrowing of the left main coronary artery ostium"
       },
       {
         "id": "c",
-        "text": "The ventriculoaortic junction and proximal aorta relative to the long axis of the left ventricle; it increases with older age"
+        "text": "Jet impingement on the aortic wall, promoting aneurysm formation"
       },
       {
         "id": "d",
-        "text": "The ventriculoaortic junction and proximal aorta relative to the long axis of the left ventricle; it decreases with older age"
+        "text": "Thrombus formation within the dilated sinuses of Valsalva"
       },
       {
         "id": "e",
-        "text": "The pulmonary trunk relative to the ascending aorta; it increases with older age"
+        "text": "New fenestration of the cusp lunulae near the commissures"
       }
     ],
     "answer": "c",
@@ -524,46 +528,61 @@
         "id": "key",
         "type": "callout",
         "kind": "key",
-        "text": "Aortic angulation = orientation of the **ventriculoaortic junction and proximal aorta** with the **long axis of the left ventricle**; it **increases with older age**."
+        "text": "Altered flow in the proximal aorta causes ==jet impingement on the aortic wall==, which in turn **may cause or accelerate aneurysm formation**."
       },
       {
-        "id": "age",
+        "id": "flow",
         "type": "flow",
+        "title": "From angulation to aneurysm",
         "steps": [
           {
-            "text": "**Older age**"
+            "text": "**Increased aortic angulation**"
           },
           {
-            "text": "Aortic angulation **increases**"
+            "label": "may be associated with",
+            "text": "Altered flow in the **proximal aorta**"
           },
           {
-            "text": "Most extreme form: an almost **horizontal** proximal ascending aorta"
+            "label": "causing",
+            "text": "**Jet impingement** on the aortic wall"
+          },
+          {
+            "label": "which may",
+            "text": "Cause or accelerate **aneurysm** formation"
           }
         ]
       },
       {
-        "id": "reference-axis",
-        "type": "callout",
-        "kind": "pitfall",
-        "text": "The reference axis is the **long axis of the left ventricle**, not the right ventricular outflow tract."
+        "id": "more",
+        "type": "list",
+        "items": [
+          "**Definition:** orientation of the ventriculoaortic junction and proximal aorta with the **long axis of the left ventricle**.",
+          "**Age:** increases with older age; in its most extreme form the proximal ascending aorta runs almost **horizontally**.",
+          "**TAVR:** the degree of angulation may also **complicate transcatheter aortic valve replacement**.",
+          "**Hypertrophic cardiomyopathy:** increased angulation is associated with **dynamic LVOT obstruction**."
+        ]
       },
       {
         "id": "quote",
         "type": "quote",
-        "text": "Angulation of the aorta refers to the orientation of the ventriculoaortic junction and proximal aorta with the long axis of the left ventricle.",
+        "text": "Increased aortic angulation may be associated with altered flow in the proximal aorta causing jet impingement on the aortic wall that in turn may cause or accelerate aneurysm formation.",
         "ref": "Chapter 1: Anatomy and Dimensions, p. 10"
       }
     ],
     "choiceNotes": {
-      "a": "Wrong structures and wrong direction: the definition uses the ventriculoaortic junction and proximal aorta, and angulation **increases** with age.",
-      "b": "The reference is the **long axis of the left ventricle**, not the right ventricular outflow tract.",
-      "d": "Right structures, wrong direction: aortic angulation **increases** with older age.",
-      "e": "The pulmonary trunk is not part of the definition; it refers to the ventriculoaortic junction and proximal aorta."
+      "a": "The source links the altered flow to **jet impingement on the aortic wall**, not to cusp calcification.",
+      "b": "The source links the altered flow to **jet impingement on the aortic wall**, not to coronary ostial narrowing.",
+      "d": "The source links the altered flow to **jet impingement on the aortic wall**, not to thrombus in the sinuses.",
+      "e": "Lunulae of the aortic cusps are **occasionally fenestrated near the commissures**; the source does not link this to aortic angulation."
     },
     "source": [
       {
         "ref": "Chapter 1: Anatomy and Dimensions",
         "loc": "p. 10, Ventricular Septum"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 18, Aortic Valve"
       }
     ]
   },
@@ -574,11 +593,11 @@
     "tags": [
       "aortic angulation",
       "hypertrophic cardiomyopathy",
-      "LVOT obstruction"
+      "left ventricular outflow tract obstruction"
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "A 70-year-old patient with **hypertrophic cardiomyopathy** has marked aortic angulation on imaging. In this disease, increased aortic angulation is associated with which finding?",
+    "stem": "A patient with **hypertrophic cardiomyopathy** has marked aortic angulation on imaging. In this disease, increased aortic angulation is associated with which finding?",
     "choices": [
       {
         "id": "a",
@@ -667,7 +686,7 @@
     "topic": "Membranous Septum",
     "tags": [
       "membranous septum",
-      "LVOT",
+      "left ventricular outflow tract",
       "septation"
     ],
     "difficulty": 2,
@@ -769,32 +788,32 @@
     "topic": "Membranous Septum",
     "tags": [
       "membranous septum",
-      "AV septum",
+      "atrioventricular septum",
       "tricuspid valve"
     ],
     "difficulty": 3,
     "reviewed": false,
-    "stem": "The tricuspid valve anulus attaches across the right side of the membranous septum. The part of the membranous septum on the **right atrial** side of this attachment forms which structure?",
+    "stem": "The membranous septum has an **interventricular component** and a component that forms the **membranous portion of the AV septum**. What determines the line of division between these two components?",
     "choices": [
       {
         "id": "a",
-        "text": "The interventricular component of the membranous septum"
+        "text": "Attachment of the anterior mitral leaflet to the septum"
       },
       {
         "id": "b",
-        "text": "The membranous portion of the atrioventricular septum"
+        "text": "Attachment of the tricuspid valve anulus to the septum"
       },
       {
         "id": "c",
-        "text": "The muscular portion of the atrioventricular septum"
+        "text": "Attachment of the septal band (trabecula septomarginalis)"
       },
       {
         "id": "d",
-        "text": "The outlet portion of the ventricular septum"
+        "text": "Position of the coronary sinus ostium"
       },
       {
         "id": "e",
-        "text": "The tendon of Todaro at the central fibrous body"
+        "text": "Position of the tendon of Todaro"
       }
     ],
     "answer": "b",
@@ -803,7 +822,7 @@
         "id": "key",
         "type": "callout",
         "kind": "key",
-        "text": "The **tricuspid anulus attachment** splits the membranous septum: the **right atrial** side forms the **membranous portion of the AV septum**."
+        "text": "Attachment of the ==tricuspid valve anulus== to the septum divides the membranous septum: the **right ventricular** side is the interventricular component; the **right atrial** side forms the **membranous portion of the AV septum**."
       },
       {
         "id": "split",
@@ -838,20 +857,24 @@
       {
         "id": "quote",
         "type": "quote",
-        "text": "On the right ventricular side of this attachment is the interventricular component. On the right atrial side, it forms the membranous portion of the AV septum.",
+        "text": "The line of division between these components is determined by attachment of the tricuspid valve anulus to the septum (see Fig. 1.12). On the right ventricular side of this attachment is the interventricular component. On the right atrial side, it forms the membranous portion of the AV septum.",
         "ref": "Chapter 1: Anatomy and Dimensions, p. 10"
       }
     ],
     "choiceNotes": {
-      "a": "The interventricular component lies on the **right ventricular** side of the tricuspid attachment.",
-      "c": "The muscular portion is the **inferior** part of the AV septum, not part of the fibrous membranous septum.",
-      "d": "Viewed from the left ventricle, it is the **muscular** AV septum that forms part of the outlet septum.",
-      "e": "The tendon of Todaro is the continuation of the eustachian valve running to the central fibrous body."
+      "a": "The line of division is determined by attachment of the **tricuspid** valve anulus, not the mitral leaflet.",
+      "c": "The source names the **tricuspid anulus attachment**, not the septal band, as the dividing line.",
+      "d": "The coronary sinus ostium is a landmark for the **AV node** (triangle of Koch), not the dividing line of the membranous septum.",
+      "e": "The tendon of Todaro is the continuation of the eustachian valve running to the central fibrous body; the dividing line is the tricuspid anulus attachment."
     },
     "source": [
       {
         "ref": "Chapter 1: Anatomy and Dimensions",
-        "loc": "p. 10, Membranous Septum; Atrioventricular Septum"
+        "loc": "p. 10, Membranous Septum"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 10, Atrioventricular Septum"
       }
     ]
   },
@@ -860,7 +883,7 @@
     "version": 1,
     "topic": "Atrioventricular Septum",
     "tags": [
-      "AV septum",
+      "atrioventricular septum",
       "septation"
     ],
     "difficulty": 1,
@@ -924,7 +947,7 @@
           {
             "text": "Conduction tissue",
             "children": [
-              "AV node near the membranous-muscular junction",
+              "AV node: in the atrial septum, adjacent to the junction between the membranous and muscular portions (p. 10)",
               "His bundle passes toward the right trigone between the two parts"
             ]
           }
@@ -965,7 +988,7 @@
     "version": 1,
     "topic": "Atrioventricular Septum",
     "tags": [
-      "AV septum",
+      "atrioventricular septum",
       "tricuspid valve",
       "mitral valve"
     ],
@@ -983,15 +1006,15 @@
       },
       {
         "id": "c",
-        "text": "The anterior mitral leaflet is in fibrous continuity with the aortic valve"
+        "text": "The tricuspid and mitral valves attach to the septum at the same level"
       },
       {
         "id": "d",
-        "text": "The right ventricle alone contains an infundibulum below its semilunar valve"
+        "text": "The tricuspid valve has no attachment to the ventricular septum"
       },
       {
         "id": "e",
-        "text": "The sinus septal surface is concave on the left and convex on the right"
+        "text": "The mitral valve attaches to the septum by its posterior leaflet"
       }
     ],
     "answer": "a",
@@ -1032,9 +1055,9 @@
     ],
     "choiceNotes": {
       "b": "Reversed: the **tricuspid** attachment is the more apical one (Fig. 1.17).",
-      "c": "True (Fig. 1.14), but it describes the left ventricular outflow region, not why the AV septum exists.",
-      "d": "This is the main reason the two **ventricular septal surfaces** are asymmetric.",
-      "e": "This is the septal **curvature** from higher left ventricular pressure, not the basis of the AV septum."
+      "c": "The two attachments differ: the tricuspid septal attachment is **more apical** than that of the anterior mitral leaflet.",
+      "d": "Most of the tricuspid **septal leaflet** and its chordae attach to the membranous and muscular portions of the ventricular septum.",
+      "e": "It is the **anterior** mitral leaflet that attaches to the septum (its rightward half, posteriorly); the posterior (mural) leaflet inserts into about two-thirds of the anulus."
     },
     "source": [
       {
@@ -1044,6 +1067,18 @@
       {
         "ref": "Chapter 1: Anatomy and Dimensions",
         "loc": "p. 11, Figs. 1.17 and 1.18"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 8, Left Ventricle"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 14, Mitral Valve"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 17, Tricuspid Valve"
       }
     ]
   },
@@ -1066,7 +1101,7 @@
       },
       {
         "id": "b",
-        "text": "Degree of aortic angulation and its increase with older age"
+        "text": "Degree of aortic angulation of the ventriculoaortic junction"
       },
       {
         "id": "c",
@@ -1131,7 +1166,7 @@
   {
     "id": "B-13",
     "version": 1,
-    "topic": "Sinus Node",
+    "topic": "Conduction System",
     "tags": [
       "sinus node",
       "conduction system",
@@ -1139,19 +1174,19 @@
     ],
     "difficulty": 1,
     "reviewed": false,
-    "stem": "A surgeon examines the junction between the superior vena cava and the right atrium. Where is the **sinus (sinoatrial) node** normally located?",
+    "stem": "Where is the **sinus (sinoatrial) node** normally located?",
     "choices": [
       {
         "id": "a",
-        "text": "In the muscular AV septum, just anterosuperior to the coronary sinus ostium"
+        "text": "Posteromedially, where the SVC joins the atrial septum"
       },
       {
         "id": "b",
-        "text": "At the apex of the triangle of Koch, near the membranous septum"
+        "text": "Anterolaterally, where the IVC joins the right atrium"
       },
       {
         "id": "c",
-        "text": "Along the inferior margin of the septal band and the moderator band"
+        "text": "Posterolaterally, where the IVC joins the right atrium"
       },
       {
         "id": "d",
@@ -1193,9 +1228,9 @@
       }
     ],
     "choiceNotes": {
-      "a": "That is the **AV node**, on the right atrial side of the central fibrous body.",
-      "b": "The **AV bundle (His)** is at the apex of the triangle of Koch.",
-      "c": "That is the course of the **right bundle branch** in the right ventricle.",
+      "a": "It lies **anterolaterally**, at the junction of the SVC and the right atrial **appendage**, not at the atrial septum.",
+      "b": "It lies at the **superior** vena cava junction, not the inferior.",
+      "c": "It lies **anterolaterally** at the **superior** vena cava junction.",
       "d": "Medial extension across the crest occurs only **in rare cases**."
     },
     "source": [
@@ -1212,7 +1247,7 @@
   {
     "id": "B-14",
     "version": 1,
-    "topic": "Sinus Node",
+    "topic": "Conduction System",
     "tags": [
       "sinus node",
       "sinus node artery",
@@ -1232,15 +1267,15 @@
       },
       {
         "id": "c",
-        "text": "It lies within the triangle of Koch, just anterosuperior to the coronary sinus ostium"
+        "text": "It lies just beneath the endocardium and measures about 15 × 5 × 1.5 mm"
       },
       {
         "id": "d",
-        "text": "It lies on the right atrial side of the central fibrous body, against the mitral anulus"
+        "text": "It lies just beneath the epicardium and measures about 1 × 3 × 6 mm"
       },
       {
         "id": "e",
-        "text": "It lies at the posteroinferior margin of the membranous septum, about 1 mm in diameter"
+        "text": "It lies deep in the myocardium and measures about 15 × 5 × 1.5 mm"
       }
     ],
     "answer": "b",
@@ -1300,9 +1335,9 @@
     ],
     "choiceNotes": {
       "a": "Wrong depth and size: the sinus node is **superficial**, and 1 × 3 × 6 mm is the size of the **AV node**.",
-      "c": "That describes the **AV node** (triangle of Koch, anterosuperior to the coronary sinus ostium).",
-      "d": "That describes the **AV node**, whose left surface lies against the mitral anulus.",
-      "e": "That describes the **bundle of His**, about 1 mm in diameter near the central fibrous body."
+      "c": "The size is right, but the node is **superficial**, just beneath the **epicardial** surface in the sulcus terminalis.",
+      "d": "The depth is right, but 1 × 3 × 6 mm is the average size of the **AV node**; the sinus node is about 15 × 5 × 1.5 mm.",
+      "e": "The size is right, but the node is **superficial**, just beneath the epicardium, not deep."
     },
     "source": [
       {
@@ -1318,7 +1353,7 @@
   {
     "id": "B-15",
     "version": 1,
-    "topic": "Internodal Pathways",
+    "topic": "Conduction System",
     "tags": [
       "internodal pathways",
       "conduction system",
@@ -1403,9 +1438,9 @@
   {
     "id": "B-16",
     "version": 1,
-    "topic": "Atrioventricular Node",
+    "topic": "Conduction System",
     "tags": [
-      "AV node",
+      "atrioventricular node",
       "coronary sinus",
       "central fibrous body",
       "conduction system"
@@ -1420,15 +1455,15 @@
       },
       {
         "id": "b",
-        "text": "Superficially in the sulcus terminalis, just beneath the epicardium"
+        "text": "On the left atrial side of the central fibrous body, just anterosuperior to the coronary sinus ostium"
       },
       {
         "id": "c",
-        "text": "On the left ventricular septal surface, beneath the right and noncoronary aortic commissure"
+        "text": "On the right atrial side of the central fibrous body, posteroinferior to the coronary sinus ostium"
       },
       {
         "id": "d",
-        "text": "At the posteroinferior margin of the membranous ventricular septum"
+        "text": "Within the fossa ovalis, just superior to the coronary sinus ostium"
       },
       {
         "id": "e",
@@ -1491,9 +1526,9 @@
     ],
     "choiceNotes": {
       "a": "Wrong side and wrong direction: the node is on the **right atrial** side and **anterosuperior** to the ostium.",
-      "b": "That is the **sinus node**, superficial in the sulcus terminalis.",
-      "c": "This is where the His bundle gives off the **left bundle branch** fibers.",
-      "d": "The **bundle of His** reaches the posteroinferior margin of the membranous septum after passing through the right trigone."
+      "b": "Right direction, wrong side: the node lies on the **right atrial** side of the central fibrous body.",
+      "c": "Right side, wrong direction: it is just **anterosuperior** to the ostium (at times its posterior margin lies directly against it).",
+      "d": "The node lies in the **muscular portion of the AV septum** on the right atrial side of the right trigone, not in the fossa ovalis."
     },
     "source": [
       {
@@ -1505,9 +1540,9 @@
   {
     "id": "B-17",
     "version": 1,
-    "topic": "Atrioventricular Node",
+    "topic": "Conduction System",
     "tags": [
-      "AV node",
+      "atrioventricular node",
       "mitral valve",
       "conduction system"
     ],
@@ -1611,11 +1646,11 @@
   {
     "id": "B-18",
     "version": 1,
-    "topic": "Atrioventricular Node",
+    "topic": "Conduction System",
     "tags": [
-      "triangle of Koch",
-      "AV node",
-      "tendon of Todaro",
+      "triangle of koch",
+      "atrioventricular node",
+      "tendon of todaro",
       "coronary sinus"
     ],
     "difficulty": 1,
@@ -1717,12 +1752,12 @@
   {
     "id": "B-19",
     "version": 1,
-    "topic": "Atrioventricular Node",
+    "topic": "Conduction System",
     "tags": [
-      "AV node",
+      "atrioventricular node",
       "coronary sinus",
       "congenital heart disease",
-      "triangle of Koch"
+      "triangle of koch"
     ],
     "difficulty": 3,
     "reviewed": false,
@@ -1730,7 +1765,7 @@
     "choices": [
       {
         "id": "a",
-        "text": "Increased aortic angulation in an elderly patient"
+        "text": "A right dominant coronary circulation"
       },
       {
         "id": "b",
@@ -1746,7 +1781,7 @@
       },
       {
         "id": "e",
-        "text": "A right bundle branch that is intramyocardial in its middle portion"
+        "text": "A left bundle branch with a third, central radiation"
       }
     ],
     "answer": "b",
@@ -1780,24 +1815,28 @@
       }
     ],
     "choiceNotes": {
-      "a": "Aortic angulation is linked to aneurysm, transcatheter valve replacement and LVOT obstruction, not to the nodal triangle.",
+      "a": "Dominance concerns the origin of the posterior descending artery; the source does not link it to nodal triangle variability.",
       "c": "The sinus node is normally pierced by a relatively large artery; this does not affect the nodal triangle.",
       "d": "This is a rare variant of the sinus node position, not a cause of nodal triangle variability.",
-      "e": "This is the usual course of the right bundle branch, not a cause of nodal triangle variability."
+      "e": "A central third radiation of the left bundle is **not uncommon**; it is not a cause of nodal triangle variability."
     },
     "source": [
       {
         "ref": "Chapter 1: Anatomy and Dimensions",
         "loc": "p. 13, Atrioventricular Node"
+      },
+      {
+        "ref": "Chapter 1: Anatomy and Dimensions",
+        "loc": "p. 18, Coronary Arteries"
       }
     ]
   },
   {
     "id": "B-20",
     "version": 1,
-    "topic": "Bundle of His and Bundle Branches",
+    "topic": "Conduction System",
     "tags": [
-      "bundle of His",
+      "bundle of his",
       "membranous septum",
       "left bundle branch",
       "conduction system"
@@ -1891,7 +1930,7 @@
   {
     "id": "B-21",
     "version": 1,
-    "topic": "Bundle of His and Bundle Branches",
+    "topic": "Conduction System",
     "tags": [
       "left bundle branch",
       "aortic valve",
@@ -1988,11 +2027,11 @@
   {
     "id": "B-22",
     "version": 1,
-    "topic": "Bundle of His and Bundle Branches",
+    "topic": "Conduction System",
     "tags": [
-      "bundle of His",
+      "bundle of his",
       "ventricular septum",
-      "variation"
+      "variants"
     ],
     "difficulty": 3,
     "reviewed": false,
@@ -2077,7 +2116,7 @@
   {
     "id": "B-23",
     "version": 1,
-    "topic": "Bundle of His and Bundle Branches",
+    "topic": "Conduction System",
     "tags": [
       "left bundle branch",
       "papillary muscles",
@@ -2093,7 +2132,7 @@
       },
       {
         "id": "b",
-        "text": "The base of the anterior papillary muscle of the right ventricle"
+        "text": "The apex of the left ventricle"
       },
       {
         "id": "c",
@@ -2101,11 +2140,11 @@
       },
       {
         "id": "d",
-        "text": "The moderator band of the right ventricle"
+        "text": "The left ventricular outflow septum beneath the aortic valve"
       },
       {
         "id": "e",
-        "text": "The medial papillary muscle of the right ventricle"
+        "text": "The anterior leaflet of the mitral valve"
       }
     ],
     "answer": "c",
@@ -2162,9 +2201,9 @@
     ],
     "choiceNotes": {
       "a": "The anterolateral papillary muscle is the target of the **anterior** radiation.",
-      "b": "The base of the anterior papillary muscle of the right ventricle is reached by the **right** bundle branch.",
-      "d": "The moderator band carries the **right** bundle branch.",
-      "e": "The **right** bundle branch passes just below the medial papillary muscle."
+      "b": "The wider posterior subdivision courses toward the base of the **posteromedial papillary muscle**, not the apex.",
+      "d": "The wider posterior subdivision courses toward the base of the **posteromedial papillary muscle**.",
+      "e": "The left bundle radiations course toward the bases of the **papillary muscles**, not a mitral leaflet."
     },
     "source": [
       {
@@ -2176,7 +2215,7 @@
   {
     "id": "B-24",
     "version": 1,
-    "topic": "Bundle of His and Bundle Branches",
+    "topic": "Conduction System",
     "tags": [
       "right bundle branch",
       "moderator band",
@@ -2197,7 +2236,7 @@
       },
       {
         "id": "c",
-        "text": "Along the parietal band and the infundibular septum, ending at the base of the pulmonary valve"
+        "text": "Along the anterior limb of the septal band, ending at the base of the pulmonary valve"
       },
       {
         "id": "d",
@@ -2205,7 +2244,7 @@
       },
       {
         "id": "e",
-        "text": "Across to the left ventricular septal surface, toward the base of the posteromedial papillary muscle"
+        "text": "Across to the left ventricular septal surface, toward the left ventricular apex"
       }
     ],
     "answer": "b",
@@ -2253,9 +2292,9 @@
     ],
     "choiceNotes": {
       "a": "It passes **below** the medial papillary muscle, along the **inferior** margin of the septal band and moderator band, to the anterior papillary muscle.",
-      "c": "The parietal band is the parietal extension of the infundibular septum (Fig. 1.15); it is not on the right bundle's course.",
+      "c": "It runs along the **inferior margin** of the septal band and moderator band to the **anterior papillary muscle**, not toward the pulmonary valve.",
       "d": "It does not end at the medial papillary muscle: it continues via the moderator band to the anterior papillary muscle, then fans out.",
-      "e": "This is the course of the **posterior subdivision of the left bundle branch**."
+      "e": "The right bundle stays on the **right ventricular** septal surface; it is the left bundle that fans out over the left ventricular septal surface."
     },
     "source": [
       {
@@ -2265,21 +2304,17 @@
       {
         "ref": "Chapter 1: Anatomy and Dimensions",
         "loc": "p. 12, Fig. 1.19B"
-      },
-      {
-        "ref": "Chapter 1: Anatomy and Dimensions",
-        "loc": "p. 9, Fig. 1.15"
       }
     ]
   },
   {
     "id": "B-25",
     "version": 1,
-    "topic": "Bundle of His and Bundle Branches",
+    "topic": "Conduction System",
     "tags": [
       "right bundle branch",
       "conduction system",
-      "VSD"
+      "ventricular septal defect"
     ],
     "difficulty": 2,
     "reviewed": false,
@@ -2358,11 +2393,11 @@
   {
     "id": "B-26",
     "version": 1,
-    "topic": "Atrioventricular Node",
+    "topic": "Conduction System",
     "tags": [
-      "triangle of Koch",
-      "bundle of His",
-      "AV node"
+      "triangle of koch",
+      "bundle of his",
+      "atrioventricular node"
     ],
     "difficulty": 2,
     "reviewed": false,
@@ -2443,9 +2478,9 @@
   {
     "id": "B-N1",
     "version": 1,
-    "topic": "Atrioventricular Node",
+    "topic": "Conduction System",
     "tags": [
-      "tendon of Todaro",
+      "tendon of todaro",
       "eustachian valve",
       "central fibrous body",
       "right atrium"
