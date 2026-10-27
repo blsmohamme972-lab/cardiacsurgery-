@@ -235,198 +235,6 @@
     ]
   },
   {
-    "id": "D-03",
-    "version": 1,
-    "topic": "Cellular Response",
-    "tags": [
-      "inflammatory response",
-      "neutrophils",
-      "complement",
-      "recovery"
-    ],
-    "difficulty": 2,
-    "reviewed": false,
-    "stem": "Most patients recover uneventfully from cardiac operations with CPB despite a strong humoral and cellular response. Which fact does the source cite as **possibly a clue** to why?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "Complement can also desensitize neutrophils"
-      },
-      {
-        "id": "b",
-        "text": "Specific immune responses rapidly neutralize the products of the cascades"
-      },
-      {
-        "id": "c",
-        "text": "Heparin completely blocks contact activation of the coagulation cascade"
-      },
-      {
-        "id": "d",
-        "text": "Platelets stay in their normally passive state until the end of bypass"
-      },
-      {
-        "id": "e",
-        "text": "Split products of the cascades are rapidly cleared by known mechanisms"
-      }
-    ],
-    "answer": "a",
-    "explanation": [
-      {
-        "id": "answer",
-        "type": "callout",
-        "kind": "key",
-        "text": "**Complement can desensitize neutrophils**, reducing their ability to join the inflammatory response; this is possibly a clue to why most patients recover uneventfully."
-      },
-      {
-        "id": "two-faces",
-        "type": "table",
-        "head": [
-          "Effect of complement on neutrophils",
-          "Result"
-        ],
-        "rows": [
-          [
-            "**Activation**",
-            "Directional migration, shape change, more adhesive, secretion of cytotoxic substances including oxygen-derived free radicals"
-          ],
-          [
-            "**Desensitization**",
-            "Reduced ability to participate in the inflammatory response"
-          ]
-        ],
-        "caption": "Complement both drives and damps neutrophils"
-      },
-      {
-        "id": "control",
-        "type": "p",
-        "text": "Uneventful recovery of most patients means that a vast array of **control and counteractive phenomena**, humoral and cellular, is in place; many await discovery."
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "complement can also desensitize neutrophils, thereby reducing their ability to participate in the inflammatory response.",
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 52"
-      }
-    ],
-    "choiceNotes": {
-      "b": "Specific immune responses are **slow to develop**, not in evidence during the first few days, and generally not strong.",
-      "c": "Heparin blocks the cascade **incompletely**; parts respond virtually immediately and small amounts of fibrin form.",
-      "d": "Platelets are activated **within 1 minute** of the start of CPB.",
-      "e": "Mechanisms for the disappearance of split products **have not been elucidated**; nearly all can be found in the blood during and for a time after bypass."
-    },
-    "source": [
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 52, Cellular Response"
-      },
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 53, Metabolic Response"
-      }
-    ]
-  },
-  {
-    "id": "D-04",
-    "version": 1,
-    "topic": "Complement",
-    "tags": [
-      "complement",
-      "anaphylatoxins",
-      "C3a",
-      "C5a",
-      "vascular permeability"
-    ],
-    "difficulty": 2,
-    "reviewed": false,
-    "stem": "Activation of the complement cascade during CPB produces the anaphylatoxins **C3a and C5a**. Which set of actions is attributed to them?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "Dilate arterioles, elicit pain, and convert plasminogen to plasmin"
-      },
-      {
-        "id": "b",
-        "text": "Inhibit platelet adhesion, aggregation, and secretion"
-      },
-      {
-        "id": "c",
-        "text": "Digest fibrin clots and thrombi in the circulation"
-      },
-      {
-        "id": "d",
-        "text": "Increase vascular permeability and mediate leukocyte chemotaxis"
-      },
-      {
-        "id": "e",
-        "text": "Regulate renal water excretion and raise systemic blood pressure"
-      }
-    ],
-    "answer": "d",
-    "explanation": [
-      {
-        "id": "answer",
-        "type": "callout",
-        "kind": "key",
-        "text": "**C3a and C5a** increase vascular permeability, cause smooth muscle contraction, mediate leukocyte chemotaxis, and facilitate neutrophil aggregation and enzyme release."
-      },
-      {
-        "id": "actions",
-        "type": "mindmap",
-        "center": "Anaphylatoxins C3a and C5a",
-        "branches": [
-          {
-            "text": "Vascular permeability ↑"
-          },
-          {
-            "text": "Smooth muscle contraction"
-          },
-          {
-            "text": "Leukocyte chemotaxis"
-          },
-          {
-            "text": "Neutrophil aggregation and enzyme release"
-          },
-          {
-            "text": "Neutrophil activation -> oxygen-derived free radicals"
-          }
-        ]
-      },
-      {
-        "id": "bradykinin",
-        "type": "callout",
-        "kind": "pitfall",
-        "title": "Do not mix up with bradykinin",
-        "text": "Bradykinin also increases vascular permeability and initiates smooth muscle contraction, but it also **dilates arterioles and elicits pain**; it comes from the **kallikrein** cascade, not from complement."
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "Adverse effects of complement activation relate to depletion of a component (complement) necessary for normal immune response and to adverse effects of the intravascular production of anaphylatoxins (C5a and C3a).",
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 55"
-      }
-    ],
-    "choiceNotes": {
-      "a": "Dilating arterioles and eliciting pain are actions of **bradykinin**; activation of plasminogen is an action of **kallikrein**.",
-      "b": "Inhibition of platelet adhesion, aggregation and secretion is the effect of sufficient platelet **cAMP**.",
-      "c": "Digesting fibrin clots and thrombi is the basic function of **plasmin**.",
-      "e": "Regulating renal water excretion is the role of **vasopressin (ADH)**, whose infusion also raises blood pressure in vasoplegia."
-    },
-    "source": [
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "pp. 51-52, Humoral Response"
-      },
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 53, Neutrophil Activation"
-      },
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 55, Complement Activation"
-      }
-    ]
-  },
-  {
     "id": "D-05",
     "version": 1,
     "topic": "Kallikrein-Bradykinin Activation",
@@ -563,114 +371,6 @@
     ]
   },
   {
-    "id": "D-06",
-    "version": 1,
-    "topic": "Platelet Response",
-    "tags": [
-      "platelets",
-      "GPIb",
-      "GPIIb-IIIa",
-      "platelet dysfunction"
-    ],
-    "difficulty": 3,
-    "reviewed": false,
-    "stem": "Which change in platelet membrane glycoprotein receptors during CPB is described in the source?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "GPIb is preserved throughout bypass; only GPIIb-IIIa is lost"
-      },
-      {
-        "id": "b",
-        "text": "GPIIb-IIIa rises steadily and is highest at the end of bypass"
-      },
-      {
-        "id": "c",
-        "text": "Both receptors are unchanged; dysfunction reflects the platelet count"
-      },
-      {
-        "id": "d",
-        "text": "GPIb falls only after protamine is given at the end of bypass"
-      },
-      {
-        "id": "e",
-        "text": "GPIb falls markedly soon after onset and remains low throughout"
-      }
-    ],
-    "answer": "e",
-    "explanation": [
-      {
-        "id": "answer",
-        "type": "callout",
-        "kind": "key",
-        "text": "**GPIb** (binds von Willebrand factor, for adhesion) falls markedly soon after CPB starts and stays low; **GPIIb-IIIa** (binds fibrinogen, for aggregation) is markedly reduced by the end of CPB."
-      },
-      {
-        "id": "receptors",
-        "type": "table",
-        "head": [
-          "Receptor",
-          "Binds",
-          "Role",
-          "During CPB"
-        ],
-        "rows": [
-          [
-            "**GPIb**",
-            "von Willebrand factor",
-            "Platelet adhesion",
-            "Markedly reduced **shortly after onset**; low throughout"
-          ],
-          [
-            "**GPIIb-IIIa**",
-            "Fibrinogen (with extracellular calcium)",
-            "Adherence to foreign surfaces and aggregation",
-            "Markedly reduced **by the end** of CPB"
-          ]
-        ],
-        "caption": "Platelet membrane receptors on CPB"
-      },
-      {
-        "id": "membrane",
-        "type": "p",
-        "text": "Most events that profoundly depress platelet function during CPB appear to occur first in the platelet **membranes**; abnormal shear stresses may be partly responsible."
-      },
-      {
-        "id": "zilla",
-        "type": "callout",
-        "kind": "pearl",
-        "title": "The proposed key",
-        "text": "Zilla and others postulated that the key to preventing loss of platelet function, and the bleeding tendency, is to **avert loss of action of the platelet membrane receptor glycoproteins**."
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "The GPIb receptor (to which plasma von Willebrand factor must bind for platelet adhesion) is markedly reduced shortly after the onset of CPB and remains low throughout bypass",
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 54"
-      }
-    ],
-    "choiceNotes": {
-      "a": "GPIb is **markedly reduced shortly after the onset** of CPB and remains low throughout bypass.",
-      "b": "The GPIIb and IIIa receptors are **markedly reduced by the end** of CPB.",
-      "c": "Qualitative changes are more complex and **probably more important** than the change in numbers; functionally important receptor sites are lost or inactivated.",
-      "d": "GPIb is reduced **shortly after the onset** of CPB, long before protamine is given."
-    },
-    "source": [
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 52, Cellular Response"
-      },
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 54, Platelet Response"
-      },
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 54, Fig. 2.12"
-      }
-    ]
-  },
-  {
     "id": "D-07",
     "version": 1,
     "topic": "Platelet Response",
@@ -686,7 +386,7 @@
     "choices": [
       {
         "id": "a",
-        "text": "It falls to about 60% of baseline, unrelated to CPB duration"
+        "text": "It falls to about 60% of the prebypass value"
       },
       {
         "id": "b",
@@ -694,11 +394,11 @@
       },
       {
         "id": "c",
-        "text": "It falls mainly because shear stresses destroy circulating platelets"
+        "text": "It falls in direct proportion to the duration of CPB"
       },
       {
         "id": "d",
-        "text": "It falls less with membrane oxygenators than with bubble oxygenators"
+        "text": "It is little affected by cardiotomy sucker systems"
       },
       {
         "id": "e",
@@ -739,11 +439,10 @@
         "id": "factors",
         "type": "list",
         "items": [
-          "Hemodilution (larger fall in clinical CPB)",
+          "Hemodilution: the fall in clinical CPB tends to be greater than in test circuits",
           "**Cardiotomy sucker systems** substantially reduce the count",
-          "Membrane oxygenators: greater reduction than bubble oxygenators",
-          "Reduced platelet survival after CPB (count low up to 72 hours)",
-          "Not major: liver sequestration (slight); shear stresses (likely no effect)"
+          "The count stays low in some patients for as long as **72 hours**; reduced platelet survival may be one factor",
+          "Not a major factor: sequestration in the liver and other organs (slight)"
         ]
       },
       {
@@ -762,8 +461,8 @@
     ],
     "choiceNotes": {
       "b": "Sequestration of platelets in the liver and other organs is **slight** and not a major factor.",
-      "c": "Shear stresses **likely do not reduce** either the number or the function of platelets.",
-      "d": "Interestingly, membrane oxygenators are associated with a **greater** reduction in count than bubble oxygenators.",
+      "c": "The post-CPB platelet count **does not correlate** with the duration of CPB.",
+      "d": "Cardiotomy sucker systems **substantially reduce** the platelet count.",
       "e": "The count may stay low for **as long as 72 hours** postoperatively, perhaps from reduced platelet survival."
     },
     "source": [
@@ -840,28 +539,28 @@
         ]
       },
       {
-        "id": "form",
+        "id": "normal-looking",
+        "type": "p",
+        "text": "Many platelets still look normal at the end of CPB, alongside **partially degranulated** platelets, platelets with **damaged membranes** and platelet fragments."
+      },
+      {
+        "id": "receptors",
         "type": "table",
         "head": [
-          "Finding",
-          "Value"
+          "Membrane receptor",
+          "Binds",
+          "During CPB"
         ],
         "rows": [
           [
-            "Smooth discoid platelets after the first few minutes",
-            "About 60%"
+            "**GPIb**",
+            "von Willebrand factor (adhesion)",
+            "Markedly reduced **shortly after onset**; low throughout"
           ],
           [
-            "Smooth discoid platelets at 8 minutes and at end of CPB",
-            "About 80%"
-          ],
-          [
-            "Platelet aggregability at end of CPB",
-            "Reduced by 60%"
-          ],
-          [
-            "Persistence of abnormalities",
-            "May exceed 24 hours"
+            "**GPIIb-IIIa**",
+            "Fibrinogen (aggregation)",
+            "Markedly reduced **by the end** of CPB"
           ]
         ]
       },
@@ -879,7 +578,7 @@
       }
     ],
     "choiceNotes": {
-      "a": "About **80%** of circulating platelets have a normal smooth discoid form 8 minutes after the start and at the end of CPB; damaged platelets and fragments coexist with many normal-appearing ones.",
+      "a": "Partially degranulated platelets and fragments are recovered, but **along with a large number of normal-appearing platelets**.",
       "b": "Platelet aggregates can be seen passing through the **retinal vessels for days** after cardiac surgery with CPB.",
       "d": "Qualitative changes are more complex and **probably more important** than the change in numbers.",
       "e": "These abnormalities **may persist more than 24 hours**."
@@ -892,95 +591,6 @@
       {
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
         "loc": "p. 54, Platelet Response"
-      }
-    ]
-  },
-  {
-    "id": "D-09",
-    "version": 1,
-    "topic": "Platelet Response",
-    "tags": [
-      "platelets",
-      "cAMP",
-      "arachidonic acid",
-      "autoregulation"
-    ],
-    "difficulty": 3,
-    "reviewed": false,
-    "stem": "The same processes that activate platelets during CPB lead almost simultaneously to processes that **inhibit** them. Which inhibitory mechanism does the source describe?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "Complement desensitization of the platelet membrane"
-      },
-      {
-        "id": "b",
-        "text": "Arachidonic acid products stimulating platelet cAMP formation"
-      },
-      {
-        "id": "c",
-        "text": "Exposure of GPIIb-IIIa receptors that bind circulating fibrinogen"
-      },
-      {
-        "id": "d",
-        "text": "Release of adenosine diphosphate from the dense bodies"
-      },
-      {
-        "id": "e",
-        "text": "Binding of von Willebrand factor to the GPIb receptor"
-      }
-    ],
-    "answer": "b",
-    "explanation": [
-      {
-        "id": "answer",
-        "type": "callout",
-        "kind": "key",
-        "text": "Products of the **arachidonic acid cascade** (accelerated by CPB) greatly stimulate platelet **adenylyl cyclase**, which converts ATP to **cAMP**; enough cAMP inhibits platelet adhesion, aggregation, shape change and secretion."
-      },
-      {
-        "id": "camp",
-        "type": "flow",
-        "steps": [
-          {
-            "text": "CPB accelerates the arachidonic acid cascade"
-          },
-          {
-            "text": "Adenylyl cyclase: ATP -> cAMP",
-            "label": "products stimulate"
-          },
-          {
-            "text": "Inhibition of adhesion, aggregation, shape change and secretion",
-            "label": "sufficient cAMP"
-          }
-        ]
-      },
-      {
-        "id": "auto",
-        "type": "p",
-        "text": "This is part of the **normal autoregulatory process** but may be **abnormally amplified** during CPB."
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "In sufficient amounts, cAMP leads to inhibition of platelet adhesion, aggregation, change of shape, and secretion.",
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 54"
-      }
-    ],
-    "choiceNotes": {
-      "a": "Complement is described as desensitizing **neutrophils**, not platelets.",
-      "c": "GPIIb-IIIa exposure and fibrinogen binding **promote** platelet adherence and aggregation.",
-      "d": "Exposure to adenosine diphosphate is listed as a possible **trigger** of platelet activation.",
-      "e": "Binding of von Willebrand factor to GPIb is needed for platelet **adhesion**."
-    },
-    "source": [
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 52, Cellular Response"
-      },
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "pp. 53-54, Platelet Response"
       }
     ]
   },
@@ -1049,12 +659,12 @@
           [
             "Protamine at end of CPB",
             "**Classic**",
-            "May add to the whole-body inflammatory response"
+            "Considerably stronger effect on final C3a than CPB duration (weak); may add to the whole-body inflammatory response"
           ],
           [
             "Second phase after CABG (8 to 48 hours)",
             "Classical",
-            "Higher C4b/c on day 2 correlated with arrhythmia"
+            "In one study, higher C4b/c on day 2 correlated with arrhythmia"
           ]
         ],
         "caption": "Complement pathways around CPB"
@@ -1081,121 +691,10 @@
       {
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
         "loc": "p. 54, Complement Activation"
-      }
-    ]
-  },
-  {
-    "id": "D-11",
-    "version": 1,
-    "topic": "Complement Activation",
-    "tags": [
-      "complement",
-      "C3a",
-      "protamine",
-      "oxygenator",
-      "steroids"
-    ],
-    "difficulty": 2,
-    "reviewed": false,
-    "stem": "Several factors affect the magnitude of complement activation with CPB. Which factor **raises** the final C3a level considerably more strongly than the duration of CPB does?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "Use of a true membrane oxygenator"
-      },
-      {
-        "id": "b",
-        "text": "Pretreatment with methylprednisolone"
-      },
-      {
-        "id": "c",
-        "text": "Lower body temperature during CPB"
-      },
-      {
-        "id": "d",
-        "text": "Lower perfusion flow rate during CPB"
-      },
-      {
-        "id": "e",
-        "text": "Administration of protamine"
-      }
-    ],
-    "answer": "e",
-    "explanation": [
-      {
-        "id": "answer",
-        "type": "callout",
-        "kind": "key",
-        "text": "**Protamine** has a considerably stronger effect on the final C3a level than the duration of CPB, which has only a **weak positive** effect."
-      },
-      {
-        "id": "factors",
-        "type": "table",
-        "head": [
-          "Factor",
-          "Effect on complement activation"
-        ],
-        "rows": [
-          [
-            "Protamine",
-            "**Considerably stronger** rise in final C3a"
-          ],
-          [
-            "Duration of CPB",
-            "Weak positive effect"
-          ],
-          [
-            "Body temperature and perfusion flow rate",
-            "C3a production directly related to both"
-          ],
-          [
-            "Nylon surfaces",
-            "Particularly potent activator"
-          ],
-          [
-            "True membrane vs bubble oxygenator",
-            "Membrane is the weaker activator"
-          ],
-          [
-            "Methylprednisolone or other steroids",
-            "May decrease activation"
-          ]
-        ],
-        "caption": "What drives C3a on CPB",
-        "emphasis": {
-          "row": 0
-        }
-      },
-      {
-        "id": "levels",
-        "type": "p",
-        "text": "At the end of operation with CPB, **more than 50%** of patients have serum C3a above 1000 ng/mL, whereas closed cases have near-normal or normal levels (Fig. 2.13)."
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "Duration of CPB has a weak positive effect on the final level of C3a, but administration of protamine has a considerably stronger effect.",
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 55"
-      }
-    ],
-    "choiceNotes": {
-      "a": "True membrane oxygenators are **weaker** activators of complement than bubble oxygenators.",
-      "b": "Pretreatment with methylprednisolone or other steroids **may decrease** complement activation.",
-      "c": "Continuing C3a production is **directly related** to body temperature, so a lower temperature means less C3a.",
-      "d": "Continuing C3a production is **directly related** to perfusion flow rate, so a lower flow means less C3a."
-    },
-    "source": [
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 54, Complement Activation"
       },
       {
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
         "loc": "p. 55, Complement Activation"
-      },
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 55, Fig. 2.13"
       }
     ]
   },
@@ -1220,7 +719,7 @@
       },
       {
         "id": "b",
-        "text": "Higher C3a 3 hours after CPB, longer CPB time, younger age"
+        "text": "Higher C3a 3 hours after CPB, longer CPB time, and younger age"
       },
       {
         "id": "c",
@@ -1308,67 +807,79 @@
     "topic": "Complement Activation",
     "tags": [
       "complement",
-      "boundary layer",
-      "oxygenator",
+      "neutrophils",
       "lung injury",
       "pulmonary edema"
     ],
-    "difficulty": 3,
+    "difficulty": 2,
     "reviewed": false,
-    "stem": "In sheep, a simple venovenous shunt produced no adverse effects on white blood cells, platelets or pulmonary artery pressure, but adding an **oxygenator** to the circuit did. What does this demonstrate?",
+    "stem": "Complement is activated during CPB. Which **pulmonary** consequence of this activation is described?",
     "choices": [
       {
         "id": "a",
-        "text": "Complement activation depends mainly on how long blood circulates outside the body"
+        "text": "Sequestration of lymphocytes in the lungs, with antibody formation"
       },
       {
         "id": "b",
-        "text": "Leukocyte and platelet losses result mainly from sequestration in the liver"
+        "text": "A fall in pulmonary artery pressure and vascular resistance"
       },
       {
         "id": "c",
-        "text": "Complement activation depends on blood in the boundary layer"
+        "text": "Narrowing of the alveolar-arterial oxygen difference"
       },
       {
         "id": "d",
-        "text": "Pulmonary hypertension results mainly from contact of blood with the circuit tubing"
+        "text": "Sequestration of neutrophils in the lungs, with pulmonary edema"
       },
       {
         "id": "e",
-        "text": "Infused complement-activated plasma cannot reproduce these changes"
+        "text": "Faster pulmonary elimination of circulating bradykinin"
       }
     ],
-    "answer": "c",
+    "answer": "d",
     "explanation": [
       {
         "id": "answer",
         "type": "callout",
         "kind": "key",
-        "text": "Only when an **oxygenator** was added did white cells and platelets fall and pulmonary artery pressure rise markedly: important complement activation depends on a large proportion of blood in the **boundary layer**."
+        "text": "Complement activation is accompanied by **pulmonary sequestration of neutrophils** and neutropenia, and activation of complement is **directly involved in production of pulmonary edema**."
       },
       {
         "id": "lung",
         "type": "flow",
-        "title": "Complement and the lung",
+        "title": "From complement to the lung",
         "steps": [
           {
-            "text": "Oxygenator (large boundary layer)"
+            "text": "Complement activation (anaphylatoxins **C3a and C5a**)"
           },
           {
-            "text": "Complement activation"
+            "text": "**Neutrophils** sequestered in the lungs; neutropenia",
+            "label": "chemotaxis, aggregation"
           },
           {
-            "text": "Pulmonary sequestration of neutrophils; neutropenia"
+            "text": "Neutrophil-mediated pulmonary endothelial injury; lung vascular permeability ↑ (perhaps reactive oxygen metabolites)"
           },
           {
-            "text": "Increased alveolar-arterial O~2~ difference; pulmonary edema"
+            "text": "Alveolar-arterial O~2~ difference ↑; **pulmonary edema**"
           }
         ]
       },
       {
-        "id": "mech",
-        "type": "p",
-        "text": "Neutrophil-mediated **pulmonary endothelial injury** and increased lung vascular permeability, perhaps also mediated by reactive oxygen metabolites, may contribute to the adverse effects of CPB on pulmonary function."
+        "id": "anaphylatoxins",
+        "type": "list",
+        "items": [
+          "C3a and C5a **increase vascular permeability**",
+          "Cause smooth muscle contraction",
+          "Mediate **leukocyte chemotaxis**; facilitate neutrophil aggregation and enzyme release",
+          "Activated neutrophils liberate **oxygen-derived free radicals**"
+        ]
+      },
+      {
+        "id": "sheep",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "The boundary layer matters",
+        "text": "In sheep, a simple venovenous shunt had **no** adverse effects; adding an **oxygenator** lowered white cells and platelets (presumably from pulmonary sequestration) and **markedly raised pulmonary artery pressure**. Infusing complement-activated plasma produced the same result."
       },
       {
         "id": "quote",
@@ -1378,15 +889,27 @@
       }
     ],
     "choiceNotes": {
-      "a": "Duration has only a **weak** effect on final C3a; what differed between the two circuits was the oxygenator, with its large boundary layer.",
-      "b": "Platelet sequestration in the liver is **slight**; the fall in white cells and platelets was presumably from **pulmonary** sequestration.",
-      "d": "The simple shunt produced **no adverse effects**; tubing offers the **least** opportunity for surface damage.",
-      "e": "Fountain and colleagues showed that infusion of complement-activated plasma **produces the same result**."
+      "a": "Lymphocytes belong to the **specific immune system** and participate little in the response to CPB; T and B lymphocytes are **decreased** early after CPB.",
+      "b": "In sheep, adding an oxygenator, or infusing complement-activated plasma, caused a **marked increase** in pulmonary artery pressure.",
+      "c": "The alveolar-arterial oxygen difference **increases** after CPB, showing that these changes are functionally significant.",
+      "e": "The lungs are the main site of bradykinin elimination, and **exclusion** of the pulmonary circulation on CPB probably **reduces** the ability to cope with it."
     },
     "source": [
       {
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+        "loc": "p. 52, Humoral Response"
+      },
+      {
+        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+        "loc": "p. 53, Neutrophil Activation"
+      },
+      {
+        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
         "loc": "p. 55, Complement Activation"
+      },
+      {
+        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+        "loc": "p. 56, Kallikrein-Bradykinin Activation"
       }
     ]
   },
@@ -1462,7 +985,7 @@
       {
         "id": "damage",
         "type": "p",
-        "text": "Heparin is therefore an **agent of damage**: an imperfect anticoagulant that permits microthrombi that can embolize. Many soluble coagulation factors are only **mildly reduced** by the end of CPB."
+        "text": "Heparin is therefore an **agent of damage**: an imperfect anticoagulant that permits microthrombi that can embolize. Many soluble coagulation factors are only **mildly reduced** by the end of CPB. In rare instances, heparin also produces adverse effects such as **severe thrombocytopenia**."
       },
       {
         "id": "quote",
@@ -1485,103 +1008,6 @@
       {
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
         "loc": "p. 63, Heparin"
-      }
-    ]
-  },
-  {
-    "id": "D-15",
-    "version": 1,
-    "topic": "Fibrinolytic Cascade",
-    "tags": [
-      "fibrinolysis",
-      "plasmin",
-      "endothelium",
-      "plasminogen activator"
-    ],
-    "difficulty": 3,
-    "reviewed": false,
-    "stem": "Measurable plasmin appears in the blood shortly after the start of CPB. What is the **major stimulant** for conversion of plasminogen to plasmin during CPB?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "Kallikrein generated by Hageman factor activation"
-      },
-      {
-        "id": "b",
-        "text": "Activated factor XII acting on plasminogen directly"
-      },
-      {
-        "id": "c",
-        "text": "Thromboxane A2 released mainly from platelets"
-      },
-      {
-        "id": "d",
-        "text": "Extrinsic plasminogen activator from endothelial cells"
-      },
-      {
-        "id": "e",
-        "text": "Complement fragment C5a released from activated plasma proteins"
-      }
-    ],
-    "answer": "d",
-    "explanation": [
-      {
-        "id": "answer",
-        "type": "callout",
-        "kind": "key",
-        "text": "**Extrinsic plasminogen activator expressed by endothelial cells** is the major stimulant for plasminogen -> plasmin during CPB, probably because of abnormally high levels of catecholamines, bradykinins and other molecules."
-      },
-      {
-        "id": "fibrinolysis",
-        "type": "flow",
-        "steps": [
-          {
-            "branches": [
-              {
-                "text": "Endothelial extrinsic plasminogen activator (**major**)"
-              },
-              {
-                "text": "Kallikrein from factor XII activation (facilitates)"
-              }
-            ]
-          },
-          {
-            "text": "Plasminogen -> **plasmin**"
-          },
-          {
-            "branches": [
-              {
-                "text": "Digests fibrin clots and thrombi"
-              },
-              {
-                "text": "Activates complement, prekallikrein, possibly Hageman factor"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "extent",
-        "type": "p",
-        "text": "Important **hyperfibrinolysis** was present in 159 of 774 patients (20%) undergoing CABG. Fibrinogen breakdown products acted on by plasmin have been shown experimentally to cause important **pulmonary dysfunction**."
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "However, extrinsic plasminogen activator expressed by endothelial cells is the major stimulant for conversion of plasminogen to plasmin and thus for the fibrinolytic cascade.",
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 56"
-      }
-    ],
-    "choiceNotes": {
-      "a": "Kallikrein **facilitates** the conversion and may initiate fibrinolysis, but it is not the major stimulant.",
-      "b": "Factor XII may initiate fibrinolysis by way of kallikrein; it is not named as the major stimulant.",
-      "c": "Thromboxane A2 is a **vasoconstricting** eicosanoid, not a plasminogen activator.",
-      "e": "C5a is an **anaphylatoxin** (vascular permeability, chemotaxis); it is not described as a plasminogen activator."
-    },
-    "source": [
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 56, Fibrinolytic Cascade"
       }
     ]
   },
@@ -1609,7 +1035,7 @@
       },
       {
         "id": "c",
-        "text": "Destruction of platelets by shear stresses"
+        "text": "Heparin-induced severe thrombocytopenia"
       },
       {
         "id": "d",
@@ -1656,7 +1082,37 @@
       {
         "id": "all",
         "type": "p",
-        "text": "The fibrinolytic cascade is probably activated to some degree in **all** operations in which CPB is used."
+        "text": "The fibrinolytic cascade is probably activated to some degree in **all** operations in which CPB is used; in one series, important **hyperfibrinolysis** was present in 159 of 774 patients (20%) undergoing CABG."
+      },
+      {
+        "id": "plasmin",
+        "type": "flow",
+        "title": "How plasmin forms on CPB",
+        "steps": [
+          {
+            "branches": [
+              {
+                "text": "**Extrinsic plasminogen activator** from endothelial cells (**major** stimulant)"
+              },
+              {
+                "text": "Kallikrein from factor XII activation (facilitates)"
+              }
+            ]
+          },
+          {
+            "text": "Plasminogen -> **plasmin**"
+          },
+          {
+            "branches": [
+              {
+                "text": "Digests fibrin clots and thrombi"
+              },
+              {
+                "text": "Activates complement, prekallikrein, possibly Hageman factor"
+              }
+            ]
+          }
+        ]
       },
       {
         "id": "quote",
@@ -1668,7 +1124,7 @@
     "choiceNotes": {
       "a": "Soluble coagulation factors are only **mildly reduced**; this is believed insufficient by itself to cause the bleeding tendency.",
       "b": "Sequestration of platelets in the liver and other organs is **slight**.",
-      "c": "Shear stresses **likely do not reduce** either the number or the function of platelets.",
+      "c": "Heparin produces severe thrombocytopenia only **in rare instances**.",
       "d": "Complement depletion is linked to a decreased ability of postbypass serum to **inhibit bacterial growth**, not to bleeding."
     },
     "source": [
@@ -1683,125 +1139,10 @@
       {
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
         "loc": "p. 56, Fibrinolytic Cascade"
-      }
-    ]
-  },
-  {
-    "id": "D-17",
-    "version": 1,
-    "topic": "Arachidonic Acid Cascade",
-    "tags": [
-      "arachidonic acid",
-      "eicosanoids",
-      "thromboxane",
-      "prostacyclin",
-      "lungs"
-    ],
-    "difficulty": 3,
-    "reviewed": false,
-    "stem": "Near the end of CPB, total bypass becomes partial and blood again passes through the lungs. Which eicosanoid pattern is described at this stage?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "Prostacyclin and PGE2 peak while thromboxane B2 falls"
       },
-      {
-        "id": "b",
-        "text": "Thromboxane B2 peaks while prostacyclin and PGE2 decrease"
-      },
-      {
-        "id": "c",
-        "text": "Thromboxane B2 and prostacyclin both fall to baseline"
-      },
-      {
-        "id": "d",
-        "text": "Leukotriene B4 disappears while PGE2 reaches its peak"
-      },
-      {
-        "id": "e",
-        "text": "All eicosanoids stay at the levels seen at the onset of total CPB"
-      }
-    ],
-    "answer": "b",
-    "explanation": [
-      {
-        "id": "answer",
-        "type": "callout",
-        "kind": "key",
-        "text": "When total CPB becomes partial and the lungs are perfused again, **thromboxane B2** (stable metabolite of TXA2) peaks, while **prostacyclin and PGE2** decrease."
-      },
-      {
-        "id": "eicosanoids",
-        "type": "table",
-        "head": [
-          "Eicosanoid",
-          "Early total CPB",
-          "CPB becomes partial",
-          "Main action"
-        ],
-        "rows": [
-          [
-            "Prostacyclin, PGE2",
-            "Sharply increased",
-            "Decrease",
-            "Vasodilating, platelet-inhibiting"
-          ],
-          [
-            "Thromboxane A2 (measured as B2)",
-            "Not yet apparent",
-            "**Peak**",
-            "Vasoconstricting"
-          ],
-          [
-            "Leukotriene B4",
-            "Increased",
-            "Increased (also for a time after CPB)",
-            "Plasma leakage, leukocyte adhesion"
-          ]
-        ],
-        "caption": "Eicosanoids during CPB"
-      },
-      {
-        "id": "cascade",
-        "type": "flow",
-        "title": "Arachidonic acid cascade",
-        "steps": [
-          {
-            "text": "Disturbance of cell membranes"
-          },
-          {
-            "text": "Phospholipase A2 releases arachidonic acid"
-          },
-          {
-            "text": "Prostaglandin-endoperoxide (cyclooxygenase) pathway"
-          },
-          {
-            "text": "Eicosanoids with a short half-life"
-          }
-        ]
-      },
-      {
-        "id": "lung",
-        "type": "p",
-        "text": "The **lung**, bypassed during CPB, is a major site of synthesis, release and degradation of eicosanoids. Most TXA2 is believed to come from **platelets**, although release occurs largely in the lungs. Release is greatest in the **very young**."
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "thromboxane B2 production (thromboxane B2 is a stable metabolite of thromboxane A2) becomes apparent and reaches peak levels when total CPB becomes partial as the lungs again are perfused.",
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 56"
-      }
-    ],
-    "choiceNotes": {
-      "a": "Prostacyclin and PGE2 increase sharply **shortly after CPB begins**, then **decrease** when CPB becomes partial.",
-      "c": "Thromboxane B2 **reaches peak levels** when total CPB becomes partial.",
-      "d": "Leukotriene B4 is **increased** during and for a time after CPB, and PGE2 levels decrease when CPB becomes partial.",
-      "e": "Levels change markedly when total CPB becomes partial and the lungs are perfused again."
-    },
-    "source": [
       {
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 56, Arachidonic Acid Cascade"
+        "loc": "p. 63, Heparin"
       }
     ]
   },
@@ -1873,7 +1214,7 @@
       {
         "id": "hyper",
         "type": "p",
-        "text": "After CPB a **hypermetabolic state** exists for at least 6 hours; VO~2~ and CO~2~ production increase, and body temperature may rise precipitously."
+        "text": "After CPB a **hypermetabolic state** exists for at least 6 hours; V̇O~2~ and CO~2~ production increase, and body temperature may rise precipitously."
       },
       {
         "id": "duration",
@@ -2003,100 +1344,6 @@
     ]
   },
   {
-    "id": "D-20",
-    "version": 1,
-    "topic": "Protein Denaturation",
-    "tags": [
-      "protein denaturation",
-      "oxygenator",
-      "complement",
-      "blood/gas interface"
-    ],
-    "difficulty": 2,
-    "reviewed": false,
-    "stem": "Proteins are denatured at a blood/gas interface. Denaturation of which plasma proteins yields degradation products that **activate the complement cascade**?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "Albumin"
-      },
-      {
-        "id": "b",
-        "text": "Fibrinogen"
-      },
-      {
-        "id": "c",
-        "text": "High-molecular-weight kininogen"
-      },
-      {
-        "id": "d",
-        "text": "Immunoglobulins"
-      },
-      {
-        "id": "e",
-        "text": "Haptoglobins"
-      }
-    ],
-    "answer": "d",
-    "explanation": [
-      {
-        "id": "answer",
-        "type": "callout",
-        "kind": "key",
-        "text": "Denaturation of **immunoglobulins** yields degradation products that **activate complement**; denaturation of albumin has a nonspecific effect."
-      },
-      {
-        "id": "oxy",
-        "type": "table",
-        "head": [
-          "Oxygenator",
-          "Protein denaturation"
-        ],
-        "rows": [
-          [
-            "Bubble or stationary vertical film (blood/gas interface)",
-            "**Marked**"
-          ],
-          [
-            "Microporous membrane",
-            "Considerably less"
-          ],
-          [
-            "True membrane",
-            "Considerably less"
-          ]
-        ]
-      },
-      {
-        "id": "gas",
-        "type": "p",
-        "text": "Gases are recognized as **foreign surfaces** in direct contact with blood, which is why bubble oxygenators share the high surface-interaction damage of the oxygenator."
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "Denaturation of albumin has a nonspecific effect, but denaturation of immunoglobulins yields degradation products that activate the complement cascade.",
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 57"
-      }
-    ],
-    "choiceNotes": {
-      "a": "Denaturation of albumin has a **nonspecific** effect (denatured albumin also helps passivate circuit surfaces).",
-      "b": "Fibrinogen breakdown products acted on by plasmin lead experimentally to **pulmonary dysfunction**.",
-      "c": "HMWK binds prekallikrein and is the main source of **bradykinin**.",
-      "e": "Haptoglobins bind free hemoglobin, which is then removed by the reticuloendothelial system and kidneys."
-    },
-    "source": [
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 57, Protein Denaturation"
-      },
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 62, Foreign Surfaces"
-      }
-    ]
-  },
-  {
     "id": "D-21",
     "version": 1,
     "topic": "Neutrophil Activation",
@@ -2154,7 +1401,7 @@
             "text": "End of CPB: leukocytosis of mature segmented neutrophils from the bone marrow"
           },
           {
-            "text": "Peak of 12,000 to 24,000 cells at 24 to 28 hours postoperatively"
+            "text": "Leukocyte count often **peaks** at 24 to 28 hours postoperatively"
           }
         ]
       },
@@ -2180,7 +1427,7 @@
     "choiceNotes": {
       "a": "The order is reversed: an initial **mild leukopenia** is followed by **leukocytosis** by the end of CPB.",
       "c": "Both T and B lymphocytes are **decreased** early after CPB, and T-cell function is decreased.",
-      "d": "The leukocyte count often **peaks** (12,000 to 24,000 cells) at 24 to 28 hours postoperatively.",
+      "d": "The leukocyte count often **peaks** at 24 to 28 hours postoperatively.",
       "e": "The early leukopenia is partly from **transient movement of leukocytes out of the vascular system**."
     },
     "source": [
@@ -2308,7 +1555,7 @@
       },
       {
         "id": "c",
-        "text": "Hypothermia has no effect on neutrophil adherence molecules"
+        "text": "C3a and C5a block free radical release from neutrophils"
       },
       {
         "id": "d",
@@ -2355,7 +1602,7 @@
     "choiceNotes": {
       "a": "Hypothermia delays the expression **but does not prevent** it.",
       "b": "Nifedipine (about 6 µg/kg/h during CPB) appears to **inhibit** neutrophil activation.",
-      "c": "Hypothermia has been shown to **delay** the expression of neutrophil adherence molecules.",
+      "c": "Activation of neutrophils by the C3a and C5a complement fragments **liberates** oxygen-derived free radicals.",
       "d": "In myocardial infarction, anti-CAM antibodies **considerably reduced** the extent of cell death from ischemia and reperfusion."
     },
     "source": [
@@ -2377,11 +1624,11 @@
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "Which statement about total body oxygen consumption (VO~2~) during **normothermic** CPB is supported by the source?",
+    "stem": "Which statement about total body oxygen consumption (V̇O~2~) during **normothermic** CPB is supported by the source?",
     "choices": [
       {
         "id": "a",
-        "text": "It falls at low flows; control values come only at high flows"
+        "text": "It falls at low flows; control values usually need high flows"
       },
       {
         "id": "b",
@@ -2406,36 +1653,12 @@
         "id": "answer",
         "type": "callout",
         "kind": "key",
-        "text": "Flow and VO~2~ have a best-fit **hyperbolic** relation at normothermia: VO~2~ falls at low flows, and control values are usually reached only at **high flows (100 to 125 mL/kg/min)**."
+        "text": "At normothermia V̇O~2~ depends on perfusion flow: flow and V̇O~2~ **must meet at zero**, and the control value for V̇O~2~ was usually reached only at **high flows (100 to 125 mL/kg/min)** (Fig. 2.15)."
       },
       {
-        "id": "models",
-        "type": "table",
-        "head": [
-          "Model for VO~2~ vs flow (Fig. 2.15)",
-          "Correlation coefficient r"
-        ],
-        "rows": [
-          [
-            "**Hyperbolic** (chosen)",
-            "**.69**"
-          ],
-          [
-            "Log-log",
-            ".54"
-          ],
-          [
-            "Arrhenius",
-            ".52"
-          ],
-          [
-            "Linear",
-            ".39"
-          ]
-        ],
-        "emphasis": {
-          "row": 0
-        }
+        "id": "variable",
+        "type": "p",
+        "text": "Measured values are **highly variable**: in humans at flows of 1.8 to 2.4 L/min/m^2^, V̇O~2~ ranged from 74 to 162 mL/min/m^2^ in one study, and in the animal data the scatter **increases** as flow increases."
       },
       {
         "id": "determinants",
@@ -2449,15 +1672,15 @@
       {
         "id": "quote",
         "type": "quote",
-        "text": "Theoretically, total body VO~2~ during CPB at normothermia (37°C) should be that of an intact human under anesthesia if all parts of the microcirculation are perfused.",
+        "text": "Theoretically, total body V̇O~2~ during CPB at normothermia (37°C) should be that of an intact human under anesthesia if all parts of the microcirculation are perfused.",
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 57"
       }
     ],
     "choiceNotes": {
-      "b": "Flow and VO~2~ have a best-fit **hyperbolic** relation (Fig. 2.15); flow and VO~2~ must meet at zero.",
+      "b": "V̇O~2~ is related to perfusion flow (Fig. 2.15): flow and V̇O~2~ must meet at zero, and control values were usually reached only at high flows.",
       "c": "Theoretically it should, if all the microcirculation is perfused, but measured values in humans at 1.8 to 2.4 L/min/m^2^ were **highly variable** (74 to 162 mL/min/m^2^ in one study).",
       "d": "The scatter of the data **increases** as flow increases (Fig. 2.15).",
-      "e": "The control value for VO~2~ was usually reached at **high flows (100 to 125 mL/kg/min)**."
+      "e": "The control value for V̇O~2~ was usually reached at **high flows (100 to 125 mL/kg/min)**."
     },
     "source": [
       {
@@ -2482,11 +1705,11 @@
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "During CPB at a flow of 2.2 L/min/m^2^, the team changes from nonpulsatile to **pulsatile** arterial input and from alpha-stat to **pH-stat** acid-base management. What is the expected effect on **total body** VO~2~?",
+    "stem": "During CPB at a flow of 2.2 L/min/m^2^, the team changes from nonpulsatile to **pulsatile** arterial input and from alpha-stat to **pH-stat** acid-base management. What is the expected effect on **total body** V̇O~2~?",
     "choices": [
       {
         "id": "a",
-        "text": "Both changes increase total body VO~2~"
+        "text": "Both changes increase total body V̇O~2~"
       },
       {
         "id": "b",
@@ -2498,11 +1721,11 @@
       },
       {
         "id": "d",
-        "text": "Neither change affects total body VO~2~"
+        "text": "Neither change affects total body V̇O~2~"
       },
       {
         "id": "e",
-        "text": "Both changes decrease total body VO~2~"
+        "text": "Both changes decrease total body V̇O~2~"
       }
     ],
     "answer": "d",
@@ -2511,14 +1734,14 @@
         "id": "answer",
         "type": "callout",
         "kind": "key",
-        "text": "Pulsatility does **not** affect VO~2~ at flows above about 1.4 L/min/m^2^, nor does the acid-base strategy (pH-stat vs alpha-stat)."
+        "text": "Pulsatility does **not** affect V̇O~2~ at flows above about 1.4 L/min/m^2^, nor does the acid-base strategy (pH-stat vs alpha-stat)."
       },
       {
         "id": "factors",
         "type": "table",
         "head": [
           "Factor",
-          "Effect on total body VO~2~"
+          "Effect on total body V̇O~2~"
         ],
         "rows": [
           [
@@ -2553,15 +1776,15 @@
       {
         "id": "quote",
         "type": "quote",
-        "text": "Pulsatility of the arterial input does not affect VO~2~, at least during flow rates greater than about 1.4 L · min^-1^ · m^-2^, nor does the strategy (pH-stat vs. alpha-stat) of managing the acid-base balance.",
+        "text": "Pulsatility of the arterial input does not affect V̇O~2~, at least during flow rates greater than about 1.4 L · min^-1^ · m^-2^, nor does the strategy (pH-stat vs. alpha-stat) of managing the acid-base balance.",
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 58"
       }
     ],
     "choiceNotes": {
-      "a": "Neither pulsatility (at flows above about 1.4 L/min/m^2^) nor the acid-base strategy affects total body VO~2~.",
-      "b": "Pulsatility of the arterial input does **not** affect VO~2~ at flows above about 1.4 L/min/m^2^.",
-      "c": "The acid-base strategy (pH-stat vs alpha-stat) does **not** affect total body VO~2~.",
-      "e": "Neither change affects total body VO~2~."
+      "a": "Neither pulsatility (at flows above about 1.4 L/min/m^2^) nor the acid-base strategy affects total body V̇O~2~.",
+      "b": "Pulsatility of the arterial input does **not** affect V̇O~2~ at flows above about 1.4 L/min/m^2^.",
+      "c": "The acid-base strategy (pH-stat vs alpha-stat) does **not** affect total body V̇O~2~.",
+      "e": "Neither change affects total body V̇O~2~."
     },
     "source": [
       {
@@ -2594,7 +1817,7 @@
       },
       {
         "id": "b",
-        "text": "A normal adaptation, because cerebral VO~2~ falls with temperature"
+        "text": "A normal adaptation, because cerebral V̇O~2~ falls with temperature"
       },
       {
         "id": "c",
@@ -2615,39 +1838,39 @@
         "id": "answer",
         "type": "callout",
         "kind": "key",
-        "text": "Cerebral VO~2~ **below the normal value at a given temperature** implies **incomplete or uneven cerebral perfusion** (decreased effective capillary density)."
+        "text": "Cerebral V̇O~2~ **below the normal value at a given temperature** implies **incomplete or uneven cerebral perfusion** (decreased effective capillary density)."
       },
       {
         "id": "vanthoff",
         "type": "p",
-        "text": "The normal relation between cerebral VO~2~ and nasopharyngeal temperature during full-flow CPB (2.0 L/min/m^2^) is described by a van’t Hoff equation (Fig. 2.16), presumably applicable to all ages."
+        "text": "The normal relation between cerebral V̇O~2~ and nasopharyngeal temperature during full-flow CPB (2.0 L/min/m^2^) is described by a van’t Hoff equation (Fig. 2.16), presumably applicable to all ages."
       },
       {
         "id": "flow",
         "type": "callout",
         "kind": "pearl",
         "title": "Independent of cerebral blood flow",
-        "text": "Cerebral VO~2~ does not appear to change with the variations in cerebral blood flow that occur during clinical CPB. In monkeys at 20°C it was the same at 0.5 and 1.6 L/min/m^2^, although cerebral blood flow at 0.5 was 50% of that at 1.6."
+        "text": "Cerebral V̇O~2~ does not appear to change with the variations in cerebral blood flow that occur during clinical CPB. In monkeys at 20°C it was the same at 0.5 and 1.6 L/min/m^2^, although cerebral blood flow at 0.5 was 50% of that at 1.6."
       },
       {
         "id": "baseline",
         "type": "callout",
         "kind": "pitfall",
         "title": "Wrong baseline",
-        "text": "Do not assume cerebral VO~2~ at 37°C before CPB equals that at 37°C on CPB: whole-body VO~2~ on CPB is slightly less than off CPB, perhaps from uneven perfusion."
+        "text": "Do not assume cerebral V̇O~2~ at 37°C before CPB equals that at 37°C on CPB: whole-body V̇O~2~ on CPB is slightly less than off CPB, perhaps from uneven perfusion."
       },
       {
         "id": "quote",
         "type": "quote",
-        "text": "cerebral VO~2~ that is reduced below the usual (normal) value at a given temperature implies incomplete or uneven cerebral perfusion (decreased effective capillary density).",
+        "text": "cerebral V̇O~2~ that is reduced below the usual (normal) value at a given temperature implies incomplete or uneven cerebral perfusion (decreased effective capillary density).",
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 58"
       }
     ],
     "choiceNotes": {
       "a": "Luxury perfusion is cerebral **blood flow** that is excessive relative to cerebral oxygen consumption, not a low consumption for the temperature.",
       "b": "The comparison is already made **at the given temperature**; a value below the normal value for that temperature is abnormal.",
-      "d": "pH-stat CO~2~ causes cerebral vasodilatation (more flow); the source links a low cerebral VO~2~ for the temperature to incomplete or uneven perfusion.",
-      "e": "A low cerebral VO~2~ for the temperature points to **incomplete perfusion**, not excess delivery."
+      "d": "pH-stat CO~2~ causes cerebral vasodilatation (more flow); the source links a low cerebral V̇O~2~ for the temperature to incomplete or uneven perfusion.",
+      "e": "A low cerebral V̇O~2~ for the temperature points to **incomplete perfusion**, not excess delivery."
     },
     "source": [
       {
@@ -2667,27 +1890,27 @@
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "During CPB, most of the microcirculation is known to be perfused and VO~2~ is relatively normal. Which mixed venous values indicate that whole-body perfusion is meeting the patient's metabolic demands?",
+    "stem": "During CPB, most of the microcirculation is known to be perfused and V̇O~2~ is relatively normal. Which mixed venous values indicate that whole-body perfusion is meeting the patient's metabolic demands?",
     "choices": [
       {
         "id": "a",
-        "text": "PvO~2~ 15 to 20 mmHg; SvO~2~ 30% to 40%"
+        "text": "Pv̄O~2~ 15 to 20 mmHg; Sv̄O~2~ 30% to 40%"
       },
       {
         "id": "b",
-        "text": "PvO~2~ 20 to 25 mmHg; SvO~2~ 40% to 50%"
+        "text": "Pv̄O~2~ 20 to 25 mmHg; Sv̄O~2~ 40% to 50%"
       },
       {
         "id": "c",
-        "text": "PvO~2~ 50 to 60 mmHg; SvO~2~ 80% to 90%"
+        "text": "Pv̄O~2~ 50 to 60 mmHg; Sv̄O~2~ 80% to 90%"
       },
       {
         "id": "d",
-        "text": "PvO~2~ 60 to 70 mmHg; SvO~2~ 30% to 40%"
+        "text": "Pv̄O~2~ 60 to 70 mmHg; Sv̄O~2~ 30% to 40%"
       },
       {
         "id": "e",
-        "text": "PvO~2~ 30 to 40 mmHg; SvO~2~ 60% to 70%"
+        "text": "Pv̄O~2~ 30 to 40 mmHg; Sv̄O~2~ 60% to 70%"
       }
     ],
     "answer": "e",
@@ -2696,14 +1919,14 @@
         "id": "answer",
         "type": "callout",
         "kind": "key",
-        "text": "When most of the microcirculation is perfused, mixed venous O~2~ reflects mean tissue O~2~; relatively normal **PvO~2~ 30 to 40 mmHg** and **SvO~2~ 60% to 70%** (with relatively normal VO~2~) mean perfusion is meeting metabolic demands."
+        "text": "When most of the microcirculation is perfused, mixed venous O~2~ reflects mean tissue O~2~; relatively normal **Pv̄O~2~ 30 to 40 mmHg** and **Sv̄O~2~ 60% to 70%** (with relatively normal V̇O~2~) mean perfusion is meeting metabolic demands."
       },
       {
         "id": "depends",
         "type": "list",
         "items": [
           "Controlled variables (Fick equation): perfusion flow, perfusate hemoglobin, PaO~2~",
-          "The patient's VO~2~, and partially controllable variables such as pH and red cell 2,3-diphosphoglyceric acid"
+          "The patient's V̇O~2~, and partially controllable variables such as pH and red cell 2,3-diphosphoglyceric acid"
         ]
       },
       {
@@ -2722,15 +1945,15 @@
       {
         "id": "quote",
         "type": "quote",
-        "text": "When most of the microcirculation is known to be perfused, PvO~2~ levels reflect the mean value for tissue oxygen levels.",
+        "text": "When most of the microcirculation is known to be perfused, Pv̄O~2~ levels reflect the mean value for tissue oxygen levels.",
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 58"
       }
     ],
     "choiceNotes": {
-      "a": "These are below the relatively normal values (PvO~2~ 30 to 40 mmHg; SvO~2~ 60% to 70%); very low venous O~2~ levels appear to increase the risk of unfavorable events.",
-      "b": "These are below the relatively normal values of PvO~2~ 30 to 40 mmHg and SvO~2~ 60% to 70%.",
-      "c": "These exceed the relatively normal values of PvO~2~ 30 to 40 mmHg and SvO~2~ 60% to 70% given by the source.",
-      "d": "The relatively normal values are PvO~2~ **30 to 40 mmHg** with SvO~2~ **60% to 70%**."
+      "a": "These are below the relatively normal values (Pv̄O~2~ 30 to 40 mmHg; Sv̄O~2~ 60% to 70%); very low venous O~2~ levels appear to increase the risk of unfavorable events.",
+      "b": "These are below the relatively normal values of Pv̄O~2~ 30 to 40 mmHg and Sv̄O~2~ 60% to 70%.",
+      "c": "These exceed the relatively normal values of Pv̄O~2~ 30 to 40 mmHg and Sv̄O~2~ 60% to 70% given by the source.",
+      "d": "The relatively normal values are Pv̄O~2~ **30 to 40 mmHg** with Sv̄O~2~ **60% to 70%**."
     },
     "source": [
       {
@@ -2911,7 +2134,7 @@
             "May be still higher"
           ]
         ],
-        "caption": "Han and colleagues"
+        "caption": "One study (Han and colleagues)"
       },
       {
         "id": "underestimate",
@@ -3583,102 +2806,6 @@
     ]
   },
   {
-    "id": "D-37",
-    "version": 1,
-    "topic": "Distribution of Blood Flow: Cerebral Blood Flow",
-    "tags": [
-      "cerebral blood flow",
-      "PaCO2",
-      "pH-stat",
-      "luxury perfusion",
-      "microemboli"
-    ],
-    "difficulty": 3,
-    "reviewed": false,
-    "stem": "Hypercarbia during hypothermic CPB increases cerebral blood flow. Which argument against the **pH-stat** strategy does the source give?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "It causes metabolic acidosis from lactic acid release in tissues"
-      },
-      {
-        "id": "b",
-        "text": "It causes cerebral vasoconstriction and ischemia"
-      },
-      {
-        "id": "c",
-        "text": "It lowers cerebral blood flow below the brain's metabolic needs"
-      },
-      {
-        "id": "d",
-        "text": "It increases bradykinin production during bypass"
-      },
-      {
-        "id": "e",
-        "text": "Luxury perfusion may raise microembolic cerebral damage"
-      }
-    ],
-    "answer": "e",
-    "explanation": [
-      {
-        "id": "answer",
-        "type": "callout",
-        "kind": "key",
-        "text": "Hypercarbia (as with pH-stat) causes **luxury cerebral perfusion**, which has been argued to increase the risk of cerebral damage by **microemboli**; this is an argument against pH-stat."
-      },
-      {
-        "id": "phstat",
-        "type": "flow",
-        "steps": [
-          {
-            "text": "pH-stat: CO~2~ added during hypothermia"
-          },
-          {
-            "text": "Cerebral vasodilatation; attenuated autoregulation"
-          },
-          {
-            "text": "Cerebral flow excessive for cerebral VO~2~ (luxury perfusion)"
-          },
-          {
-            "text": "Argued: more risk of cerebral damage by microemboli"
-          }
-        ]
-      },
-      {
-        "id": "paco2",
-        "type": "list",
-        "items": [
-          "Children on hypothermic CPB: flow rises **1.2 mL/min/100 g** for each 1-mmHg rise in PaCO~2~ between 33 and 50 mmHg (measured at 37°C)",
-          "Infants: slightly blunted response",
-          "Brain metabolic needs appear met at a PaCO~2~ of **33 mmHg** under usual hypothermic CPB",
-          "Cooling from 37°C to 28°C: cerebral flow fell less than cerebral VO~2~ (luxuriant flow, narrowed arteriovenous O~2~ difference)"
-        ]
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "Similar luxury perfusion can result from hypercarbia, and it has been argued that this increases the risk of cerebral damage by microemboli.",
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 60"
-      }
-    ],
-    "choiceNotes": {
-      "a": "Metabolic acidosis on CPB is attributed to **uneven distribution of flow** with lactic acid release.",
-      "b": "CO~2~ added for pH-stat causes cerebral **vasodilatation**.",
-      "c": "Hypercarbia **increases** cerebral blood flow; it is hypocarbia that decreases it.",
-      "d": "Bradykinin production is linked to contact activation and to **hypothermia itself**, not to pH-stat."
-    },
-    "source": [
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 58, Cerebral Oxygen Consumption"
-      },
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 60, Cerebral Blood Flow"
-      }
-    ]
-  },
-  {
     "id": "D-38",
     "version": 1,
     "topic": "Distribution of Blood Flow: Cutaneous Blood Flow",
@@ -4109,7 +3236,7 @@
         "id": "answer",
         "type": "callout",
         "kind": "key",
-        "text": "Patients left the operating room with a heat deficit of **at least 330 kJ** (more than 1.5 hours of basal energy production); restoring it early postoperatively may substantially **strain the circulation**."
+        "text": "A heat deficit remains after rewarming to a nasopharyngeal 37°C and must be restored early postoperatively; the extra metabolism may **strain the circulation** substantially. In one study, the deficit was **at least 330 kJ** (more than 1.5 hours of basal energy production)."
       },
       {
         "id": "heat",
@@ -4165,10 +3292,10 @@
       }
     ],
     "choiceNotes": {
-      "a": "Patients left the operating room with a heat deficit of **at least 330 kJ**.",
+      "a": "In one study, patients left the operating room with a heat deficit of **at least 330 kJ**, which has to be restored early postoperatively.",
       "b": "Muscle and body fat stay **considerably cooler** than the nasopharynx after a short rewarming; muscle rewarms slowly.",
       "c": "With deeper hypothermia the problem is **magnified**: muscle rewarms slowly and heat loss is greater.",
-      "d": "Metabolism supplied only **220 kJ**, against losses of 840 kJ to the circuit and 380 kJ by evaporation and convection."
+      "d": "In that study, metabolism supplied only **220 kJ**, against losses of 840 kJ to the circuit and 380 kJ by evaporation and convection."
     },
     "source": [
       {
@@ -4183,50 +3310,55 @@
     "topic": "Agents of Damage: Foreign Surfaces",
     "tags": [
       "foreign surfaces",
+      "coated circuits",
       "boundary layer",
-      "oxygenator",
-      "coated circuits"
+      "protein denaturation"
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "The opportunity for blood damage by foreign surfaces is directly related to the proportion of blood flowing in the boundary layer. Which ranking of circuit components, from **greatest to least** opportunity for damage, is correct?",
+    "stem": "Most current pump-oxygenator systems have **coated circuits** (synthetic, covalent heparin-bonded or albumin-based coatings). Which effect has been associated with all of these coatings?",
     "choices": [
       {
         "id": "a",
-        "text": "Oxygenator, heat exchanger, filters, tubing and reservoirs"
+        "text": "Prevention of the whole-body inflammatory response to CPB"
       },
       {
         "id": "b",
-        "text": "Heat exchanger, oxygenator, tubing and reservoirs, filters"
+        "text": "Abolition of the need for systemic heparin during CPB"
       },
       {
         "id": "c",
-        "text": "Tubing and reservoirs, filters, heat exchanger, oxygenator"
+        "text": "Lining of circuit surfaces with living endothelial cells"
       },
       {
         "id": "d",
-        "text": "Filters, oxygenator, heat exchanger, tubing and reservoirs"
+        "text": "Better gas exchange from surface deposits in the oxygenator"
       },
       {
         "id": "e",
-        "text": "Oxygenator, filters, tubing and reservoirs, heat exchanger"
+        "text": "Less deposition of formed blood elements on circuit surfaces"
       }
     ],
-    "answer": "a",
+    "answer": "e",
     "explanation": [
       {
         "id": "answer",
         "type": "callout",
         "kind": "key",
-        "text": "Damage opportunity is greatest in the **oxygenator**, next in the **heat exchanger**, next in **filters**, and least in **tubing and reservoirs**."
+        "text": "Coatings aim to reduce the response of formed blood elements to the artificial surface; all have been associated with a **decrease in the amount of formed blood elements deposited** on the circuit surfaces."
+      },
+      {
+        "id": "foreign",
+        "type": "p",
+        "text": "Recognition of circuit surfaces as **foreign** is a fundamental inciting agent of the damaging effects of CPB; all elements of blood, formed and soluble, are affected. **Nylon** may be a particular offender."
       },
       {
         "id": "rank",
         "type": "flow",
-        "title": "Greatest to least",
+        "title": "Opportunity for surface damage (proportion of blood in the boundary layer)",
         "steps": [
           {
-            "text": "Oxygenator (boundary layer maximized for gas exchange; gas is a foreign surface too)"
+            "text": "Oxygenator (greatest; gas is a foreign surface too)"
           },
           {
             "text": "Heat exchanger"
@@ -4235,37 +3367,44 @@
             "text": "Filters"
           },
           {
-            "text": "Tubing and reservoirs"
+            "text": "Tubing and reservoirs (least)"
           }
         ]
       },
       {
-        "id": "surfaces",
-        "type": "list",
-        "items": [
-          "**Nylon** may be a particular offender",
-          "Surfaces may be passivated in the first minutes by denatured albumin, platelets and other deposits, but in oxygenators this hampers gas exchange",
-          "Seeding with endothelial cells: experimental, not yet practicable",
-          "Most systems now use **coated circuits** (synthetic, covalent heparin-bonded, albumin-based), all associated with less deposition of formed blood elements"
-        ]
+        "id": "protein",
+        "type": "p",
+        "text": "A **blood/gas interface** (bubble or stationary vertical film oxygenator) denatures proteins; denaturation is considerably less in microporous and true membrane oxygenators."
       },
       {
         "id": "quote",
         "type": "quote",
-        "text": "Because it is only in the boundary layer of flowing blood that the foreign surface is encountered, opportunity for damage is directly related to the proportion of the blood flowing there.",
+        "text": "All have been associated with a decrease in the amount of formed blood elements deposited on the surfaces of the perfusion circuit.",
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 62"
       }
     ],
     "choiceNotes": {
-      "b": "The **oxygenator** comes first, because its boundary-layer proportion is made as large as possible for gas exchange.",
-      "c": "This is the reverse order; tubing and reservoirs offer the **least** opportunity.",
-      "d": "Filters come **after** the oxygenator and heat exchanger.",
-      "e": "The **heat exchanger** is second, ahead of filters, tubing and reservoirs."
+      "a": "True prevention of the undesirable responses to CPB has **eluded** the surgical community; to date only **palliative** measures are available.",
+      "b": "Heparin is still given before and during CPB; efforts **continue** to avoid usual heparinization, most commonly by bonding heparin to circuit surfaces.",
+      "c": "Seeding circuit surfaces with endothelial cells has been done **experimentally** but has not yet been made practicable.",
+      "d": "Passivation of surfaces by denatured albumin, platelets and other deposits is **disadvantageous to gas exchange** in oxygenators."
     },
     "source": [
       {
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+        "loc": "p. 57, Protein Denaturation"
+      },
+      {
+        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
         "loc": "p. 62, Foreign Surfaces"
+      },
+      {
+        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+        "loc": "pp. 62-63, Heparin"
+      },
+      {
+        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+        "loc": "p. 63, Prevention of Undesirable Responses"
       }
     ]
   },
@@ -4462,83 +3601,6 @@
     ]
   },
   {
-    "id": "D-46",
-    "version": 1,
-    "topic": "Agents of Damage: Heparin",
-    "tags": [
-      "heparin",
-      "HIT",
-      "bivalirudin",
-      "argatroban",
-      "anticoagulation"
-    ],
-    "difficulty": 1,
-    "reviewed": false,
-    "stem": "A patient with heparin-induced thrombocytopenia (HIT) needs an operation with CPB. Which alternative anticoagulants does the source name?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "Protamine and aprotinin"
-      },
-      {
-        "id": "b",
-        "text": "Aprotinin and nifedipine"
-      },
-      {
-        "id": "c",
-        "text": "Methylene blue and vasopressin"
-      },
-      {
-        "id": "d",
-        "text": "Bivalirudin and argatroban"
-      },
-      {
-        "id": "e",
-        "text": "Methylprednisolone and omega-3 fatty acids"
-      }
-    ],
-    "answer": "d",
-    "explanation": [
-      {
-        "id": "answer",
-        "type": "callout",
-        "kind": "key",
-        "text": "Contraindications to unfractionated heparin are **HIT, heparin allergy or protamine allergy**; current alternatives are **bivalirudin and argatroban**."
-      },
-      {
-        "id": "damage",
-        "type": "list",
-        "items": [
-          "Imperfect anticoagulant: permits **microthrombi** in the pump-oxygenator that can embolize",
-          "Rarely, adverse effects such as **severe thrombocytopenia**"
-        ]
-      },
-      {
-        "id": "bonding",
-        "type": "p",
-        "text": "Efforts to avoid usual heparinization focus on biocompatible surfaces, most commonly by **bonding heparin** to them."
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "Contraindications to use of unfractionated heparin include HIT, heparin allergy, or protamine allergy. Currently, alternative agents are bivalirudin and argatroban.",
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 63"
-      }
-    ],
-    "choiceNotes": {
-      "a": "Protamine **reverses** heparin; aprotinin is listed among agents to reduce neutrophil activation.",
-      "b": "Aprotinin and nifedipine are listed among agents evaluated to reduce **neutrophil activation**.",
-      "c": "Methylene blue and vasopressin are used for **vasoplegia**.",
-      "e": "Corticosteroids and omega-3 fatty acids are listed among agents to reduce **neutrophil activation**."
-    },
-    "source": [
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 63, Heparin"
-      }
-    ]
-  },
-  {
     "id": "D-47",
     "version": 1,
     "topic": "Agents of Damage: Protamine",
@@ -4631,42 +3693,42 @@
     "topic": "Safe Duration of Total Cardiopulmonary Bypass",
     "tags": [
       "safe duration",
+      "total CPB",
       "partial CPB",
-      "ECMO",
-      "membrane oxygenator"
+      "oxygenator"
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "With a **true membrane oxygenator**, which statement about the **safe duration** of extracorporeal support is correct?",
+    "stem": "Which statement about the **safe duration of total CPB** is supported by the source?",
     "choices": [
       {
         "id": "a",
-        "text": "Partial CPB: days or weeks; total CPB: hours"
+        "text": "It is precisely defined and the same for every patient"
       },
       {
         "id": "b",
-        "text": "Total CPB: days or weeks; partial CPB: hours"
+        "text": "It is measured in days or weeks with a true membrane oxygenator"
       },
       {
         "id": "c",
-        "text": "Partial and total CPB: equally safe for days"
+        "text": "It is unaffected by the type of oxygenator used"
       },
       {
         "id": "d",
-        "text": "Total CPB: precisely defined limit of 2 hours"
+        "text": "It is the same as that of partial CPB"
       },
       {
         "id": "e",
-        "text": "Partial CPB: hours, the same as total CPB"
+        "text": "It is measured in hours, although not fully defined"
       }
     ],
-    "answer": "a",
+    "answer": "e",
     "explanation": [
       {
         "id": "answer",
         "type": "callout",
         "kind": "key",
-        "text": "Partial CPB is better tolerated: with a **true membrane oxygenator** its safe duration is **days or weeks**; safe **total** CPB is much shorter, **measured in hours**, and not fully defined."
+        "text": "Safe duration of **total** CPB is much shorter than that of partial CPB: it is **measured in hours**, although **not fully defined**; the safety of CPB is adversely affected by certain incremental risk factors."
       },
       {
         "id": "dur",
@@ -4709,10 +3771,10 @@
       }
     ],
     "choiceNotes": {
-      "b": "Partial CPB is **better tolerated** than total CPB; total CPB is the one measured in hours.",
-      "c": "Partial CPB is **better tolerated** than total CPB.",
-      "d": "The safe duration of total CPB is measured in hours but is **not fully defined**.",
-      "e": "With a true membrane oxygenator, safe partial CPB is measured in **days or weeks**, not hours."
+      "a": "The safe duration of total CPB is **not fully defined**, and the safety of CPB is adversely affected by certain incremental risk factors.",
+      "b": "Days or weeks applies to **partial** CPB with a true membrane oxygenator.",
+      "c": "Type of oxygenator is probably a risk factor: true membrane oxygenators are generally the **safest**, bubble oxygenators the least safe.",
+      "d": "Partial CPB is **better tolerated** than total CPB, and its safe duration is much longer."
     },
     "source": [
       {
