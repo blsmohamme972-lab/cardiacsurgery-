@@ -628,7 +628,8 @@ Touch: `--tap` (44px). Layout: `--maxw` (reading width ~72ch), `--header-h`, `--
 Brand ("Cardiac OR" identity, session 5): arterial crimson `--primary` `#a6192e` (light) / `#ff5a70` (dark);
 venous navy hero surfaces `--venous --venous-2 --hero-grad` with `--on-venous --on-venous-2` text; ECG trace `--ecg`
 (crimson-pink light, monitor green dark); scrub teal accent `--teal --teal-soft --teal-contrast`; `--brand-grad`;
-chart colours `--chart-1 --chart-2 --chart-track`. Steel-cool neutrals. Fonts: `--font-sans` = Inter (body/UI),
+chart colours `--chart-1 --chart-2 --chart-track` (single-series charts use `--chart-1`; retune the pair
+with the dataviz validator before any two-series chart — teal chroma is low in light mode). Steel-cool neutrals. Fonts: `--font-sans` = Inter (body/UI),
 `--font-display` = Manrope (headings, `.num-display` numbers). `base.css` provides `.num-display` and the decorative
 `.ecg-line` (+ `.ecg-line--sweep`, still with reduced motion). Brand classes in `shell.css`: `.brand-badge`,
 `.brand-mark` (`--full`), `.wordmark-accent` (the crimson "Klin" of the KirKlin wordmark). All text pairs ≥ 4.5:1 in both themes.
@@ -655,10 +656,10 @@ undoToast(message, onUndo)                      // 6s, "Undo" action
 sheet({ title, content /* Node */, actions /* Node[] */, onClose, size = 'm' /* full */ }) → { close, el }
   // bottom sheet on phone, centered dialog ≥700px; focus trap; Esc and backdrop close; returns focus
 confirmSheet({ title, text, confirmLabel, danger }) → Promise<boolean>   // only for irreversible actions
-emptyState({ icon, title, text, action /* Node */ }) → HTMLElement
+emptyState({ icon, title, text, action /* Node */ }) → HTMLElement   // badge with a decorative ECG trace
 progressBar(value /* 0..100 */, { label }) → HTMLElement
 ring(value, { size = 48, label }) → SVG-based HTMLElement
-chip(label, { kind /* neutral|success|danger|warning|info|primary */, icon }) → HTMLElement
+chip(label, { kind /* neutral|success|danger|warning|info|primary|teal */, icon }) → HTMLElement
 segmented({ options: [{value, label}], value, onChange, ariaLabel }) → HTMLElement
 toggle({ checked, onChange, label, description }) → HTMLElement
 listItem({ title, subtitle, icon, trailing, onClick, href }) → HTMLElement
