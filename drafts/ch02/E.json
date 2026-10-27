@@ -18,7 +18,7 @@
       },
       {
         "id": "b",
-        "text": "Decreased cerebral venous oxygen saturation (<50%) has been observed, mainly early in CPB"
+        "text": "Cerebral venous O~2~ saturation below 50% has been seen, mainly early in CPB"
       },
       {
         "id": "c",
@@ -123,7 +123,7 @@
       },
       {
         "id": "c",
-        "text": "Set the perfusion flow rate at a smaller value or use assisted venous return (vacuum or centrifugal pump)"
+        "text": "Set a lower perfusion flow rate or use assisted venous return"
       },
       {
         "id": "d",
@@ -164,7 +164,7 @@
         "id": "pitfall",
         "type": "callout",
         "kind": "pitfall",
-        "title": "Do not force flow through a small cannula",
+        "title": "Arterial line pressure",
         "text": "A properly positioned cannula of **adequate size** ensures proper arterial line pressure; above 250 to 300 mmHg the risk of line disruption and cavitation rises."
       },
       {
@@ -474,84 +474,6 @@
     ]
   },
   {
-    "id": "E-06",
-    "version": 1,
-    "topic": "Incision: Primary Median Sternotomy",
-    "tags": [
-      "median sternotomy",
-      "sternal saw",
-      "ventilation"
-    ],
-    "difficulty": 1,
-    "reviewed": false,
-    "stem": "While the surgeon divides the sternum with the saw during a primary median sternotomy, what should the anesthesiologist do?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "Hyperinflate the lungs to hold the pleura against the sternum"
-      },
-      {
-        "id": "b",
-        "text": "Continue normal ventilation, because the pleura is rarely entered"
-      },
-      {
-        "id": "c",
-        "text": "Give the full heparin dose so that cannulation can follow at once"
-      },
-      {
-        "id": "d",
-        "text": "Tilt the table head-down so the heart falls away from the sternum"
-      },
-      {
-        "id": "e",
-        "text": "Stop ventilating the patient and exert no pressure on the lungs"
-      }
-    ],
-    "answer": "e",
-    "explanation": [
-      {
-        "id": "answer",
-        "type": "callout",
-        "kind": "key",
-        "text": "During sawing, ventilation **stops** and **no pressure** is put on the lungs, so the **soft tissue and pleura fall away** from the sternum."
-      },
-      {
-        "id": "saw-steps",
-        "type": "list",
-        "items": [
-          "Blade held snugly against the **posterior** surface of the manubrium; toe of the saw kept **hugging the back** of the sternum",
-          "Stay precisely in the **midline**: drifting makes the sternum spread unevenly and closure harder",
-          "Alternative: divide **from the bottom up**; in neonates and infants, scissors may be used after excising the xiphoid"
-        ]
-      },
-      {
-        "id": "pitfall",
-        "type": "callout",
-        "kind": "pitfall",
-        "title": "Midline matters",
-        "text": "Drifting away from the midline must be avoided: the sternum will not spread evenly and its later closure will be more difficult."
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "During sawing, the anesthesiologist should cease ventilating the patient and exert no pressure on the lungs so that the soft tissue and pleura will fall away from the sternum.",
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 65"
-      }
-    ],
-    "choiceNotes": {
-      "a": "The lungs must **not** be pressurized; the aim is for the soft tissue and pleura to **fall away** from the sternum.",
-      "b": "Ventilation must **cease** during sawing so the pleura falls away from the sternum; infrequent pleural entry depends on a properly made incision.",
-      "c": "A baseline ACT is established **after** sternotomy, and heparin is given afterward.",
-      "d": "Head-down tilt is a **de-airing** step at the end of the repair, not a sternotomy step."
-    },
-    "source": [
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 65, Incision, Primary Median Sternotomy"
-      }
-    ]
-  },
-  {
     "id": "E-07",
     "version": 1,
     "topic": "Incision: Primary Median Sternotomy",
@@ -764,11 +686,11 @@
       },
       {
         "id": "b",
-        "text": "Place the aortic clamp downstream of the cannulation site"
+        "text": "Clamp the aorta distal (downstream) to the brachiocephalic artery orifice"
       },
       {
         "id": "c",
-        "text": "Position the aortic clamp proximal (upstream) to the orifice of the brachiocephalic artery"
+        "text": "Clamp the aorta proximal (upstream) to the brachiocephalic artery orifice"
       },
       {
         "id": "d",
@@ -833,7 +755,7 @@
     ],
     "choiceNotes": {
       "a": "Cannula siting aims to **prevent** the tip from entering the brachiocephalic artery.",
-      "b": "The clamp must lie **upstream** of the brachiocephalic orifice, so the cannula perfuses beyond it.",
+      "b": "Care is taken to position the aortic clamp **proximal (upstream)** to the orifice of the brachiocephalic artery, so the cannula lies beyond the clamp.",
       "d": "A pledgeted 3-0 polypropylene box stitch is an option when the aorta is **scarred from a previous operation**.",
       "e": "Purse strings must catch **only the adventitia** and must not penetrate into the lumen."
     },
@@ -875,7 +797,7 @@
       },
       {
         "id": "e",
-        "text": "Epiaortic ultrasound scanning to place cannulae and clamps where disease is minimal or absent"
+        "text": "Epiaortic ultrasound to site cannulae and clamps where disease is minimal"
       }
     ],
     "answer": "e",
@@ -973,7 +895,7 @@
       },
       {
         "id": "e",
-        "text": "300 to 400 units/kg, recheck ACT at 3 to 5 min, top up to ACT >400 s, then cannulate"
+        "text": "Heparin 300 to 400 units/kg; recheck ACT at 3 to 5 min; top up to >400 s"
       }
     ],
     "answer": "e",
@@ -1379,7 +1301,7 @@
     "choices": [
       {
         "id": "a",
-        "text": "Only 5 to 10 mm inside the aorta; an angled tip faces distally into the arch"
+        "text": "Only 5 to 10 mm of the cannula should project into the aorta"
       },
       {
         "id": "b",
@@ -1404,7 +1326,7 @@
         "id": "answer",
         "type": "callout",
         "kind": "key",
-        "text": "Only **5 to 10 mm** of cannula inside the aorta; an **angled** opening faces **distally into the arch**."
+        "text": "Care is taken that only **5 to 10 mm** of the aortic cannula projects into the aorta."
       },
       {
         "id": "steps",
@@ -1459,105 +1381,6 @@
       "c": "Clamps are removed if a **roller pump** is used, but **not** if the arterial pump is of the controlled vortex (centrifugal) type.",
       "d": "The arterial cannula is connected to the arterial tubing and **carefully de-aired**.",
       "e": "The adventitia **within the purse string** is incised and the stab wound is made within it."
-    },
-    "source": [
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 68, Arterial Cannulation"
-      }
-    ]
-  },
-  {
-    "id": "E-16",
-    "version": 1,
-    "topic": "Arterial Cannulation",
-    "tags": [
-      "neonate",
-      "aortic cannulation",
-      "side-biting clamp"
-    ],
-    "difficulty": 2,
-    "reviewed": false,
-    "stem": "In a neonate, the ascending aorta is cannulated after applying a fine **side-biting (Cooley or Castaneda) clamp** and opening the excluded portion with a knife. Why is this technique considered safe in small patients?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "The neonatal aortic wall is thin, so a clamp compresses it without crushing"
-      },
-      {
-        "id": "b",
-        "text": "The technique avoids the need for any purse-string suture"
-      },
-      {
-        "id": "c",
-        "text": "It allows the cannula tip to lie in the brachiocephalic artery"
-      },
-      {
-        "id": "d",
-        "text": "All aortic layers are thicker, so the excluding clamp will not damage the intima"
-      },
-      {
-        "id": "e",
-        "text": "It is the only aortic cannulation technique usable in neonates"
-      }
-    ],
-    "answer": "d",
-    "explanation": [
-      {
-        "id": "answer",
-        "type": "callout",
-        "kind": "key",
-        "text": "In neonates, infants, and small children, **all aortic layers are thicker**, so a side-biting excluding clamp **does not damage the intima**."
-      },
-      {
-        "id": "tech",
-        "type": "flow",
-        "steps": [
-          {
-            "text": "Fine **side-biting clamp** excludes part of the aorta"
-          },
-          {
-            "text": "Excluded aorta opened **longitudinally** with a knife"
-          },
-          {
-            "text": "Purse string positioned"
-          },
-          {
-            "text": "Cannula inserted while the clamp is released"
-          }
-        ],
-        "title": "Neonatal side-clamp technique"
-      },
-      {
-        "id": "tips",
-        "type": "table",
-        "head": [
-          "Cannula type",
-          "Final position"
-        ],
-        "rows": [
-          [
-            "Long tip beyond the collar",
-            "Tip in the **transverse arch**, beyond the brachiocephalic origin"
-          ],
-          [
-            "Very short tip beyond the collar",
-            "Cannula **perpendicular** to the aorta"
-          ]
-        ]
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "All layers of the aorta, including the adventitia, are thicker in these small patients, and an excluding clamp will not damage the intima.",
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 68"
-      }
-    ],
-    "choiceNotes": {
-      "a": "The source states that all layers of the aorta are **thicker** in these small patients.",
-      "b": "A purse-string stitch is **still positioned** before the cannula tip is inserted.",
-      "c": "A long-tip cannula is positioned in the **transverse arch, safely beyond** the origin of the brachiocephalic artery.",
-      "e": "The standard purse-string and stab technique may also be used in **adults, children, infants, and neonates**."
     },
     "source": [
       {
@@ -1847,7 +1670,7 @@
       },
       {
         "id": "d",
-        "text": "Heart rate slows and contraction is impaired, so the arterial pump must reach full flow rapidly"
+        "text": "Heart rate slows and contraction is impaired; full pump flow is needed rapidly"
       },
       {
         "id": "e",
@@ -2041,7 +1864,7 @@
         "id": "answer",
         "type": "callout",
         "kind": "key",
-        "text": "Before opening the left atrium of a beating heart, **reduce venous drainage** so venous pressure and cardiac blood volume **rise**; air then cannot easily enter and embolize."
+        "text": "In a **beating** heart with the aorta **unclamped**, air introduced during vent insertion can **embolize to the brain**; therefore venous drainage is **reduced** to raise venous pressure and the **blood volume in the heart** before the incision."
       },
       {
         "id": "vent",
@@ -2078,7 +1901,7 @@
       }
     ],
     "choiceNotes": {
-      "b": "An empty beating heart can draw in air; the source **reduces** venous drainage to increase blood volume in the heart.",
+      "b": "The source does the opposite: venous pressure is **increased by reducing venous drainage**, to increase blood volume in the heart.",
       "c": "With the pulmonary trunk, drainage and decompression of the left heart **may be suboptimal**.",
       "d": "The left hand is placed **behind the heart** to palpate the tip and guide it through the mitral valve.",
       "e": "The stitch **should not** be large enough to compromise the pulmonary vein orifice when tied."
@@ -2377,32 +2200,32 @@
     "topic": "Conduct of CPB",
     "tags": [
       "rewarming",
-      "heat exchanger",
-      "temperature afterdrop"
+      "temperature drift",
+      "weaning from CPB"
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "Rewarming is begun after most of the repair is complete. Which set of temperature targets is recommended?",
+    "stem": "Rewarming on CPB is nearly complete after a hypothermic repair. Before CPB is discontinued, which practice does the source describe as **advantageous**, and why?",
     "choices": [
       {
         "id": "a",
-        "text": "Water 45°C; arterial blood not above 41°C; nasopharynx at 37°C when stopping CPB"
+        "text": "Stop CPB once the nasopharynx reaches 34°C, since temperature drifts upward after bypass"
       },
       {
         "id": "b",
-        "text": "Water 42°C; arterial blood up to 42°C; nasopharynx at 35°C when stopping CPB"
+        "text": "Hold the bladder temperature at 39°C for 10 minutes, to store heat in muscle and fat"
       },
       {
         "id": "c",
-        "text": "Water 39°C; arterial blood not above 37°C; nasopharynx at 34°C when stopping CPB"
+        "text": "Stop CPB as soon as the arterial blood reaches 37°C, whatever the nasopharynx shows"
       },
       {
         "id": "d",
-        "text": "Water 42°C; arterial blood not above 39°C; nasopharynx at 37°C for about 10 minutes before stopping CPB"
+        "text": "Hold the nasopharynx at 37°C for about 10 minutes, to limit downward drift after bypass"
       },
       {
         "id": "e",
-        "text": "Water 42°C; arterial blood not above 39°C; stop CPB as soon as the nasopharynx reaches 34°C"
+        "text": "Wean from CPB as rewarming begins, and complete warming after bypass"
       }
     ],
     "answer": "d",
@@ -2411,55 +2234,63 @@
         "id": "answer",
         "type": "callout",
         "kind": "key",
-        "text": "Rewarm with water at **42°C**, keep arterial blood **≤39°C**, and hold the nasopharynx at **37°C for about 10 minutes** before stopping CPB."
+        "text": "It is **advantageous but not essential** to have the **nasopharyngeal** temperature at **37°C for about 10 minutes** before CPB is discontinued, to avoid **excessive downward temperature drift** after bypass."
       },
       {
-        "id": "targets",
-        "type": "table",
-        "head": [
-          "Measure",
-          "Target"
-        ],
-        "rows": [
-          [
-            "Heat-exchanger water",
-            "**42°C**"
-          ],
-          [
-            "Arterial blood",
-            "Not above **39°C**"
-          ],
-          [
-            "Nasopharynx before stopping CPB",
-            "**37°C** for about **10 minutes**"
-          ]
-        ],
-        "caption": "Rewarming"
+        "id": "seq",
+        "type": "flow",
+        "title": "Rewarming to weaning",
+        "steps": [
+          {
+            "text": "Most or all of the repair completed"
+          },
+          {
+            "label": "timing depends on myocardial management",
+            "text": "**Rewarming** begun"
+          },
+          {
+            "text": "Heat-exchanger water 42°C; arterial blood not above 39°C"
+          },
+          {
+            "label": "about 10 min",
+            "text": "Nasopharynx held at **37°C**"
+          },
+          {
+            "text": "Flow gradually decreased until right and left atrial and aortic pressures are adequate"
+          },
+          {
+            "text": "CPB discontinued"
+          }
+        ]
       },
       {
-        "id": "why",
+        "id": "pearl",
         "type": "callout",
         "kind": "pearl",
-        "title": "Why wait 10 minutes?",
-        "text": "To avoid **excessive downward temperature drift** in the postbypass period; this is advantageous but not essential."
+        "title": "Which temperature?",
+        "text": "The source times the end of rewarming by the **nasopharyngeal** temperature: CPB is discontinued once the patient has been rewarmed to a nasopharyngeal temperature of **37°C**."
       },
       {
         "id": "quote",
         "type": "quote",
-        "text": "For rewarming, the water in the heat exchanger is raised to 42°C; the arterial blood temperature should not exceed 39°C.",
+        "text": "It is advantageous but not essential to have the nasopharyngeal temperature at 37°C for about 10 minutes before CPB is discontinued, lest there be excessive downward temperature drift in the postbypass period.",
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 69"
       }
     ],
     "choiceNotes": {
-      "a": "The heat-exchanger water is raised to **42°C**, and arterial blood should **not exceed 39°C**.",
-      "b": "Arterial blood should not exceed **39°C**, and the nasopharyngeal target before stopping is **37°C**.",
-      "c": "Water is raised to **42°C**; the nasopharynx should reach **37°C**.",
-      "e": "It is advantageous to hold the nasopharynx at **37°C for about 10 minutes** before stopping, to avoid downward temperature drift."
+      "a": "The target is a nasopharyngeal temperature of **37°C**, and the concern after bypass is **downward** temperature drift.",
+      "b": "The source's target is the **nasopharyngeal** temperature at **37°C** for about 10 minutes; it gives no bladder target.",
+      "c": "CPB is discontinued after rewarming to a **nasopharyngeal** temperature of 37°C.",
+      "e": "Rewarming is completed **on CPB**: CPB is discontinued when the nasopharyngeal temperature has reached 37°C."
     },
     "source": [
       {
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
         "loc": "p. 69, Cardiopulmonary Bypass During Operation and Rewarming"
+      },
+      {
+        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+        "loc": "p. 70, Completing Cardiopulmonary Bypass"
       }
     ]
   },
@@ -2514,8 +2345,7 @@
           "**Aspirate** residual air **before** the heart ejects",
           "**Intermittently ventilate** the lungs to express air from the pulmonary veins",
           "**Continuous suction** on an ascending aortic needle vent (or a freely bleeding stab wound) as ejection begins"
-        ],
-        "ordered": true
+        ]
       },
       {
         "id": "why",
@@ -2660,7 +2490,7 @@
     "choices": [
       {
         "id": "a",
-        "text": "It is most valuable with small incisions or limited left heart mobilization"
+        "text": "It is of particular value with small incisions or limited left heart mobilization"
       },
       {
         "id": "b",
@@ -2685,7 +2515,7 @@
         "id": "answer",
         "type": "callout",
         "kind": "key",
-        "text": "TEE is **most valuable** with **small incisions**, when the left heart is **not fully mobilized**, or when usual maneuvers (LV aspiration and manipulation) **cannot be used**."
+        "text": "TEE is **of particular value** with **small incisions**, when the left heart is **not fully mobilized**, or when usual maneuvers (LV aspiration and manipulation) **cannot be used**."
       },
       {
         "id": "tee",
@@ -2708,7 +2538,7 @@
             "**Low probability** of detectable damage"
           ],
           [
-            "Best use",
+            "Of particular value",
             "**Small incisions**, limited mobilization, no LV aspiration/manipulation"
           ]
         ],
@@ -2939,98 +2769,6 @@
     ]
   },
   {
-    "id": "E-32",
-    "version": 1,
-    "topic": "Positioning Chest Tubes",
-    "tags": [
-      "chest tubes",
-      "pleural space",
-      "internal thoracic artery"
-    ],
-    "difficulty": 1,
-    "reviewed": false,
-    "stem": "During CABG through a median sternotomy, the left pleural space is opened while dissecting the left internal thoracic artery. Which chest tube plan follows the source?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "After protamine, place a pleural tube with its tip well posterior and inferior"
-      },
-      {
-        "id": "b",
-        "text": "Before weaning from CPB, place a pleural tube with its tip at the apex"
-      },
-      {
-        "id": "c",
-        "text": "After protamine, place a pleural tube with its tip anterior and superior"
-      },
-      {
-        "id": "d",
-        "text": "Before heparin is given, place all tubes so that later bleeding is avoided"
-      },
-      {
-        "id": "e",
-        "text": "No pleural tube is needed, because the pericardium is left open"
-      }
-    ],
-    "answer": "a",
-    "explanation": [
-      {
-        "id": "answer",
-        "type": "callout",
-        "kind": "key",
-        "text": "Chest tubes go in **after CPB is discontinued and protamine has been given**; an opened pleura gets a tube with its tip **well posterior and inferior**."
-      },
-      {
-        "id": "tubes",
-        "type": "table",
-        "head": [
-          "Situation",
-          "Tubes"
-        ],
-        "rows": [
-          [
-            "Pleura not entered",
-            "One or two: **anterior mediastinum** ± **inferior-posterior pericardial** tube"
-          ],
-          [
-            "Pleura entered (e.g., LITA dissection)",
-            "Pleural tube, tip **well posterior and inferior**; exit epigastrium or lateral chest wall"
-          ]
-        ],
-        "caption": "Chest tube placement"
-      },
-      {
-        "id": "why",
-        "type": "callout",
-        "kind": "pearl",
-        "title": "Timing",
-        "text": "Placing tubes after CPB and protamine **avoids unnecessary bleeding**."
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "If a pleural space has been entered, as often occurs when the left internal thoracic artery is dissected from the parasternal area, a tube is positioned with the tip well posterior and inferior in the pleural space",
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 71"
-      }
-    ],
-    "choiceNotes": {
-      "b": "Tubes are placed **after CPB is discontinued and protamine given**, and the pleural tip goes **posterior and inferior**.",
-      "c": "The tip goes **well posterior and inferior** to ensure maximum fluid removal.",
-      "d": "Tubes are placed **after** CPB and protamine to avoid unnecessary bleeding.",
-      "e": "If a pleural space has been entered, a **pleural tube is positioned**."
-    },
-    "source": [
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 70, Positioning Chest Tubes"
-      },
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 71, Positioning Chest Tubes"
-      }
-    ]
-  },
-  {
     "id": "E-33",
     "version": 1,
     "topic": "Completing Operation",
@@ -3049,7 +2787,7 @@
       },
       {
         "id": "b",
-        "text": "It reduces the tendency of retained blood to create positive intrapericardial pressure"
+        "text": "It reduces the tendency of retained blood to raise intrapericardial pressure"
       },
       {
         "id": "c",
@@ -3607,7 +3345,7 @@
         "items": [
           "**At least two** cardiotomy suction ports",
           "Blood passes a **low-porosity filter** and is **defoamed** in a separate chamber open to air",
-          "Aspirate pericardial blood **promptly** (stagnant blood can promote thrombolysis)",
+          "Aspirate pericardial blood **promptly** during the perfusion",
           "Ideal: variable high-capacity vacuum; in practice: **roller pumps** with constant monitoring"
         ]
       },
@@ -3620,7 +3358,7 @@
     ],
     "choiceNotes": {
       "a": "This blood may contain particulate matter and air; it must pass a **low-porosity filter** and be **defoamed** before return.",
-      "b": "Blood left too long in the pericardium before being aspirated can **promote thrombolysis**; aspirate promptly.",
+      "b": "During the perfusion, blood should be **promptly aspirated** from the pericardium with the cardiotomy suckers.",
       "d": "The circuit should generally contain **at least two** cardiotomy suction ports.",
       "e": "Such a vacuum system would be ideal but has proved **impractical**, so **roller pumps** are used."
     },
@@ -3752,7 +3490,7 @@
       },
       {
         "id": "c",
-        "text": "Fewer neurologic events, transfusions, and troponin; same early mortality"
+        "text": "Fewer neurologic events and transfusions, lower troponin; same early mortality"
       },
       {
         "id": "d",
@@ -3783,7 +3521,7 @@
           [
             "Neurologic events",
             "3.4%",
-            "**0.73%**"
+            "**Reduced** (odds ratio 0.30)"
           ],
           [
             "Patients transfused",
@@ -4151,7 +3889,7 @@
       },
       {
         "id": "b",
-        "text": "Brain blood flow during otherwise whole-body circulatory arrest"
+        "text": "It avoids malperfusion from retrograde femoral flow"
       },
       {
         "id": "c",
@@ -4172,7 +3910,7 @@
         "id": "answer",
         "type": "callout",
         "kind": "key",
-        "text": "Axillary cannulation avoids **malperfusion**, maintains **brain blood flow** during otherwise whole-body circulatory arrest, and presumably avoids **retrograde particulate embolization**."
+        "text": "In an existing dissection, retrograde femoral flow may cause **central malperfusion**; axillary cannulation offers **absence of malperfusion**, **brain blood flow** during otherwise whole-body arrest, and presumably no **retrograde particulate embolization**."
       },
       {
         "id": "cmp",
@@ -4352,41 +4090,41 @@
     "topic": "Peripheral Cannulation",
     "tags": [
       "peripheral cannulation",
-      "percutaneous cannulation",
-      "vacuum-assisted venous return"
+      "indications",
+      "percutaneous interventions"
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "Which statement about the **indications and technique** of peripheral cannulation for CPB is correct?",
+    "stem": "Indications for **peripheral cannulation** for CPB have expanded beyond reoperations. Which is one of the indications listed in the source?",
     "choices": [
       {
         "id": "a",
-        "text": "Peripheral cannulation is limited to reoperative sternotomy"
+        "text": "Routine primary CABG in a patient with a normal ascending aorta"
       },
       {
         "id": "b",
-        "text": "A centrifugal pump or VAVR allows smaller (22F or 24F) venous cannulae"
+        "text": "Very small infants, in whom the femoral vessels are easily accessible"
       },
       {
         "id": "c",
-        "text": "Only the arterial side can be cannulated percutaneously"
+        "text": "Routine primary median sternotomy operations in small children"
       },
       {
         "id": "d",
-        "text": "Percutaneous venous drainage requires cannulae of 32F or larger"
+        "text": "Support of high-risk patients during percutaneous catheter interventions"
       },
       {
         "id": "e",
-        "text": "It is not used to resuscitate cardiac surgical patients"
+        "text": "Avoiding systemic heparin in patients at high risk of bleeding"
       }
     ],
-    "answer": "b",
+    "answer": "d",
     "explanation": [
       {
         "id": "answer",
         "type": "callout",
         "kind": "key",
-        "text": "Percutaneous CPB works with **smaller 22F or 24F venous cannulae** when a **controlled vortex (centrifugal) pump or VAVR** is used."
+        "text": "Peripheral cannulation is now also used for **small midline or lateral chest incisions**, **resuscitation** of preoperative and postoperative cardiac surgical patients, and **support of high-risk patients during percutaneous catheter interventions**."
       },
       {
         "id": "ind",
@@ -4420,26 +4158,46 @@
         ]
       },
       {
+        "id": "percutaneous",
+        "type": "p",
+        "text": "Both arterial and venous cannulation can be done **percutaneously**; the pump-oxygenator is then used with a **controlled vortex pump or VAVR**, which permits **smaller venous cannulae**."
+      },
+      {
+        "id": "pitfall",
+        "type": "callout",
+        "kind": "pitfall",
+        "title": "Femoral (retrograde) perfusion",
+        "text": "May cause **peripheral embolization**, **local thrombosis**, or **aortic dissection**, and **central malperfusion** in an existing acute or chronic dissection."
+      },
+      {
         "id": "quote",
         "type": "quote",
-        "text": "In this setting, the pump-oxygenator should be used with a controlled vortex pump or VAVR, which permits use of smaller (22F or 24F) venous cannulae.",
+        "text": "resuscitation of preoperative and postoperative cardiac surgical patients, and support of high-risk patients during percutaneous catheter interventions.",
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 74"
       }
     ],
     "choiceNotes": {
-      "a": "Indications have **expanded** to small midline or lateral incisions, resuscitation, and support during percutaneous catheter interventions.",
-      "c": "**Both** arterial and venous cannulation can be accomplished percutaneously.",
-      "d": "A controlled vortex pump or VAVR permits **smaller (22F or 24F)** venous cannulae.",
-      "e": "**Resuscitation** of preoperative and postoperative cardiac surgical patients is an indication."
+      "a": "Antegrade perfusion from the ascending aorta is **preferred**; peripheral cannulation is chosen when, for example, an atheromatous aorta precludes it.",
+      "b": "In **very small patients**, peripheral cannulation is **not practical**; brachiocephalic artery and IVC cannulation is used instead.",
+      "c": "For primary median sternotomy the source describes **central** aortic and venous cannulation, and in very small patients peripheral cannulation is **not practical**.",
+      "e": "Peripheral cannulation is done **after heparin** is given (femoral and axillary techniques alike)."
     },
     "source": [
       {
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 73, Indications"
+        "loc": "pp. 73–74, Indications"
       },
       {
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 74, Indications"
+        "loc": "p. 73, Techniques to Minimize or Avoid Particulate Embolization"
+      },
+      {
+        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+        "loc": "p. 73, Femoral Cannulation; Other Sites"
+      },
+      {
+        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+        "loc": "p. 68, Arterial Cannulation; Venous Cannulation"
       }
     ]
   },
@@ -4779,7 +4537,7 @@
           "Single venous cannula: the left SVC is **no problem**",
           "Bicaval: pick up left SVC flow with the **septal sump** or a sucker in the **coronary sinus ostium**",
           "Brief **tourniquet** occlusion when right atrial exposure is suboptimal",
-          "Direct cannula: purse string where the vein enters the pericardium **lateral to the left atrial appendage**, easiest after CPB starts and before the RA is opened; **essential** if cardioplegia is given **retrogradely** into the coronary sinus",
+          "Direct cannula: purse string where the vein enters the pericardium **lateral to the left atrial appendage**, most easily done after CPB is established but before the RA is opened",
           "Three cannulae → **two Y connectors**"
         ]
       },
@@ -4818,15 +4576,15 @@
     "choices": [
       {
         "id": "a",
-        "text": "The hepatic veins always drain through the IVC, so they never affect cannulation"
+        "text": "They drain through the IVC and so do not affect venous cannulation"
       },
       {
         "id": "b",
-        "text": "Anomalous hepatic veins attach only to the right atrium"
+        "text": "They are managed on principles different from those for a left SVC"
       },
       {
         "id": "c",
-        "text": "Anomalous hepatic veins always join as a single confluent trunk"
+        "text": "They pose no challenge for CPB, unlike a left SVC"
       },
       {
         "id": "d",
@@ -4887,9 +4645,9 @@
       }
     ],
     "choiceNotes": {
-      "a": "The hepatic veins may attach to the atria **independently of the IVC attachment**.",
-      "b": "They may attach to the right atrium **or even the left atrium**.",
-      "c": "They may attach as a single confluent trunk **or as several separate veins**.",
+      "a": "The hepatic veins may attach to the atria **independently of the IVC attachment**, which affects venous cannulation.",
+      "b": "The **same** concerns, considerations, and management options as described for the left SVC are applied.",
+      "c": "Hepatic venous anomalies can present **similar challenges** to a left SVC, particularly in heterotaxy.",
       "e": "A **left SVC** is the most common systemic venous anomaly that influences CPB management."
     },
     "source": [
@@ -5087,108 +4845,6 @@
     ]
   },
   {
-    "id": "E-55",
-    "version": 1,
-    "topic": "Alternative Primary Incisions",
-    "tags": [
-      "right anterolateral thoracotomy",
-      "phrenic nerve",
-      "atrial septal defect"
-    ],
-    "difficulty": 2,
-    "reviewed": false,
-    "stem": "A young woman with developing breasts is to undergo ASD repair through a **right anterolateral thoracotomy**. Which statement about the set-up is correct?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "The chest is entered through the second intercostal space"
-      },
-      {
-        "id": "b",
-        "text": "The pericardium is incised vertically, 1 to 2 cm anterior and parallel to the phrenic nerve"
-      },
-      {
-        "id": "c",
-        "text": "A single-lumen tube is used, with both lungs ventilated throughout"
-      },
-      {
-        "id": "d",
-        "text": "The patient lies flat, with the right arm abducted above the head"
-      },
-      {
-        "id": "e",
-        "text": "The groins are excluded from the field, since peripheral cannulation is not used"
-      }
-    ],
-    "answer": "b",
-    "explanation": [
-      {
-        "id": "answer",
-        "type": "callout",
-        "kind": "key",
-        "text": "Through a right anterolateral thoracotomy, the pericardium is opened **vertically, 1 to 2 cm anterior and parallel to the phrenic nerve**."
-      },
-      {
-        "id": "setup",
-        "type": "list",
-        "items": [
-          "**Fourth or fifth** intercostal space; skin incision to the **anterior axillary line**",
-          "**Double-lumen** tube; right lung collapsed and retracted posteriorly",
-          "Right side **elevated 30 to 40 degrees**; right arm flexed at the side",
-          "**Groins draped** into the field",
-          "Aorta cannulated on its **right anterolateral** aspect; cavae directly or via a long femoral venous cannula"
-        ]
-      },
-      {
-        "id": "uses",
-        "type": "mindmap",
-        "center": "Right anterolateral thoracotomy",
-        "branches": [
-          {
-            "text": "Uses",
-            "children": [
-              "Cosmesis in young women",
-              "Mitral and tricuspid valve operations",
-              "ASD repair",
-              "Redo tricuspid or mitral operations"
-            ]
-          },
-          {
-            "text": "Strength",
-            "children": [
-              "Excellent access to both atria"
-            ]
-          },
-          {
-            "text": "Limits",
-            "children": [
-              "Restricted field",
-              "Ascending aortic cannulation may be difficult → femoral or axillary artery"
-            ]
-          }
-        ]
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "The collapsed lung is gently retracted posteriorly, and the pericardium is incised vertically 1 to 2 cm anterior and parallel to the phrenic nerve.",
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 75"
-      }
-    ],
-    "choiceNotes": {
-      "a": "The approach is through the **fourth or fifth** intercostal space.",
-      "c": "A **double-lumen** tube permits collapse of the right lung for better exposure.",
-      "d": "The **right side is elevated 30 to 40 degrees**, and the right arm is flexed at the elbow and kept at the side.",
-      "e": "The **groins are draped into the field**; femoral or axillary cannulation may be needed."
-    },
-    "source": [
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 75, Right Anterolateral Thoracotomy"
-      }
-    ]
-  },
-  {
     "id": "E-56",
     "version": 1,
     "topic": "Alternative Primary Incisions",
@@ -5263,6 +4919,13 @@
         "kind": "pitfall",
         "title": "Why not let it beat?",
         "text": "A beating, ejecting heart with an open left side can **eject air into the ascending aorta**."
+      },
+      {
+        "id": "approach",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "Right anterolateral thoracotomy",
+        "text": "Through the **fourth or fifth** intercostal space it gives **excellent access to both atria**; the pericardium is opened **1 to 2 cm anterior and parallel to the phrenic nerve**. When the aorta is inaccessible or carries previous bypass grafts, the **common femoral or axillary artery** is used."
       },
       {
         "id": "quote",
