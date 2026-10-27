@@ -954,7 +954,9 @@ export const REPORT_REASONS = ['Wrong answer', 'Unclear question', 'Typo or form
 export function openReportSheet(question)               // reason + optional text → reportsRepo
 export function createReviewerPanel(question) → HTMLElement   // reviewer mode: Approve / Needs fix + comment
 export async function exportReviewFile() → { blob, filename }  // reviews + reports JSON
-export function unreviewedBadge(question) → HTMLElement | null  // chip "Not yet reviewed" when reviewed === false
+export function unreviewedBadge(question) → HTMLElement | null  // chip "Not yet reviewed" when reviewed === false AND
+                                                                // reviewerMode is on (owner: learners never see it); the
+                                                                // builder shows the 'unreviewed' filter only in reviewer mode
 ```
 Review file: `{ type: 'cardiac-mcq-review', formatVersion: 1, appVersion, exportedAt, reviews: [...], reports: [...] }`.
 

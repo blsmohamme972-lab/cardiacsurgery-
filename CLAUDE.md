@@ -33,7 +33,7 @@ iPad/iPhone not tested yet.
 - **Features in v1**: practice (tutor) mode, timed exam mode, custom quiz
   builder, spaced repetition review, strike-through choices, statistics,
   search, bookmarks, notes, voice notes, highlights, drawing, scratchpad,
-  read aloud (device voice), Ask GPT, report a problem, reviewer mode, "not yet reviewed" badge,
+  read aloud (device voice), Ask GPT, report a problem, reviewer mode (with a reviewer-only "not yet reviewed" badge),
   shuffled choices, resume, first-run tour, backup export/import.
 - **Images**: supported inside questions/explanations (from the owner's
   sources). **User-added images: yes, in the scratchpad** (owner request 2026-10-26:
@@ -147,7 +147,8 @@ The owner requires **extreme user-friendliness** in every screen and feature:
 - Target: **5000+ board-level MCQs**.
 - Language: **English only**, for both the UI and the questions. No Arabic UI, no RTL.
 - Questions are **AI-generated** and carry `"reviewed": false` until a specialist
-  reviews them (then `"reviewed": true`).
+  reviews them (then `"reviewed": true`). **Owner decision (2026-10-27): learners never see a
+  "Not yet reviewed" label** — the chip and the "Unreviewed" quiz filter appear only in Reviewer mode.
 
 ## Sources (strict)
 

@@ -18,7 +18,7 @@
  */
 'use strict';
 
-const VERSION = '2026.10.27-1';
+const VERSION = '2026.10.27-2';
 
 /** Every cache this app creates starts with this prefix (other apps may share the origin). */
 const CACHE_PREFIX = 'cmcq-';

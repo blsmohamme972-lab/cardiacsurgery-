@@ -96,7 +96,9 @@ function initialState(query, valid) {
     if (list.length && list.length < valid.size) chapters = list;
   }
 
-  const filter = isFilter(query.filter) ? query.filter : isFilter(saved.filter) ? saved.filter : 'all';
+  const picked = isFilter(query.filter) ? query.filter : isFilter(saved.filter) ? saved.filter : 'all';
+  // 'unreviewed' is a reviewer-only filter; learners never see it.
+  const filter = picked === 'unreviewed' && getSetting('reviewerMode') !== true ? 'all' : picked;
   const rawMode = query.mode ?? saved.mode;
   const mode = rawMode === 'exam' ? 'exam' : 'tutor';
 
@@ -227,7 +229,8 @@ export default {
     const filterSeg = segmented({
       ariaLabel: 'Which questions',
       value: state.filter,
-      options: FILTERS.map((f) => ({ value: f, label: /** @type {Record<string, string>} */ (FILTER_LABELS)[f] })),
+      options: FILTERS.filter((f) => f !== 'unreviewed' || getSetting('reviewerMode') === true)
+        .map((f) => ({ value: f, label: /** @type {Record<string, string>} */ (FILTER_LABELS)[f] })),
       onChange: (v) => {
         state.filter = v;
         onChange();

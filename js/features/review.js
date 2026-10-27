@@ -23,6 +23,7 @@ import { reportsRepo, reviewsRepo } from '../core/store/repo.js';
 import { APP_VERSION } from '../version.js';
 import { button, chip, sheet, toast, undoToast } from '../ui/components.js';
 import { icon } from '../ui/icons.js';
+import { getSetting } from '../core/settings.js';
 
 /**
  * @typedef {import('../core/data.js').Question} Question
@@ -520,8 +521,8 @@ export async function exportReviewFile({ now = Date.now() } = {}) {
 // ---------------------------------------------------------------------------
 
 /**
- * A "Not yet reviewed" chip (warning) for a question with `reviewed: false`,
- * or `null` otherwise. The chip is a small button: its accessible name and
+ * A "Not yet reviewed" chip (warning) for a question with `reviewed: false`
+ * while Reviewer mode is on, or `null` otherwise (learners never see it). The chip is a small button: its accessible name and
  * tooltip explain that the question is AI-generated and not yet checked by a
  * specialist; tapping it shows the same explanation as a toast (touch has no hover).
  *
@@ -530,6 +531,8 @@ export async function exportReviewFile({ now = Date.now() } = {}) {
  */
 export function unreviewedBadge(question) {
   if (!question || /** @type {any} */ (question).reviewed !== false) return null;
+  // Owner decision (2026-10-27): learners never see this label; only specialists in Reviewer mode do.
+  if (getSetting('reviewerMode') !== true) return null;
   const el = h(
     'button',
     {

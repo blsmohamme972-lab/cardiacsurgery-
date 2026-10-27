@@ -398,7 +398,8 @@ try {
       // Reviewer panel (stale state) + badge.
       await page.evaluate(async (q) => {
         const { createReviewerPanel, unreviewedBadge } = await import('../../js/features/review.js');
-        document.getElementById('mount').replaceChildren(unreviewedBadge(q), createReviewerPanel(q));
+        // The badge shows only in Reviewer mode (learners never see it).
+        document.getElementById('mount').replaceChildren(...[unreviewedBadge(q), createReviewerPanel(q)].filter(Boolean));
       }, QUESTION);
       await page.waitForSelector('.rv-panel.is-stale');
       await page.waitForTimeout(100);

@@ -849,98 +849,90 @@
     },
     {
       "id": "DEMO-0009",
-      "version": 1,
-      "topic": "Question quality",
+      "version": 2,
+      "topic": "Report a problem",
       "tags": [
-        "review",
         "report a problem"
       ],
       "difficulty": 2,
       "reviewed": false,
       "demo": true,
-      "stem": "This question shows a small **Not yet reviewed** chip. What does it tell you?",
+      "stem": "You think the keyed answer of a question is **wrong**. What is the quickest way to flag it?",
       "choices": [
         {
           "id": "a",
-          "text": "You have not answered it yet"
+          "text": "Bookmark it and hope you remember later"
         },
         {
           "id": "b",
-          "text": "You skipped its explanation"
+          "text": "Write it in a text note on the question"
         },
         {
           "id": "c",
-          "text": "It is new in the latest update"
+          "text": "Delete the question from your device"
         },
         {
           "id": "d",
-          "text": "Other users reported it as wrong"
+          "text": "Answer it again until it shows correct"
         },
         {
           "id": "e",
-          "text": "It was written with AI help, and a specialist has not checked it yet"
+          "text": "Open **More** -> _Report a problem_ and pick a reason"
         }
       ],
       "answer": "e",
       "explanation": [
         {
-          "id": "journey-title",
+          "id": "report-title",
           "type": "heading",
-          "text": "From draft to checked"
+          "text": "Flag it in two taps"
         },
         {
-          "id": "journey",
+          "id": "report-steps",
           "type": "flow",
-          "title": "A question's journey",
+          "title": "Report a problem",
           "steps": [
             {
-              "text": "Written with AI help, only from the owner's study sources"
+              "text": "Open the **More** menu on the question"
             },
             {
-              "label": "ships as",
-              "text": "`\"reviewed\": false` -> chip shown"
+              "label": "tap",
+              "text": "_Report a problem_"
             },
             {
-              "label": "a specialist reads it",
-              "text": "Reviewer decision"
+              "label": "pick",
+              "text": "A reason, plus an optional note"
             },
             {
-              "branches": [
-                {
-                  "label": "Approve",
-                  "text": "`\"reviewed\": true`, chip gone"
-                },
-                {
-                  "label": "Needs fix",
-                  "text": "Corrected, then checked again"
-                }
-              ]
+              "label": "saved",
+              "text": "On your device, ready for a reviewer to export"
             }
           ]
         },
         {
-          "id": "report",
+          "id": "report-reasons",
           "type": "callout",
           "kind": "key",
-          "title": "Spotted a mistake?",
+          "title": "Reasons you can pick",
           "items": [
-            "Open the **More** menu -> _Report a problem_.",
-            "Pick a reason: _Wrong answer_, _Unclear question_, _Typo or formatting_, _Explanation problem_ or _Other_.",
-            "Add a note if you like. The report is saved on your device."
+            "_Wrong answer_",
+            "_Unclear question_",
+            "_Typo or formatting_",
+            "_Explanation problem_",
+            "_Other_"
           ]
         },
         {
           "id": "reviewers",
           "type": "p",
-          "text": "Specialists can turn on **Reviewer mode** in _Settings_ to approve questions and export their decisions as a file."
+          "text": "Specialists can turn on **Reviewer mode** in _Settings_ to approve questions and export their decisions and your reports as a file."
         }
       ],
       "choiceNotes": {
-        "a": "Your own progress shows in rings and stats, not in this chip.",
-        "b": "The app does not track whether you read explanations.",
-        "c": "New questions look like any other. The chip is about checking, not age.",
-        "d": "Reports stay on the device of the person who made them.",
-        "e": "Once a specialist approves it, the chip disappears in a later update."
+        "a": "A bookmark saves the question for you, but it doesn't record what is wrong.",
+        "b": "A note is private study text; a report keeps the reason in one list a reviewer can export.",
+        "c": "Questions can't be deleted; progress is kept by question ID.",
+        "d": "Answering again only changes your own statistics."
       },
       "source": [
         {
