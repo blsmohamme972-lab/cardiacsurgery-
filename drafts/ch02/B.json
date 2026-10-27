@@ -14,7 +14,7 @@
     "choices": [
       {
         "id": "a",
-        "text": "The brain's safe time is shortest, yet the kidney is sometimes damaged alone"
+        "text": "Brain's safe time is shortest; the kidney is occasionally damaged when the brain is not"
       },
       {
         "id": "b",
@@ -157,7 +157,7 @@
       },
       {
         "id": "e",
-        "text": "Seizures or choreoathetosis, linked to high neonatal receptor density in the basal ganglia"
+        "text": "Seizures or choreoathetosis, possibly related to high basal ganglia receptor density"
       }
     ],
     "answer": "e",
@@ -236,203 +236,102 @@
     ]
   },
   {
-    "id": "B-03",
-    "version": 1,
-    "topic": "Temperature and Duration",
-    "tags": [
-      "temperature monitoring",
-      "nasopharyngeal temperature",
-      "brain temperature"
-    ],
-    "difficulty": 1,
-    "reviewed": false,
-    "stem": "While cooling a patient for planned hypothermic circulatory arrest, the team wants the temperature that best reflects **mean brain temperature**. Which monitoring sites should be used whenever possible?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "Tympanic membrane and nasopharynx"
-      },
-      {
-        "id": "b",
-        "text": "Rectum and bladder"
-      },
-      {
-        "id": "c",
-        "text": "Midesophagus and rectum"
-      },
-      {
-        "id": "d",
-        "text": "Extremity skin and bladder"
-      },
-      {
-        "id": "e",
-        "text": "Midesophagus and extremity skin"
-      }
-    ],
-    "answer": "a",
-    "explanation": [
-      {
-        "id": "answer",
-        "type": "callout",
-        "kind": "key",
-        "text": "Temperature of the ==tympanic membrane and nasopharynx== most closely resembles **mean brain temperature**, so these sites should be used whenever possible."
-      },
-      {
-        "id": "problem",
-        "type": "p",
-        "text": "Most clinical studies of temperature and safe arrest time are **flawed** by lack of information on the temperature of the brain itself and by the **variety of measurement sites** used."
-      },
-      {
-        "id": "sites",
-        "type": "table",
-        "head": [
-          "Site",
-          "Reflects mean brain temperature?"
-        ],
-        "rows": [
-          [
-            "**Tympanic membrane**",
-            "**Yes**: most closely"
-          ],
-          [
-            "**Nasopharynx**",
-            "**Yes**: most closely"
-          ],
-          [
-            "Rectum, midesophagus, bladder, extremity skin",
-            "Little consistent correlation between some sites"
-          ]
-        ],
-        "emphasis": {
-          "row": 0
-        }
-      },
-      {
-        "id": "pearl",
-        "type": "callout",
-        "kind": "pearl",
-        "title": "In practice",
-        "text": "The source's estimates of safe arrest time (Fig. 2.9) are expressed at **nasopharyngeal** temperatures."
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "temperature of the tympanic membrane and nasopharynx most closely resembles mean temperature of the brain",
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 34"
-      }
-    ],
-    "choiceNotes": {
-      "b": "There is little consistent correlation between some measurement sites; **tympanic membrane and nasopharynx** most closely resemble mean brain temperature.",
-      "c": "These are among the varied sites used, but the source names **tympanic membrane and nasopharynx** as closest to mean brain temperature.",
-      "d": "Extremity skin and bladder are listed only among the varied sites; they are not the ones that best resemble brain temperature.",
-      "e": "Neither is named as resembling mean brain temperature; the source recommends **tympanic membrane and nasopharynx**."
-    },
-    "source": [
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 34, Temperature and Duration"
-      },
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 42, Safe Duration of Circulatory Arrest (Fig. 2.9)"
-      }
-    ]
-  },
-  {
     "id": "B-04",
     "version": 1,
     "topic": "Temperature and Duration",
     "tags": [
+      "safe arrest time",
+      "brain temperature",
       "ATP",
-      "brain metabolism",
       "circulatory arrest duration"
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "During a 30-minute period of circulatory arrest with the brain cooled to 15°C–20°C, what happens to **brain ATP** concentration?",
+    "stem": "An aortic arch repair is planned with the brain cooled to **15°C–20°C**. Based on the animal experiments and clinical experience cited in the source, which statement about the **duration of circulatory arrest** is correct?",
     "choices": [
       {
         "id": "a",
-        "text": "It falls to 20% of control values, signaling impending cell death"
+        "text": "Arrest of 45 minutes has been securely shown to be free of damage"
       },
       {
         "id": "b",
-        "text": "It falls to 35% of initial values and recovers rapidly on reperfusion"
+        "text": "Brain ATP stays at its initial level throughout a 30-minute arrest"
       },
       {
         "id": "c",
-        "text": "It remains unchanged, because cerebral metabolism is fully suppressed"
+        "text": "Arrest of 30 minutes or less is tolerated without evident damage"
       },
       {
         "id": "d",
-        "text": "It declines and then fails to recover in about half of the subjects"
+        "text": "Brain ATP fails to recover on reperfusion after a 30-minute arrest"
       },
       {
         "id": "e",
-        "text": "It declines to 35% and keeps falling during early reperfusion"
+        "text": "Arrest of 60 minutes at 15°C–18°C is consistently free of damage"
       }
     ],
-    "answer": "b",
+    "answer": "c",
     "explanation": [
       {
         "id": "answer",
         "type": "callout",
         "kind": "key",
-        "text": "With the brain at 15°C–20°C, ATP falls to ==35% of initial values== during 30 minutes of arrest but **returns rapidly to normal** during reperfusion."
+        "text": "When the brain is cooled to ==15°C–20°C==, circulatory arrest of ==30 minutes or less== is tolerated **without evident structural or functional damage**."
       },
       {
         "id": "duration",
         "type": "table",
+        "caption": "Temperature and duration (brain at 15°C–20°C)",
         "head": [
-          "Arrest with brain at 15°C–20°C",
+          "Arrest duration",
           "What the source reports"
         ],
         "rows": [
           [
             "**≤ 30 min**",
-            "Tolerated without evident structural or functional damage; ATP 35% -> rapid recovery"
+            "Tolerated without evident damage; ATP falls to 35% of initial values but **returns rapidly to normal** on reperfusion"
           ],
           [
             "**45 min**",
-            "Evidence of safety **less secure**"
+            "Evidence of safety is **less secure**"
           ],
           [
             "**≥ 60 min** (15°C–18°C)",
-            "Associated with irreversible structural or functional damage; after 60 min, ATP **did not recover** in 2 of 4 animals (experimental)"
+            "Associated with **irreversible** structural or functional damage, though tolerated by some subjects under some circumstances"
           ]
         ],
-        "caption": "Temperature and duration",
         "emphasis": {
           "row": 0
         }
       },
       {
+        "id": "experimental",
+        "type": "p",
+        "text": "In experimental studies, **histologic** anoxic brain damage was found in **all** animals after 45–60 minutes of hypothermic arrest, although some survived without evident functional abnormality."
+      },
+      {
         "id": "pitfall",
         "type": "callout",
         "kind": "pitfall",
-        "text": "Do not confuse with the **kidney**: a rapid fall of ATP to **20%** of control indicates impending renal cell death in normothermic renal ischemia."
+        "text": "A fall in ATP during a 30-minute arrest is expected; what matters is its **rapid recovery** during reperfusion."
       },
       {
         "id": "quote",
         "type": "quote",
-        "text": "During such a period, adenosine triphosphate (ATP) concentrations decline to 35% of initial values but return rapidly to normal during reperfusion.",
+        "text": "when the brain is cooled to 15°C to 20°C, circulatory arrest of 30 minutes or less is tolerated without development of evident structural or functional damage.",
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 34"
       }
     ],
     "choiceNotes": {
-      "a": "A rapid fall of ATP to 20% of control values is the indicator of impending **renal** cell death in normothermic kidney ischemia, not this brain finding.",
-      "c": "ATP does **decline**, to 35% of initial values, during such a period.",
-      "d": "Failure of ATP recovery in half (2 of 4) of animals was seen after **60 minutes** of hypothermic arrest, not 30.",
-      "e": "After 30 minutes at 15°C–20°C, ATP **returns rapidly to normal** during reperfusion."
+      "a": "Evidence that circulatory arrest of **45 minutes** at these temperatures is safe is **less secure**.",
+      "b": "ATP concentrations **decline to 35%** of initial values during such a period.",
+      "d": "ATP **returns rapidly to normal** during reperfusion after such a period; failure of ATP recovery (2 of 4 animals) was seen after **60 minutes** of arrest.",
+      "e": "Arrest of **60 minutes or more** at 15°C–18°C is associated with **irreversible** structural or functional damage, although some subjects may tolerate it."
     },
     "source": [
       {
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
         "loc": "p. 34, Temperature and Duration"
-      },
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 35, Temperature and Duration"
       }
     ]
   },
@@ -445,9 +344,9 @@
       "safe arrest time",
       "brain injury"
     ],
-    "difficulty": 3,
+    "difficulty": 2,
     "reviewed": false,
-    "stem": "In experimental studies, histologic evidence of anoxic brain damage was found in **all** animals after 45–60 minutes of hypothermic circulatory arrest, yet some survived without evident functional abnormality. According to the source, which is the **most sensitive indicator** that an arrest period was not completely safe?",
+    "stem": "According to the source's synthesis on the safe duration of circulatory arrest, which finding is the **most sensitive indicator** that an arrest period was not completely safe?",
     "choices": [
       {
         "id": "a",
@@ -536,115 +435,6 @@
       {
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
         "loc": "p. 42, Fig. 2.9"
-      }
-    ]
-  },
-  {
-    "id": "B-06",
-    "version": 1,
-    "topic": "Temperature and Duration",
-    "tags": [
-      "aortic arch",
-      "stroke",
-      "circulatory arrest duration",
-      "adult"
-    ],
-    "difficulty": 2,
-    "reviewed": false,
-    "stem": "In 394 patients undergoing aortic arch replacement with hypothermic circulatory arrest as the **sole means of brain preservation**, the stroke rate was about 13% in patients whose arrest exceeded a certain duration, versus 3.3% with shorter arrests. What was that duration?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "20 minutes"
-      },
-      {
-        "id": "b",
-        "text": "30 minutes"
-      },
-      {
-        "id": "c",
-        "text": "50 minutes"
-      },
-      {
-        "id": "d",
-        "text": "60 minutes"
-      },
-      {
-        "id": "e",
-        "text": "40 minutes"
-      }
-    ],
-    "answer": "e",
-    "explanation": [
-      {
-        "id": "answer",
-        "type": "callout",
-        "kind": "key",
-        "text": "Strokes occurred in ==13% (8 of 61)== when hypothermic circulatory arrest exceeded **40 minutes**, versus **3.3% (10 of 333)** with shorter arrest intervals."
-      },
-      {
-        "id": "gega",
-        "type": "table",
-        "head": [
-          "Arrest duration",
-          "Strokes",
-          "Rate"
-        ],
-        "rows": [
-          [
-            "**> 40 min**",
-            "8 of 61",
-            "**13%**"
-          ],
-          [
-            "Shorter",
-            "10 of 333",
-            "3.3%"
-          ]
-        ],
-        "caption": "Aortic arch replacement, circulatory arrest alone",
-        "emphasis": {
-          "row": 0
-        }
-      },
-      {
-        "id": "summary",
-        "type": "callout",
-        "kind": "pearl",
-        "title": "The source's summary",
-        "text": "Intervals of hypothermic circulatory arrest of **40 minutes or more** are associated with brain injury in **infants, children, and adults**."
-      },
-      {
-        "id": "contrast",
-        "type": "callout",
-        "kind": "pitfall",
-        "text": "Some clinical series (e.g., arrest of 14–109 minutes at a mean nasopharyngeal temperature of 16.9°C) found no clinical brain damage attributed to arrest, but **comprehensive neuropsychometric studies were not undertaken**."
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "In summary, there is increasing evidence that intervals of hypothermic circulatory arrest of 40 minutes or more are associated with brain injury in infants, children, and adults.",
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 40"
-      }
-    ],
-    "choiceNotes": {
-      "a": "The series compared arrest **longer than 40 minutes** (13% strokes) with shorter intervals (3.3%).",
-      "b": "30 minutes is the arrest tolerated without evident damage with the brain at 15°C–20°C; the stroke cut point in this series was **40 minutes**.",
-      "c": "Arrest over 50 minutes was a risk factor for delirium after pulmonary thromboendarterectomy; the stroke cut point here was **40 minutes**.",
-      "d": "Above 60 minutes, the prevalence of **temporary** neurologic dysfunction rises substantially; the stroke cut point here was **40 minutes**."
-    },
-    "source": [
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 35, Temperature and Duration"
-      },
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 39, Evidence of Gross Neurologic Damage"
-      },
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 40, Postoperative Intellectual Capacity"
       }
     ]
   },
@@ -784,7 +574,7 @@
       },
       {
         "id": "c",
-        "text": "PND: a focal or global deficit with corresponding CT defects that persist at hospital discharge"
+        "text": "PND: a focal or global deficit with CT defects that persist at discharge"
       },
       {
         "id": "d",
@@ -863,100 +653,6 @@
     ]
   },
   {
-    "id": "B-09",
-    "version": 1,
-    "topic": "Characteristics of the Cooling Process",
-    "tags": [
-      "cooling",
-      "uneven brain cooling",
-      "perfusate temperature"
-    ],
-    "difficulty": 3,
-    "reviewed": false,
-    "stem": "In dogs undergoing 30 minutes of hypothermic circulatory arrest, brain damage was seen when cooling on CPB used perfusate **20°C colder** than the animal, but was believed not to occur when the blood was only **4°C–6°C colder**. Which explanation does the source suggest?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "The cold perfusate directly triggered glutamate release"
-      },
-      {
-        "id": "b",
-        "text": "Short cooling with very cold blood caused uneven brain cooling"
-      },
-      {
-        "id": "c",
-        "text": "Cerebral blood flow was reduced during rewarming"
-      },
-      {
-        "id": "d",
-        "text": "High tissue glucose caused excessive glycolysis during arrest"
-      },
-      {
-        "id": "e",
-        "text": "The very cold blood lengthened the total cooling time"
-      }
-    ],
-    "answer": "b",
-    "explanation": [
-      {
-        "id": "answer",
-        "type": "callout",
-        "kind": "key",
-        "text": "The damage was probably related to the ==short cooling period== with very cold blood, which produced **uneven brain cooling**."
-      },
-      {
-        "id": "gradient",
-        "type": "table",
-        "head": [
-          "Perfusate vs subject",
-          "Cooling period",
-          "Brain cooling",
-          "Damage"
-        ],
-        "rows": [
-          [
-            "**20°C colder**",
-            "Short",
-            "**Uneven**",
-            "Structural and functional"
-          ],
-          [
-            "**4°C–6°C colder**",
-            "Longer",
-            "More **uniform**",
-            "Not seen (investigators' view)"
-          ]
-        ],
-        "caption": "Dog experiments, 30-minute arrest"
-      },
-      {
-        "id": "principle",
-        "type": "callout",
-        "kind": "pearl",
-        "title": "Principle",
-        "text": "**Uneven cooling of the brain** is probably a risk factor for brain damage, although the evidence is largely indirect."
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "The longer period of cooling required with the blood only 4°C to 6°C colder than the subject probably produced more uniform cooling.",
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 35"
-      }
-    ],
-    "choiceNotes": {
-      "a": "Glutamate excitotoxicity is described under the biochemical milieu with energy depletion; it is not the source's explanation for this finding.",
-      "c": "Reduced flow during rewarming is a separate observation; the source attributes this finding to **uneven cooling** from a short cooling period.",
-      "d": "Glucose-driven lactic acidosis is a separate biochemical risk; it is not the explanation offered here.",
-      "e": "The opposite: very cold blood required a **short** cooling period; the 4°C–6°C gradient required the **longer** one."
-    },
-    "source": [
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 35, Characteristics of the Cooling Process"
-      }
-    ]
-  },
-  {
     "id": "B-10",
     "version": 1,
     "topic": "Characteristics of the Cooling Process",
@@ -969,7 +665,7 @@
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "In 218 young patients undergoing repair of VSD, tetralogy of Fallot, transposition or AV septal defect with hypothermic circulatory arrest (mean arrest about 42 minutes, mean temperature 19.7°C in both groups), how did the **cooling method** relate to major neurologic events?",
+    "stem": "In a reported series of 218 young patients undergoing repair of VSD, tetralogy of Fallot, transposition or AV septal defect with hypothermic circulatory arrest (mean arrest about 42 minutes, mean temperature 19.7°C in both groups), how did the **cooling method** relate to major neurologic events?",
     "choices": [
       {
         "id": "a",
@@ -1172,7 +868,7 @@
     "choiceNotes": {
       "a": "A **parallel reduction** in cerebral oxygen consumption and blood flow is what normally occurs during cooling.",
       "b": "Coupling maintained at low temperatures with alpha-stat management was the usual finding, not a marker of vulnerability.",
-      "c": "Electrocerebral silence before arrest accompanied the **longest** recorded safe arrests in adults.",
+      "c": "In one study, electrocerebral silence for 3 minutes before arrest accompanied the **longest** recorded safe arrests in adults; it is not a marker of vulnerability.",
       "d": "The role of hypotension during CPB in neurologic dysfunction **now appears less certain**."
     },
     "source": [
@@ -1242,6 +938,11 @@
         "text": "In gerbils, flow during rewarming was **lower** after 48 minutes of total cessation of cerebral blood flow at 18°C than after continued hypothermic perfusion."
       },
       {
+        "id": "adults",
+        "type": "p",
+        "text": "In one study of adults undergoing elective CABG (with or without valve replacement), the **severity of postoperative cognitive decline** was related to a **greater arteriovenous oxygen content difference** (radial artery vs jugular venous blood) **during rewarming**, which was associated with **low jugular venous saturation** and **low cerebral blood flow**."
+      },
+      {
         "id": "quote",
         "type": "quote",
         "text": "In infants, cerebral blood flow is reduced during rewarming immediately after hypothermic circulatory arrest and after achieving normothermia.",
@@ -1262,95 +963,6 @@
       {
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
         "loc": "p. 36, Fig. 2.3"
-      }
-    ]
-  },
-  {
-    "id": "B-13",
-    "version": 1,
-    "topic": "Cerebral Blood Flow During Cooling and Rewarming",
-    "tags": [
-      "rewarming",
-      "cognitive decline",
-      "CABG",
-      "oxygen extraction"
-    ],
-    "difficulty": 3,
-    "reviewed": false,
-    "stem": "Among 255 adults undergoing elective CABG with or without valve replacement, postoperative cognitive function declined in 38%. The **severity** of decline was related to which finding?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "A smaller radial artery–jugular venous O~2~ content difference during rewarming"
-      },
-      {
-        "id": "b",
-        "text": "A greater radial artery–jugular venous O~2~ content difference during rewarming"
-      },
-      {
-        "id": "c",
-        "text": "A higher jugular venous oxygen saturation during rewarming"
-      },
-      {
-        "id": "d",
-        "text": "A greater radial artery–jugular venous O~2~ content difference during cooling"
-      },
-      {
-        "id": "e",
-        "text": "A higher cerebral blood flow during rewarming"
-      }
-    ],
-    "answer": "b",
-    "explanation": [
-      {
-        "id": "answer",
-        "type": "callout",
-        "kind": "key",
-        "text": "Severity of cognitive decline was related to a ==greater arteriovenous oxygen content difference== (radial artery vs jugular venous blood) **during rewarming**."
-      },
-      {
-        "id": "chain",
-        "type": "table",
-        "head": [
-          "During rewarming",
-          "Associated with"
-        ],
-        "rows": [
-          [
-            "**Greater** arteriovenous O~2~ content difference (more O~2~ extraction)",
-            "**More severe** postoperative cognitive decline"
-          ],
-          [
-            "The increased O~2~ extraction",
-            "**Low** jugular venous O~2~ saturation and **low** cerebral blood flow"
-          ]
-        ],
-        "caption": "255 adults, CABG with or without valve replacement"
-      },
-      {
-        "id": "pearl",
-        "type": "callout",
-        "kind": "pearl",
-        "title": "Clinical message",
-        "text": "Rewarming is a vulnerable phase **with or without** circulatory arrest: reduced cerebral flow during rewarming occurs in humans during cardiac surgery and may affect outcomes."
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "The severity of decline was related to greater arteriovenous oxygen content difference between radial artery and jugular venous blood",
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 36"
-      }
-    ],
-    "choiceNotes": {
-      "a": "Severity was related to a **greater** arteriovenous difference (more oxygen extraction).",
-      "c": "The increased extraction was associated with **low** jugular venous oxygen saturation.",
-      "d": "The relationship was reported for the **rewarming** phase.",
-      "e": "The increased extraction was associated with **low** cerebral blood flow."
-    },
-    "source": [
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 35, Cerebral Blood Flow During Cooling and Rewarming"
       },
       {
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
@@ -1364,33 +976,33 @@
     "topic": "Biochemical Milieu",
     "tags": [
       "glucose",
-      "pump prime",
+      "glycolysis",
       "lactic acidosis",
       "biochemical milieu"
     ],
-    "difficulty": 1,
+    "difficulty": 2,
     "reviewed": false,
-    "stem": "Before neonatal repair with planned hypothermic circulatory arrest, the perfusionist proposes a **glucose-containing pump prime**. Which response is supported by the source?",
+    "stem": "Brain tissue glucose is increased, as is usual, at the start of a planned period of hypothermic circulatory arrest. By which mechanism does the source suggest this may **damage tissue** during the arrest?",
     "choices": [
       {
         "id": "a",
-        "text": "Use glucose, because it keeps brain ATP normal throughout a long arrest"
+        "text": "It raises cerebral oxygen extraction before the arrest begins"
       },
       {
         "id": "b",
-        "text": "Glucose is acceptable, because the biochemical milieu does not affect outcome"
+        "text": "It shifts the brain toward alkalosis during the arrest period"
       },
       {
         "id": "c",
-        "text": "Avoid glucose only because it raises cerebral blood flow during cooling"
+        "text": "It promotes red cell sludging and the no-reflow phenomenon"
       },
       {
         "id": "d",
-        "text": "Avoid glucose in prime and IV fluids: risk of excess glycolysis and lactic acid"
+        "text": "It fuels excessive glycolysis, with lactic acid accumulation"
       },
       {
         "id": "e",
-        "text": "Use glucose, because tissue glucose is usually low when arrest begins"
+        "text": "It restores glutamate reuptake, overexciting its receptors"
       }
     ],
     "answer": "d",
@@ -1399,11 +1011,12 @@
         "id": "answer",
         "type": "callout",
         "kind": "key",
-        "text": "It is ==imprudent to use glucose solutions== for the prime or IV infusion when circulatory arrest is planned: **increased tissue glucose** may cause **lactic acid** injury during the arrest."
+        "text": "Increased tissue glucose at the start of arrest may lead to ==excessive glycolysis and acidosis== during the arrest, possibly causing **tissue damage from lactic acid accumulation**."
       },
       {
         "id": "glucose",
         "type": "flow",
+        "title": "Glucose and the arrest period",
         "steps": [
           {
             "text": "**Increased tissue glucose** at the start of arrest (usual)"
@@ -1423,32 +1036,28 @@
         "id": "rule",
         "type": "callout",
         "kind": "pearl",
-        "title": "Practical rule",
-        "text": "No glucose in the **pump-oxygenator prime** and no glucose **IV infusion** when a period of circulatory arrest is contemplated."
+        "title": "Practical consequence",
+        "text": "This possibility makes it **imprudent** to use glucose solutions for priming the pump-oxygenator and for intravenous infusion when a period of circulatory arrest is contemplated."
       },
       {
         "id": "ph",
         "type": "p",
-        "text": "Arterial **pH and PCO~2~** during cooling may affect brain tissue directly or via cerebral blood flow, but any effect on neurologic outcome is **uncertain**."
+        "text": "The biochemical milieu is incompletely understood: arterial **pH and PCO~2~** during cooling may affect brain tissue directly or via cerebral blood flow, but any effect on neurologic outcome is **uncertain**."
       },
       {
         "id": "quote",
         "type": "quote",
-        "text": "This possibility makes it imprudent to use glucose solutions for priming the pump-oxygenator and for intravenous infusion when a period of circulatory arrest is contemplated.",
+        "text": "increased tissue glucose, such as is usually present at the beginning of the arrest period, may lead to excessive glycolysis and acidosis during the arrest period",
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 36"
       }
     ],
     "choiceNotes": {
-      "a": "Brain ATP declines during arrest; increased tissue glucose may instead lead to excessive glycolysis and **lactic acid** accumulation.",
-      "b": "The biochemical milieu is listed among risk factors for brain damage; the glucose concern makes its use **imprudent**.",
-      "c": "The source's reason is excessive glycolysis and acidosis during the arrest, not cerebral blood flow.",
-      "e": "Increased tissue glucose is **usually present** at the beginning of the arrest period."
+      "a": "Increased oxygen extraction before arrest suggests **inadequate cerebral blood flow** for metabolic needs; the source does not attribute it to glucose.",
+      "b": "The concern is the opposite: **acidosis** from lactic acid accumulation.",
+      "c": "No-reflow relates to vascular changes and red cells in the perfusate (eliminated by hemodilution); the glucose concern is **glycolysis and acidosis**.",
+      "e": "Glutamate injury occurs when energy-dependent reuptake is **compromised**, not restored; it is not the glucose mechanism."
     },
     "source": [
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 34, Brain Function and Structure: Risk Factors for Damage"
-      },
       {
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
         "loc": "p. 36, Biochemical Milieu"
@@ -1527,6 +1136,11 @@
         "id": "glu",
         "type": "p",
         "text": "**Glutamate** is the major transmitter mediating synaptic excitation in the mammalian central nervous system; this process was seen in experimental animals after **2 hours** of circulatory arrest."
+      },
+      {
+        "id": "apoptosis",
+        "type": "p",
+        "text": "Experimentally, **apoptosis** (programmed cell death) has been demonstrated in the neocortex after hypothermic circulatory arrest (piglets, 90 minutes at 19°C), with damaged neurons seen **8 to 72 hours after reperfusion**."
       },
       {
         "id": "quote",
@@ -1648,106 +1262,6 @@
     ]
   },
   {
-    "id": "B-17",
-    "version": 1,
-    "topic": "Biochemical Milieu",
-    "tags": [
-      "apoptosis",
-      "caspase",
-      "neocortex",
-      "experimental"
-    ],
-    "difficulty": 3,
-    "reviewed": false,
-    "stem": "In piglets subjected to hypothermic circulatory arrest for 90 minutes at 19°C, **apoptosis** was demonstrated in the neocortex. Which finding accompanied it?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "Caspases 3 and 8 were substantially elevated, with ATP similar to controls"
-      },
-      {
-        "id": "b",
-        "text": "ATP was markedly depleted compared with controls, while caspase levels were normal"
-      },
-      {
-        "id": "c",
-        "text": "Damaged neurons appeared only during the arrest, before any reperfusion"
-      },
-      {
-        "id": "d",
-        "text": "Caspase levels were similar to those of animals on CPB without arrest"
-      },
-      {
-        "id": "e",
-        "text": "Glutamate excitotoxicity caused neuronal necrosis but not apoptosis"
-      }
-    ],
-    "answer": "a",
-    "explanation": [
-      {
-        "id": "answer",
-        "type": "callout",
-        "kind": "key",
-        "text": "Neocortical apoptosis after 90 minutes of arrest at 19°C came with ==elevated caspase 3 and caspase 8==, while **ATP levels were similar** to controls."
-      },
-      {
-        "id": "apoptosis",
-        "type": "table",
-        "head": [
-          "Feature",
-          "Finding"
-        ],
-        "rows": [
-          [
-            "Model",
-            "Piglets, hypothermic arrest **90 min at 19°C**"
-          ],
-          [
-            "Site",
-            "**Neocortex**"
-          ],
-          [
-            "Timing",
-            "Damaged neurons **8–72 h after reperfusion**"
-          ],
-          [
-            "Caspases 3 and 8",
-            "**Substantially elevated** (principal cysteine proteases of apoptosis)"
-          ],
-          [
-            "ATP",
-            "**Similar** to controls (no CPB, or CPB without arrest)"
-          ]
-        ],
-        "caption": "Programmed cell death"
-      },
-      {
-        "id": "pitfall",
-        "type": "callout",
-        "kind": "pitfall",
-        "text": "In this model, **delayed** neuronal death occurred even though **ATP levels were similar to controls**."
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "Caspase 3 and caspase 8, the principal cysteine proteases involved in apoptosis, were substantially elevated in these animals compared to control animals",
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 36"
-      }
-    ],
-    "choiceNotes": {
-      "b": "ATP levels were **similar** to controls, and caspases 3 and 8 were **substantially elevated**.",
-      "c": "Damaged neurons were observed **between 8 and 72 hours after reperfusion**.",
-      "d": "Caspases were elevated compared with control animals, which included **CPB without circulatory arrest**.",
-      "e": "Glutamate excitotoxicity secondary to hypothermic arrest mediates neuronal **apoptosis as well as necrosis**."
-    },
-    "source": [
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 36, Biochemical Milieu"
-      }
-    ]
-  },
-  {
     "id": "B-18",
     "version": 1,
     "topic": "Electroencephalography (EEG)",
@@ -1823,7 +1337,7 @@
         "type": "callout",
         "kind": "pearl",
         "title": "Why it matters",
-        "text": "The longest recorded durations of safe arrest in adults were when a full formal EEG had shown electrocerebral silence **for 3 minutes before the arrest**."
+        "text": "In one study, the longest recorded durations of safe arrest in adults were when a full formal EEG had shown electrocerebral silence **for 3 minutes before the arrest**."
       },
       {
         "id": "quote",
@@ -1869,7 +1383,7 @@
       },
       {
         "id": "c",
-        "text": "Only 60% reach electrocerebral silence by 18°C or 30 minutes of cooling"
+        "text": "More than 30% of adults still show EEG brain activity at 18°C"
       },
       {
         "id": "d",
@@ -1886,16 +1400,15 @@
         "id": "answer",
         "type": "callout",
         "kind": "key",
-        "text": "Only ==60%== of adults reached electrocerebral silence by a nasopharyngeal temperature of **18°C** or **30 minutes** of cooling; the response to cooling is highly variable."
+        "text": "Duration of cooling needed to reach electrocerebral silence is **variable** in adult aortic surgery: ==more than 30%== of patients still show brain activity on EEG at **18°C**, and in **10%** silence is not obtained even below 10°C."
       },
       {
         "id": "data",
         "type": "list",
         "items": [
-          "Mean temperature at silence **17.8°C** (range 12.5°C–27.2°C).",
-          "**12.5°C** was sufficient to produce silence in **all** patients in this study.",
-          "**More than 30%** show brain activity on EEG even at 18°C.",
-          "In **10%**, silence is not obtained even below **10°C**."
+          "In one study of 109 adults: mean temperature at silence **17.8°C** (range 12.5°C–27.2°C); only **60%** had silence by 18°C or 30 minutes of cooling.",
+          "**12.5°C** was sufficient to produce silence in **all** patients in that study.",
+          "In **10%** of patients, silence is not obtained even below **10°C**."
         ]
       },
       {
@@ -1927,12 +1440,12 @@
       {
         "id": "quote",
         "type": "quote",
-        "text": "Only 60% of patients demonstrated electrocerebral silence by either a nasopharyngeal temperature of 18°C or a cooling time of 30 minutes.",
+        "text": "more than 30% of patients exhibit brain activity on EEG even at a temperature of 18°C; in 10% of patients, electrocerebral silence is not obtained even after core temperature below 10°C.",
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 37"
       }
     ],
     "choiceNotes": {
-      "a": "Only 60% reached silence by 18°C or 30 minutes; **more than 30%** still show EEG activity at 18°C.",
+      "a": "Duration of cooling to electrocerebral silence is **variable**: more than 30% still show EEG activity at 18°C (in one study only 60% had silence by 18°C or 30 minutes of cooling).",
       "b": "The reverse: cooling to an endpoint such as electrocerebral silence gives a **more reproducible** effect than cooling to a specific temperature.",
       "d": "17.8°C was the **mean** temperature at silence; the **optimal** temperature for arrest **could not be determined**.",
       "e": "In **10%** of patients, electrocerebral silence is **not obtained** even below 10°C."
@@ -2027,6 +1540,11 @@
         "text": "For these reasons, EEG monitoring is used **less often** in clinical practice nowadays."
       },
       {
+        "id": "bis",
+        "type": "p",
+        "text": "The **bispectral index (BIS)**, a 0–100 number from automated EEG analysis mainly used for awareness and depth of anesthesia, is used by some centers during thoracic aortic surgery but has the **same limitations as the standard EEG**."
+      },
+      {
         "id": "quote",
         "type": "quote",
         "text": "the EEG monitors only the superficial layers of the cerebral cortex on the crests of gyri directly abutting the skull; ischemia in deep brain regions, including the subcortex, may be undetected.",
@@ -2043,104 +1561,10 @@
       {
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
         "loc": "p. 38, Electroencephalography (EEG)"
-      }
-    ]
-  },
-  {
-    "id": "B-21",
-    "version": 1,
-    "topic": "Bispectral Index (BIS)",
-    "tags": [
-      "BIS",
-      "neuromonitoring",
-      "anesthesia depth"
-    ],
-    "difficulty": 1,
-    "reviewed": false,
-    "stem": "Some centers use the **bispectral index (BIS)** to monitor cerebral protection during thoracic aortic surgery. Which statement about BIS is correct?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "It derives from automated EEG analysis and shares EEG's limitations"
       },
-      {
-        "id": "b",
-        "text": "A BIS value of 100 indicates complete brain inactivity"
-      },
-      {
-        "id": "c",
-        "text": "It measures blood flow in the middle cerebral artery"
-      },
-      {
-        "id": "d",
-        "text": "It measures regional cerebral oxygen saturation from hemoglobin absorption"
-      },
-      {
-        "id": "e",
-        "text": "Its main established use is detecting cerebral emboli"
-      }
-    ],
-    "answer": "a",
-    "explanation": [
-      {
-        "id": "answer",
-        "type": "callout",
-        "kind": "key",
-        "text": "BIS is a dimensionless number from ==automated EEG analysis==, mainly used for **awareness and depth of anesthesia**, and it has the **same limitations as the standard EEG**."
-      },
-      {
-        "id": "bis",
-        "type": "table",
-        "head": [
-          "Feature",
-          "BIS"
-        ],
-        "rows": [
-          [
-            "Derived from",
-            "Automated EEG analysis (frequency, phase, power spectrum)"
-          ],
-          [
-            "Scale",
-            "**0** = complete brain inactivity; **100** = awake and alert"
-          ],
-          [
-            "Main use",
-            "Intraoperative **awareness** and **depth of anesthesia**"
-          ],
-          [
-            "Limitations",
-            "**Same as standard EEG**"
-          ]
-        ]
-      },
-      {
-        "id": "pitfall",
-        "type": "callout",
-        "kind": "pitfall",
-        "text": "Automating the EEG does not fix its blind spot: like EEG, BIS shares the standard EEG's limitations (e.g., deep and subcortical ischemia may go undetected)."
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "Some centers use BIS for monitoring cerebral protection during thoracic aortic surgery, but the method has the same limitations as the standard EEG.",
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 38"
-      }
-    ],
-    "choiceNotes": {
-      "b": "BIS ranges from **0 (complete brain inactivity)** to **100 (awake and alert)**.",
-      "c": "Middle cerebral artery flow is measured by **transcranial Doppler**.",
-      "d": "Regional oxygen saturation from hemoglobin absorption is measured by **NIRS**.",
-      "e": "BIS is mainly used for detecting **intraoperative awareness and depth of anesthesia**; emboli are detected by transcranial Doppler."
-    },
-    "source": [
       {
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
         "loc": "p. 38, Bispectral Index (BIS)"
-      },
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 38, Electroencephalography (EEG)"
       }
     ]
   },
@@ -2523,93 +1947,6 @@
     ]
   },
   {
-    "id": "B-26",
-    "version": 1,
-    "topic": "High-Risk Patients in Arch Surgery",
-    "tags": [
-      "leukoaraiosis",
-      "hippocampal atrophy",
-      "stroke",
-      "TND"
-    ],
-    "difficulty": 3,
-    "reviewed": false,
-    "stem": "A 67-year-old scheduled for elective aortic arch surgery has patchy **T2 hyperintensities in the white matter and deep gray nuclei** and hippocampal atrophy on MRI, plus arch atheroma. In a multivariate analysis of 131 such patients, which associations were found?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "Stroke: leukoaraiosis and hippocampal atrophy; TND: leukoaraiosis and arch atheroma"
-      },
-      {
-        "id": "b",
-        "text": "Stroke: arch atheroma only; TND: hippocampal atrophy only"
-      },
-      {
-        "id": "c",
-        "text": "Stroke: leukoaraiosis and arch atheroma; TND: leukoaraiosis and hippocampal atrophy"
-      },
-      {
-        "id": "d",
-        "text": "Stroke: hippocampal atrophy and arch atheroma; TND: leukoaraiosis only"
-      },
-      {
-        "id": "e",
-        "text": "Neither stroke nor TND was associated with leukoaraiosis"
-      }
-    ],
-    "answer": "c",
-    "explanation": [
-      {
-        "id": "answer",
-        "type": "callout",
-        "kind": "key",
-        "text": "==Leukoaraiosis== was associated with **both** stroke and TND; **arch atheroma** added risk of stroke, and **hippocampal atrophy** risk of TND."
-      },
-      {
-        "id": "def",
-        "type": "p",
-        "text": "**Leukoaraiosis** = patchy punctate or confluent **hyperintensity in the white matter and deep gray nuclei** on T2-weighted images; it reflects **chronic ischemic damage to myelin and axons**."
-      },
-      {
-        "id": "morimoto",
-        "type": "table",
-        "head": [
-          "Outcome (131 patients)",
-          "Associated factors (OR)"
-        ],
-        "rows": [
-          [
-            "**Stroke** (6.1%)",
-            "Leukoaraiosis (1.1); **arch atheroma (2.4)**"
-          ],
-          [
-            "**TND** (8.4%)",
-            "Leukoaraiosis (1.1); **hippocampal atrophy (1.6)**"
-          ]
-        ],
-        "caption": "Multivariate analysis, elective arch surgery"
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "This white matter hyperintensity reflects chronic ischemic damage to myelin and axons.",
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 38"
-      }
-    ],
-    "choiceNotes": {
-      "a": "Hippocampal atrophy was associated with **TND**, and arch atheroma with **stroke**.",
-      "b": "Leukoaraiosis was associated with **both** stroke and TND.",
-      "d": "Stroke was associated with leukoaraiosis and arch atheroma; hippocampal atrophy was associated with **TND**.",
-      "e": "Leukoaraiosis was significantly associated with **both** stroke (OR 1.1) and TND (OR 1.1)."
-    },
-    "source": [
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 38, Patients at High Risk of Cerebral Complications During Aortic Arch Surgery"
-      }
-    ]
-  },
-  {
     "id": "B-27",
     "version": 1,
     "topic": "Postoperative Intellectual Capacity",
@@ -2641,7 +1978,7 @@
       },
       {
         "id": "e",
-        "text": "The whole cohort performed at the level of the general population"
+        "text": "Arrest was linked to fewer speech abnormalities than low-flow CPB"
       }
     ],
     "answer": "c",
@@ -2699,7 +2036,7 @@
       "a": "Arrest was **not** associated with lower IQ, and IQ did **not** correlate with arrest duration.",
       "b": "Worse motor coordination and planning were associated with **circulatory arrest**.",
       "d": "Arrest was associated with worse **motor coordination and planning**, not with worse overall neurologic status.",
-      "e": "Cognitive, language and motor performance of the cohort as a whole were **reduced** relative to the general population."
+      "e": "At 4 years the circulatory arrest group had **more** speech abnormalities (P = .03), as well as lower motor scores."
     },
     "source": [
       {
@@ -2736,7 +2073,7 @@
       },
       {
         "id": "b",
-        "text": "Disagree: little support; infants under 3 months with arrest did worse at age 4"
+        "text": "Disagree: little support; infants under 3 months with arrest scored below norms at 4 years"
       },
       {
         "id": "c",
@@ -2880,7 +2217,7 @@
             ]
           },
           {
-            "text": "Mechanism on CT",
+            "text": "Mechanism on CT (one series)",
             "children": [
               "62% embolic",
               "38% hypoperfusion"
@@ -3319,36 +2656,36 @@
   {
     "id": "B-34",
     "version": 1,
-    "topic": "Evidence of Gross Neurologic Damage",
+    "topic": "Postoperative Intellectual Capacity",
     "tags": [
-      "seizures",
       "circulatory arrest duration",
-      "neonates",
-      "EEG"
+      "brain injury",
+      "seizures",
+      "infants"
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "In a prospective study of 178 neonates and infants younger than 6 months undergoing CPB with or without circulatory arrest, EEG-recorded seizures occurred in 11%. How did **arrest duration** relate to seizures?",
+    "stem": "A team planning neonatal repair reviews the evidence on the **duration of hypothermic circulatory arrest** and brain injury. Which statement is supported by the source?",
     "choices": [
       {
         "id": "a",
-        "text": "Seizure rate did not vary with the duration of circulatory arrest"
+        "text": "A 40-minute limit applies to adults, whereas infants tolerate 60 minutes"
       },
       {
         "id": "b",
-        "text": "More seizures above 40 minutes; 40 minutes or less matched no arrest"
+        "text": "Arrest of ≥ 40 minutes is linked to brain injury in infants, children and adults"
       },
       {
         "id": "c",
-        "text": "Any arrest, however short, doubled seizures compared with no arrest"
+        "text": "In infants, any arrest, however short, increases seizures over no arrest"
       },
       {
         "id": "d",
-        "text": "Seizures occurred only in patients with hypoplastic left heart syndrome"
+        "text": "Early Mayo Clinic experience found 60 minutes safe at a nasopharyngeal 20°C"
       },
       {
         "id": "e",
-        "text": "Seizures increased only when the arrest exceeded 60 minutes"
+        "text": "In infants, seizure risk does not vary with the duration of the arrest"
       }
     ],
     "answer": "b",
@@ -3357,11 +2694,12 @@
         "id": "answer",
         "type": "callout",
         "kind": "key",
-        "text": "EEG seizures were ==more frequent with arrest over 40 minutes== (24%); with **40 minutes or less** (6.8%), the rate was **similar to no arrest**."
+        "text": "There is increasing evidence that intervals of hypothermic circulatory arrest of ==40 minutes or more== are associated with **brain injury in infants, children, and adults**."
       },
       {
         "id": "dur",
         "type": "table",
+        "caption": "EEG-recorded seizures, neonates and infants < 6 months (one prospective study)",
         "head": [
           "Arrest duration",
           "Seizures"
@@ -3380,39 +2718,42 @@
             "Similar to ≤ 40 min (P = .38)"
           ]
         ],
-        "caption": "EEG-recorded seizures, infants < 6 months",
         "emphasis": {
           "row": 0
         }
       },
       {
-        "id": "pearl",
+        "id": "mayo",
         "type": "callout",
         "kind": "pearl",
-        "title": "A recurring threshold",
-        "text": "The same **40-minute** mark recurs in the source's summary: arrest intervals of 40 minutes or more are associated with brain injury in infants, children and adults."
+        "title": "Early experience",
+        "text": "Early experience at the **Mayo Clinic** suggested that **45 minutes** was the maximum safe duration even when nasopharyngeal temperature was reduced to 20°C."
       },
       {
         "id": "quote",
         "type": "quote",
-        "text": "Occurrence of seizures among patients with a duration of circulatory arrest of 40 minutes or less was similar among those in whom circulatory arrest was not used",
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 39"
+        "text": "In summary, there is increasing evidence that intervals of hypothermic circulatory arrest of 40 minutes or more are associated with brain injury in infants, children, and adults.",
+        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 40"
       }
     ],
     "choiceNotes": {
-      "a": "Patients with arrest **over 40 minutes** had more seizures (24% vs 6.8%, P = .04).",
-      "c": "With arrest of **40 minutes or less**, seizure occurrence was **similar** to that without arrest (P = .38).",
-      "d": "The study included a **variety** of congenital defects; seizures were related to arrest duration.",
-      "e": "The difference appeared above **40 minutes** of arrest."
+      "a": "The association with brain injury is reported in **infants, children, and adults**; the idea that the very young tolerate arrest better has **little factual support**.",
+      "c": "With arrest of **40 minutes or less**, seizure occurrence was **similar** to that in patients without circulatory arrest (P = .38).",
+      "d": "Early Mayo Clinic experience suggested **45 minutes** as the maximum safe duration even at a nasopharyngeal temperature of 20°C.",
+      "e": "In a prospective study of infants younger than 6 months, arrest of **more than 40 minutes** was associated with more EEG-recorded seizures (24% vs 6.8%, P = .04)."
     },
     "source": [
+      {
+        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
+        "loc": "p. 40, Postoperative Intellectual Capacity"
+      },
       {
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
         "loc": "p. 39, Evidence of Gross Neurologic Damage"
       },
       {
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 40, Postoperative Intellectual Capacity"
+        "loc": "p. 38, Patient Age"
       }
     ]
   },
@@ -3426,42 +2767,43 @@
       "pediatric",
       "late outcome"
     ],
-    "difficulty": 3,
+    "difficulty": 2,
     "reviewed": false,
-    "stem": "Late intelligence testing of 146 children who underwent cardiac surgery in infancy using hypothermic circulatory arrest (three early series combined) is analyzed. Which statement is correct?",
+    "stem": "Late IQ testing of children who had cardiac surgery in infancy with hypothermic circulatory arrest shows that some score 80 or less. Why are such results **difficult to attribute** to the circulatory arrest itself?",
     "choices": [
       {
         "id": "a",
-        "text": "All of the low scores were explained by adverse perioperative events"
+        "text": "All low scores are explained by documented perioperative events"
       },
       {
         "id": "b",
-        "text": "No child had a low IQ score that remained unexplained"
+        "text": "Preoperative events and associated disorders may explain low scores"
       },
       {
         "id": "c",
-        "text": "Arrest of 50 minutes or more had no measurable effect on IQ scores"
+        "text": "No study has related the arrest duration to later IQ scores"
       },
       {
         "id": "d",
-        "text": "Preoperative testing made each child their own control, easing interpretation"
+        "text": "Severe heart disease does not affect the brain before operation"
       },
       {
         "id": "e",
-        "text": "16% had IQ 80 or less; about half were likely due to preoperative events"
+        "text": "Preoperative tests let each child serve as their own control"
       }
     ],
-    "answer": "e",
+    "answer": "b",
     "explanation": [
       {
         "id": "answer",
         "type": "callout",
         "kind": "key",
-        "text": "Late postoperatively, ==23 of 146 (16%)== had an IQ of 80 or less; in **about half**, **preoperative events** were considered likely to account for it."
+        "text": "Interpretation is complicated by ==associated developmental disorders==, possible **adverse effects of severe heart disease before operation**, other **perioperative events**, and the difficulty of testing infants **preoperatively** as their own controls."
       },
       {
         "id": "iq",
         "type": "table",
+        "caption": "Table 2.3: IQ 80 or less in 146 children (three early series combined)",
         "head": [
           "IQ 80 or less explained by",
           "Patients"
@@ -3469,7 +2811,7 @@
         "rows": [
           [
             "Preoperative events",
-            "**12** (8%)"
+            "**12** (about half)"
           ],
           [
             "Postoperative events",
@@ -3483,34 +2825,27 @@
             "**Total**",
             "**23 (16%)**"
           ]
-        ],
-        "caption": "Table 2.3, 146 children"
+        ]
       },
       {
         "id": "wells",
         "type": "callout",
         "kind": "pearl",
-        "title": "Duration matters",
-        "text": "Wells and colleagues questioned the idea that **60 minutes at 18°C** is safe: IQ scores were **lower** with arrest of **50 minutes or more**."
-      },
-      {
-        "id": "pitfall",
-        "type": "callout",
-        "kind": "pitfall",
-        "text": "Interpretation is confounded by associated **developmental disorders**, effects of severe heart disease **before operation**, and other **perioperative events**."
+        "title": "Duration still matters",
+        "text": "Wells and colleagues questioned the idea that **60 minutes at 18°C** is safe: IQ scores were **lower** with an arrest time of **50 minutes or more**."
       },
       {
         "id": "quote",
         "type": "quote",
-        "text": "Late postoperatively, 23 of the 146 (16%; CL 13%–19%) had an IQ of 80 or less, more than 1 standard deviation below the test mean.",
+        "text": "Associated congenital developmental disorders, possible adverse effects before operation of severe congenital heart disease, and effects of other perioperative events complicate interpretation of the data.",
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 40"
       }
     ],
     "choiceNotes": {
-      "a": "Low scores were **unexplained in 9** patients (6.2%); about half were attributed to **preoperative** events.",
-      "b": "The low scores were **unexplained in nine** (6.2%) patients.",
-      "c": "Wells and colleagues found **lower** IQ scores with arrest of **50 minutes or more** (general cognitive P = .003).",
-      "d": "Difficulty testing infants preoperatively so that each may serve as their own control **contributes to the difficulty** of these studies."
+      "a": "In the combined series, the low scores were **unexplained in nine** (6.2%) patients; about half were attributed to **preoperative** events.",
+      "c": "Wells and colleagues found **lower** IQ scores with an arrest time of **50 minutes or more** (general cognitive P = .003).",
+      "d": "Possible **adverse effects before operation** of severe congenital heart disease complicate interpretation of the data.",
+      "e": "The opposite: problems testing infants preoperatively so that each may serve as their own control **contribute to the difficulty**."
     },
     "source": [
       {
@@ -3539,7 +2874,7 @@
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "In 161 patients undergoing descending thoracic and thoracoabdominal aortic operations with hypothermic CPB and circulatory arrest, how did the risk of **paraplegia or paresis** relate to the duration of (hypothermic) spinal cord ischemia, up to 138 minutes?",
+    "stem": "In a clinical series of 161 patients undergoing descending thoracic and thoracoabdominal aortic operations with hypothermic CPB and circulatory arrest, how did the risk of **paraplegia or paresis** relate to the duration of (hypothermic) spinal cord ischemia, up to 138 minutes?",
     "choices": [
       {
         "id": "a",
@@ -3547,7 +2882,7 @@
       },
       {
         "id": "b",
-        "text": "It stayed constant and below 3.5% across ischemic intervals"
+        "text": "It stayed low and constant regardless of the ischemic interval"
       },
       {
         "id": "c",
@@ -3595,7 +2930,7 @@
     ],
     "choiceNotes": {
       "a": "Risk remained **constant** (P for the relationship = .98).",
-      "c": "Risk stayed constant and **below 3.5%** for hypothermic ischemic intervals up to 138 minutes.",
+      "c": "Risk stayed constant (and below 3.5%) for hypothermic ischemic intervals up to 138 minutes.",
       "d": "Prevalence remained **less than 3.5%** throughout.",
       "e": "The risk did not change with duration; it remained constant and below 3.5%."
     },
@@ -3607,103 +2942,6 @@
       {
         "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
         "loc": "p. 41, Fig. 2.7"
-      }
-    ]
-  },
-  {
-    "id": "B-37",
-    "version": 1,
-    "topic": "Renal Function and Structure: Experimental Studies",
-    "tags": [
-      "kidney",
-      "normothermic ischemia",
-      "proximal tubule",
-      "ATP"
-    ],
-    "difficulty": 2,
-    "reviewed": false,
-    "stem": "In experimental **normothermic** renal circulatory arrest in rats, which finding was reported?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "10 minutes already produced extensive cell death in the glomeruli"
-      },
-      {
-        "id": "b",
-        "text": "No cell death at 20 minutes; extensive tubular death at 30 minutes"
-      },
-      {
-        "id": "c",
-        "text": "ATP rose during the ischemia, protecting the tubular cells"
-      },
-      {
-        "id": "d",
-        "text": "Lactic acid accumulation during ischemia was protective"
-      },
-      {
-        "id": "e",
-        "text": "60 minutes of normothermic arrest produced no cell death"
-      }
-    ],
-    "answer": "b",
-    "explanation": [
-      {
-        "id": "answer",
-        "type": "callout",
-        "kind": "key",
-        "text": "At normothermia, ==20 minutes== of renal arrest caused **no** histochemical cell death, whereas ==30 minutes== caused **extensive cell death in the distal portion of the proximal convoluted tubules**."
-      },
-      {
-        "id": "time",
-        "type": "flow",
-        "steps": [
-          {
-            "text": "**20 min**: no cell death"
-          },
-          {
-            "text": "**25 min**: scattered areas of cell death"
-          },
-          {
-            "text": "**30 min**: extensive death, distal proximal convoluted tubules"
-          }
-        ],
-        "title": "Normothermic renal arrest (rats)"
-      },
-      {
-        "id": "mech",
-        "type": "table",
-        "head": [
-          "Factor",
-          "Role"
-        ],
-        "rows": [
-          [
-            "Lactic acid accumulation",
-            "**Causative** factor"
-          ],
-          [
-            "Rapid ATP fall to **20%** of control",
-            "**Indicator** of impending renal death"
-          ]
-        ]
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "rapid decrease of ATP to 20% of control values as an indicator of impending renal death",
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 41"
-      }
-    ],
-    "choiceNotes": {
-      "a": "**20 minutes** produced **no** histochemical evidence of cell death.",
-      "c": "A **rapid decrease of ATP to 20%** of control values was an indicator of impending renal death.",
-      "d": "Progressive **lactic acid** accumulation was identified as a **causative** factor of cell death.",
-      "e": "**30 minutes** already produced extensive cell death."
-    },
-    "source": [
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 41, Renal Function and Structure: Experimental Studies"
       }
     ]
   },
@@ -3826,7 +3064,7 @@
       },
       {
         "id": "c",
-        "text": "Damaging effects of CPB, such as free hemoglobin and circulating toxins"
+        "text": "Damaging effects of CPB, e.g. free hemoglobin and circulating toxins"
       },
       {
         "id": "d",
@@ -3904,109 +3142,6 @@
     ]
   },
   {
-    "id": "B-40",
-    "version": 1,
-    "topic": "Liver Function",
-    "tags": [
-      "liver",
-      "hepatic ischemia",
-      "hypothermia"
-    ],
-    "difficulty": 1,
-    "reviewed": false,
-    "stem": "Which statement about **liver tolerance of circulatory arrest** is supported by the source?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "The normothermic human liver cannot recover after even 15 minutes of isolation"
-      },
-      {
-        "id": "b",
-        "text": "In dogs, 90 minutes of hepatic arrest at 37°C causes no serious derangement"
-      },
-      {
-        "id": "c",
-        "text": "At 20°C–22°C, 60 minutes of arrest causes serious hepatic dysfunction"
-      },
-      {
-        "id": "d",
-        "text": "At 20°C–22°C, 60 minutes of arrest causes no structural or functional liver abnormality"
-      },
-      {
-        "id": "e",
-        "text": "Hypothermia does not increase hepatic tolerance of circulatory arrest"
-      }
-    ],
-    "answer": "d",
-    "explanation": [
-      {
-        "id": "answer",
-        "type": "callout",
-        "kind": "key",
-        "text": "With hypothermia (==20°C–22°C==), **60 minutes** of circulatory arrest produces **no structural or functional** liver abnormality."
-      },
-      {
-        "id": "liver",
-        "type": "table",
-        "head": [
-          "Condition",
-          "Hepatic arrest",
-          "Result"
-        ],
-        "rows": [
-          [
-            "Dog, **37°C**",
-            "≥ 45 min",
-            "Serious functional derangements"
-          ],
-          [
-            "Human, **normothermic**",
-            "35–40 min (complete isolation)",
-            "Resumes normal function"
-          ],
-          [
-            "**20°C–22°C**",
-            "60 min",
-            "**No** structural or functional abnormality"
-          ]
-        ],
-        "caption": "Liver and circulatory arrest",
-        "emphasis": {
-          "row": 2
-        }
-      },
-      {
-        "id": "pearl",
-        "type": "callout",
-        "kind": "pearl",
-        "title": "Ranking",
-        "text": "At any temperature, the kidney's safe arrest time is **longer than the brain's** and **shorter than the liver's**."
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "With hypothermia (20°C–22°C), 60 minutes of circulatory arrest does not produce structural or functional abnormalities in the liver.",
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass, p. 42"
-      }
-    ],
-    "choiceNotes": {
-      "a": "The normothermic human liver **resumes normal function** after complete isolation for **35 to 40 minutes**.",
-      "b": "In dogs, serious functional derangements follow **45 minutes or more** of hepatic arrest at 37°C.",
-      "c": "With hypothermia (20°C–22°C), 60 minutes of arrest produces **no** structural or functional abnormality.",
-      "e": "With hypothermia (20°C–22°C), even **60 minutes** of arrest produces **no** structural or functional liver abnormality."
-    },
-    "source": [
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 42, Liver Function"
-      },
-      {
-        "ref": "Chapter 2: Hypothermia, Circulatory Arrest, and Cardiopulmonary Bypass",
-        "loc": "p. 41, Renal Function and Structure: Experimental Studies"
-      }
-    ]
-  },
-  {
     "id": "B-41",
     "version": 1,
     "topic": "Safe Duration of Circulatory Arrest",
@@ -4022,7 +3157,7 @@
     "choices": [
       {
         "id": "a",
-        "text": "Essentially complete safety, just as with 30 minutes of arrest"
+        "text": "Essentially complete safety in nearly all patients"
       },
       {
         "id": "b",
@@ -4034,7 +3169,7 @@
       },
       {
         "id": "d",
-        "text": "Mostly structural damage; evident functional damage in only 10%–20%"
+        "text": "Mostly structural damage; functional damage in only 10%–20%"
       },
       {
         "id": "e",
