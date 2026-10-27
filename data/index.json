@@ -66,8 +66,8 @@
       "short": "CPB & arrest",
       "file": "data/ch02.json",
       "page": 28,
-      "published": false,
-      "count": 0
+      "published": true,
+      "count": 224
     },
     {
       "id": "ch03",
