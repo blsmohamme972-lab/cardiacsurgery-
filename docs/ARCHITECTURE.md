@@ -514,6 +514,8 @@ Routes:
 | `/search` | search | Search (`?q=`) |
 | `/settings` | settings | Appearance, study, data (backup), reviewer mode, about |
 | `/reviewer` | reviewer | Reviewer dashboard (reviewer mode only) |
+| `/book` | book | The book: parts → chapters → sections; import PDFs (§7.17) |
+| `/book/:id` | reader | PDF reader/editor for one chapter (`?page=`) (§7.17) |
 
 ### 5.5 `core/settings.js`
 Defaults:
@@ -675,7 +677,7 @@ export function showBanner(id, { text, kind, actions, dismissible }): void
 export function hideBanner(id): void
 export function setTabBarVisible(visible): void   // player hides it for focus
 ```
-`index.html` contains: `<header id="app-header">`, `<nav id="tabbar">` (Home, Library,
+`index.html` contains: `<header id="app-header">`, `<nav id="tabbar">` (Home, Library, Book,
 Stats, Search, Settings), `<div id="banner-slot">`, `<main id="main" tabindex="-1">`,
 `<div id="toast-slot" aria-live="polite">`, `<div id="sheet-slot">`, a `<noscript>`
 message, and a boot splash removed by `app.js` once the first screen renders.
@@ -1105,6 +1107,61 @@ export function openScratchpad(question, { view } = {}) → Promise<void>   // r
   0.85, PNG kept when transparent. Failed save keeps the scene in memory + Retry toast; unused media pruned only
   after a successful save on close. Bottom-bar button class `pbar-scratch`. Module exports are listed in each file's
   JSDoc. Gaps: text boxes don't rotate; no fill button for shapes.
+
+### 7.17 Book tab + PDF reader/editor (owner request 2026-10-28)
+A sixth tab **Book** (route `/book`) lists the owner's book: parts → chapters (from `data/index.json`, **all 55**,
+whether their questions are published or not) → sub-chapters (sections, from `data/book.json` and the PDF outline).
+Tapping a chapter opens **the original PDF** in a high-performance reader/editor (route `/book/:chapterId?page=N`).
+
+**Where the PDFs come from.** The repo is public, so the owner's PDFs are **not** committed unless the owner
+explicitly says so (CLAUDE.md "Sources"). The user imports PDFs **on the device** (file picker, several at once):
+files are matched to chapters by name (`Chapter-01-…`, `Chapter 1`, `ch01`, `01 …`), unmatched files ask which
+chapter; stored in IndexedDB (`books`), so they open offline. Optional bundled PDFs: `data/book.json` may list a
+`file` per chapter (relative path) — used only if present; none are bundled now.
+
+`data/book.json` (dev-maintained, validated): `{ schemaVersion: 1, chapters: { ch01: { firstPage: 1, sections:
+[{ title, page /* book page */, level: 1|2 }], file?: "books/ch01.pdf" } } }` — PDF page index = book page − firstPage + 1.
+
+Storage (DB version 3, additive migration):
+| store | keyPath | indexes | record |
+|---|---|---|---|
+| `books` | `id` (= chapter id, e.g. `ch01`) | `updated` | `{id, title, fileName, blob, bytes, pages, added, updated, lastPage, lastScale}` |
+| `pdfnotes` | `id` (`${bookId}|${page}`) | `bookId` | `{id, bookId, page /* 1-based */, scene, highlights: TextHl[], updated}` |
+Images use `mediaRepo` with `qid: 'book:<bookId>'`; voice clips use `voiceRepo` with `qid: 'book:<bookId>|<page>'`.
+`TextHl = { id, color, rects: [x, y, w, h][] /* fractions of the page */, quote }`.
+```js
+export const bookRepo     = { get(id), all() /* without loading blobs into memory where possible */, put(rec), remove(id),
+                              setPosition(id, { lastPage, lastScale }) }
+export const pdfNotesRepo = { get(bookId, page), byBook(bookId), set(bookId, page, { scene, highlights }) /* deletes when empty */,
+                              removeBook(bookId) }
+```
+Backup: `pdfnotes` always; `books` (PDF blobs) only with the new option `includeBooks` (default **false**: the files
+are large and the user still has the originals); images/voice of the book follow `includeMedia`.
+
+Modules:
+```js
+// features/book/pdf.js     — loads the vendored PDF.js (vendor/pdfjs/, legacy build, lazy import, module worker)
+export async function openPdf(source /* Blob | ArrayBuffer | url */) → PDFDocumentProxy
+export async function pdfInfo(blob) → { pages, title, outline: [{title, page, level}] }
+// features/book/viewer.js  — virtualized continuous-scroll viewer
+export function createPdfViewer(container, doc, { initialPage = 1, initialScale = 'fit-width',
+  onPageChange, overlay /* (pageNumber, pageEl, size {w,h}) => { destroy() } | null */ })
+  → { goTo(page), page(), pageCount(), setScale(s | 'fit-width' | 'fit-page'), scale(), zoomIn(), zoomOut(),
+      search(query) → AsyncIterable<{page, rects}>, textOf(page), outline(), thumbnail(page, width) → canvas,
+      on(event /* 'page'|'scale'|'textselect' */, fn), destroy() }
+// features/book/annotate.js — per-page annotation layer (reuses the scratch engine: scene, geometry, render, tools)
+export function createPageAnnotator(bookId, pageNumber, pageEl, size) → { setTool(..), destroy(), … }
+export function createBookToolbar(controller) → HTMLElement
+// features/book/export.js  — lazy pdf-lib (vendor/pdf-lib/): annotated copy of the original (strokes as vectors,
+//                            images, text, shapes, highlights; voice clips listed as page notes), never edits the original
+// screens/book.js (/book) and screens/reader.js (/book/:chapterId)
+```
+Reader UX: opens at the last page (or `?page=`), fit-width; pinch/ctrl-wheel zoom re-renders crisply; page indicator
+with jump; sections/outline sheet; thumbnails strip; search in the PDF text; **Edit** toggle shows the tool bar:
+select/lasso, pen (pressure), highlighter, text highlight (select text → colour), eraser, shapes, text box, sticky
+note, image (Photos/Camera/Files), voice note (record on the page, pin plays it), undo/redo, colours/sizes (remembered).
+Autosave per page (debounced) + on page leave/pagehide. Old phones: only visible pages ±1 are rendered, canvases
+are released when far away, backing store capped. Everything works offline; nothing is ever uploaded.
 
 ## 8. Screens (summary of required UX)
 

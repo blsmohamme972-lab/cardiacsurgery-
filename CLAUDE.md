@@ -321,6 +321,10 @@ earlier 13-chapter plan.
 - **Scratchpad v2** (owner request 2026-10-26): a very advanced, user-friendly workspace that
   opens over the question with one tap; add images, resize them and draw on them; shapes, text,
   select/move, undo/redo, zoom/pan (contract: `docs/ARCHITECTURE.md` §7.16).
+- **Book tab + PDF editor** (owner request 2026-10-28): a "Book" tab lists the book's parts, chapters and
+  sub-chapters; tapping a chapter opens the original PDF in a high-performance PDF editor (draw, highlight,
+  text, images, voice notes, shapes, undo/redo, zoom, search, sections). PDFs are imported on the device
+  (the repo is public, so they are not committed unless the owner explicitly says so). Contract: ARCHITECTURE §7.17.
 - All of this user data lives on the device and must be included in the backup
   export/import, with an option to export without media to keep the file small.
 
