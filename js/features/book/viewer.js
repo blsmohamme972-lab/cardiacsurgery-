@@ -796,6 +796,55 @@ function isEditable(t) {
  */
 
 /**
+ * A view of a PDFDocumentProxy restricted to the pages `from..to` (1-based,
+ * inclusive), renumbered 1..(to − from + 1). The viewer, its search, text,
+ * thumbnails and outline only ever see these pages, so nothing outside the range
+ * (e.g. a book's front matter) is ever rendered, read for search or listed.
+ * Outline entries pointing outside the range resolve to no page (and are dropped).
+ * Pure: touches nothing until a method is called. `destroy()` is not forwarded
+ * (the caller owns `doc`).
+ * @param {any} doc PDFDocumentProxy (or anything with `numPages` and `getPage`).
+ * @param {{ from: number, to: number }} range
+ * @returns {any} `{ numPages, offset, getPage(n), getOutline(), getDestination(d), getPageIndex(ref), getPageLabels() }`
+ * @throws {RangeError} When the range is empty or outside the document.
+ */
+export function pageRangeDoc(doc, range) {
+  const total = Math.max(0, Number(doc && doc.numPages) || 0);
+  const from = Math.round(Number(range && range.from));
+  const to = Math.round(Number(range && range.to));
+  if (!Number.isInteger(from) || !Number.isInteger(to) || from < 1 || to < from || to > total) {
+    throw new RangeError(`Pages ${from}–${to} are not inside this PDF (1–${total})`);
+  }
+  const offset = from - 1;
+  const count = to - from + 1;
+  return Object.freeze({
+    numPages: count,
+    /** Pages before the range (local page n = document page n + offset). */
+    offset,
+    base: doc,
+    /** @param {number} n 1-based page within the range. */
+    getPage(n) {
+      const i = Math.round(Number(n));
+      if (!(i >= 1 && i <= count)) return Promise.reject(new RangeError(`No page ${n}`));
+      return doc.getPage(i + offset);
+    },
+    getOutline: () => (typeof doc.getOutline === 'function' ? doc.getOutline() : Promise.resolve(null)),
+    /** @param {string} id */
+    getDestination: (id) => doc.getDestination(id),
+    /** @param {any} ref @returns {Promise<number | null>} 0-based index within the range, or null outside it. */
+    async getPageIndex(ref) {
+      const idx = await doc.getPageIndex(ref);
+      const local = Number(idx) - offset;
+      return Number.isInteger(local) && local >= 0 && local < count ? local : null;
+    },
+    async getPageLabels() {
+      const labels = typeof doc.getPageLabels === 'function' ? await doc.getPageLabels() : null;
+      return Array.isArray(labels) ? labels.slice(offset, offset + count) : null;
+    },
+  });
+}
+
+/**
  * Creates the viewer inside `container` (which should have a definite size; the
  * viewer fills it). The document stays owned by the caller (destroy() does not
  * destroy it).
@@ -803,14 +852,17 @@ function isEditable(t) {
  * @param {any} doc PDFDocumentProxy from openPdf().
  * @param {{ initialPage?: number, initialScale?: number | 'fit-width' | 'fit-page',
  *           onPageChange?: ((page: number) => void) | null, overlay?: OverlayHook | null,
- *           label?: string }} [opts]
+ *           label?: string, pages?: { from: number, to: number } | null }} [opts]
+ *   `pages` shows only that page range of `doc` (see {@link pageRangeDoc}); every page number of the
+ *   viewer's API, events and labels is then counted within the range ("Page 3 of 21").
  * @returns {PdfViewer}
  */
 export function createPdfViewer(
   container,
-  doc,
-  { initialPage = 1, initialScale = 'fit-width', onPageChange = null, overlay = null, label = 'PDF document' } = {},
+  sourceDoc,
+  { initialPage = 1, initialScale = 'fit-width', onPageChange = null, overlay = null, label = 'PDF document', pages: pageSubset = null } = {},
 ) {
+  const doc = pageSubset ? pageRangeDoc(sourceDoc, pageSubset) : sourceDoc;
   const N = Math.max(0, Number(doc && doc.numPages) || 0);
   const ac = new AbortController();
   const { signal } = ac;

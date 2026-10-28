@@ -21,7 +21,7 @@
 import { bus } from '../events.js';
 
 export const DB_NAME = 'cardiac-mcq';
-export const DB_VERSION = 3;
+export const DB_VERSION = 4;
 
 /** Time allowed for one open attempt before it is treated as hung. */
 const OPEN_TIMEOUT_MS = 8000;
@@ -49,6 +49,7 @@ export const SCHEMA = Object.freeze({
   books: Object.freeze({ keyPath: 'id', indexes: Object.freeze(['updated']) }),
   bookfiles: Object.freeze({ keyPath: 'id', indexes: Object.freeze([]) }),
   pdfnotes: Object.freeze({ keyPath: 'id', indexes: Object.freeze(['bookId']) }),
+  wholebook: Object.freeze({ keyPath: 'id', indexes: Object.freeze([]) }),
 });
 
 /**
@@ -130,6 +131,14 @@ export const migrations = [
     ensureStore(db, tx, 'books', { keyPath: 'id' }, ['updated']);
     ensureStore(db, tx, 'bookfiles', { keyPath: 'id' }, []);
     ensureStore(db, tx, 'pdfnotes', { keyPath: 'id' }, ['bookId']);
+  },
+  // v4: "Add the whole book once" (§7.17). `wholebook` holds two records: `meta`
+  // (file name, size, page count, the detected chapter → page-range map and the
+  // reading position per chapter) and `file` (`{id: 'file', blob}`, the one big
+  // PDF), so saving a position or the map never rewrites the large file.
+  // Additive only: every v1–v3 store and record is left untouched. Idempotent.
+  (db, tx) => {
+    ensureStore(db, tx, 'wholebook', { keyPath: 'id' }, []);
   },
 ];
 

@@ -15,6 +15,13 @@
  * - sticky notes as PDF text annotations (the note icon most PDF apps show);
  * - voice notes as a text annotation "Voice note (recorded in KirKlin)".
  *
+ * Source file: the chapter's own PDF when it has one; else the chapter's page
+ * range of the whole book (§7.17), copied with {@link extractPageRange} (reads
+ * only the objects of those pages, so a 400 MB book is never loaded whole). If
+ * that copy fails (an unusual file structure), the whole file is loaded with
+ * pdf-lib only when the device has the memory for it; otherwise the export
+ * stops with a plain-language message (the original is never touched).
+ *
  * Coordinates: a scene is in display points of the page (top-left origin,
  * after the page's /Rotate, inside its CropBox — like PDF.js); {@link pageMapper}
  * maps them to PDF user space for every rotation.
@@ -22,7 +29,7 @@
  * @module features/book/export
  */
 
-import { pdfNotesRepo, bookRepo, mediaRepo } from '../../core/store/repo.js';
+import { pdfNotesRepo, bookRepo, mediaRepo, wholeBookRepo } from '../../core/store/repo.js';
 import { strokeToPath } from '../annotate/ink.js';
 import { wrapText, TEXT_LINE, TEXT_PAD, ARROW_HEAD, ARROW_MIN } from '../scratch/geometry.js';
 import { deserialize } from '../scratch/scene.js';
@@ -203,6 +210,57 @@ async function toEmbeddable(blob) {
 }
 
 /**
+ * Whether loading a whole file of `bytes` into memory is reasonable on this
+ * device (pdf-lib needs about three times the file size). Pure apart from
+ * reading `navigator`.
+ * @param {number} bytes
+ * @returns {boolean}
+ */
+export function canLoadWhole(bytes) {
+  const nav = /** @type {any} */ (globalThis.navigator) || {};
+  const gb = Number(nav.deviceMemory);
+  const coarse = typeof globalThis.matchMedia === 'function' && globalThis.matchMedia('(pointer: coarse)').matches;
+  const budget = Number.isFinite(gb) && gb > 0 ? gb * 64 * 1024 * 1024 : coarse ? 150 * 1024 * 1024 : 600 * 1024 * 1024;
+  return bytes <= budget;
+}
+
+/**
+ * The chapter's pages of the whole book as a new pdf-lib document: a range copy
+ * (only those pages' objects are read); the whole-file route only as a fallback
+ * when memory allows.
+ * @param {any} lib pdf-lib
+ * @param {{ blob: Blob, from: number, to: number }} src
+ * @returns {Promise<any>}
+ */
+async function chapterFromBook(lib, src) {
+  const { extractPageRange, ExtractError } = await import('./extract.js');
+  try {
+    return await extractPageRange(lib, src.blob, src.from, src.to);
+  } catch (err) {
+    if (err instanceof ExtractError && err.code === 'encrypted') {
+      throw new ExportError('encrypted', 'This PDF is protected, so an annotated copy can’t be made. You can still read and annotate it in the app.', { cause: err });
+    }
+    console.warn('[book export] range copy failed; trying the whole file', err);
+    if (!canLoadWhole(src.blob.size)) {
+      throw new ExportError(
+        'build',
+        'This book’s PDF is too large to copy on this device. Add this chapter’s own PDF (Add PDFs) to export it with your notes.',
+        { cause: err },
+      );
+    }
+    try {
+      const full = await lib.PDFDocument.load(await src.blob.arrayBuffer(), { ignoreEncryption: true, updateMetadata: false });
+      const out = await lib.PDFDocument.create({ updateMetadata: false });
+      const indices = Array.from({ length: src.to - src.from + 1 }, (_, i) => src.from - 1 + i);
+      for (const page of await out.copyPages(full, indices)) out.addPage(page);
+      return out;
+    } catch (err2) {
+      throw new ExportError('read', "The book couldn't be opened to make a copy. The original stays as it is.", { cause: err2 });
+    }
+  }
+}
+
+/**
  * Builds the annotated copy of a chapter PDF.
  *
  * @param {string} bookId Chapter id.
@@ -217,7 +275,19 @@ export async function buildAnnotatedPdf(bookId, { title } = {}) {
   } catch (err) {
     throw new ExportError('read', "The chapter's PDF couldn't be read from this device. Please try again.", { cause: err });
   }
-  if (!rec || !rec.blob) throw new ExportError('no-pdf', "This chapter's PDF isn't on this device. Add it first.");
+  /** @type {{ blob: Blob, from: number, to: number } | null} */
+  let fromBook = null;
+  if (!rec || !rec.blob) {
+    let whole = null;
+    try {
+      whole = await wholeBookRepo.get();
+    } catch (err) {
+      throw new ExportError('read', "The book couldn't be read from this device. Please try again.", { cause: err });
+    }
+    const range = whole?.map?.chapters?.[bookId];
+    if (!whole?.blob || !range) throw new ExportError('no-pdf', "This chapter's PDF isn't on this device. Add it first.");
+    fromBook = { blob: whole.blob, from: range.from, to: range.to };
+  }
   let notes = [];
   try {
     notes = await pdfNotesRepo.byBook(bookId);
@@ -229,11 +299,15 @@ export async function buildAnnotatedPdf(bookId, { title } = {}) {
   const { PDFDocument, rgb, degrees, StandardFonts, PDFHexString, BlendMode } = lib;
 
   let doc;
-  try {
-    const bytes = await rec.blob.arrayBuffer();
-    doc = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
-  } catch (err) {
-    throw new ExportError('read', "This PDF couldn't be opened to make a copy. The original stays as it is.", { cause: err });
+  if (fromBook) {
+    doc = await chapterFromBook(lib, fromBook);
+  } else {
+    try {
+      const bytes = await /** @type {Blob} */ (rec?.blob).arrayBuffer();
+      doc = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
+    } catch (err) {
+      throw new ExportError('read', "This PDF couldn't be opened to make a copy. The original stays as it is.", { cause: err });
+    }
   }
   if (doc.isEncrypted) {
     throw new ExportError('encrypted', 'This PDF is protected, so an annotated copy can’t be made. You can still read and annotate it in the app.');
@@ -436,7 +510,7 @@ export async function buildAnnotatedPdf(bookId, { title } = {}) {
     throw new ExportError('build', "The annotated copy couldn't be made. Please try again.", { cause: err });
   }
   const blob = new Blob([out], { type: 'application/pdf' });
-  return { blob, filename: annotatedFileName(title || rec.title || bookId), pages: pages.length, annotatedPages };
+  return { blob, filename: annotatedFileName(title || rec?.title || bookId), pages: pages.length, annotatedPages };
 }
 
 /**

@@ -25,7 +25,7 @@ import {
 } from '../../js/core/store/repo.js';
 
 /** Stores that exist in IndexedDB but are not listed in ALL_STORES (joined into `books`). */
-const INTERNAL_STORES = ['bookfiles'];
+const INTERNAL_STORES = ['bookfiles', 'wholebook'];
 
 /** Minimal mock of IDBDatabase / IDBTransaction for running migrations. */
 function mockDb(existing = {}) {
@@ -68,8 +68,8 @@ function migrate(mock, oldVersion, newVersion = DB_VERSION) {
 }
 
 describe('db migrations', () => {
-  test('one migration per version, index 0 unused, v3 is current', () => {
-    assert.equal(DB_VERSION, 3);
+  test('one migration per version, index 0 unused, v4 is current', () => {
+    assert.equal(DB_VERSION, 4);
     assert.equal(migrations.length, DB_VERSION + 1);
     assert.equal(migrations[0], null);
     for (let v = 1; v <= DB_VERSION; v++) assert.equal(typeof migrations[v], 'function', `v${v}`);
@@ -108,7 +108,7 @@ describe('db migrations', () => {
     const before = [...v2.stores.keys()].sort();
     assert.deepEqual(before, ['attempts', 'highlights', 'ink', 'media', 'notes', 'qstate', 'reports', 'reviews', 'sessions', 'settings', 'voice']);
     v2.log.length = 0;
-    migrate(v2, 2);
+    migrate(v2, 2, 3);
     assert.deepEqual(v2.log, [
       ['createObjectStore', 'books', { keyPath: 'id' }],
       ['createIndex', 'books', 'updated', 'updated', false],
@@ -120,7 +120,17 @@ describe('db migrations', () => {
     assert.equal(v2.log.some(([op]) => op === 'deleteObjectStore'), false);
   });
 
-  test('v1 → v3 in one upgrade runs v2 and v3 (fresh-enough schema)', () => {
+  test('v3 → v4 only adds wholebook (no indexes); never deletes', () => {
+    const v3 = mockDb();
+    migrate(v3, 0, 3);
+    const before = [...v3.stores.keys()].sort();
+    v3.log.length = 0;
+    migrate(v3, 3);
+    assert.deepEqual(v3.log, [['createObjectStore', 'wholebook', { keyPath: 'id' }]]);
+    assert.deepEqual([...v3.stores.keys()].sort(), [...before, 'wholebook'].sort());
+  });
+
+  test('v1 → v4 in one upgrade runs v2, v3 and v4 (fresh-enough schema)', () => {
     const v1 = mockDb();
     migrate(v1, 0, 1);
     migrate(v1, 1);

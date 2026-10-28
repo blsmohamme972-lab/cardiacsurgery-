@@ -12,6 +12,8 @@
  * - Safe by default: `isEvalSupported: false`, no XFA, no scripting (PDF.js only
  *   runs PDF JavaScript inside its viewer's sandbox, which is not shipped), only
  *   errors logged (`verbosity: ERRORS`).
+ * - {@link openPdf} with `{ range: true }` range-loads a Blob: PDF.js reads only
+ *   the byte ranges it needs through `blob.slice()` (the whole book, §7.17).
  * - {@link openPdf} accepts a Blob/File (from IndexedDB or the file picker), an
  *   ArrayBuffer/typed array (copied: PDF.js transfers its buffer to the worker,
  *   and the caller may still need the original bytes) or a relative/absolute URL
@@ -226,13 +228,73 @@ async function bytesOf(source) {
   throw new PdfError('invalid', { detail: 'Unsupported source type' });
 }
 
+/** Range loading: bytes per read (PDF.js `rangeChunkSize`). */
+export const RANGE_CHUNK_SIZE = 1024 * 1024;
+
+/**
+ * A PDF.js range transport that reads only the requested byte ranges of a Blob
+ * (`blob.slice(begin, end)`), so a 400 MB file stored in IndexedDB is never read
+ * whole: opening it costs its header, trailer and cross-reference data, and each
+ * page costs only its own objects.
+ * @param {any} lib PDF.js namespace.
+ * @param {Blob} blob
+ * @param {Uint8Array} initial The first bytes (already read; handed to PDF.js at once).
+ * @param {(err: unknown) => void} onError A range could not be read (twice).
+ * @returns {any} A `PDFDataRangeTransport`.
+ */
+function blobTransport(lib, blob, initial, onError) {
+  class BlobRangeTransport extends lib.PDFDataRangeTransport {
+    constructor() {
+      super(blob.size, initial);
+      this.closed = false;
+    }
+
+    /**
+     * @param {number} begin
+     * @param {number} end
+     */
+    requestDataRange(begin, end) {
+      const from = Math.max(0, Math.min(blob.size, begin));
+      const to = Math.max(from, Math.min(blob.size, end));
+      /** @param {number} attempt */
+      const read = (attempt) =>
+        blob
+          .slice(from, to)
+          .arrayBuffer()
+          .then(
+            (buf) => {
+              if (!this.closed) this.onDataRange(from, new Uint8Array(buf));
+            },
+            (err) => {
+              if (this.closed) return;
+              if (attempt < 2) read(attempt + 1);
+              else onError(err);
+            },
+          );
+      read(1);
+    }
+
+    abort() {
+      this.closed = true;
+    }
+  }
+  return new BlobRangeTransport();
+}
+
 /**
  * Opens a PDF.
+ *
+ * With `{ range: true }` and a Blob, the file is **range-loaded**: PDF.js asks
+ * for byte ranges (`rangeChunkSize`, no streaming, no background auto-fetch) and
+ * each is read with `blob.slice()`, so only the pages being viewed (plus the
+ * file's structure) are ever read into memory. Used for the whole book (§7.17).
  * @param {Blob | ArrayBuffer | ArrayBufferView | string | URL} source A Blob/File, bytes (copied), or a URL (relative to the page).
+ * @param {{ range?: boolean, rangeChunkSize?: number }} [options]
  * @returns {Promise<any>} The PDFDocumentProxy (`numPages`, `getPage(n)`, `destroy()`, …). The caller destroys it.
  * @throws {PdfError}
  */
-export async function openPdf(source) {
+export async function openPdf(source, { range = false, rangeChunkSize = RANGE_CHUNK_SIZE } = {}) {
+  if (range && typeof Blob !== 'undefined' && source instanceof Blob) return openRange(source, rangeChunkSize);
   // Start the library + worker while the file is being read.
   const libP = loadPdfJs();
   libP.then(workerFor, () => {});
@@ -251,6 +313,54 @@ export async function openPdf(source) {
     return await task.promise;
   } catch (err) {
     if (task) task.destroy().catch(() => {});
+    throw toPdfError(err);
+  }
+}
+
+/**
+ * @param {Blob} blob
+ * @param {number} chunkSize
+ * @returns {Promise<any>}
+ */
+async function openRange(blob, chunkSize) {
+  if (blob.size === 0) throw new PdfError('empty');
+  const size = Math.max(64 * 1024, Math.round(Number(chunkSize) || RANGE_CHUNK_SIZE));
+  const libP = loadPdfJs();
+  libP.then(workerFor, () => {});
+  /** @type {Uint8Array} */
+  let initial;
+  try {
+    initial = new Uint8Array(await blob.slice(0, Math.min(blob.size, size)).arrayBuffer());
+  } catch (err) {
+    throw new PdfError('read', { detail: String((err && /** @type {Error} */ (err).message) || err), cause: err });
+  }
+  const lib = await libP;
+  /** @type {any} */
+  let task = null;
+  /** @type {unknown} */
+  let readError = null;
+  const transport = blobTransport(lib, blob, initial, (err) => {
+    readError = err;
+    console.warn('[pdf] A part of the PDF could not be read from storage', err);
+    task?.destroy().catch(() => {});
+  });
+  try {
+    task = lib.getDocument({
+      range: transport,
+      rangeChunkSize: size,
+      disableAutoFetch: true,
+      disableStream: true,
+      worker: workerFor(lib),
+      isEvalSupported: false,
+      enableXfa: false,
+      stopAtErrors: false,
+      standardFontDataUrl: vendorUrl('standard_fonts/'),
+      verbosity: VERBOSITY_ERRORS,
+    });
+    return await task.promise;
+  } catch (err) {
+    if (task) task.destroy().catch(() => {});
+    if (readError) throw new PdfError('read', { detail: String(readError), cause: readError });
     throw toPdfError(err);
   }
 }
@@ -320,7 +430,8 @@ export async function destinationPage(doc, dest) {
   if (!Array.isArray(explicit) || explicit.length === 0) return null;
   const target = explicit[0];
   let index = null;
-  if (Number.isInteger(target)) index = target;
+  // A page-range view (viewer.js pageRangeDoc) maps object refs itself; plain page indexes are shifted here.
+  if (Number.isInteger(target)) index = target - (Number.isInteger(doc.offset) ? doc.offset : 0);
   else if (target && typeof target === 'object') index = await doc.getPageIndex(target);
   if (!Number.isInteger(index)) return null;
   const page = /** @type {number} */ (index) + 1;
@@ -364,11 +475,12 @@ export async function readTitle(doc) {
  * Page count, title and outline of a PDF (used when importing a file).
  * Opens the file, reads what it needs and closes it again.
  * @param {Blob | ArrayBuffer | ArrayBufferView} blob
+ * @param {{ range?: boolean }} [options] `range: true` range-loads a Blob (see {@link openPdf}).
  * @returns {Promise<{ pages: number, title: string, outline: OutlineEntry[] }>}
  * @throws {PdfError}
  */
-export async function pdfInfo(blob) {
-  const doc = await openPdf(blob);
+export async function pdfInfo(blob, { range = false } = {}) {
+  const doc = await openPdf(blob, { range });
   try {
     const [title, outline] = await Promise.all([readTitle(doc), readOutline(doc)]);
     return { pages: doc.numPages, title, outline };

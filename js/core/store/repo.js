@@ -1051,6 +1051,230 @@ export const pdfNotesRepo = Object.freeze({
 });
 
 // ---------------------------------------------------------------------------
+// wholebook ("Add the whole book once", §7.17)
+// ---------------------------------------------------------------------------
+
+/** Largest whole-book PDF accepted (2 GB). */
+export const WHOLE_BOOK_MAX_BYTES = 2 * 1024 * 1024 * 1024;
+/** How a chapter's page range was found (see features/book/wholebook.js). */
+export const BOOK_MAP_HOW = Object.freeze(['labels', 'confirmed', 'folio', 'title', 'estimated', 'manual']);
+/** Most outline entries kept with the whole book. */
+const WHOLE_BOOK_OUTLINE_MAX = 3000;
+/** Chapter ids such as `ch01` (the map's keys). */
+const MAP_CHAPTER_ID = /^ch\d{2}$/;
+
+/**
+ * @typedef {{ from: number, to: number, how: string }} BookMapRange `from`/`to`: 1-based pages of the whole PDF, inclusive.
+ * @typedef {{ version: 1, pages: number, detected: number, chapters: Record<string, BookMapRange> }} BookMap
+ * @typedef {{ lastPage: number, lastScale: number | 'fit-width' | 'fit-page' | null, updated: number }} ChapterPosition
+ *   `lastPage` is the page within the chapter (1 = its first page).
+ * @typedef {{ id: 'meta', fileName: string, bytes: number, pages: number | null, added: number, updated: number,
+ *   map: BookMap | null, outline: { title: string, page: number, level: number }[],
+ *   positions: Record<string, ChapterPosition> }} WholeBookMeta
+ * @typedef {WholeBookMeta & { blob: Blob | null }} WholeBookRecord
+ */
+
+/**
+ * A clean chapter → page-range map, or null when `map` is unusable. Pure.
+ * Ranges must lie inside 1..pages (when known) with from ≤ to; bad entries are dropped.
+ * @param {any} map
+ * @param {number | null} [pages]
+ * @returns {BookMap | null}
+ */
+export function normalizeBookMap(map, pages = null) {
+  if (!map || typeof map !== 'object' || !map.chapters || typeof map.chapters !== 'object') return null;
+  const total = Number.isInteger(pages) && /** @type {number} */ (pages) > 0 ? /** @type {number} */ (pages) : Number.isInteger(map.pages) && map.pages > 0 ? map.pages : null;
+  /** @type {Record<string, BookMapRange>} */
+  const chapters = {};
+  for (const id of Object.keys(map.chapters).sort()) {
+    const r = map.chapters[id];
+    if (!MAP_CHAPTER_ID.test(id) || !r || typeof r !== 'object') continue;
+    const from = Number(r.from);
+    const to = Number(r.to);
+    if (!Number.isInteger(from) || !Number.isInteger(to) || from < 1 || to < from) continue;
+    if (total && to > total) continue;
+    chapters[id] = { from, to, how: BOOK_MAP_HOW.includes(r.how) ? r.how : 'manual' };
+  }
+  return { version: 1, pages: total ?? 0, detected: Number.isFinite(map.detected) ? map.detected : Date.now(), chapters };
+}
+
+/**
+ * @param {any} list
+ * @returns {{ title: string, page: number, level: number }[]}
+ */
+function normalizeWholeOutline(list) {
+  if (!Array.isArray(list)) return [];
+  const out = [];
+  for (const o of list) {
+    if (out.length >= WHOLE_BOOK_OUTLINE_MAX) break;
+    if (!o || typeof o.title !== 'string' || !o.title.trim() || !Number.isInteger(o.page) || o.page < 1) continue;
+    out.push({ title: o.title.trim().slice(0, 200), page: o.page, level: Number.isInteger(o.level) && o.level > 0 ? Math.min(6, o.level) : 1 });
+  }
+  return out;
+}
+
+/**
+ * @param {any} positions
+ * @returns {Record<string, ChapterPosition>}
+ */
+function normalizePositions(positions) {
+  /** @type {Record<string, ChapterPosition>} */
+  const out = {};
+  if (!positions || typeof positions !== 'object') return out;
+  for (const [id, p] of Object.entries(positions)) {
+    if (!MAP_CHAPTER_ID.test(id) || !p || typeof p !== 'object') continue;
+    out[id] = { lastPage: normalizePage(p.lastPage, null), lastScale: normalizeScale(p.lastScale), updated: Number.isFinite(p.updated) ? p.updated : 0 };
+  }
+  return out;
+}
+
+/**
+ * Checks a whole-book file (type, size ≤ {@link WHOLE_BOOK_MAX_BYTES}, `%PDF-` header).
+ * Errors carry a plain-language `userMessage` and a `code` (`bad-input` | `empty` | `too-large` | `not-pdf`).
+ * @param {unknown} blob
+ * @returns {Promise<Blob>}
+ */
+export async function checkWholeBookInput(blob) {
+  if (!isBlob(blob)) throw userError(TypeError, "This file couldn't be read. Please choose it again.", 'bad-input');
+  const b = /** @type {Blob} */ (blob);
+  if (!(b.size > 0)) throw userError(TypeError, 'This file is empty.', 'empty');
+  if (b.size > WHOLE_BOOK_MAX_BYTES) throw userError(RangeError, 'This PDF is larger than 2 GB, too big to keep in the app.', 'too-large');
+  if (!(await isPdfBlob(b))) throw userError(TypeError, "This file isn't a PDF. Choose the book's PDF file.", 'not-pdf');
+  return b;
+}
+
+/**
+ * The whole book in one PDF, stored once (internal `wholebook` store, never in
+ * backups: the file is large and the user keeps the original). Chapters open as
+ * page ranges of it (`map`). The blob lives in its own record so saving the map
+ * or a reading position never rewrites the file.
+ */
+export const wholeBookRepo = Object.freeze({
+  /**
+   * The whole book with its blob (a lazy handle: nothing is read until used), or null.
+   * @returns {Promise<WholeBookRecord | null>}
+   */
+  async get() {
+    const out = await db.tx('wholebook', 'readonly', async (s) => {
+      const [meta, file] = await Promise.all([db.reqP(s.wholebook.get('meta')), db.reqP(s.wholebook.get('file'))]);
+      return { meta, file };
+    });
+    if (!out?.meta) return null;
+    return { ...out.meta, blob: out.file?.blob ?? null };
+  },
+
+  /**
+   * The metadata only (no blob), or null when no whole book is stored.
+   * @returns {Promise<WholeBookMeta | null>}
+   */
+  async meta() {
+    return (await db.get('wholebook', 'meta')) ?? null;
+  },
+
+  /**
+   * Stores (or replaces) the whole book. Validates the file; keeps reading
+   * positions of an earlier copy. `map`/`outline` are optional (set later with
+   * {@link wholeBookRepo.setMap}).
+   * @param {{ blob: Blob, fileName?: string, pages?: number | null, map?: any, outline?: any[], added?: number,
+   *   positions?: any }} rec
+   * @returns {Promise<WholeBookRecord>}
+   */
+  async put(rec) {
+    if (!rec || typeof rec !== 'object') throw new TypeError('whole book must be an object');
+    const blob = await checkWholeBookInput(rec.blob);
+    const now = Date.now();
+    return withLock('wholebook', async () => {
+      const meta = await db.tx('wholebook', 'readwrite', async (s) => {
+        const cur = await db.reqP(s.wholebook.get('meta'));
+        const pages = Number.isInteger(rec.pages) && /** @type {number} */ (rec.pages) > 0 ? /** @type {number} */ (rec.pages) : null;
+        /** @type {WholeBookMeta} */
+        const next = {
+          id: 'meta',
+          fileName: String(rec.fileName ?? '').trim().slice(0, 255),
+          bytes: blob.size,
+          pages,
+          added: Number.isFinite(rec.added) ? /** @type {number} */ (rec.added) : now,
+          updated: now,
+          map: normalizeBookMap(rec.map, pages),
+          outline: normalizeWholeOutline(rec.outline),
+          positions: normalizePositions(rec.positions ?? cur?.positions),
+        };
+        s.wholebook.put(next);
+        s.wholebook.put({ id: 'file', blob });
+        return next;
+      });
+      changed('wholebook', 'meta');
+      return { ...meta, blob };
+    });
+  },
+
+  /**
+   * Saves the chapter map (and optionally the outline) without touching the file.
+   * @param {any} map See {@link normalizeBookMap}.
+   * @param {{ outline?: any[] }} [extra]
+   * @returns {Promise<WholeBookMeta | null>} null when no whole book is stored.
+   */
+  setMap(map, { outline } = {}) {
+    return withLock('wholebook', async () => {
+      const next = await db.tx('wholebook', 'readwrite', async (s) => {
+        const cur = await db.reqP(s.wholebook.get('meta'));
+        if (!cur) return null;
+        const rec = { ...cur, map: normalizeBookMap(map, cur.pages), updated: Date.now() };
+        if (outline !== undefined) rec.outline = normalizeWholeOutline(outline);
+        s.wholebook.put(rec);
+        return rec;
+      });
+      if (next) changed('wholebook', 'meta');
+      return next ?? null;
+    });
+  },
+
+  /**
+   * Remembers the reading position in one chapter of the whole book.
+   * @param {string} chapterId e.g. `ch03`.
+   * @param {{ lastPage?: number, lastScale?: number | 'fit-width' | 'fit-page' | null }} [pos] `lastPage` within the chapter.
+   * @returns {Promise<WholeBookMeta | null>}
+   */
+  setPosition(chapterId, pos = {}) {
+    if (typeof chapterId !== 'string' || !MAP_CHAPTER_ID.test(chapterId)) throw new TypeError('chapter id such as "ch01" required');
+    const { lastPage, lastScale } = pos && typeof pos === 'object' ? pos : /** @type {any} */ ({});
+    return withLock('wholebook', async () => {
+      const next = await db.tx('wholebook', 'readwrite', async (s) => {
+        const cur = await db.reqP(s.wholebook.get('meta'));
+        if (!cur) return null;
+        const range = cur.map?.chapters?.[chapterId];
+        const size = range ? range.to - range.from + 1 : null;
+        const prev = cur.positions?.[chapterId] ?? { lastPage: 1, lastScale: null, updated: 0 };
+        const now = Date.now();
+        /** @type {ChapterPosition} */
+        const p = { ...prev, updated: now };
+        if (lastPage !== undefined) p.lastPage = normalizePage(lastPage, size);
+        if (lastScale !== undefined) p.lastScale = normalizeScale(lastScale);
+        const rec = { ...cur, positions: { ...(cur.positions || {}), [chapterId]: p } };
+        s.wholebook.put(rec);
+        return rec;
+      });
+      if (next) changed('wholebook', 'meta');
+      return next ?? null;
+    });
+  },
+
+  /**
+   * Deletes the whole book (file, map, positions). Annotations (`pdfnotes`) stay.
+   * @returns {Promise<void>}
+   */
+  remove() {
+    return withLock('wholebook', async () => {
+      await db.tx('wholebook', 'readwrite', (s) => {
+        s.wholebook.delete('meta');
+        s.wholebook.delete('file');
+      });
+      changed('wholebook', 'meta');
+    });
+  },
+});
+
+// ---------------------------------------------------------------------------
 // reports
 // ---------------------------------------------------------------------------
 
