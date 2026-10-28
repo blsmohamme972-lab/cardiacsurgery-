@@ -89,6 +89,10 @@
       {
         "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
         "loc": "p. 99, Continuous Cardioplegia: Cold Perfusion"
+      },
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 100, Continuous Cardioplegia: Cold Perfusion"
       }
     ]
   },
@@ -218,8 +222,8 @@
             "text": "During reperfusion the heart is **separated from events in the rest of the body** for a brief time"
           },
           {
-            "label": "result",
-            "text": "Less VF, less stunning and necrosis, apparently better postoperative cardiac performance"
+            "label": "claimed benefits",
+            "text": "Essentially no VF, less stunning and necrosis, apparently better postoperative cardiac performance"
           }
         ]
       },
@@ -269,126 +273,35 @@
     "version": 1,
     "topic": "Controlled Root Reperfusion: Elective Technique",
     "tags": [
-      "controlled aortic root reperfusion",
-      "hot shot",
-      "aortic root pressure",
-      "reperfusion"
-    ],
-    "difficulty": 2,
-    "reviewed": false,
-    "stem": "After completing a CABG in an adult, with the aortic clamp still in place, controlled **warm aortic root reperfusion** with hyperkalemic, modified, enriched blood cardioplegia is begun. Which **aortic root pressure** sequence is recommended?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "50 to 75 mmHg for the first 60 to 120 seconds, then 30 mmHg"
-      },
-      {
-        "id": "b",
-        "text": "30 mmHg for the first 60 to 120 seconds, then 50 to 75 mmHg"
-      },
-      {
-        "id": "c",
-        "text": "30 mmHg maintained throughout the entire reperfusion"
-      },
-      {
-        "id": "d",
-        "text": "100 mmHg for the first 60 to 120 seconds, then 50 to 75 mmHg"
-      },
-      {
-        "id": "e",
-        "text": "50 to 75 mmHg for the first 60 to 120 seconds, then 100 mmHg"
-      }
-    ],
-    "answer": "b",
-    "explanation": [
-      {
-        "id": "key",
-        "type": "callout",
-        "kind": "key",
-        "text": "Aortic root pressure is kept at ==30 mmHg for the first 60 to 120 seconds==, then flow is increased to ==50 to 75 mmHg in adults==."
-      },
-      {
-        "id": "steps",
-        "type": "flow",
-        "title": "Warm terminal reperfusion (\"hot shot\"), clamp on",
-        "steps": [
-          {
-            "text": "**Warm, hyperkalemic, modified, enriched** blood cardioplegia into the aortic root"
-          },
-          {
-            "label": "first 60–120 s",
-            "text": "Root pressure **30 mmHg**"
-          },
-          {
-            "label": "then",
-            "text": "Root pressure **50–75 mmHg** in adults (infants/children with BSA < 1 m^2^: normal systemic arterial diastolic pressure)"
-          },
-          {
-            "label": "total",
-            "text": "**500 mL** of modified reperfusate (scaled down if BSA < 1.5 m^2^)"
-          }
-        ]
-      },
-      {
-        "id": "pitfall",
-        "type": "callout",
-        "kind": "pitfall",
-        "title": "Low first, then higher",
-        "text": "The **low** pressure (30 mmHg) comes **first**; 100 mmHg systolic is the root pressure aimed for later, during ejection and de-airing after aortic valve surgery."
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "The aortic root pressure is kept at 30 mmHg for the first 60 to 120 seconds of the reperfusion for the reasons discussed earlier.",
-        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 100"
-      }
-    ],
-    "choiceNotes": {
-      "a": "The order is reversed: **30 mmHg first**, then 50–75 mmHg.",
-      "c": "After the first 60–120 s, flow is **increased** until root pressure is 50–75 mmHg.",
-      "d": "The initial pressure is **30 mmHg**; about 100 mmHg systolic is the later ejection target after aortic valve surgery.",
-      "e": "The sequence starts at **30 mmHg** and rises to 50–75 mmHg, not to 100 mmHg."
-    },
-    "source": [
-      {
-        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
-        "loc": "p. 100, Technique for Elective Surgery"
-      }
-    ]
-  },
-  {
-    "id": "D-05",
-    "version": 1,
-    "topic": "Controlled Root Reperfusion: Elective Technique",
-    "tags": [
-      "controlled aortic root reperfusion",
+      "controlled reperfusion",
+      "warm terminal reperfusion",
       "hot shot",
       "pediatric",
-      "reperfusate volume"
+      "body surface area"
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "A child with a body surface area (BSA) of **0.75 m^2^** has an elective intracardiac repair under cardioplegia. What **volume of warm modified blood reperfusate** should be given for the terminal warm reperfusion?",
+    "stem": "A child with a body surface area (BSA) of **0.75 m^2^** has an elective intracardiac repair under cardioplegia. With the aortic clamp still on, **warm terminal reperfusion (\"hot shot\")** with hyperkalemic, modified, enriched blood is given. After the initial low-pressure period, which **aortic root pressure target** and **total reperfusate volume** are used?",
     "choices": [
       {
         "id": "a",
-        "text": "500 mL"
+        "text": "50 to 75 mmHg; 500 mL"
       },
       {
         "id": "b",
-        "text": "375 mL"
+        "text": "50 to 75 mmHg; 250 mL"
       },
       {
         "id": "c",
-        "text": "125 mL"
+        "text": "Normal systemic arterial diastolic pressure; 500 mL"
       },
       {
         "id": "d",
-        "text": "250 mL"
+        "text": "Normal systemic arterial diastolic pressure; 250 mL"
       },
       {
         "id": "e",
-        "text": "750 mL"
+        "text": "Normal systemic arterial systolic pressure; 375 mL"
       }
     ],
     "answer": "d",
@@ -397,34 +310,40 @@
         "id": "key",
         "type": "callout",
         "kind": "key",
-        "text": "For BSA < 1.5 m^2^, reperfusate volume = ==500 × BSA ÷ 1.5==, so 500 × 0.75 ÷ 1.5 = **250 mL**."
+        "text": "In infants and children with **BSA < 1 m^2^**, flow is increased until root pressure equals the ==normal systemic arterial diastolic pressure== (50 to 75 mmHg applies to adults). The 500-mL reperfusate is scaled when **BSA < 1.5 m^2^**: ==500 × BSA ÷ 1.5==, so 500 × 0.75 ÷ 1.5 = **250 mL**."
       },
       {
         "id": "calc",
         "type": "table",
-        "caption": "Terminal warm reperfusion: dose and pressure",
+        "caption": "Terminal warm reperfusion (\"hot shot\"), clamp on",
         "head": [
           "Item",
-          "Rule"
+          "Adult",
+          "Infant/child"
         ],
         "rows": [
           [
-            "Standard volume",
-            "**500 mL** of modified blood reperfusate"
+            "Perfusate",
+            "Warm, hyperkalemic, modified, enriched blood cardioplegia",
+            "Same"
           ],
           [
-            "BSA < 1.5 m^2^",
-            "Volume = **500 × BSA ÷ 1.5**"
+            "Root pressure after the initial low-pressure period",
+            "**50–75 mmHg**",
+            "**Normal systemic arterial diastolic pressure** (BSA < 1 m^2^)"
           ],
           [
-            "Root pressure after first 60–120 s (adults)",
-            "50–75 mmHg"
-          ],
-          [
-            "Root pressure after first 60–120 s (infants/children, BSA < 1 m^2^)",
-            "Normal systemic arterial **diastolic** pressure"
+            "Total volume",
+            "**500 mL**",
+            "**500 × BSA ÷ 1.5** (BSA < 1.5 m^2^)"
           ]
         ]
+      },
+      {
+        "id": "pitfall",
+        "type": "callout",
+        "kind": "pitfall",
+        "text": "Two different BSA cut-offs: **< 1 m^2^** changes the pressure target; **< 1.5 m^2^** scales the volume. 375 mL is 500 × BSA without dividing by 1.5."
       },
       {
         "id": "quote",
@@ -434,10 +353,10 @@
       }
     ],
     "choiceNotes": {
-      "a": "500 mL is the full dose; for BSA < 1.5 m^2^ it is scaled as 500 × BSA ÷ 1.5.",
-      "b": "375 mL is 500 × BSA without dividing by 1.5.",
-      "c": "125 mL underestimates the formula result (500 × 0.75 ÷ 1.5 = 250 mL).",
-      "e": "750 mL exceeds even the full adult dose of 500 mL."
+      "a": "Both values are the **adult** ones; a child with BSA < 1 m^2^ is taken to normal diastolic pressure, and the volume is scaled.",
+      "b": "50 to 75 mmHg is the **adult** target; below BSA 1 m^2^ the target is the normal systemic arterial diastolic pressure.",
+      "c": "The pressure is right, but for BSA < 1.5 m^2^ the volume is **500 × BSA ÷ 1.5** = 250 mL.",
+      "e": "The target is the **diastolic** pressure, and 375 mL omits the division by 1.5."
     },
     "source": [
       {
@@ -525,93 +444,6 @@
     ]
   },
   {
-    "id": "D-07",
-    "version": 1,
-    "topic": "Controlled Root Reperfusion: Elective Technique",
-    "tags": [
-      "controlled aortic root reperfusion",
-      "rhythm",
-      "AV dissociation",
-      "ventricular fibrillation"
-    ],
-    "difficulty": 2,
-    "reviewed": false,
-    "stem": "During controlled aortic root reperfusion, the period of electromechanical quiescence passes and cardiac action begins. What is the **initial rhythm** most frequently seen?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "Ventricular fibrillation"
-      },
-      {
-        "id": "b",
-        "text": "Sinus rhythm with strong contractions"
-      },
-      {
-        "id": "c",
-        "text": "Atrioventricular (AV) dissociation"
-      },
-      {
-        "id": "d",
-        "text": "Persistent asystole needing pacing"
-      },
-      {
-        "id": "e",
-        "text": "Ventricular tachycardia"
-      }
-    ],
-    "answer": "c",
-    "explanation": [
-      {
-        "id": "key",
-        "type": "callout",
-        "kind": "key",
-        "text": "When cardiac action begins, the initial rhythm ==frequently is AV dissociation==; ==very rarely== it is ventricular fibrillation."
-      },
-      {
-        "id": "seq",
-        "type": "flow",
-        "title": "Course of controlled root reperfusion",
-        "steps": [
-          {
-            "text": "Flaccid, quiescent heart (**2–10 min**)"
-          },
-          {
-            "label": "action begins",
-            "text": "Often **AV dissociation** (VF very rare)"
-          },
-          {
-            "label": "perfusion continues",
-            "text": "**Sinus rhythm** with **strong contractions** = endpoint (usually 10–25 min from start)"
-          }
-        ]
-      },
-      {
-        "id": "pitfall",
-        "type": "callout",
-        "kind": "pitfall",
-        "text": "**Sinus rhythm** with strong contractions is the **endpoint** of the controlled perfusion, not the first rhythm."
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "When the period of quiescence passes, and cardiac action begins, the initial rhythm frequently is AV dissociation. Very rarely, it is ventricular fibrillation.",
-        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 100"
-      }
-    ],
-    "choiceNotes": {
-      "a": "Ventricular fibrillation occurs **very rarely** with this technique.",
-      "b": "Sinus rhythm with strong contractions is the **endpoint** reached later, not the initial rhythm.",
-      "d": "The chapter describes cardiac action beginning, initially frequently as **AV dissociation**, not persistent asystole.",
-      "e": "The chapter names **AV dissociation** as the frequent initial rhythm."
-    },
-    "source": [
-      {
-        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
-        "loc": "p. 100, Technique for Elective Surgery"
-      }
-    ]
-  },
-  {
     "id": "D-08",
     "version": 1,
     "topic": "Controlled Root Reperfusion: Elective Technique",
@@ -643,7 +475,7 @@
       },
       {
         "id": "e",
-        "text": "Reduce root perfusion flow, adding suction on the root pressure catheter if needed"
+        "text": "Reduce the aortic root perfusion flow rate"
       }
     ],
     "answer": "e",
@@ -719,7 +551,7 @@
       },
       {
         "id": "b",
-        "text": "Myocardial management was imperfect; support after CPB will almost certainly be needed"
+        "text": "Imperfect myocardial management; post-CPB support almost certainly needed"
       },
       {
         "id": "c",
@@ -750,6 +582,14 @@
           "Detail"
         ],
         "rows": [
+          [
+            "Before action begins",
+            "Heart **flaccid and quiescent for 2 to 10 minutes**"
+          ],
+          [
+            "Initial rhythm when action begins",
+            "Frequently **AV dissociation**; **very rarely** ventricular fibrillation"
+          ],
           [
             "Endpoints",
             "**Sinus rhythm** returned **and** **strong** ventricular contractions"
@@ -988,35 +828,35 @@
     "version": 1,
     "topic": "Ancillary Measures for Preventing Myocardial Damage",
     "tags": [
-      "myocardial necrosis",
+      "perioperative myocardial necrosis",
       "anesthesia",
-      "pre-bypass period",
-      "CABG",
-      "myocardial oxygen demand"
+      "end-diastolic pressure",
+      "oxygen supply and demand",
+      "catecholamines"
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "Regarding **myocardial necrosis that develops between induction of anesthesia and the start of CPB** in patients undergoing CABG, which statement is correct?",
+    "stem": "A patient undergoing CABG has been anesthetized, and **CPB has not yet started**. Which management principle helps prevent **important myocardial necrosis** during this pre-bypass period?",
     "choices": [
       {
         "id": "a",
-        "text": "It may affect 30% to 40% with suboptimal management but about 3% under optimal conditions"
+        "text": "Keeping ventricular end-diastolic pressures low"
       },
       {
         "id": "b",
-        "text": "It is restricted to CABG; patients with ventricular hypertrophy are not at risk"
+        "text": "Keeping the heart rate moderately fast to support output"
       },
       {
         "id": "c",
-        "text": "It affects about 3% of patients regardless of how anesthesia is managed"
+        "text": "Keeping arterial pressure elevated to boost coronary flow"
       },
       {
         "id": "d",
-        "text": "It is reduced by allowing high ventricular end-diastolic pressures"
+        "text": "Keeping arterial oxygen tension low to limit oxygen demand"
       },
       {
         "id": "e",
-        "text": "It is prevented chiefly by mild arterial hypertension and tachycardia"
+        "text": "Keeping arterial pressure low to limit oxygen demand"
       }
     ],
     "answer": "a",
@@ -1025,7 +865,7 @@
         "id": "key",
         "type": "callout",
         "kind": "key",
-        "text": "Important pre-CPB necrosis occurs in ==as many as 30% to 40%== of CABG patients when management is suboptimal, falling to ==almost 3%== under optimal circumstances."
+        "text": "Proper management ==avoids high ventricular end-diastolic pressures== (which harm **subendocardial perfusion**), avoids increased oxygen demand, and maintains oxygen supply. Important necrosis between induction and CPB occurs in **as many as 30% to 40%** of CABG patients when management is suboptimal, but can fall to **almost 3%** under optimal circumstances."
       },
       {
         "id": "avoid",
@@ -1068,85 +908,24 @@
         "text": "Patients other than CABG patients are also at risk, particularly those with **marked ventricular hypertrophy** or **reduced myocardial energy charge**."
       },
       {
-        "id": "quote",
-        "type": "quote",
-        "text": "Important myocardial necrosis can develop between induction of anesthesia and start of CPB in as many as 30% to 40% of patients undergoing CABG when anesthetic and supportive management are suboptimal.",
-        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 101"
-      }
-    ],
-    "choiceNotes": {
-      "b": "Patients other than CABG patients are also at risk, **particularly those with marked ventricular hypertrophy**.",
-      "c": "About 3% applies only under **optimal** circumstances; suboptimal management gives 30%–40%.",
-      "d": "High end-diastolic pressures should be **avoided** because they harm subendocardial perfusion.",
-      "e": "Hypertension and tachycardia **increase** myocardial oxygen demand and should be avoided."
-    },
-    "source": [
-      {
-        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
-        "loc": "p. 101, Ancillary Measures for Preventing Myocardial Damage"
-      }
-    ]
-  },
-  {
-    "id": "D-13",
-    "version": 1,
-    "topic": "Ancillary Measures for Preventing Myocardial Damage",
-    "tags": [
-      "myocardial necrosis",
-      "catecholamines",
-      "low cardiac output",
-      "post-bypass"
-    ],
-    "difficulty": 2,
-    "reviewed": false,
-    "stem": "Early after CPB, a patient has **low cardiac output**. Which intervention does the chapter specifically warn **can result in myocardial necrosis** at this stage?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "Augmenting blood volume to a left atrial pressure of 6 to 10 mmHg"
-      },
-      {
-        "id": "b",
-        "text": "Maintaining adequate arterial oxygen levels"
-      },
-      {
-        "id": "c",
-        "text": "Using catecholamines to treat the low cardiac output"
-      },
-      {
-        "id": "d",
-        "text": "Adjusting preload and afterload for adequate cardiac output"
-      },
-      {
-        "id": "e",
-        "text": "Maintaining adequate arterial blood pressure"
-      }
-    ],
-    "answer": "c",
-    "explanation": [
-      {
-        "id": "key",
+        "id": "catechol",
         "type": "callout",
-        "kind": "key",
-        "text": "==Use of catecholamines== for treating low cardiac output early after CPB ==can result in myocardial necrosis==."
-      },
-      {
-        "id": "p",
-        "type": "p",
-        "text": "Important perioperative necrosis can develop from events **after CPB**, in or out of the operating room, especially events that produce **imbalances between myocardial oxygen demand and supply**."
+        "kind": "pitfall",
+        "title": "After CPB too",
+        "text": "Necrosis can also follow events **after CPB** that unbalance oxygen demand and supply: **catecholamines** used to treat low cardiac output early after CPB **can result in myocardial necrosis**."
       },
       {
         "id": "quote",
         "type": "quote",
-        "text": "Use of catecholamines for treating low cardiac output early after CPB can result in myocardial necrosis.",
+        "text": "It avoids high ventricular end-diastolic pressures and the concomitant detrimental effect on perfusion of the subendocardium.",
         "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 101"
       }
     ],
     "choiceNotes": {
-      "a": "Augmenting volume to LA or wedge pressure 6–10 mmHg is part of the recommended reperfusion technique to keep good coronary perfusion pressure.",
-      "b": "Maintaining adequate arterial oxygen levels **supports** myocardial oxygen supply.",
-      "d": "Adjusting preload and afterload is part of good management, balancing cardiac output against deleterious effects.",
-      "e": "Maintaining arterial blood pressure **supports** myocardial oxygen supply."
+      "b": "**Tachycardia** increases myocardial oxygen demand and should be avoided.",
+      "c": "**Arterial hypertension** increases oxygen demand; good management maintains an adequate, not elevated, arterial pressure.",
+      "d": "Good management **maintains adequate arterial oxygen levels** to secure myocardial oxygen supply.",
+      "e": "Good management **maintains arterial blood pressure** to secure myocardial oxygen supply."
     },
     "source": [
       {
@@ -1171,19 +950,19 @@
     "choices": [
       {
         "id": "a",
-        "text": "A marked sudden increase in left ventricular mass, as in the dog model"
+        "text": "A marked sudden increase in LV mass, as in the dog model"
       },
       {
         "id": "b",
-        "text": "No increase in left ventricular mass, whereas a dog model showed a marked increase"
+        "text": "No increase in LV mass, unlike the dog model"
       },
       {
         "id": "c",
-        "text": "A modest increase in left ventricular mass that resolved within days"
+        "text": "A modest LV mass increase that resolved within days"
       },
       {
         "id": "d",
-        "text": "An increase in right ventricular but not left ventricular mass"
+        "text": "Increased right but not left ventricular mass"
       },
       {
         "id": "e",
@@ -1457,23 +1236,23 @@
     "choices": [
       {
         "id": "a",
-        "text": "An immature sarcoplasmic reticulum with reduced calcium reuptake, causing dependence on extracellular calcium"
+        "text": "Immature sarcoplasmic reticulum with reliance on extracellular calcium"
       },
       {
         "id": "b",
-        "text": "A mature sarcoplasmic reticulum that stores calcium more effectively than in adults"
+        "text": "A sarcoplasmic reticulum that stores calcium better than in adults"
       },
       {
         "id": "c",
-        "text": "Preferential use of glucose rather than fatty acids for ATP production"
+        "text": "Preferential use of glucose rather than fatty acid oxidation"
       },
       {
         "id": "d",
-        "text": "Larger stores of amino acids that support anaerobic ATP production"
+        "text": "Larger amino acid stores supporting anaerobic ATP production"
       },
       {
         "id": "e",
-        "text": "Rapid angiogenesis that balances coronary supply with myocardial demand"
+        "text": "Rapid angiogenesis balancing coronary supply and demand"
       }
     ],
     "answer": "a",
@@ -1559,7 +1338,7 @@
       },
       {
         "id": "c",
-        "text": "It is probably not unusually high; failure and hypoxia cause profound postischemic depression"
+        "text": "Probably not unusually high; failure and hypoxia cause postischemic depression"
       },
       {
         "id": "d",
@@ -1701,6 +1480,89 @@
     ]
   },
   {
+    "id": "D-N1",
+    "version": 1,
+    "topic": "Neonates and Infants: Methods of Myocardial Management",
+    "tags": [
+      "neonates",
+      "retrograde cardioplegia",
+      "blood cardioplegia",
+      "arterial switch operation"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "In many neonatal operations, the procedure is done largely **through the right atrium**. Which view of neonatal myocardial management does the chapter put forward?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Methods should differ fundamentally from those used in adults"
+      },
+      {
+        "id": "b",
+        "text": "Methods similar to adults, with retrograde blood cardioplegia"
+      },
+      {
+        "id": "c",
+        "text": "Crystalloid cardioplegia only, since blood is poorly tolerated"
+      },
+      {
+        "id": "d",
+        "text": "Multidose cardioplegia, proven superior in immature hearts"
+      },
+      {
+        "id": "e",
+        "text": "Antegrade root delivery only, as retrograde is not feasible"
+      }
+    ],
+    "answer": "b",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "One point of view, compatible with all available evidence (though not with the opinions of some), is that the ==basic methodology in neonates, infants and children should be similar to that in adults==. With right atrial procedures, ==retrograde coronary sinus infusion of blood cardioplegia== should be particularly convenient."
+      },
+      {
+        "id": "evidence",
+        "type": "list",
+        "items": [
+          "Feasibility, safety and efficiency of **retrograde blood cardioplegia as maintenance** shown in the **arterial switch operation** and **complex arch reconstruction**.",
+          "One study: **cold blood** cardioplegia gave superior protection to **crystalloid St. Thomas** solution in infants and young children.",
+          "Experimentally, **multidose** administration was **disadvantageous** in immature hearts.",
+          "Little concerted effort has been made to overcome the **technical difficulty** in very small hearts."
+        ]
+      },
+      {
+        "id": "scale",
+        "type": "callout",
+        "kind": "pearl",
+        "text": "Whatever the agent and protocol, all **catheters, cannulae, doses, flow rates and pressures** should be **scaled appropriately** to small patients."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "the feasibility, safety, and efficiency of retrograde coronary sinus infusion of blood cardioplegic solution as maintenance cardioplegia have been demonstrated in the arterial switch operation and in complex arch reconstruction.",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 102"
+      }
+    ],
+    "choiceNotes": {
+      "a": "The view put forward is that methodology should be **similar** to that in adults.",
+      "c": "One study found **cold blood** cardioplegia superior to crystalloid St. Thomas solution in infants and young children.",
+      "d": "Multidose administration was shown **experimentally to be disadvantageous** in immature hearts.",
+      "e": "Retrograde blood cardioplegia has been shown **feasible and safe** in the arterial switch operation and complex arch reconstruction."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 102, Methods of Myocardial Management"
+      },
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 103, Methods of Myocardial Management"
+      }
+    ]
+  },
+  {
     "id": "D-20",
     "version": 1,
     "topic": "Neonates and Infants: del Nido Cardioplegia",
@@ -1717,32 +1579,32 @@
     "choices": [
       {
         "id": "a",
-        "text": "Higher calcium, because pediatric myocardium relies on calcium flux"
+        "text": "Higher calcium, since pediatric myocardium relies on calcium flux"
       },
       {
         "id": "b",
-        "text": "Lower magnesium, to allow faster return of excitability"
+        "text": "More magnesium, to further depress cell excitability during ischemia"
       },
       {
         "id": "c",
-        "text": "Mannitol added as the main arresting agent"
+        "text": "Lidocaine added to depolarize the cell membrane and arrest the heart"
       },
       {
         "id": "d",
-        "text": "Lidocaine added to block sodium channels and limit early reperfusion calcium overload"
+        "text": "Mannitol added as the principal arresting agent of the solution"
       },
       {
         "id": "e",
-        "text": "Glutamate and aspartate added as the main arresting agents"
+        "text": "Glutamate and aspartate added as the principal arresting agents"
       }
     ],
-    "answer": "d",
+    "answer": "b",
     "explanation": [
       {
         "id": "key",
         "type": "callout",
         "kind": "key",
-        "text": "**Lidocaine** is added to ==block sodium channels==, reducing cell excitability and ==limiting calcium overload during early reperfusion==."
+        "text": "**Magnesium is increased** to ==depress cell excitability further== (and therefore cellular metabolism and ATP utilization) during the ischemic period. Calcium is **lower**, and **lidocaine** is added to block sodium channels."
       },
       {
         "id": "diff",
@@ -1782,14 +1644,14 @@
       {
         "id": "quote",
         "type": "quote",
-        "text": "Lidocaine is added to block sodium channels; this reduces cell excitability and limits calcium overload during early reperfusion.",
+        "text": "Magnesium is increased to depress cell excitability further (and therefore cellular metabolism and ATP utilization) during the ischemic period.",
         "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 102"
       }
     ],
     "choiceNotes": {
-      "a": "Calcium is **lower** in del Nido solution, precisely because pediatric myocardium tolerates postischemic calcium overload poorly.",
-      "b": "Magnesium is **increased** to depress cell excitability further.",
-      "c": "Mannitol decreases myocardial edema and scavenges free radicals; potassium, lidocaine and magnesium are the arresting agents.",
+      "a": "Calcium is **lower** in del Nido solution, because pediatric myocardium relies more on calcium flux and tolerates postischemic calcium overload poorly.",
+      "c": "**Potassium chloride** depolarizes the membrane; lidocaine is a sodium channel blocker that maintains arrest in a **hyperpolarized** state.",
+      "d": "Mannitol decreases myocardial edema and scavenges free radicals; potassium, lidocaine and magnesium are the arresting agents.",
       "e": "Glutamate and aspartate are discussed for warm induction and reperfusate in experimental studies, not as del Nido arresting agents."
     },
     "source": [
@@ -1809,33 +1671,33 @@
     "topic": "Neonates and Infants: del Nido Cardioplegia",
     "tags": [
       "del Nido cardioplegia",
-      "pediatric cardioplegia",
-      "redosing interval",
-      "dosage"
+      "pediatric",
+      "Buckberg cardioplegia",
+      "redosing"
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "A neonate is to receive **del Nido cardioplegia**. Which description of its preparation and use is correct?",
+    "stem": "Which statement summarizes the accumulated **clinical experience with del Nido cardioplegia** in neonates, infants and children, compared with **Buckberg cardioplegia**?",
     "choices": [
       {
         "id": "a",
-        "text": "One part solution to four parts blood; induction 20 mL/kg; redosing every 20 to 30 minutes"
+        "text": "Slower return of sinus rhythm, but fewer doses needed"
       },
       {
         "id": "b",
-        "text": "Four parts solution to one part blood; induction 30 mL/kg; redosing every 20 to 30 minutes"
+        "text": "Clearly superior to HTK solution in every randomized trial"
       },
       {
         "id": "c",
-        "text": "Pure crystalloid without blood; induction 20 mL/kg; redosing intervals up to 90 minutes"
+        "text": "Longer cross-clamp times because of more frequent redosing"
       },
       {
         "id": "d",
-        "text": "One part solution to four parts blood; induction 30 mL/kg; redosing intervals up to 90 minutes"
+        "text": "Now rarely used; most centers have returned to Buckberg"
       },
       {
         "id": "e",
-        "text": "Four parts solution to one part blood; induction 20 mL/kg; redosing intervals up to 90 minutes"
+        "text": "Faster return of sinus rhythm despite longer dosing intervals"
       }
     ],
     "answer": "e",
@@ -1844,7 +1706,7 @@
         "id": "key",
         "type": "callout",
         "kind": "key",
-        "text": "del Nido solution is mixed ==4 parts solution : 1 part blood==; induction follows the ==20 mL/kg== Boston dose; recommended intervals between doses are ==up to 90 min== (vs 20–30 min for Buckberg)."
+        "text": "Experience has been very favorable: most surgeons note ==more rapid return of sinus rhythm== and excellent cardiac function ==despite longer recommended intervals between doses== (up to 90 min vs 20–30 min with Buckberg)."
       },
       {
         "id": "t",
@@ -1860,34 +1722,38 @@
           ],
           [
             "Induction (original Boston Children's Hospital)",
-            "**20 cc/kg**"
-          ],
-          [
-            "Hypertrophied hearts",
-            "Additional induction up to **30 cc/kg** (center dependent)"
+            "**20 cc/kg**; up to **30 cc/kg** additional for hypertrophied hearts (center dependent)"
           ],
           [
             "Interval between doses",
             "**Up to 90 min** (Buckberg: 20–30 min)"
           ],
           [
-            "Reported experience",
-            "Faster return of sinus rhythm; shorter cross-clamp times and fewer doses; most common formulation in a CHSS survey (**38%**)"
+            "Randomized trials vs HTK, Custodiol, St. Thomas",
+            "Some: no significant clinical difference; others: improved markers of myocardial injury"
+          ],
+          [
+            "Most trials",
+            "**Decreased cross-clamp times** and **fewer** cardioplegia doses"
+          ],
+          [
+            "CHSS survey",
+            "Most commonly used formulation (**38%** of responses)"
           ]
         ]
       },
       {
         "id": "quote",
         "type": "quote",
-        "text": "The del Nido cardioplegic solution (Baxter) is combined with blood in a ratio of four parts solution to one part blood.",
+        "text": "most surgeons noting more rapid return of sinus rhythm and excellent cardiac function despite longer recommended periods between cardioplegia administration (up to 90 min vs. 20-30 min) compared with Buckberg cardioplegia.",
         "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 102"
       }
     ],
     "choiceNotes": {
-      "a": "The ratio is **4 solution : 1 blood**, and redosing intervals are up to 90 min (20–30 min applies to Buckberg).",
-      "b": "30 mL/kg is the **additional** induction for hypertrophied hearts; intervals are up to 90 min.",
-      "c": "del Nido solution is **combined with blood** (4:1).",
-      "d": "The ratio is reversed and 30 mL/kg is used only for hypertrophied hearts."
+      "a": "Most surgeons note **more rapid** return of sinus rhythm.",
+      "b": "Some trials showed **no significant clinical difference**; others showed improved markers of myocardial injury.",
+      "c": "Most studies showed **decreased** cross-clamp times and **fewer** doses.",
+      "d": "A Congenital Heart Surgeons' Society survey found del Nido the **most commonly used** formulation (38%)."
     },
     "source": [
       {
@@ -1994,23 +1860,23 @@
     "choices": [
       {
         "id": "a",
-        "text": "An aortotomy is made at once and the infusion is switched to the coronary ostia"
+        "text": "Aortotomy at once, with infusion switched to the coronary ostia"
       },
       {
         "id": "b",
-        "text": "Left atrial vent suction is increased and the infusion is stopped"
+        "text": "LA vent suction increased and the infusion stopped"
       },
       {
         "id": "c",
-        "text": "The left atrial vent is clamped, the infusion continues, and the LV is gently massaged"
+        "text": "LA vent clamped, infusion continued, LV gently massaged"
       },
       {
         "id": "d",
-        "text": "The infusion is switched to the retrograde route only"
+        "text": "Infusion switched to the retrograde route only"
       },
       {
         "id": "e",
-        "text": "The aortic clamp is released briefly to decompress the ventricle"
+        "text": "Aortic clamp released briefly to decompress the LV"
       }
     ],
     "answer": "c",
@@ -2089,7 +1955,7 @@
       },
       {
         "id": "b",
-        "text": "Start retrograde cardioplegia at > 300 mL/min and open the aorta for ostial cannulation"
+        "text": "Start retrograde delivery and open the aorta for ostial cannulae"
       },
       {
         "id": "c",
@@ -2110,7 +1976,7 @@
         "id": "key",
         "type": "callout",
         "kind": "key",
-        "text": "If root pressure is ==< 50 mmHg==, ==retrograde cardioplegia is started at > 300 mL/min== and the proximal aorta is opened with a **hockey-stick incision** for coronary ostial cannulae."
+        "text": "If root pressure is ==< 50 mmHg==, ==retrograde cardioplegia is started (at > 300 mL/min)== and the proximal aorta is opened with a **hockey-stick incision** for coronary ostial cannulae."
       },
       {
         "id": "seq",
@@ -2139,6 +2005,22 @@
         ]
       },
       {
+        "id": "long",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "Cross-clamp > 90 min",
+        "items": [
+          "Add **antegrade ostial** delivery at **every third** reinfusion, besides retrograde application every 20–30 min.",
+          "The warm terminal reperfusion (\"hot shot\") can be given antegrade via the **aortic root cannula** once the valve is repaired or replaced."
+        ]
+      },
+      {
+        "id": "ostia",
+        "type": "callout",
+        "kind": "pitfall",
+        "text": "Direct cannulation of the ostia (especially **multiple cannulation maneuvers**) may lead to **later ostial stenosis**."
+      },
+      {
         "id": "quote",
         "type": "quote",
         "text": "Once antegrade cardioplegic perfusion has been established, retrograde delivery is stopped.",
@@ -2146,86 +2028,10 @@
       }
     ],
     "choiceNotes": {
-      "a": "Low root pressure here prompts **retrograde** delivery and direct ostial cannulation, not higher root flow.",
+      "a": "Low root pressure here prompts **retrograde** delivery (> 300 mL/min) and direct ostial cannulation, not higher root flow.",
       "c": "Systemic cooling to 20°C is the response to large noncoronary collateral flow, not to low root pressure in valve surgery.",
       "d": "Continuing root infusion with LV massage is for mild AR with **adequate** root pressure.",
       "e": "The described sequence continues with retrograde and ostial delivery; the clamp is not released."
-    },
-    "source": [
-      {
-        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
-        "loc": "p. 103, Aortic Valve Surgery"
-      }
-    ]
-  },
-  {
-    "id": "D-25",
-    "version": 1,
-    "topic": "Aortic Valve Surgery",
-    "tags": [
-      "coronary ostial cannulation",
-      "ostial stenosis",
-      "aortic valve surgery",
-      "complications"
-    ],
-    "difficulty": 2,
-    "reviewed": false,
-    "stem": "During a long aortic valve procedure, cardioplegia is delivered by **direct cannulation of the coronary ostia**, with repeated cannulation maneuvers. Which late complication does the chapter warn about?",
-    "choices": [
-      {
-        "id": "a",
-        "text": "Coronary sinus rupture"
-      },
-      {
-        "id": "b",
-        "text": "Calcium overload of the myocardium"
-      },
-      {
-        "id": "c",
-        "text": "Aortic valve regurgitation"
-      },
-      {
-        "id": "d",
-        "text": "Later coronary ostial stenosis"
-      },
-      {
-        "id": "e",
-        "text": "Left ventricular distention"
-      }
-    ],
-    "answer": "d",
-    "explanation": [
-      {
-        "id": "key",
-        "type": "callout",
-        "kind": "key",
-        "text": "Direct cannulation of the ostia (==especially multiple cannulation maneuvers==) ==may lead to later ostial stenosis==."
-      },
-      {
-        "id": "long",
-        "type": "callout",
-        "kind": "pearl",
-        "title": "Cross-clamp > 90 min",
-        "text": "Give **antegrade ostial** delivery at **every third** reinfusion, in addition to retrograde application every 20–30 min. The warm terminal reperfusion (\"hot shot\") can then be given antegrade via the **aortic root cannula** once the valve is repaired or replaced."
-      },
-      {
-        "id": "pitfall",
-        "type": "callout",
-        "kind": "pitfall",
-        "text": "Coronary sinus rupture is a complication of **retrograde** cardioplegia, not of ostial cannulation."
-      },
-      {
-        "id": "quote",
-        "type": "quote",
-        "text": "One must remember that direct cannulation of the ostia (especially multiple cannulation maneuvers) may lead to later ostial stenosis.",
-        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 103"
-      }
-    ],
-    "choiceNotes": {
-      "a": "Coronary sinus rupture is a complication of **retrograde** catheters.",
-      "b": "Calcium overload is a risk of the immature myocardium after ischemia-reperfusion, not of ostial cannulation.",
-      "c": "The warning about ostial cannulation concerns **ostial stenosis**.",
-      "e": "Distention is avoided by venting and LV massage; it is not the late complication of ostial cannulation."
     },
     "source": [
       {
@@ -2246,36 +2052,36 @@
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "During a cardiac operation in a patient with **aortic regurgitation too mild to justify valve replacement**, an appropriate aortic root pressure **cannot be achieved** during cold cardioplegia. How are cold cardioplegia and the later reperfusion delivered?",
+    "stem": "During a cardiac operation in a patient with **aortic regurgitation too mild to justify valve replacement**, an appropriate aortic root pressure could not be achieved, so cold cardioplegia was given **retrogradely through the coronary sinus**. How is the **reperfusion phase** managed?",
     "choices": [
       {
         "id": "a",
-        "text": "Cold cardioplegia via the root at higher flow; reperfusion through the root"
+        "text": "Warm hyperkalemic, then normokalemic, all retrograde"
       },
       {
         "id": "b",
-        "text": "Cold cardioplegia via the coronary ostia; reperfusion through the root"
+        "text": "Warm hyperkalemic via the aortic root at higher flow"
       },
       {
         "id": "c",
-        "text": "Cold cardioplegia via the root with LV massage; reperfusion retrograde"
+        "text": "No controlled reperfusion; the clamp is released"
       },
       {
         "id": "d",
-        "text": "Cold cardioplegia retrograde; reperfusion abandoned in favour of clamp release"
+        "text": "Normokalemic only, through direct ostial cannulae"
       },
       {
         "id": "e",
-        "text": "Cold cardioplegia retrograde; reperfusion exclusively retrograde via the coronary sinus"
+        "text": "Cold retrograde, then warm via the aortic root"
       }
     ],
-    "answer": "e",
+    "answer": "a",
     "explanation": [
       {
         "id": "key",
         "type": "callout",
         "kind": "key",
-        "text": "Cold cardioplegia is given ==retrogradely through the coronary sinus==, and the heart can be carried through warm hyperkalemic then normokalemic reperfusion ==exclusively retrograde==."
+        "text": "The heart can be carried through the ==initially warm hyperkalemic reperfusion and then the normokalemic reperfusion== until cardiac action fully resumes, using ==exclusively retrograde perfusion through the coronary sinus==."
       },
       {
         "id": "algo",
@@ -2301,15 +2107,15 @@
       {
         "id": "quote",
         "type": "quote",
-        "text": "cold cardioplegic solution is administered retrogradely through the coronary sinus.",
+        "text": "In the reperfusion phase, the heart can be carried through the initially warm hyperkalemic reperfusion and then the normokalemic reperfusion until cardiac action fully resumes, using exclusively retrograde perfusion through the coronary sinus.",
         "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 104"
       }
     ],
     "choiceNotes": {
-      "a": "If root pressure cannot be achieved, the root route is replaced by **retrograde** delivery.",
-      "b": "Here the aorta is not opened; delivery is **retrograde** through the coronary sinus.",
-      "c": "Root infusion with LV massage applies when root pressure **is** adequate.",
-      "d": "Reperfusion is **not** abandoned; it is carried out exclusively retrograde."
+      "b": "The root cannot hold an appropriate pressure; reperfusion is **exclusively retrograde**.",
+      "c": "Controlled reperfusion is still performed, **retrogradely**, until cardiac action fully resumes.",
+      "d": "The aorta is not opened; the usual warm hyperkalemic then normokalemic sequence is given **retrograde**.",
+      "e": "Reperfusion is **warm** (hyperkalemic, then normokalemic) and **exclusively retrograde**."
     },
     "source": [
       {
@@ -2335,23 +2141,23 @@
     "choices": [
       {
         "id": "a",
-        "text": "Prolonged (20 min) controlled regional reperfusion of the LAD with hyperkalemic modified blood"
+        "text": "20 minutes of controlled regional reperfusion of the LAD"
       },
       {
         "id": "b",
-        "text": "Initial warm induction given antegrade only, for 5 minutes"
+        "text": "Warm induction given antegrade only, for 5 minutes"
       },
       {
         "id": "c",
-        "text": "An internal thoracic artery graft to the LAD instead of any vein graft"
+        "text": "An ITA graft to the LAD instead of any vein graft"
       },
       {
         "id": "d",
-        "text": "A single cold cardioplegic dose without further infusions"
+        "text": "A single cold cardioplegic dose with no further infusions"
       },
       {
         "id": "e",
-        "text": "Immediate release of the clamp after the last distal anastomosis"
+        "text": "Clamp release right after the last distal anastomosis"
       }
     ],
     "answer": "a",
@@ -2421,7 +2227,7 @@
       },
       {
         "id": "c",
-        "text": "Cool to 20°C, reduce CPB flow to about 1 L/min/m^2^, and give more cold cardioplegia"
+        "text": "Systemic cooling to 20°C, lower CPB flow, more cold cardioplegia"
       },
       {
         "id": "d",
@@ -2493,27 +2299,27 @@
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "A critically ill patient with **active rheumatic pericarditis** needs **multiple-valve surgery** for aortic and mitral regurgitation. If cold cardioplegia is used, what else is necessary, and why?",
+    "stem": "A critically ill patient with **active rheumatic pericarditis** needs **multiple-valve surgery** for aortic and mitral regurgitation. If **cold cardioplegia** is used, what else is necessary?",
     "choices": [
       {
         "id": "a",
-        "text": "Continuous warm cardioplegia, because adhesions prevent cooling"
+        "text": "Continuous warm cardioplegia instead of intermittent doses"
       },
       {
         "id": "b",
-        "text": "Low-flow hypothermic perfusion and repeated infusions, because divided vascular adhesions add collateral flow"
+        "text": "Low-flow hypothermic perfusion and repeated cardioplegic infusions"
       },
       {
         "id": "c",
-        "text": "A single cardioplegic dose, because the inflamed myocardium tolerates ischemia well"
+        "text": "A single cardioplegic dose without any reinfusion"
       },
       {
         "id": "d",
-        "text": "Full-flow normothermic perfusion, because adhesions cause excessive bleeding"
+        "text": "Full-flow normothermic perfusion throughout bypass"
       },
       {
         "id": "e",
-        "text": "Retrograde delivery only, because aortic regurgitation prevents any root infusion"
+        "text": "Retrograde delivery only, avoiding any root infusion"
       }
     ],
     "answer": "b",
@@ -2553,10 +2359,10 @@
       }
     ],
     "choiceNotes": {
-      "a": "The chapter specifies **cold** cardioplegia with low-flow **hypothermic** perfusion.",
-      "c": "**Repeated** cardioplegic infusions are necessary.",
+      "a": "The source specifies **cold** cardioplegia with low-flow **hypothermic** perfusion.",
+      "c": "**Repeated** cardioplegic infusions are necessary, because divided vascular adhesions add collateral coronary flow.",
       "d": "Perfusion should be **low-flow** and **hypothermic**.",
-      "e": "The chapter does not restrict delivery to the retrograde route here; it requires low-flow hypothermic perfusion and repeated infusions."
+      "e": "The source does not restrict the route here; it requires low-flow hypothermic perfusion and repeated infusions."
     },
     "source": [
       {
@@ -2593,7 +2399,7 @@
       },
       {
         "id": "d",
-        "text": "Identified, partially mobilized and occluded; or left open with CPB at 20°C–25°C"
+        "text": "Partially mobilized and occluded; or left open, with CPB at 20–25°C"
       },
       {
         "id": "e",
@@ -2662,23 +2468,23 @@
     "choices": [
       {
         "id": "a",
-        "text": "Patent vein grafts always block antegrade delivery"
+        "text": "Patent vein grafts block antegrade delivery"
       },
       {
         "id": "b",
-        "text": "The coronary sinus cannot be cannulated in reoperations"
+        "text": "The coronary sinus cannot be cannulated"
       },
       {
         "id": "c",
-        "text": "Reoperative hearts are always severely hypertrophied"
+        "text": "Reoperative hearts are severely hypertrophied"
       },
       {
         "id": "d",
-        "text": "Patent ITA grafts must be left open in every case"
+        "text": "Patent ITA grafts must be left open"
       },
       {
         "id": "e",
-        "text": "Because of adhesions, the myocardium rewarms more quickly than usual"
+        "text": "Adhesions make the myocardium rewarm faster"
       }
     ],
     "answer": "e",
