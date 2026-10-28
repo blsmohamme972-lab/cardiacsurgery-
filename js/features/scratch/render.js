@@ -26,7 +26,7 @@
  */
 
 import { renderStrokes } from '../annotate/ink.js';
-import { PAGE_W, PAGE_H, paintColor } from './scene.js';
+import { PAGE_W, PAGE_H, paintColor, sizeScale } from './scene.js';
 import { itemBox, wrapText, TEXT_LINE, TEXT_PAD, ARROW_HEAD, ARROW_MIN, boxCorners } from './geometry.js';
 
 /** Most device pixels one layer canvas may have (old phones have tight canvas budgets). */
@@ -108,8 +108,10 @@ function pageOf(scene) {
  * @param {HTMLCanvasElement} opts.liveCanvas
  * @param {HTMLElement} opts.host Element whose CSS tokens give the colours.
  * @param {(mediaId: string) => Promise<Blob | null>} opts.loadMedia
+ * @param {() => boolean} [opts.dark] Paint for dark paper (default: the app theme). A book page is
+ *   always light paper, so it passes `() => false`.
  */
-export function createRenderer({ sceneCanvas, liveCanvas, host, loadMedia }) {
+export function createRenderer({ sceneCanvas, liveCanvas, host, loadMedia, dark: darkPaper = isDark }) {
   let cssW = 0;
   let cssH = 0;
   let dpr = 1;
@@ -287,7 +289,7 @@ export function createRenderer({ sceneCanvas, liveCanvas, host, loadMedia }) {
     if (it.shape === 'line' || it.shape === 'arrow') {
       let { x2, y2 } = it;
       const len = Math.hypot(x2 - it.x1, y2 - it.y1);
-      const head = Math.min(Math.max(ARROW_MIN, it.size * ARROW_HEAD), len * 0.6);
+      const head = Math.min(Math.max(ARROW_MIN * sizeScale(scene?.page), it.size * ARROW_HEAD), len * 0.6);
       const a = Math.atan2(y2 - it.y1, x2 - it.x1);
       if (it.shape === 'arrow' && len > 0) {
         // Stop the shaft inside the head so the tip stays sharp.
@@ -459,7 +461,7 @@ export function createRenderer({ sceneCanvas, liveCanvas, host, loadMedia }) {
 
   function transform() {
     const k = view.scale * dpr;
-    return { k, px: view.x, py: view.y, scale: view.scale, d: dpr, zoom: view.scale, dark: isDark() };
+    return { k, px: view.x, py: view.y, scale: view.scale, d: dpr, zoom: view.scale, dark: darkPaper() };
   }
 
   function paintScene() {
@@ -695,7 +697,7 @@ export function createRenderer({ sceneCanvas, liveCanvas, host, loadMedia }) {
       out.height = Math.round(pg.h * scale);
       const ctx = out.getContext('2d');
       if (!ctx) throw new Error('No 2D context');
-      const t = { k: scale, px: 0, py: 0, scale, d: 1, zoom: scale, dark: isDark() };
+      const t = { k: scale, px: 0, py: 0, scale, d: 1, zoom: scale, dark: darkPaper() };
       drawPaper(ctx, scene.page.bg, t, { mode: 'full', opacity: 1 }, { x0: 0, y0: 0, x1: pg.w, y1: pg.h }, pg);
       drawItems(ctx, scene.items, t);
       return out;

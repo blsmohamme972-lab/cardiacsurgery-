@@ -256,7 +256,7 @@ async function main(argv) {
     check(booted, `splash removed and first screen mounted (${Date.now() - started} ms)`);
     const s = await inspectShell(page);
     check(s.headerVisible, `header renders${s.headerText ? ` ("${s.headerText.slice(0, 40)}")` : ''}`);
-    check(s.tabCount === 5 && s.tabsVisible === 5, `tab bar shows 5 tabs (found ${s.tabsVisible}/${s.tabCount})`);
+    check(s.tabCount === 6 && s.tabsVisible === 6, `tab bar shows 6 tabs (found ${s.tabsVisible}/${s.tabCount})`);
     check(s.tabIcons === s.tabCount, `every tab has an icon (${s.tabIcons}/${s.tabCount})`);
     check(s.smallTabs === 0, 'tabs are at least 44×44 px');
     check(s.mainChildren > 0 && !s.routeError, `home route mounts a screen${s.stub ? ' (stub)' : ''}${s.routeError ? ` — error state: "${s.routeError}"` : ''}`);
@@ -368,7 +368,7 @@ async function main(argv) {
     }
     const o = await inspectShell(page).catch(() => null);
     check(offlineOk && Boolean(o) && o.mainChildren > 0 && !o.routeError, `app reloads offline and mounts home${o?.routeError ? ` — error state: "${o.routeError}"` : ''}`);
-    check(Boolean(o) && o.tabsVisible === 5, 'tab bar renders offline');
+    check(Boolean(o) && o.tabsVisible === 6, 'tab bar renders offline');
     await page.waitForTimeout(1500);
     check(!(await page.$('#sheet-slot .tour')), 'tour stays dismissed after reload');
     const offlineBanner = await page.$eval('#banner-slot', (el) => (el.textContent ?? '').trim()).catch(() => '');

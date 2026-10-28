@@ -11,6 +11,12 @@
  *   `count` equals the file contents; the `demo` entry matches DEMO and the
  *   demo file has at least one question.
  * - `data/retired.json`: shape, id format, known prefixes, no duplicates.
+ * - `data/book.json` (Book tab, §7.17): `{schemaVersion: 1, chapters}` with an
+ *   entry for each of the 55 chapters (no unknown ids): `firstPage` equals the
+ *   chapter's page in the table; `sections` (`{title, page, level: 1|2}`) in
+ *   page order, every page within the chapter (its first page to the next
+ *   chapter's first page − 1); an optional bundled `file` is a safe relative
+ *   path to an existing `.pdf` under GitHub's 100 MB file limit.
  * - Every chapter file, published or not, and the demo file:
  *   `schemaVersion`, chapter id, `questions` array.
  * - Every question: id format `PREFIX-NNNN` with the chapter's prefix
@@ -29,7 +35,7 @@
  * - Every file under js/, css/, icons/ plus index.html and
  *   manifest.webmanifest is in sw.js APP_SHELL, and every APP_SHELL entry
  *   exists on disk and is not under data/ (data is precached from the index:
- *   published chapters and the demo only).
+ *   published chapters and the demo only); `sw.js` precaches `data/book.json`.
  *
  * Usage:
  *   node scripts/validate.mjs               # everything
@@ -191,6 +197,7 @@ const CHOICE_IDS = ['a', 'b', 'c', 'd', 'e'];
 const CALLOUT_KINDS = ['key', 'pearl', 'pitfall', 'mnemonic'];
 const INDEX_FILE = 'data/index.json';
 const RETIRED_FILE = 'data/retired.json';
+const BOOK_FILE = 'data/book.json';
 
 /** Allowed fields in index.json: top level, parts, chapters, demo (§3.1). */
 const INDEX_KEYS = Object.freeze(['schemaVersion', 'parts', 'chapters', 'demo']);
@@ -230,6 +237,15 @@ const BALANCE_MAX_SHARE = 0.4;
 const SIMILARITY_THRESHOLD = 0.85;
 /** Stems shorter than this (in words) are too generic to compare for similarity. */
 const SIMILARITY_MIN_WORDS = 8;
+
+/** Fields of data/book.json, a chapter entry and a section (§7.17). */
+const BOOK_KEYS = Object.freeze(['schemaVersion', 'chapters']);
+const BOOK_CHAPTER_KEYS = Object.freeze(['firstPage', 'sections', 'file']);
+const BOOK_SECTION_KEYS = Object.freeze(['title', 'page', 'level']);
+/** Longest section title accepted. */
+const BOOK_TITLE_MAX = 200;
+/** GitHub rejects files over 100 MB, so a bundled PDF must stay below. */
+const BOOK_PDF_MAX_BYTES = 100 * 1024 * 1024;
 
 // ---------------------------------------------------------------------------
 // Reporting
@@ -1223,6 +1239,144 @@ function checkIndex(rep, index, counts) {
 }
 
 /**
+ * Checks data/book.json (§7.17): one entry per chapter of the fixed table,
+ * `firstPage` = the chapter's page, sections inside the chapter's page range
+ * and in page order, levels 1|2, an optional bundled PDF that exists.
+ * @param {Reporter} rep
+ * @param {string} root
+ * @returns {{ chapters: number, sections: number }} Counts of valid entries (for tests).
+ */
+export function checkBook(rep, root) {
+  const out = { chapters: 0, sections: 0 };
+  const f = BOOK_FILE;
+  const data = readJson(rep, root, f);
+  if (data === undefined) return out;
+  if (!isObj(data)) {
+    rep.error(f, '', 'top level must be an object {"schemaVersion": 1, "chapters": {...}}');
+    return out;
+  }
+  const ctx = makeCtx(rep, f, '');
+  checkKeys(ctx, data, BOOK_KEYS, '');
+  if (data.schemaVersion !== 1) rep.error(f, 'schemaVersion', `must be 1 (got ${JSON.stringify(data.schemaVersion)})`);
+  if (!isObj(data.chapters)) {
+    rep.error(f, 'chapters', 'must be an object keyed by chapter id: {"ch01": {"firstPage": 1, "sections": []}, ...}');
+    return out;
+  }
+  const rows = [...CHAPTER_TABLE].sort((a, b) => a.number - b.number);
+  const known = new Set(rows.map((t) => t.id));
+  for (const id of Object.keys(data.chapters)) {
+    if (!known.has(id)) rep.error(f, `chapters.${id}`, `unknown chapter id (expected ch01 … ch${String(rows.length).padStart(2, '0')})`);
+  }
+
+  rows.forEach((t, i) => {
+    const at = `chapters.${t.id}`;
+    const ch = data.chapters[t.id];
+    if (ch === undefined) {
+      rep.error(f, at, 'missing; every chapter needs an entry {"firstPage": <its first book page>, "sections": []}');
+      return;
+    }
+    if (!isObj(ch)) {
+      rep.error(f, at, 'must be an object {firstPage, sections, file?}');
+      return;
+    }
+    checkKeys(ctx, ch, BOOK_CHAPTER_KEYS, at);
+    const first = t.page;
+    const next = rows[i + 1]?.page;
+    const last = next === undefined ? Infinity : next - 1;
+    const range = next === undefined ? `${first} or later` : `from ${first} to ${last}`;
+    let ok = true;
+    if (ch.firstPage !== first) {
+      ok = false;
+      rep.error(f, `${at}.firstPage`, `must be ${first}, the chapter's first book page (data/index.json); got ${JSON.stringify(ch.firstPage)}`);
+    }
+
+    if (!Array.isArray(ch.sections)) {
+      ok = false;
+      rep.error(f, `${at}.sections`, 'must be an array ([] until the sections are filled in)');
+    } else {
+      let prevPage = -Infinity;
+      /** @type {Set<string>} */
+      const seen = new Set();
+      ch.sections.forEach((/** @type {any} */ sec, j) => {
+        const sat = `${at}.sections[${j}]`;
+        if (!isObj(sec)) {
+          ok = false;
+          rep.error(f, sat, 'must be an object {"title": "...", "page": <book page>, "level": 1 | 2}');
+          return;
+        }
+        checkKeys(ctx, sec, BOOK_SECTION_KEYS, sat);
+        let good = true;
+        const title = sec.title;
+        if (typeof title !== 'string' || title.trim() === '') {
+          good = false;
+          rep.error(f, `${sat}.title`, 'must be a non-empty string');
+        } else {
+          if (/[\u0000-\u001f\u007f]/.test(title)) {
+            good = false;
+            rep.error(f, `${sat}.title`, 'must not contain line breaks or control characters');
+          }
+          if (title !== title.trim() || /\s{2,}/.test(title)) rep.warn(f, `${sat}.title`, 'has extra spaces (leading, trailing or double)');
+          if (title.length > BOOK_TITLE_MAX) rep.warn(f, `${sat}.title`, `is longer than ${BOOK_TITLE_MAX} characters`);
+        }
+        if (!Number.isInteger(sec.page)) {
+          good = false;
+          rep.error(f, `${sat}.page`, `must be a whole book page number ${range}`);
+        } else {
+          if (sec.page < first || sec.page > last) {
+            good = false;
+            rep.error(f, `${sat}.page`, `${sec.page} is outside the chapter: book pages ${range}`);
+          } else if (sec.page < prevPage) {
+            good = false;
+            rep.error(f, `${sat}.page`, `${sec.page} comes after page ${prevPage}; keep sections in page order (as printed in the table of contents)`);
+          } else {
+            prevPage = sec.page;
+          }
+        }
+        if (sec.level !== 1 && sec.level !== 2) {
+          good = false;
+          rep.error(f, `${sat}.level`, `must be 1 (main heading) or 2 (subheading); got ${JSON.stringify(sec.level)}`);
+        } else if (j === 0 && sec.level === 2) {
+          rep.warn(f, `${sat}.level`, 'the first section is a subheading; a level-2 entry should follow a level-1 heading');
+        }
+        if (typeof title === 'string' && Number.isInteger(sec.page)) {
+          const key = `${title.trim().toLowerCase()}|${sec.page}|${sec.level}`;
+          if (seen.has(key)) rep.warn(f, sat, `"${title}" on page ${sec.page} is listed twice`);
+          seen.add(key);
+        }
+        if (good) out.sections++;
+        else ok = false;
+      });
+    }
+
+    if (ch.file !== undefined) {
+      const fat = `${at}.file`;
+      if (typeof ch.file !== 'string' || ch.file.trim() === '') {
+        ok = false;
+        rep.error(f, fat, 'must be a relative path to a bundled PDF, e.g. "books/ch01.pdf" (or leave it out)');
+      } else {
+        const unsafe = unsafePathReason(ch.file);
+        const abs = path.join(root, ch.file);
+        if (unsafe) {
+          ok = false;
+          rep.error(f, fat, `"${ch.file}" ${unsafe}`);
+        } else if (!/\.pdf$/i.test(ch.file)) {
+          ok = false;
+          rep.error(f, fat, `"${ch.file}" must be a .pdf file`);
+        } else if (!isFile(abs)) {
+          ok = false;
+          rep.error(f, fat, `"${ch.file}" does not exist; add the PDF or remove "file"`);
+        } else if (statSync(abs).size > BOOK_PDF_MAX_BYTES) {
+          ok = false;
+          rep.error(f, fat, `"${ch.file}" is larger than 100 MB, which GitHub refuses; split or compress it`);
+        }
+      }
+    }
+    if (ok) out.chapters++;
+  });
+  return out;
+}
+
+/**
  * Reads data/retired.json.
  * @param {Reporter} rep
  * @param {string} root
@@ -1384,6 +1538,9 @@ function checkAppShell(rep, root) {
     if (!isFile(path.join(root, rel))) rep.error('sw.js', at, `"${raw}" does not exist on disk (the service worker install would fail)`);
   });
   if (!hasRoot) rep.warn('sw.js', 'APP_SHELL', 'should include "./" (the start page)');
+  if (!/(['"`])data\/book\.json\1/.test(sw)) {
+    rep.error('sw.js', 'precacheData', '"data/book.json" is not precached (add it next to data/retired.json); the Book tab would lose its sections offline');
+  }
 
   const required = ['index.html', 'manifest.webmanifest', ...['js', 'css', 'icons'].flatMap((d) => walkFiles(root, d))];
   for (const rel of required) {
@@ -1526,8 +1683,10 @@ export function validate({ root = ROOT, dataOnly = false } = {}) {
   const published = checkIndex(rep, index, counts);
   for (const summary of chapters) summary.published = published.get(summary.id) === true;
 
+  checkBook(rep, root);
+
   // JSON files in data/ that the app never loads
-  const known = new Set([INDEX_FILE, RETIRED_FILE, ...BANK_FILES.map((t) => t.file)]);
+  const known = new Set([INDEX_FILE, RETIRED_FILE, BOOK_FILE, ...BANK_FILES.map((t) => t.file)]);
   for (const rel of walkFiles(root, 'data')) {
     if (rel.endsWith('.json') && !rel.includes('/', 'data/'.length) && !known.has(rel)) {
       rep.warn(rel, '', 'not listed in data/index.json, so the app never loads it');

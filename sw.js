@@ -56,6 +56,7 @@ const APP_SHELL = [
   'css/screen-player.css',
   'css/screen-home.css',
   'css/screen-misc.css',
+  'css/book.css',
   'js/app.js',
   'js/version.js',
   'js/core/dom.js',
@@ -108,11 +109,37 @@ const APP_SHELL = [
   'js/screens/search.js',
   'js/screens/settings.js',
   'js/screens/reviewer.js',
+  'js/screens/book.js',
+  'js/screens/reader.js',
+  'js/features/book/annotate.js',
+  'js/features/book/export.js',
+  'vendor/pdf-lib/pdf-lib.esm.min.js',
+  'js/features/book/pdf.js',
+  'js/features/book/viewer.js',
+  'js/features/book/library.js',
+  'vendor/pdfjs/pdf.min.mjs',
+  'vendor/pdfjs/pdf.worker.min.mjs',
+  'vendor/pdfjs/standard_fonts/FoxitDingbats.pfb',
+  'vendor/pdfjs/standard_fonts/FoxitFixed.pfb',
+  'vendor/pdfjs/standard_fonts/FoxitFixedBold.pfb',
+  'vendor/pdfjs/standard_fonts/FoxitFixedBoldItalic.pfb',
+  'vendor/pdfjs/standard_fonts/FoxitFixedItalic.pfb',
+  'vendor/pdfjs/standard_fonts/FoxitSerif.pfb',
+  'vendor/pdfjs/standard_fonts/FoxitSerifBold.pfb',
+  'vendor/pdfjs/standard_fonts/FoxitSerifBoldItalic.pfb',
+  'vendor/pdfjs/standard_fonts/FoxitSerifItalic.pfb',
+  'vendor/pdfjs/standard_fonts/FoxitSymbol.pfb',
+  'vendor/pdfjs/standard_fonts/LiberationSans-Bold.ttf',
+  'vendor/pdfjs/standard_fonts/LiberationSans-BoldItalic.ttf',
+  'vendor/pdfjs/standard_fonts/LiberationSans-Italic.ttf',
+  'vendor/pdfjs/standard_fonts/LiberationSans-Regular.ttf',
 ];
 
 /** Data entry points (relative to this script). Chapter files come from the index. */
 const DATA_INDEX = 'data/index.json';
 const DATA_RETIRED = 'data/retired.json';
+/** Book tab: chapter first pages and sections (§7.17). */
+const DATA_BOOK = 'data/book.json';
 
 /** Parallel downloads during install. */
 const CONCURRENCY = 6;
@@ -344,8 +371,9 @@ function isObject(v) {
 }
 
 /**
- * The data files to precache, from the parsed index: data/retired.json, the
- * file of every chapter with `"published": true`, and the demo file.
+ * The data files to precache, from the parsed index: data/retired.json,
+ * data/book.json, the file of every chapter with `"published": true`, and the
+ * demo file.
  * Unpublished chapters are hidden in the app, so their files are never
  * fetched by the worker. Every entry is still checked, so a malformed index
  * fails the install (and never reaches installed apps).
@@ -357,7 +385,7 @@ function dataFilesOf(index) {
   if (!isObject(index)) throw new Error(DATA_INDEX + ' is not a JSON object');
   if (!Array.isArray(index.chapters)) throw new Error(DATA_INDEX + ' has no "chapters" list');
 
-  const files = new Set([toUrl(DATA_RETIRED)]);
+  const files = new Set([toUrl(DATA_RETIRED), toUrl(DATA_BOOK)]);
   index.chapters.forEach((chapter, i) => {
     const at = DATA_INDEX + ' chapters[' + i + ']';
     if (!isObject(chapter)) throw new Error(at + ' is not an object');
@@ -375,7 +403,7 @@ function dataFilesOf(index) {
 }
 
 /**
- * Downloads data/index.json, data/retired.json, the file of every published
+ * Downloads data/index.json, data/retired.json, data/book.json, the file of every published
  * chapter and the demo file (all must be valid JSON), then the images those
  * files use (best effort). The index is stored last.
  * Data uses `cache: 'no-cache'`: always revalidated with the server, but an

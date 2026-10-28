@@ -27,6 +27,7 @@ const APP_NAME = 'KirKlin';
 const TABS = Object.freeze([
   { path: '/', label: 'Home', icon: 'home' },
   { path: '/library', label: 'Library', icon: 'library' },
+  { path: '/book', label: 'Book', icon: 'book' },
   { path: '/stats', label: 'Stats', icon: 'stats' },
   { path: '/search', label: 'Search', icon: 'search' },
   { path: '/settings', label: 'Settings', icon: 'settings' },
@@ -108,6 +109,8 @@ function tabForPath(path) {
   switch (first) {
     case '/library':
       return '/library';
+    case '/book':
+      return '/book';
     case '/stats':
       return '/stats';
     case '/search':

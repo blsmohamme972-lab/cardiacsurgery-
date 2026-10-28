@@ -4,12 +4,14 @@
  *
  * Serves the repo with tests/serve.mjs on a random port and an in-memory harness page
  * (tokens/base/components/review CSS + sheet/toast slots), then in Chromium:
- * 1. seeds IndexedDB through js/core/store/repo.js (incl. a voice blob, an image and a scratchpad scene),
- * 2. exports a backup with saveFile() and captures the download,
+ * 1. seeds IndexedDB through js/core/store/repo.js (incl. a voice blob, an image, a scratchpad scene,
+ *    a placeholder chapter PDF and its page annotations),
+ * 2. exports a backup with book PDFs (includeBooks) with saveFile() and captures the download,
  * 3. wipes every store, imports through openImportDialog() with Merge, checks the round trip
  *    (voice bytes identical, lastRoute untouched), merges again (no duplicates),
  * 4. imports with Replace everything (confirm sheet) and checks extra device data is gone,
- *    then a backup made without media: Replace keeps the device's voice notes and images,
+ *    then a backup made without media and without PDFs: Replace keeps the device's voice notes,
+ *    images and book PDFs (annotations are always in the backup),
  * 5. opens a corrupt file and a review file → plain-language error state,
  * 6. sends a report and approves in the reviewer panel,
  * and takes screenshots of the report sheet, reviewer panel and import dialog at
@@ -136,7 +138,9 @@ async function snapshot(page) {
       for (const r of rows) {
         const copy = { ...r };
         if (name === 'attempts') delete copy.id;
-        if (name === 'voice' || name === 'media') copy.blob = copy.blob ? [...new Uint8Array(await copy.blob.arrayBuffer())].join(',') : null;
+        if (name === 'voice' || name === 'media' || name === 'books') {
+          copy.blob = copy.blob ? [...new Uint8Array(await copy.blob.arrayBuffer())].join(',') : null;
+        }
         out[name].push(Object.fromEntries(Object.entries(copy).sort(([a], [b]) => a.localeCompare(b))));
       }
       out[name].sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b)));
@@ -179,6 +183,14 @@ try {
           ],
         },
       });
+      // A placeholder "PDF" (header + neutral bytes; never real book content) and its page annotations.
+      const pdf = new Uint8Array([...new TextEncoder().encode('%PDF-1.7\n'), ...new Uint8Array(120_003).map((_, i) => (i * 7 + 1) & 255)]);
+      await repo.bookRepo.put({ id: 'ch01', blob: new Blob([pdf], { type: 'application/pdf' }), title: 'Placeholder', fileName: 'Chapter-01.pdf', pages: 3 });
+      await repo.bookRepo.setPosition('ch01', { lastPage: 2, lastScale: 1.5 });
+      await repo.pdfNotesRepo.set('ch01', 2, {
+        scene: { v: 2, page: { w: 1000, h: 1294, bg: 'plain' }, items: [{ id: 'b1', type: 'stroke', tool: 'pen', color: '#1d4ed8', size: 3, pts: [10, 10, 0.5, 40, 50, 0.5] }] },
+        highlights: [{ id: 'th1', color: 'yellow', rects: [[0.1, 0.2, 0.3, 0.02]], quote: 'placeholder' }],
+      });
       await repo.reportsRepo.add({ qid: 'DEMO-0001', qversion: 1, reason: 'Other', text: 'Alpha step' });
       await repo.reviewsRepo.set('DEMO-0001', { qversion: 1, status: 'fix', comment: 'Sample comment' });
       await repo.sessionsRepo.put({ id: 's1', mode: 'tutor', qids: ['DEMO-0001'], answers: {}, index: 0, createdAt: 1761480000000, updatedAt: 1761480002000, finishedAt: null });
@@ -190,7 +202,7 @@ try {
       page.waitForEvent('download'),
       page.evaluate(async () => {
         const b = await import('../../js/features/backup.js');
-        const { blob, filename } = await b.exportBackup({ includeMedia: true });
+        const { blob, filename } = await b.exportBackup({ includeMedia: true, includeBooks: true });
         return b.saveFile(blob, filename);
       }),
     ]);
@@ -206,6 +218,10 @@ try {
       && parsed.stores.media[0].mime === 'image/jpeg' && parsed.stores.media[0].bytes === 180002, 'image exported as base64');
     check(parsed.stores.ink.some((r) => r.block === 'scratch' && r.scene?.items?.length === 2), 'scratchpad scene exported');
     check(!parsed.stores.settings.some((r) => r.key === 'lastRoute'), 'lastRoute not exported');
+    check(parsed.includesBooks === true && parsed.stores.books?.length === 1 && parsed.stores.books[0].blob === null
+      && parsed.stores.books[0].mime === 'application/pdf' && parsed.stores.books[0].bytes === 120012
+      && parsed.stores.books[0].lastPage === 2, 'book PDF exported as base64 with its position');
+    check(parsed.stores.pdfnotes?.length === 1 && parsed.stores.pdfnotes[0].id === 'ch01|2', 'page annotations exported');
 
     // Wipe, keep a device lastRoute, import with Merge through the dialog.
     await wipe(page);
@@ -226,7 +242,10 @@ try {
     await page.waitForSelector('.bk-option-input');
     check((await page.textContent('.bk-counts')).includes('Voice notes'), 'summary lists voice notes');
     check((await page.textContent('.bk-counts')).includes('Images'), 'summary lists images');
-    check((await page.textContent('.bk-media')).trim() === 'Includes voice notes and images', 'media chip (with media)');
+    check((await page.textContent('.bk-media .chip:first-child')).trim() === 'Includes voice notes and images', 'media chip (with media)');
+    check((await page.textContent('.bk-media')).includes('Includes book PDFs'), 'book PDFs chip');
+    check((await page.textContent('.bk-counts')).includes('Book PDFs'), 'summary lists book PDFs');
+    check((await page.textContent('.bk-counts')).includes('Book annotations'), 'summary lists book annotations');
     check(await page.isChecked('.bk-option-merge .bk-option-input'), 'merge is the default');
     await page.click('.bk-import-btn');
     await page.waitForFunction(() => window.__importResult !== undefined);
@@ -275,21 +294,24 @@ try {
     });
     const light = JSON.parse(lightText);
     check(light.includesMedia === false && !('voice' in light.stores) && !('media' in light.stores), 'export without media omits voice + media');
+    check(light.includesBooks === false && !('books' in light.stores) && light.stores.pdfnotes?.length === 1, 'default export: no PDFs, annotations kept');
     await closeSheets(page);
     await openDialog(lightText);
     await page.waitForSelector('.bk-option-input');
     check((await page.textContent('.bk-media')).trim() === 'No voice notes or images in this backup', 'media chip (without media)');
-    check(/Voice notes and images on this device are kept/.test(await page.textContent('.bk-option-replace')), 'replace text says media is kept');
+    check(/Voice notes, images and book PDFs on this device are kept/.test(await page.textContent('.bk-option-replace')), 'replace text says media and PDFs are kept');
     await page.click('.bk-option-replace');
     await page.click('.bk-import-btn');
     await page.waitForSelector('.sheet-root:last-child .btn-danger');
     await page.click('.sheet-root:last-child .btn-danger');
     await page.waitForFunction(() => window.__importResult !== undefined);
     const lightResult = await page.evaluate(() => window.__importResult);
-    check(lightResult?.keptVoice === true && lightResult?.keptMedia === true, 'replace result reports kept voice + media');
+    check(lightResult?.keptVoice === true && lightResult?.keptMedia === true && lightResult?.keptBooks === true, 'replace result reports kept voice + media + PDFs');
     const afterLight = await snapshot(page);
     check(JSON.stringify(afterLight.media) === JSON.stringify(original.media), 'device images kept (bytes identical)');
     check(JSON.stringify(afterLight.voice) === JSON.stringify(original.voice), 'device voice notes kept');
+    check(JSON.stringify(afterLight.books) === JSON.stringify(original.books), 'device book PDFs kept (bytes identical)');
+    check(JSON.stringify(afterLight.pdfnotes) === JSON.stringify(original.pdfnotes), 'annotations restored from the backup');
 
     // Corrupt and wrong files.
     for (const [content, expect] of [
@@ -356,7 +378,10 @@ try {
     appVersion: '2026.10.26-1',
     exportedAt: '2026-10-25T14:05:00.000Z',
     includesMedia: false,
+    includesBooks: true,
     stores: {
+      books: [{ id: 'ch01', title: 'Placeholder', fileName: 'Chapter-01.pdf', bytes: 9, pages: 1, added: 1, updated: 1, lastPage: 1, lastScale: null, blob: null, mime: 'application/pdf', data: 'JVBERi0xLjcKJSU=' }],
+      pdfnotes: [{ id: 'ch01|1', bookId: 'ch01', page: 1, scene: null, highlights: [{ id: 'h', color: 'yellow', rects: [[0.1, 0.1, 0.2, 0.02]], quote: 'x' }], updated: 1 }],
       qstate: [{ qid: 'DEMO-0001', seen: 1, correct: 1, incorrect: 0, totalMs: 1, lastTs: 1, bookmarked: false, srs: null }],
       attempts: [{ qid: 'DEMO-0001', choice: 'a', correct: true, ms: 1, ts: 1, mode: 'tutor', sessionId: null }],
       notes: [{ qid: 'DEMO-0001', text: 'Alpha', updated: 1 }],

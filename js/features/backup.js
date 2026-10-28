@@ -3,9 +3,11 @@
  *
  * Backup file (JSON):
  * `{ type: 'cardiac-mcq-backup', formatVersion: 1, appVersion, exportedAt (ISO), includesMedia,
- *    stores: { [storeName]: records[] } }`
- * Voice notes and images (`voice`, `media` stores) carry their bytes as base64:
- * `{ ...record, blob: null, data: '<base64>', mime }`. Without media both stores are omitted.
+ *    includesBooks, stores: { [storeName]: records[] } }`
+ * Voice notes, images and book PDFs (`voice`, `media`, `books` stores) carry their bytes as
+ * base64: `{ ...record, blob: null, data: '<base64>', mime }`. Without media the `voice` and
+ * `media` stores are omitted; the `books` store (chapter PDFs, large) is written only with
+ * `includeBooks`. Book page annotations (`pdfnotes`) are always included.
  *
  * Safety rules:
  * - A file is validated completely (shape of every record, per store, §4) before
@@ -15,8 +17,8 @@
  *   will replace, and puts the snapshot back if a write fails, so data is never
  *   left half-destroyed.
  * - Import never touches the device's `lastRoute` setting.
- * - Replace keeps the device's voice notes / images when the backup has no such store.
- * - Large backups: audio and images are converted to base64 in slices and the export JSON is
+ * - Replace keeps the device's voice notes / images / book PDFs when the backup has no such store.
+ * - Large backups: audio, images and PDFs are converted to base64 in slices and the export JSON is
  *   assembled as Blob parts, so no single giant string is built.
  *
  * Pure parts (validation, merge planning, base64) are exported for unit tests.
@@ -26,7 +28,17 @@
  */
 
 import { h } from '../core/dom.js';
-import { ALL_STORES, dumpStore, mergeStore, replaceStore } from '../core/store/repo.js';
+import {
+  ALL_STORES,
+  BOOK_MAX_BYTES,
+  bookRepo,
+  dumpStore,
+  isBookId,
+  isPdfType,
+  mergeStore,
+  pdfNoteId,
+  replaceStore,
+} from '../core/store/repo.js';
 import { dayKey, formatNumber, plural } from '../core/util.js';
 import { APP_VERSION } from '../version.js';
 import { button, chip, confirmSheet, sheet, spinner, toast } from '../ui/components.js';
@@ -50,8 +62,14 @@ const DEVICE_SETTINGS = new Set(['lastRoute']);
 /** Stores whose records hold a Blob, written as base64 (`data`) and left out without media. */
 export const MEDIA_STORES = Object.freeze(['voice', 'media']);
 
-/** Default mime per media store when a record has none. */
-const MEDIA_DEFAULT_MIME = Object.freeze({ voice: 'audio/webm', media: 'image/png' });
+/** Book PDFs (large): written as base64 only with `includeBooks`; Replace keeps them when absent. */
+export const BOOK_STORES = Object.freeze(['books']);
+
+/** Every store whose records carry a Blob as base64 `data` in the file. */
+const BLOB_STORES = Object.freeze([...MEDIA_STORES, ...BOOK_STORES]);
+
+/** Default mime per blob store when a record has none. */
+const MEDIA_DEFAULT_MIME = Object.freeze({ voice: 'audio/webm', media: 'image/png', books: 'application/pdf' });
 
 /** Highlight colors (§4). */
 const HL_COLORS = new Set(['yellow', 'green', 'blue', 'pink']);
@@ -66,6 +84,8 @@ export const STORE_LABELS = Object.freeze({
   ink: 'Drawings',
   voice: 'Voice notes',
   media: 'Images',
+  books: 'Book PDFs',
+  pdfnotes: 'Book annotations',
   reports: 'Problem reports',
   reviews: 'Reviews',
   settings: 'Settings',
@@ -352,13 +372,60 @@ export const RECORD_CHECKS = Object.freeze({
     if (!nullable(r.finishedAt, isNum)) return 'finishedAt';
     return null;
   },
+  books: (r) => {
+    if (!isBookId(r.id)) return 'id';
+    if (r.blob !== null && r.blob !== undefined) return 'blob';
+    if (!isStr(r.data) || r.data === '' || !isBase64(r.data)) return 'data';
+    if (r.data.length > (BOOK_MAX_BYTES / 3) * 4 + 4) return 'data';
+    if (!isPdfType(r.mime)) return 'mime';
+    if (!optional(r.title, isStr)) return 'title';
+    if (!optional(r.fileName, isStr)) return 'fileName';
+    if (!optional(r.bytes, isCount)) return 'bytes';
+    if (!nullable(r.pages, (v) => Number.isInteger(v) && /** @type {number} */ (v) >= 1)) return 'pages';
+    if (!optional(r.added, isNum)) return 'added';
+    if (!isNum(r.updated)) return 'updated';
+    if (!optional(r.lastPage, (v) => Number.isInteger(v) && /** @type {number} */ (v) >= 1)) return 'lastPage';
+    if (!nullable(r.lastScale, (v) => isNum(v) || v === 'fit-width' || v === 'fit-page')) return 'lastScale';
+    return null;
+  },
+  pdfnotes: (r) => {
+    if (!isBookId(r.bookId)) return 'bookId';
+    if (!Number.isInteger(r.page) || r.page < 1) return 'page';
+    if (r.id !== pdfNoteId(r.bookId, r.page)) return 'id';
+    if (!nullable(r.scene, isScene)) return 'scene';
+    if (!optional(r.highlights, (v) => Array.isArray(v) && v.every(isTextHl))) return 'highlights';
+    const items = isObj(r.scene) ? r.scene.items.length : 0;
+    const hls = Array.isArray(r.highlights) ? r.highlights.length : 0;
+    if (items + hls === 0) return 'scene';
+    if (!isNum(r.updated)) return 'updated';
+    return null;
+  },
 });
 
 /**
+ * A text highlight on a PDF page (§7.17): `{ id, color, rects: [x, y, w, h][], quote }`.
+ * @param {unknown} h
+ * @returns {boolean}
+ */
+function isTextHl(h) {
+  if (!isObj(h)) return false;
+  const t = /** @type {any} */ (h);
+  return (
+    isId(t.id) &&
+    isStr(t.color) &&
+    t.color !== '' &&
+    Array.isArray(t.rects) &&
+    t.rects.every((/** @type {unknown} */ q) => Array.isArray(q) && q.length === 4 && q.every(isNum)) &&
+    optional(t.quote, isStr)
+  );
+}
+
+/**
  * @typedef {{ counts: Record<string, number>, total: number, exportedAt: string, exportedAtMs: number,
- *   includesMedia: boolean, appVersion: string, formatVersion: number, ignoredStores: string[] }} BackupSummary
+ *   includesMedia: boolean, includesBooks: boolean, appVersion: string, formatVersion: number,
+ *   ignoredStores: string[] }} BackupSummary
  * @typedef {{ type: string, formatVersion: number, appVersion: string, exportedAt: string,
- *   includesMedia: boolean, stores: Record<string, any[]> }} BackupData
+ *   includesMedia: boolean, includesBooks: boolean, stores: Record<string, any[]> }} BackupData
  */
 
 /** Objects that passed {@link validateBackup} (so import doesn't validate twice). */
@@ -396,6 +463,7 @@ export function validateBackup(obj) {
   if (!Number.isFinite(exportedAtMs)) details.push('exportedAt');
   if (!optional(o.appVersion, isStr)) details.push('appVersion');
   if (!optional(o.includesMedia, isBool)) details.push('includesMedia');
+  if (!optional(o.includesBooks, isBool)) details.push('includesBooks');
   if (!isObj(o.stores)) details.push('stores');
   if (details.length) throw corrupt(details);
 
@@ -432,6 +500,7 @@ export function validateBackup(obj) {
 
   for (const name of ALL_STORES) counts[name] ??= 0;
   const includesMedia = MEDIA_STORES.some((name) => Array.isArray(stores[name]));
+  const includesBooks = BOOK_STORES.some((name) => Array.isArray(stores[name]));
   /** @type {BackupData} */
   const data = {
     type: BACKUP_TYPE,
@@ -439,6 +508,7 @@ export function validateBackup(obj) {
     appVersion: isStr(o.appVersion) ? o.appVersion : '',
     exportedAt: o.exportedAt,
     includesMedia,
+    includesBooks,
     stores,
   };
   validated.add(data);
@@ -450,6 +520,7 @@ export function validateBackup(obj) {
       exportedAt: o.exportedAt,
       exportedAtMs,
       includesMedia,
+      includesBooks,
       appVersion: data.appVersion,
       formatVersion: o.formatVersion,
       ignoredStores,
@@ -499,6 +570,8 @@ const KEY_PATHS = Object.freeze({
   reports: 'id',
   reviews: 'qid',
   sessions: 'id',
+  books: 'id',
+  pdfnotes: 'id',
 });
 
 /**
@@ -593,19 +666,40 @@ export function decodeMediaRecord(rec) {
 }
 
 /**
- * Records ready to store for one store (voice/images decoded, device settings removed).
- * Throws BackupError 'corrupt' when audio or an image can't be decoded.
+ * Turns a backup book record into a stored one (base64 → PDF Blob; `bytes` = blob size).
+ * Throws when the data is empty, not base64, or larger than the book limit.
+ * @param {any} rec
+ * @returns {any}
+ */
+export function decodeBookRecord(rec) {
+  const bytes = base64ToBytes(rec.data);
+  if (!bytes.length) throw new TypeError('empty PDF');
+  if (bytes.length > BOOK_MAX_BYTES) throw new RangeError('PDF too large');
+  const out = { ...rec, blob: new Blob([bytes], { type: 'application/pdf' }), bytes: bytes.length };
+  delete out.data;
+  delete out.mime;
+  return out;
+}
+
+/** Decoder per blob store. */
+const DECODERS = Object.freeze({ voice: decodeVoiceRecord, media: decodeMediaRecord, books: decodeBookRecord });
+/** What a damaged record is called, per blob store. */
+const DAMAGED_LABEL = Object.freeze({ voice: 'A voice note', media: 'An image', books: 'A book PDF' });
+
+/**
+ * Records ready to store for one store (voice/images/PDFs decoded, device settings removed).
+ * Throws BackupError 'corrupt' when audio, an image or a PDF can't be decoded.
  * @param {string} name
  * @param {any[]} records
  * @returns {any[]}
  */
 function prepareRecords(name, records) {
   if (name === 'settings') return records.filter((r) => !DEVICE_SETTINGS.has(r.key));
-  if (!MEDIA_STORES.includes(name)) return records;
+  if (!BLOB_STORES.includes(name)) return records;
   try {
-    return records.map(name === 'media' ? decodeMediaRecord : decodeVoiceRecord);
+    return records.map(/** @type {Record<string, (r: any) => any>} */ (DECODERS)[name]);
   } catch (err) {
-    const what = name === 'media' ? 'An image' : 'A voice note';
+    const what = /** @type {Record<string, string>} */ (DAMAGED_LABEL)[name];
     throw new BackupError('corrupt', `${what} in this backup is damaged. ${NOTHING_CHANGED} Try another backup file.`, {
       cause: err,
     });
@@ -621,16 +715,20 @@ const PART_TARGET = 512 * 1024;
 
 /**
  * Builds a backup of everything on this device.
- * Voice audio and images are base64-encoded in slices and the JSON is assembled as
- * Blob parts. Without media the `voice` and `media` stores are left out. A voice note
- * or image whose bytes can't be read is left out (counted in `skipped`).
+ * Voice audio, images and book PDFs are base64-encoded in slices and the JSON is assembled as
+ * Blob parts. Without media the `voice` and `media` stores are left out; the `books` store
+ * (chapter PDFs) is written only with `includeBooks` (default false: the files are large and
+ * the user still has the originals). Book annotations (`pdfnotes`) are always written.
+ * A voice note, image or PDF whose bytes can't be read is left out (counted in `skipped`).
  *
- * @param {{ includeMedia?: boolean, now?: number, dump?: (name: string) => Promise<any[]> }} [opts]
+ * @param {{ includeMedia?: boolean, includeBooks?: boolean, now?: number, dump?: (name: string) => Promise<any[]> }} [opts]
  *   `now` and `dump` are for tests.
- * @returns {Promise<{ blob: Blob, filename: string, counts: Record<string, number>, skipped: number }>}
+ * @returns {Promise<{ blob: Blob, filename: string, counts: Record<string, number>, skipped: number,
+ *   tooLargeToImport: boolean }>} `tooLargeToImport`: the file is over {@link MAX_BACKUP_BYTES}, so
+ *   importing it would be refused (suggest a backup without book PDFs).
  *   Rejects with the repo's StorageError (plain `userMessage`) when the data can't be read.
  */
-export async function exportBackup({ includeMedia = true, now = Date.now(), dump = dumpStore } = {}) {
+export async function exportBackup({ includeMedia = true, includeBooks = false, now = Date.now(), dump = dumpStore } = {}) {
   /** @type {BlobPart[]} */
   const parts = [];
   let buffer = '';
@@ -650,7 +748,7 @@ export async function exportBackup({ includeMedia = true, now = Date.now(), dump
   push(
     `{"type":${JSON.stringify(BACKUP_TYPE)},"formatVersion":${BACKUP_FORMAT_VERSION},` +
       `"appVersion":${JSON.stringify(APP_VERSION)},"exportedAt":${JSON.stringify(new Date(now).toISOString())},` +
-      `"includesMedia":${includeMedia ? 'true' : 'false'},"stores":{`,
+      `"includesMedia":${includeMedia ? 'true' : 'false'},"includesBooks":${includeBooks ? 'true' : 'false'},"stores":{`,
   );
 
   /** @type {Record<string, number>} */
@@ -658,8 +756,9 @@ export async function exportBackup({ includeMedia = true, now = Date.now(), dump
   let skipped = 0;
   let firstStore = true;
   for (const name of ALL_STORES) {
-    const isMedia = MEDIA_STORES.includes(name);
-    if (isMedia && !includeMedia) continue;
+    if (MEDIA_STORES.includes(name) && !includeMedia) continue;
+    if (BOOK_STORES.includes(name) && !includeBooks) continue;
+    const isMedia = BLOB_STORES.includes(name);
     let records = await dump(name);
     if (name === 'settings') records = records.filter((r) => r && !DEVICE_SETTINGS.has(r.key));
     push(`${firstStore ? '' : ','}${JSON.stringify(name)}:[`);
@@ -686,7 +785,9 @@ export async function exportBackup({ includeMedia = true, now = Date.now(), dump
           blob: null,
           mime: rec.mime || blob.type || /** @type {Record<string, string>} */ (MEDIA_DEFAULT_MIME)[name],
         };
-        if (name === 'media') copy.bytes = blob.size;
+        if (name === 'media' || name === 'books') copy.bytes = blob.size;
+        // A PDF accepted by its header may carry a generic type; the file always says PDF.
+        if (name === 'books') copy.mime = 'application/pdf';
         delete copy.data;
         const head = JSON.stringify(copy);
         push(`${n ? ',' : ''}${head.slice(0, -1)},"data":"`);
@@ -704,11 +805,13 @@ export async function exportBackup({ includeMedia = true, now = Date.now(), dump
   push('}}');
   flush();
 
+  const blob = new Blob(parts, { type: 'application/json' });
   return {
-    blob: new Blob(parts, { type: 'application/json' }),
+    blob,
     filename: `cardiac-mcq-backup-${dayKey(now)}.json`,
     counts,
     skipped,
+    tooLargeToImport: blob.size > MAX_BACKUP_BYTES,
   };
 }
 
@@ -787,7 +890,7 @@ export async function readBackupFile(file) {
   if (file.size > MAX_BACKUP_BYTES) {
     throw new BackupError(
       'too-large',
-      `This file is too big to be a backup (${formatBytes(file.size)}). ${PICK_BACKUP}`,
+      `This file is too big to import (${formatBytes(file.size)}). If it is a backup with book PDFs, export a new backup without them (your PDFs stay on the device). ${PICK_BACKUP}`,
     );
   }
   let text;
@@ -831,7 +934,8 @@ const REPO_ADAPTER = Object.freeze({ dump: dumpStore, replace: replaceStore, mer
 
 /**
  * @typedef {{ mode: 'merge' | 'replace', stores: Record<string, { added: number, updated: number, skipped: number }>,
- *   added: number, updated: number, skipped: number, keptVoice: boolean, keptMedia: boolean }} ImportResult
+ *   added: number, updated: number, skipped: number, keptVoice: boolean, keptMedia: boolean,
+ *   keptBooks: boolean }} ImportResult
  */
 
 /**
@@ -853,7 +957,8 @@ function isQuota(err) {
  * - `merge`: per store, newer `updated`/`ts` wins; attempts deduplicated by `(qid, ts)`;
  *   settings only adds keys the device doesn't have. Nothing is deleted.
  * - `replace`: every store present in the backup — and every other store except `voice` /
- *   `media` when the backup lacks them (those voice notes / images are kept) — is cleared and filled
+ *   `media` / `books` when the backup lacks them (those voice notes / images / book PDFs are kept) —
+ *   is cleared and filled
  *   from the backup. Everything is decoded and a snapshot taken first; if a write fails
  *   the replaced stores are restored.
  * Never touches `lastRoute`. Every changed store emits `store:change` (via the repo).
@@ -875,6 +980,7 @@ export async function importBackup(data, { mode, adapter = REPO_ADAPTER } = /** 
     skipped: 0,
     keptVoice: !present.includes('voice'),
     keptMedia: !present.includes('media'),
+    keptBooks: !present.includes('books'),
   };
 
   if (mode === 'merge') {
@@ -915,7 +1021,7 @@ export async function importBackup(data, { mode, adapter = REPO_ADAPTER } = /** 
   }
 
   // replace
-  const targets = ALL_STORES.filter((name) => present.includes(name) || !MEDIA_STORES.includes(name));
+  const targets = ALL_STORES.filter((name) => present.includes(name) || !BLOB_STORES.includes(name));
   /** @type {Record<string, any[]>} */
   const prepared = {};
   for (const name of targets) prepared[name] = prepareRecords(name, backup.stores[name] ?? []);
@@ -1064,17 +1170,33 @@ export function importResultMessage(result) {
 let dialogSeq = 0;
 
 /**
- * What Replace keeps on the device, in plain language ('' when the backup has both media stores).
+ * What Replace keeps on the device, in plain language ('' when nothing is kept).
  * @param {boolean} hasVoice The backup has a `voice` store.
  * @param {boolean} hasImages The backup has a `media` store.
+ * @param {boolean} [keepBooks] Book PDFs on this device are kept (the backup has none and the device has some).
  * @returns {string}
  */
-export function mediaKeptText(hasVoice, hasImages) {
-  if (hasVoice && hasImages) return '';
-  if (!hasVoice && !hasImages) return 'Voice notes and images on this device are kept (this backup has none).';
-  return hasVoice
-    ? 'Images on this device are kept (this backup has none).'
-    : 'Voice notes on this device are kept (this backup has none).';
+export function mediaKeptText(hasVoice, hasImages, keepBooks = false) {
+  /** @type {string[]} */
+  const kept = [];
+  if (!hasVoice) kept.push('voice notes');
+  if (!hasImages) kept.push('images');
+  if (keepBooks) kept.push('book PDFs');
+  if (!kept.length) return '';
+  const list = kept.length === 1 ? kept[0] : `${kept.slice(0, -1).join(', ')} and ${kept[kept.length - 1]}`;
+  return `${list[0].toUpperCase()}${list.slice(1)} on this device are kept (this backup has none).`;
+}
+
+/**
+ * Whether this device has any book PDF (never throws; false when unknown).
+ * @returns {Promise<boolean>}
+ */
+async function deviceHasBooks() {
+  try {
+    return (await bookRepo.all()).length > 0;
+  } catch {
+    return false;
+  }
 }
 
 /**
@@ -1140,7 +1262,10 @@ export function openImportDialog(file) {
       },
     });
 
-    readBackupFile(file).then(showSummary, showError);
+    readBackupFile(file).then(
+      async (parsed) => showSummary(parsed, !Array.isArray(parsed.data.stores.books) && (await deviceHasBooks())),
+      showError,
+    );
 
     /** @param {unknown} err */
     function showError(err) {
@@ -1173,8 +1298,11 @@ export function openImportDialog(file) {
       );
     }
 
-    /** @param {{ data: BackupData, summary: BackupSummary }} parsed */
-    function showSummary({ data, summary }) {
+    /**
+     * @param {{ data: BackupData, summary: BackupSummary }} parsed
+     * @param {boolean} keepBooks Replace keeps the device's book PDFs (the backup has none).
+     */
+    function showSummary({ data, summary }, keepBooks) {
       /** @type {'merge' | 'replace'} */
       let mode = 'merge';
       const groupName = `${uidBase}-mode`;
@@ -1212,7 +1340,8 @@ export function openImportDialog(file) {
 
       const hasVoice = Array.isArray(data.stores.voice);
       const hasImages = Array.isArray(data.stores.media);
-      const kept = mediaKeptText(hasVoice, hasImages);
+      const hasBooks = Array.isArray(data.stores.books);
+      const kept = mediaKeptText(hasVoice, hasImages, keepBooks);
       const replaceText = `Deletes the study data on this device and puts the backup in its place.${kept ? ` ${kept}` : ''}`;
 
       body.replaceChildren(
@@ -1228,8 +1357,9 @@ export function openImportDialog(file) {
           : h('p', { class: 'bk-empty' }, 'This backup has no study data yet.'),
         h(
           'div',
-          { class: 'bk-media' },
+          { class: ['bk-media', 'row', 'wrap'], style: { '--gap': 'var(--sp-2)' } },
           mediaChip(hasVoice, hasImages),
+          hasBooks ? chip('Includes book PDFs', { kind: 'info', icon: 'book' }) : null,
         ),
         h(
           'fieldset',
@@ -1264,7 +1394,7 @@ export function openImportDialog(file) {
           const ok = await confirmSheet({
             title: 'Replace everything?',
             text:
-              "All progress, answers, notes, highlights, drawings and quiz sessions on this device will be deleted and replaced by the backup. This can't be undone. If you're unsure, choose Merge.",
+              "All progress, answers, notes, highlights, drawings, book annotations and quiz sessions on this device will be deleted and replaced by the backup. This can't be undone. If you're unsure, choose Merge.",
             confirmLabel: 'Replace all',
             danger: true,
           });

@@ -16,6 +16,8 @@ import {
   DEMO,
   PARTS,
   ROOT,
+  Reporter,
+  checkBook,
   inlineIssues,
   main,
   parseArgs,
@@ -48,6 +50,9 @@ function makeRoot() {
     writeFileSync(path.join(root, c.file), `${JSON.stringify({ schemaVersion: 1, chapter: c.id, questions: [] }, null, 2)}\n`);
   }
   writeFileSync(path.join(root, 'data/index.json'), `${JSON.stringify(index, null, 2)}\n`);
+  // data/book.json skeleton: every chapter's first page, no sections (real sections must not change these tests).
+  const book = { schemaVersion: 1, chapters: Object.fromEntries(index.chapters.map((c) => [c.id, { firstPage: c.page, sections: [] }])) };
+  writeFileSync(path.join(root, 'data/book.json'), `${JSON.stringify(book, null, 2)}\n`);
   return root;
 }
 
@@ -401,7 +406,10 @@ describe('app shell checks', () => {
     writeFileSync(path.join(root, 'manifest.webmanifest'), '{}\n');
     writeFileSync(path.join(root, 'js/version.js'), "export const APP_VERSION = '2026.10.26-1';\n");
     const list = shell.map((e) => `  '${e}',`).join('\n');
-    writeFileSync(path.join(root, 'sw.js'), `const VERSION = '2026.10.26-1';\nconst APP_SHELL = [\n${list}\n];\n`);
+    writeFileSync(
+      path.join(root, 'sw.js'),
+      `const VERSION = '2026.10.26-1';\nconst APP_SHELL = [\n${list}\n];\nconst DATA_BOOK = 'data/book.json';\n`,
+    );
     return root;
   }
   const SHELL = ['./', 'index.html', 'manifest.webmanifest', 'js/version.js'];
@@ -417,6 +425,205 @@ describe('app shell checks', () => {
     assert.equal(reporter.errorCount, 1);
     assert.equal(reporter.problems[0].file, 'sw.js');
     assert.match(reporter.problems[0].message, /question data/);
+  });
+
+  test('sw.js must precache data/book.json', () => {
+    const root = makeAppRoot(SHELL);
+    writeFileSync(path.join(root, 'sw.js'), readFileSync(path.join(root, 'sw.js'), 'utf8').replace("'data/book.json'", "'data/other.json'"));
+    const { reporter } = validate({ root });
+    assert.equal(reporter.errorCount, 1);
+    assert.equal(reporter.problems[0].file, 'sw.js');
+    assert.match(reporter.problems[0].message, /data\/book\.json/);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// data/book.json (§7.17)
+// ---------------------------------------------------------------------------
+
+describe('data/book.json checks', () => {
+  /**
+   * Edits data/book.json of a fixture root in place.
+   * @param {string} root
+   * @param {(book: any) => void} edit
+   */
+  function editBook(root, edit) {
+    const book = readJson(root, 'data/book.json');
+    edit(book);
+    writeJson(root, 'data/book.json', book);
+  }
+  /** @param {string} root */
+  const bookProblems = (root) => {
+    const { errors, warnings } = check(root);
+    return { errors: errors.filter((p) => p.file === 'data/book.json'), warnings: warnings.filter((p) => p.file === 'data/book.json') };
+  };
+  /** Placeholder sections (neutral text, not book content). */
+  const sec = (title, page, level = 1) => ({ title, page, level });
+
+  test('the repository book.json is valid and lists all 55 chapters', () => {
+    const rep = new Reporter();
+    const counts = checkBook(rep, REPO);
+    assert.deepEqual(rep.problems, []);
+    assert.equal(counts.chapters, 55);
+  });
+
+  test('a skeleton (first pages, no sections) passes', () => {
+    const root = makeRoot();
+    assert.deepEqual(bookProblems(root), { errors: [], warnings: [] });
+    const rep = new Reporter();
+    assert.deepEqual(checkBook(rep, root), { chapters: 55, sections: 0 });
+  });
+
+  test('sections inside the page range, in order, levels 1 and 2 pass (bounds included)', () => {
+    const root = makeRoot();
+    const ch02 = CHAPTER_TABLE.find((t) => t.id === 'ch02');
+    const ch03 = CHAPTER_TABLE.find((t) => t.id === 'ch03');
+    editBook(root, (b) => {
+      b.chapters.ch02.sections = [sec('Heading A', ch02.page), sec('Sub A1', ch02.page + 1, 2), sec('Heading B', ch03.page - 1)];
+      b.chapters.ch55.sections = [sec('Heading Z', 5000)];
+    });
+    assert.deepEqual(bookProblems(root), { errors: [], warnings: [] });
+    assert.deepEqual(checkBook(new Reporter(), root), { chapters: 55, sections: 4 });
+  });
+
+  test('pages outside the chapter, out of order, or not whole numbers are errors', () => {
+    const root = makeRoot();
+    const ch02 = CHAPTER_TABLE.find((t) => t.id === 'ch02');
+    const ch03 = CHAPTER_TABLE.find((t) => t.id === 'ch03');
+    editBook(root, (b) => {
+      b.chapters.ch02.sections = [
+        sec('Before', ch02.page - 1),
+        sec('Next chapter', ch03.page),
+        sec('Late', ch02.page + 10),
+        sec('Early', ch02.page + 2),
+        sec('Half', ch02.page + 10.5),
+        sec('Text page', '30'),
+      ];
+    });
+    const { errors } = bookProblems(root);
+    const at = errors.map((e) => e.where);
+    assert.deepEqual(at, [
+      'chapters.ch02.sections[0].page',
+      'chapters.ch02.sections[1].page',
+      'chapters.ch02.sections[3].page',
+      'chapters.ch02.sections[4].page',
+      'chapters.ch02.sections[5].page',
+    ]);
+    assert.match(errors[0].message, new RegExp(`book pages from ${ch02.page} to ${ch03.page - 1}`));
+    assert.match(errors[2].message, /page order/);
+    assert.deepEqual(checkBook(new Reporter(), root).chapters, 54);
+  });
+
+  test('the last chapter has no upper page bound but not below its first page', () => {
+    const root = makeRoot();
+    const ch55 = CHAPTER_TABLE.find((t) => t.id === 'ch55');
+    editBook(root, (b) => {
+      b.chapters.ch55.sections = [sec('Low', ch55.page - 1)];
+    });
+    const { errors } = bookProblems(root);
+    assert.equal(errors.length, 1);
+    assert.match(errors[0].message, new RegExp(`${ch55.page} or later`));
+  });
+
+  test('bad levels, titles and shapes', () => {
+    const root = makeRoot();
+    editBook(root, (b) => {
+      b.chapters.ch01.sections = [
+        sec('Ok', 1),
+        sec('Level three', 2, 3),
+        sec('', 3),
+        sec('Line\nbreak', 4),
+        'not an object',
+        { title: 'Extra field', page: 5, level: 1, note: 'x' },
+      ];
+      b.chapters.ch04.sections = 'none';
+      b.chapters.ch05 = [];
+    });
+    const { errors, warnings } = bookProblems(root);
+    assert.deepEqual(errors.map((e) => e.where), [
+      'chapters.ch01.sections[1].level',
+      'chapters.ch01.sections[2].title',
+      'chapters.ch01.sections[3].title',
+      'chapters.ch01.sections[4]',
+      'chapters.ch04.sections',
+      'chapters.ch05',
+    ]);
+    assert.deepEqual(warnings.map((w) => w.where), ['chapters.ch01.sections[5].note']);
+  });
+
+  test('warnings: a first subheading, extra spaces, a long title, a duplicate', () => {
+    const root = makeRoot();
+    editBook(root, (b) => {
+      b.chapters.ch01.sections = [sec('Sub first', 1, 2), sec(' Padded', 2), sec('Double  space', 3), sec('x'.repeat(201), 4), sec('Twice', 5), sec('Twice', 5)];
+    });
+    const { errors, warnings } = bookProblems(root);
+    assert.deepEqual(errors, []);
+    assert.deepEqual(warnings.map((w) => w.where), [
+      'chapters.ch01.sections[0].level',
+      'chapters.ch01.sections[1].title',
+      'chapters.ch01.sections[2].title',
+      'chapters.ch01.sections[3].title',
+      'chapters.ch01.sections[5]',
+    ]);
+  });
+
+  test('firstPage must equal the chapter page; missing and unknown chapters are errors', () => {
+    const root = makeRoot();
+    editBook(root, (b) => {
+      b.chapters.ch03.firstPage = 85;
+      delete b.chapters.ch07;
+      b.chapters.ch56 = { firstPage: 9999, sections: [] };
+      b.chapters.demo = { firstPage: 1, sections: [] };
+    });
+    const { errors } = bookProblems(root);
+    assert.deepEqual(errors.map((e) => e.where).sort(), ['chapters.ch03.firstPage', 'chapters.ch07', 'chapters.ch56', 'chapters.demo'].sort());
+    assert.match(errors.find((e) => e.where === 'chapters.ch03.firstPage').message, /must be 84/);
+  });
+
+  test('top-level shape and schemaVersion', () => {
+    const root = makeRoot();
+    writeJson(root, 'data/book.json', { schemaVersion: 2, chapters: [], extra: 1 });
+    const { errors, warnings } = bookProblems(root);
+    assert.deepEqual(errors.map((e) => e.where), ['schemaVersion', 'chapters']);
+    assert.deepEqual(warnings.map((w) => w.where), ['extra']);
+    writeJson(root, 'data/book.json', []);
+    assert.equal(bookProblems(root).errors.length, 1);
+    rmSync(path.join(root, 'data/book.json'));
+    assert.match(bookProblems(root).errors[0].message, /not found/);
+    writeFileSync(path.join(root, 'data/book.json'), '{ broken');
+    assert.match(bookProblems(root).errors[0].message, /invalid JSON/);
+  });
+
+  test('an optional bundled file must be a safe, existing .pdf', () => {
+    const root = makeRoot();
+    mkdirSync(path.join(root, 'books'));
+    writeFileSync(path.join(root, 'books/ch01.pdf'), '%PDF-1.7 placeholder');
+    writeFileSync(path.join(root, 'books/notes.txt'), 'x');
+    editBook(root, (b) => {
+      b.chapters.ch01.file = 'books/ch01.pdf';
+      b.chapters.ch02.file = 'books/missing.pdf';
+      b.chapters.ch03.file = '../outside.pdf';
+      b.chapters.ch04.file = '/books/ch01.pdf';
+      b.chapters.ch05.file = 'books/notes.txt';
+      b.chapters.ch06.file = '';
+    });
+    const { errors } = bookProblems(root);
+    assert.deepEqual(errors.map((e) => e.where), [
+      'chapters.ch02.file',
+      'chapters.ch03.file',
+      'chapters.ch04.file',
+      'chapters.ch05.file',
+      'chapters.ch06.file',
+    ]);
+    assert.match(errors[0].message, /does not exist/);
+    assert.match(errors[1].message, /\.\./);
+    assert.match(errors[2].message, /relative/);
+    assert.match(errors[3].message, /\.pdf/);
+  });
+
+  test('book.json is a known data file (no "never loads it" warning)', () => {
+    const root = makeRoot();
+    assert.equal(check(root).warnings.some((w) => w.file === 'data/book.json'), false);
   });
 });
 

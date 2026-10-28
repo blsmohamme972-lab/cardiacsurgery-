@@ -96,6 +96,9 @@ let penSeen = false;
  * @property {() => void} [onIdle] A gesture ended (the shell repositions the action bar).
  * @property {readonly string[]} [tapTools] Extra tools that act on a tap (like text).
  * @property {(tool: string, at: Point) => void} [tapTool] Called for a tap with one of `tapTools`.
+ * @property {(x: number, y: number, r: number) => void} [onErase] Every eraser sample (page units), so the
+ *   owner can erase its own marks (e.g. text highlights) in the same gesture.
+ * @property {(keep: boolean) => void} [onEraseEnd] The eraser gesture ended (keep = commit).
  */
 
 /**
@@ -261,6 +264,7 @@ export function createTools(ctx) {
         if (op.erased.has(it.id) || (it.type !== 'stroke' && it.type !== 'shape')) continue;
         if (hitItem(it, x, y, r, { inside: false })) op.erased.add(it.id);
       }
+      ctx.onErase?.(x, y, r);
     }
     ctx.renderer.setHidden(op.erased);
     paintLive({ cursor: op.cursor });
@@ -270,6 +274,7 @@ export function createTools(ctx) {
     const o = op;
     op = null;
     if (o && o.erased.size) ctx.commit({ type: 'remove', ids: [...o.erased] });
+    ctx.onEraseEnd?.(true);
     paintIdle();
   }
 
@@ -529,6 +534,7 @@ export function createTools(ctx) {
     else if (kind === 'pan') op = null;
     else if (!keep) {
       op = null;
+      if (kind === 'erase') ctx.onEraseEnd?.(false);
       paintIdle();
     } else if (kind === 'erase') endErase();
     else if (kind === 'shape') endShape();

@@ -48,6 +48,11 @@ export const DEFAULTS = Object.freeze({
   scratchSize: 1, // 0 | 1 | 2 (thin, medium, thick)
   scratchBg: 'dots', // paper template: 'plain' | 'dots' | 'grid' | 'lines'
   scratchOpacity: 0, // paper opacity in the 'over' view, 0 – 0.9
+  bookLast: null, // Book tab: chapter id of the last opened PDF ('ch01'), or null
+  bookTool: 'pen', // last PDF editor tool (a short tool name, e.g. 'pen', 'hl', 'texthl')
+  bookColor: '#1d4ed8', // last PDF editor ink colour
+  bookSize: 1, // 0 | 1 | 2 (thin, medium, thick)
+  bookHlColor: 'yellow', // last PDF text-highlight colour: 'yellow' | 'green' | 'blue' | 'pink' | '#rrggbb'
 });
 
 /** Scratchpad tools that may be remembered as `scratchTool` (§7.16). */
@@ -125,6 +130,11 @@ const SANITIZERS = {
   scratchSize: numberIn(0, 2),
   scratchBg: oneOf(['plain', 'dots', 'grid', 'lines']),
   scratchOpacity: numberIn(0, 0.9, 2),
+  bookLast: (v) => (v === null || (typeof v === 'string' && /^ch\d{2}$/.test(v)) ? v : INVALID),
+  bookTool: (v) => (typeof v === 'string' && /^[a-z][a-z0-9-]{0,19}$/.test(v) ? v : INVALID),
+  bookColor: hexColor,
+  bookSize: numberIn(0, 2),
+  bookHlColor: (v) => (['yellow', 'green', 'blue', 'pink'].includes(v) ? v : hexColor(v)),
   lastRoute: (v) => (v === null || (typeof v === 'string' && v.startsWith('/') && v.length <= 2048) ? v : INVALID),
 };
 

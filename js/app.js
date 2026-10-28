@@ -38,6 +38,8 @@ export const ROUTES = Object.freeze({
   '/search': () => import('./screens/search.js'),
   '/settings': () => import('./screens/settings.js'),
   '/reviewer': () => import('./screens/reviewer.js'),
+  '/book': () => import('./screens/book.js'),
+  '/book/:id': () => import('./screens/reader.js'),
 });
 
 /** Remove the splash even if the first screen never reports back. */

@@ -1,0 +1,289 @@
+/*
+ * Book tab: PDF viewer, reader and library (docs/ARCHITECTURE.md §7.17).
+ * Owners: viewer section → js/features/book/viewer.js;
+ *         reader & library section → js/screens/{book,reader}.js, js/features/book/annotate.js.
+ *
+ * The PDF page itself is paper: it stays white in both themes (it is the
+ * book). Dark mode only darkens what surrounds the pages.
+ */
+
+/* ---- viewer ---- */
+
+/* The caller's container: the viewer fills it. */
+.pdfv-host {
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Scroller (role="document"). Native one-finger scrolling; pinch is ours. */
+.pdfv {
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  overflow-anchor: none;
+  touch-action: pan-x pan-y;
+  -webkit-overflow-scrolling: touch;
+  background: var(--surface-2);
+  outline: none;
+}
+
+.pdfv:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: -3px;
+}
+
+/* Keeps the scroll extent while the page layer is scaled by a gesture. */
+.pdfv-sizer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Zoom layer: holds every page; a CSS transform scales it during a gesture. */
+.pdfv-pages {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+}
+
+.pdfv-pages.is-zooming {
+  will-change: transform;
+}
+
+/* One page box. Size and position come from the viewer's layout. */
+.pdfv-page {
+  position: absolute;
+  background: #fff;
+  box-shadow:
+    0 1px 2px rgba(14, 23, 38, 0.1),
+    0 4px 16px rgba(14, 23, 38, 0.08);
+  contain: layout style;
+}
+
+:root[data-theme="dark"] .pdfv-page {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.5),
+    0 6px 22px rgba(0, 0, 0, 0.45);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .pdfv-page {
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.5),
+      0 6px 22px rgba(0, 0, 0, 0.45);
+  }
+}
+
+/* Layer order inside a page: canvas → sharp tile → search hits → text → overlay. */
+.pdfv-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.pdfv-detail {
+  position: absolute;
+  display: block;
+  z-index: 1;
+}
+
+.pdfv-hits {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.pdfv-hit {
+  position: absolute;
+  border-radius: 2px;
+  background: rgba(255, 196, 0, 0.42);
+  mix-blend-mode: multiply;
+}
+
+.pdfv-hit.is-current {
+  background: rgba(255, 122, 0, 0.55);
+  box-shadow: 0 0 0 2px rgba(196, 72, 0, 0.95);
+}
+
+.pdfv-page .textLayer {
+  z-index: 3;
+}
+
+/* Annotation layer (features/book/annotate.js). Lets taps reach the text
+   layer until the editor turns pointer events on for its own elements. */
+.pdfv-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* A page that is mounted but not drawn yet: a quiet spinner on white paper. */
+.pdfv-page.is-mounted:not(.is-rendered):not(.is-error)::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+  border: 3px solid rgba(14, 23, 38, 0.12);
+  border-top-color: rgba(14, 23, 38, 0.45);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+.pdfv-page-error {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0 var(--sp-4);
+  transform: translateY(-50%);
+  text-align: center;
+  color: #4a5568;
+  font-size: var(--fs-s);
+}
+
+/* Whole-document states (before the first page is laid out / failed to open). */
+.pdfv.is-loading::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 32px;
+  height: 32px;
+  margin: -16px 0 0 -16px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+.pdfv-error {
+  max-width: 34rem;
+  margin: var(--sp-7) auto;
+  padding: 0 var(--sp-5);
+  text-align: center;
+  color: var(--text-2);
+  font-size: var(--fs-m);
+  line-height: var(--lh-body);
+}
+
+.pdfv-thumb {
+  display: block;
+  background: #fff;
+}
+
+/* PDF.js text layer: transparent real text over the canvas, for selection,
+   copy, search and screen readers. Adapted from PDF.js web/pdf_viewer.css
+   (Apache-2.0, vendor/pdfjs/LICENSE). Needs --scale-factor (set by the viewer). */
+.textLayer {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  opacity: 1;
+  line-height: 1;
+  text-align: initial;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+  forced-color-adjust: none;
+  transform-origin: 0 0;
+  caret-color: CanvasText;
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
+}
+
+.textLayer :is(span, br) {
+  position: absolute;
+  color: transparent;
+  white-space: pre;
+  cursor: text;
+  transform-origin: 0% 0%;
+}
+
+.textLayer > :not(.markedContent),
+.textLayer .markedContent span:not(.markedContent) {
+  z-index: 1;
+}
+
+.textLayer span.markedContent {
+  top: 0;
+  height: 0;
+}
+
+.textLayer span[role="img"] {
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+
+.textLayer ::selection {
+  background: rgba(0, 90, 255, 0.28);
+}
+
+.textLayer br::selection {
+  background: transparent;
+}
+
+.textLayer .endOfContent {
+  display: block;
+  position: absolute;
+  inset: 100% 0 0;
+  z-index: 0;
+  cursor: default;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.textLayer.selecting .endOfContent {
+  top: 0;
+}
+
+.textLayer[data-main-rotation="90"] {
+  transform: rotate(90deg) translateY(-100%);
+}
+
+.textLayer[data-main-rotation="180"] {
+  transform: rotate(180deg) translate(-100%, -100%);
+}
+
+.textLayer[data-main-rotation="270"] {
+  transform: rotate(270deg) translateX(-100%);
+}
+
+/* Measuring canvas PDF.js appends to <body>. */
+.hiddenCanvasElement {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+@media (forced-colors: active) {
+  .pdfv-page {
+    outline: 1px solid CanvasText;
+  }
+
+  .pdfv-hit,
+  .pdfv-hit.is-current {
+    background: transparent;
+    outline: 2px solid Highlight;
+    mix-blend-mode: normal;
+  }
+}
+
+/* ---- reader & library (book-ui) ---- */

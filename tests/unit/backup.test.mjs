@@ -1,11 +1,13 @@
 // Unit tests for the pure parts of js/features/backup.js (validation, merge planning,
-// base64, export assembly and import orchestration with an in-memory store adapter).
+// base64, export assembly and import orchestration with an in-memory store adapter),
+// including the Book tab stores: `books` (PDF blobs, only with includeBooks) and `pdfnotes`.
 // Run: node --test tests/unit/
 import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
   BACKUP_TYPE,
+  BOOK_STORES,
   BackupError,
   MAX_BACKUP_BYTES,
   RECORD_CHECKS,
@@ -13,6 +15,7 @@ import {
   blobToBase64Parts,
   bytesToBase64,
   bytesToBase64Parts,
+  decodeBookRecord,
   decodeMediaRecord,
   decodeVoiceRecord,
   exportBackup,
@@ -633,5 +636,226 @@ describe('helpers', () => {
     assert.equal(importResultMessage({ mode: 'merge', added: 0, updated: 0 }), 'Nothing new in this backup — your device already had everything.');
     assert.equal(importResultMessage({ mode: 'merge', added: 1, updated: 2 }), 'Backup merged: 1 item added, 2 updated.');
     assert.equal(importResultMessage({ mode: 'replace', added: 1200 }), 'Backup restored: 1,200 items.');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Book tab stores (§7.17): books (PDFs, opt-in) and pdfnotes (always)
+// ---------------------------------------------------------------------------
+
+/** A tiny placeholder "PDF" (header + neutral bytes; never real book content). */
+const PDF_BYTES = new Uint8Array([...new TextEncoder().encode('%PDF-1.7\n'), ...new Uint8Array(70_001).map((_, i) => (i * 11) & 255)]);
+
+/** A stored book record (as repo.dumpStore('books') returns it: metadata joined with its blob). */
+function deviceBook(id = 'ch01', extra = {}) {
+  return {
+    id,
+    title: 'Placeholder title',
+    fileName: `Chapter-${id.slice(2)}.pdf`,
+    bytes: PDF_BYTES.length,
+    pages: 3,
+    added: TS,
+    updated: TS,
+    lastPage: 2,
+    lastScale: 'fit-width',
+    blob: new Blob([PDF_BYTES], { type: 'application/pdf' }),
+    ...extra,
+  };
+}
+
+/** A page annotation record. */
+function pdfNote(bookId = 'ch01', page = 2, extra = {}) {
+  return {
+    id: `${bookId}|${page}`,
+    bookId,
+    page,
+    scene: sampleScene('bm1'),
+    highlights: [{ id: 'th1', color: 'yellow', rects: [[0.1, 0.2, 0.3, 0.02]], quote: 'placeholder' }],
+    updated: TS,
+    ...extra,
+  };
+}
+
+/** A book record as written in a backup file. */
+function backupBook(id = 'ch01', extra = {}) {
+  const { blob, ...meta } = deviceBook(id);
+  return { ...meta, blob: null, mime: 'application/pdf', data: bytesToBase64(PDF_BYTES), ...extra };
+}
+
+describe('backup: book PDFs and page annotations', () => {
+  test('BOOK_STORES and labels', () => {
+    assert.deepEqual(BOOK_STORES, ['books']);
+    assert.ok(ALL_STORES.includes('books') && ALL_STORES.includes('pdfnotes'));
+    assert.equal(MEDIA_STORES.includes('books'), false, 'book PDFs do not follow includeMedia');
+  });
+
+  test('export: pdfnotes always, books only with includeBooks (default off)', async () => {
+    const device = memoryAdapter({ ...sampleStores(), books: [deviceBook()], pdfnotes: [pdfNote()] });
+    const plain = await exportBackup({ now: TS, dump: device.dump });
+    const parsed = JSON.parse(await plain.blob.text());
+    assert.equal(parsed.includesBooks, false);
+    assert.equal('books' in parsed.stores, false);
+    assert.equal('books' in plain.counts, false);
+    assert.deepEqual(parsed.stores.pdfnotes, [pdfNote()]);
+    assert.equal(plain.counts.pdfnotes, 1);
+    assert.equal(plain.tooLargeToImport, false);
+    assert.ok(!device.calls.some(([op, n]) => op === 'dump' && n === 'books'), 'the PDFs are not even read');
+
+    const noMedia = JSON.parse(await (await exportBackup({ includeMedia: false, now: TS, dump: device.dump })).blob.text());
+    assert.equal('pdfnotes' in noMedia.stores, true, 'annotations do not depend on includeMedia');
+  });
+
+  test('export with includeBooks writes each PDF as base64 with mime and bytes', async () => {
+    const odd = deviceBook('ch02', { blob: new Blob([PDF_BYTES], { type: 'application/octet-stream' }), bytes: 1 });
+    const device = memoryAdapter({ books: [deviceBook(), odd] });
+    const { blob, counts, skipped } = await exportBackup({ includeBooks: true, includeMedia: false, now: TS, dump: device.dump });
+    assert.equal(skipped, 0);
+    assert.equal(counts.books, 2);
+    const { data, summary } = await readBackupFile(blob);
+    assert.equal(summary.includesBooks, true);
+    assert.equal(summary.includesMedia, false);
+    assert.equal(summary.counts.books, 2);
+    const [a, b] = data.stores.books;
+    assert.equal(a.blob, null);
+    assert.equal(a.mime, 'application/pdf');
+    assert.equal(a.bytes, PDF_BYTES.length);
+    assert.equal(a.data, Buffer.from(PDF_BYTES).toString('base64'));
+    assert.equal(a.lastPage, 2);
+    assert.equal(b.mime, 'application/pdf', 'a generic file type is written as PDF');
+    assert.equal(b.bytes, PDF_BYTES.length);
+  });
+
+  test('an unreadable PDF is left out and counted', async () => {
+    const device = memoryAdapter({ books: [deviceBook('ch01', { blob: null })] });
+    const { blob, skipped, counts } = await exportBackup({ includeBooks: true, now: TS, dump: device.dump });
+    assert.equal(skipped, 1);
+    assert.equal(counts.books, 0);
+    assert.deepEqual(JSON.parse(await blob.text()).stores.books, []);
+  });
+
+  test('round trip with books: replace restores byte-identical PDFs and annotations', async () => {
+    const device = memoryAdapter({ ...sampleStores(), books: [deviceBook()], pdfnotes: [pdfNote(), pdfNote('ch01', 5)] });
+    const { blob } = await exportBackup({ includeBooks: true, now: TS, dump: device.dump });
+    const { data } = await readBackupFile(blob);
+    const fresh = memoryAdapter();
+    const result = await importBackup(data, { mode: 'replace', adapter: fresh });
+    assert.equal(result.keptBooks, false);
+    const book = fresh.db.books[0];
+    assert.ok(book.blob instanceof Blob);
+    assert.equal(book.blob.type, 'application/pdf');
+    assert.equal(book.bytes, PDF_BYTES.length);
+    assert.deepEqual(new Uint8Array(await book.blob.arrayBuffer()), PDF_BYTES);
+    assert.equal('data' in book, false);
+    assert.equal(book.lastPage, 2);
+    assert.deepEqual(fresh.db.pdfnotes, [pdfNote(), pdfNote('ch01', 5)]);
+  });
+
+  test('replace with a backup without books keeps the device PDFs but replaces annotations', async () => {
+    const { data } = validateBackup(sampleBackup({ stores: { ...sampleStores(), pdfnotes: [pdfNote('ch02', 1)] } }));
+    assert.equal(data.includesBooks, false);
+    const target = memoryAdapter({ books: [deviceBook()], pdfnotes: [pdfNote()] });
+    const result = await importBackup(data, { mode: 'replace', adapter: target });
+    assert.equal(result.keptBooks, true);
+    assert.equal(target.db.books.length, 1);
+    assert.ok(!target.calls.some(([op, n]) => (op === 'replace' || op === 'dump') && n === 'books'));
+    assert.deepEqual(target.db.pdfnotes.map((n) => n.id), ['ch02|1']);
+  });
+
+  test('an older backup (no pdfnotes store) clears annotations on replace, keeps PDFs', async () => {
+    const { data, summary } = validateBackup(sampleBackup());
+    assert.equal(summary.counts.books, 0);
+    assert.equal(summary.counts.pdfnotes, 0);
+    assert.equal(summary.includesBooks, false);
+    const target = memoryAdapter({ books: [deviceBook()], pdfnotes: [pdfNote()] });
+    await importBackup(data, { mode: 'replace', adapter: target });
+    assert.equal(target.db.books.length, 1);
+    assert.deepEqual(target.db.pdfnotes, []);
+  });
+
+  test('merge: books and annotations added by id; newer `updated` wins; PDFs decoded only when written', async () => {
+    const stores = {
+      books: [backupBook('ch01', { updated: TS + 10, lastPage: 3 }), backupBook('ch02', { updated: TS - 10 }), backupBook('ch03')],
+      pdfnotes: [pdfNote('ch01', 2, { updated: TS + 5 }), pdfNote('ch01', 3)],
+    };
+    const { data } = validateBackup(sampleBackup({ stores }));
+    const target = memoryAdapter({ books: [deviceBook('ch01'), deviceBook('ch02')], pdfnotes: [pdfNote('ch01', 2)] });
+    const result = await importBackup(data, { mode: 'merge', adapter: target });
+    // The in-memory adapter counts every written record as added; the plan decides what is written.
+    assert.equal(result.stores.books.skipped, 1, 'the older ch02 copy is skipped');
+    assert.equal(result.stores.pdfnotes.skipped, 0);
+    assert.deepEqual(target.db.pdfnotes.slice(1).map((n) => n.id).sort(), ['ch01|2', 'ch01|3']);
+    const written = target.db.books.slice(2);
+    assert.deepEqual(written.map((b) => b.id).sort(), ['ch01', 'ch03']);
+    for (const b of written) {
+      assert.ok(b.blob instanceof Blob);
+      assert.equal('data' in b, false);
+    }
+    assert.equal(written.find((b) => b.id === 'ch01').lastPage, 3);
+  });
+
+  test('validation: book records', () => {
+    const ok = backupBook();
+    assert.equal(RECORD_CHECKS.books(ok), null);
+    assert.equal(RECORD_CHECKS.books({ ...ok, pages: null, lastScale: null, title: undefined }), null);
+    assert.equal(RECORD_CHECKS.books({ ...ok, lastScale: 1.5 }), null);
+    assert.equal(RECORD_CHECKS.books({ ...ok, id: 'ch|1' }), 'id');
+    assert.equal(RECORD_CHECKS.books({ ...ok, blob: {} }), 'blob');
+    assert.equal(RECORD_CHECKS.books({ ...ok, data: '' }), 'data');
+    assert.equal(RECORD_CHECKS.books({ ...ok, data: 'not base64!' }), 'data');
+    assert.equal(RECORD_CHECKS.books({ ...ok, mime: 'image/png' }), 'mime');
+    assert.equal(RECORD_CHECKS.books({ ...ok, pages: 0 }), 'pages');
+    assert.equal(RECORD_CHECKS.books({ ...ok, updated: 'x' }), 'updated');
+    assert.equal(RECORD_CHECKS.books({ ...ok, lastPage: 0 }), 'lastPage');
+    assert.equal(RECORD_CHECKS.books({ ...ok, lastScale: 'huge' }), 'lastScale');
+  });
+
+  test('validation: page annotation records', () => {
+    const ok = pdfNote();
+    assert.equal(RECORD_CHECKS.pdfnotes(ok), null);
+    assert.equal(RECORD_CHECKS.pdfnotes({ ...ok, scene: null }), null, 'highlights alone are enough');
+    assert.equal(RECORD_CHECKS.pdfnotes({ ...ok, highlights: [] }), null, 'a scene alone is enough');
+    assert.equal(RECORD_CHECKS.pdfnotes({ ...ok, highlights: undefined }), null);
+    assert.equal(RECORD_CHECKS.pdfnotes({ ...ok, id: 'ch01|9' }), 'id');
+    assert.equal(RECORD_CHECKS.pdfnotes({ ...ok, page: 0, id: 'ch01|0' }), 'page');
+    assert.equal(RECORD_CHECKS.pdfnotes({ ...ok, bookId: '', id: '|2' }), 'bookId');
+    assert.equal(RECORD_CHECKS.pdfnotes({ ...ok, scene: { v: 2, page: {}, items: [{ type: 'stroke' }] } }), 'scene');
+    assert.equal(RECORD_CHECKS.pdfnotes({ ...ok, highlights: [{ id: 'h', color: 'yellow', rects: [[1, 2, 3]] }] }), 'highlights');
+    assert.equal(RECORD_CHECKS.pdfnotes({ ...ok, highlights: [{ id: 'h', color: '', rects: [] }] }), 'highlights');
+    assert.equal(RECORD_CHECKS.pdfnotes({ ...ok, scene: { ...ok.scene, items: [] }, highlights: [] }), 'scene', 'empty pages are not exported');
+    assert.equal(RECORD_CHECKS.pdfnotes({ ...ok, updated: null }), 'updated');
+    assert.throws(() => validateBackup(sampleBackup({ stores: { pdfnotes: [{ ...ok, id: 'x' }] } })), (e) => e.code === 'corrupt');
+  });
+
+  test('includesBooks must be a boolean when present', () => {
+    assert.throws(() => validateBackup(sampleBackup({ includesBooks: 'yes' })), (e) => e.code === 'corrupt');
+    assert.equal(validateBackup(sampleBackup({ includesBooks: true, stores: { books: [backupBook()] } })).summary.includesBooks, true);
+  });
+
+  test('decodeBookRecord: PDF blob, bytes, no data/mime; empty data throws', () => {
+    const rec = decodeBookRecord(backupBook('ch01', { bytes: 5 }));
+    assert.equal(rec.blob.type, 'application/pdf');
+    assert.equal(rec.bytes, PDF_BYTES.length);
+    assert.equal('data' in rec, false);
+    assert.equal('mime' in rec, false);
+    assert.throws(() => decodeBookRecord({ ...backupBook(), data: '' }), TypeError);
+  });
+
+  test('mediaKeptText mentions book PDFs only when they are kept', () => {
+    assert.equal(mediaKeptText(true, true, false), '');
+    assert.equal(mediaKeptText(true, true, true), 'Book PDFs on this device are kept (this backup has none).');
+    assert.equal(mediaKeptText(false, false, true), 'Voice notes, images and book PDFs on this device are kept (this backup has none).');
+    assert.equal(mediaKeptText(false, true, true), 'Voice notes and book PDFs on this device are kept (this backup has none).');
+    assert.equal(mediaKeptText(false, false), 'Voice notes and images on this device are kept (this backup has none).');
+    assert.equal(mediaKeptText(true, false), 'Images on this device are kept (this backup has none).');
+  });
+
+  test('a file over the size limit suggests a backup without book PDFs', async () => {
+    try {
+      await readBackupFile({ size: MAX_BACKUP_BYTES + 1, text: async () => '' });
+      assert.fail('should throw');
+    } catch (err) {
+      assert.equal(err.code, 'too-large');
+      assert.match(err.userMessage, /without them/);
+    }
   });
 });

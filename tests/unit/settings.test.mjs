@@ -51,3 +51,40 @@ describe('scratchpad settings', () => {
     await assert.rejects(setSetting('scratchOpacity', NaN), TypeError);
   });
 });
+
+describe('book settings (§7.17)', () => {
+  test('defaults', () => {
+    assert.equal(DEFAULTS.bookLast, null);
+    assert.equal(DEFAULTS.bookTool, 'pen');
+    assert.equal(DEFAULTS.bookColor, '#1d4ed8');
+    assert.equal(DEFAULTS.bookSize, 1);
+    assert.equal(DEFAULTS.bookHlColor, 'yellow');
+  });
+
+  test('valid values are stored (normalised)', async () => {
+    await setSetting('bookLast', 'ch07');
+    assert.equal(getSetting('bookLast'), 'ch07');
+    await setSetting('bookLast', null);
+    assert.equal(getSetting('bookLast'), null);
+    await setSetting('bookTool', 'texthl');
+    assert.equal(getSetting('bookTool'), 'texthl');
+    await setSetting('bookColor', '#AA0000');
+    assert.equal(getSetting('bookColor'), '#aa0000');
+    await setSetting('bookSize', '0');
+    assert.equal(getSetting('bookSize'), 0);
+    await setSetting('bookHlColor', 'green');
+    assert.equal(getSetting('bookHlColor'), 'green');
+    await setSetting('bookHlColor', '#FFEE00');
+    assert.equal(getSetting('bookHlColor'), '#ffee00');
+  });
+
+  test('invalid values are rejected', async () => {
+    await assert.rejects(setSetting('bookLast', 'demo'), TypeError);
+    await assert.rejects(setSetting('bookLast', 'ch1'), TypeError);
+    await assert.rejects(setSetting('bookTool', 'Pen Tool'), TypeError);
+    await assert.rejects(setSetting('bookTool', ''), TypeError);
+    await assert.rejects(setSetting('bookColor', 'red'), TypeError);
+    await assert.rejects(setSetting('bookSize', 'huge'), TypeError);
+    await assert.rejects(setSetting('bookHlColor', 'orange'), TypeError);
+  });
+});

@@ -495,11 +495,20 @@ function dataSection(isAlive) {
    * @param {boolean} includeMedia
    * @param {HTMLButtonElement} btn
    */
+  /** Book PDFs are large and the user still has the originals, so they are left out unless asked for. */
+  let includeBooks = false;
+  const booksToggle = toggle({
+    checked: false,
+    label: 'Include book PDFs',
+    description: 'Adds the chapter PDFs you imported in Book. The backup file gets much larger.',
+    onChange: (on) => { includeBooks = Boolean(on); },
+  });
+
   const doExport = (includeMedia, btn) =>
     busy(btn, async () => {
       try {
         const bk = await backupModule();
-        const res = await bk.exportBackup({ includeMedia });
+        const res = await bk.exportBackup({ includeMedia, includeBooks });
         const how = await bk.saveFile(res.blob, res.filename);
         if (how === 'cancelled') return;
         const skipped = Number(/** @type {any} */ (res).skipped) || 0;
@@ -623,6 +632,7 @@ function dataSection(isAlive) {
           'Everything stays on this device. A backup file moves your progress, notes, highlights, drawings and voice notes to another device.',
         ),
       ),
+      booksToggle,
       h('div', { class: 'set-actions' }, exportAll, exportLight, importBtn, fileInput),
     ),
     h('div', { class: 'set-row is-stacked' }, storageBox),

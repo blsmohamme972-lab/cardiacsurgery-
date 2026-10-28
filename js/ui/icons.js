@@ -58,6 +58,12 @@ const ICONS = Object.freeze({
     'M7.5 16.5h4',
   ],
   stats: ['M3.5 20.5h17', 'M7 16.5v-5', 'M12 16.5v-10', 'M17 16.5v-7.5'],
+  // Open book (Book tab, §7.17): two pages curving into the spine.
+  book: [
+    'M12 7.2C10.2 5.7 7.6 5 3.5 5v13c4.1 0 6.7.7 8.5 2.2',
+    'M12 7.2c1.8-1.5 4.4-2.2 8.5-2.2v13c-4.1 0-6.7.7-8.5 2.2',
+    'M12 7.2v13',
+  ],
   search: MAGNIFIER,
   settings: [GEAR, circle(12, 12, 3)],
   bookmark: [BOOKMARK],

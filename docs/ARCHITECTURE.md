@@ -356,7 +356,7 @@ API:
 
 ## 4. Storage (IndexedDB)
 
-Database `cardiac-mcq`, version `2` (v2 adds `media`, owner request 2026-10-26: images in the scratchpad).
+Database `cardiac-mcq`, version `3` (v3 adds `books`, `bookfiles`, `pdfnotes`) (v2 adds `media`, owner request 2026-10-26: images in the scratchpad).
 Only `store/repo.js` uses `store/db.js`.
 
 | store | keyPath | indexes | record |
@@ -408,7 +408,7 @@ Stroke (all coordinates are fractions of the layer's width/height, rounded to 4 
 
 ```js
 export const DB_NAME = 'cardiac-mcq';
-export const DB_VERSION = 2;  // v1 initial schema; v2 adds `media` (qid, ts) — additive only
+export const DB_VERSION = 3;  // v1 initial; v2 adds `media` (qid, ts); v3 adds `books`, `bookfiles`, `pdfnotes` — additive only
 export function openDB(): Promise<IDBDatabase>            // singleton; runs migrations
 export function tx(stores: string|string[], mode: 'readonly'|'readwrite',
                    fn: (stores: Record<string, IDBObjectStore>) => any): Promise<any>
@@ -527,7 +527,8 @@ Defaults:
   reviewerMode: false, tourDone: false, askGptNoticeSeen: false, lastRoute: null,
   ttsRate: 1 /* 0.8–1.4 */, ttsVoice: null /* voiceURI */,
   scratchView: 'over' /* 'over'|'split'|'full' */, scratchTool: 'pen', scratchColor: '#1d4ed8', scratchSize: 1 /* 0|1|2 */,
-  scratchBg: 'dots', scratchOpacity: 0 /* paper opacity in 'over' view, 0–0.9 */ }
+  scratchBg: 'dots', scratchOpacity: 0 /* paper opacity in 'over' view, 0–0.9 */,
+  bookLast: null /* 'chNN' */, bookTool: 'pen', bookColor: '#1d4ed8', bookSize: 1 /* 0–2 */, bookHlColor: 'yellow' }
 // settings.js exports SCRATCH_TOOLS = ['select','lasso','pen','hl','eraser','shape','line','arrow','rect','ellipse','text','hand']
 ```
 ```js
@@ -1127,6 +1128,7 @@ Storage (DB version 3, additive migration):
 |---|---|---|---|
 | `books` | `id` (= chapter id, e.g. `ch01`) | `updated` | `{id, title, fileName, blob, bytes, pages, added, updated, lastPage, lastScale}` |
 | `pdfnotes` | `id` (`${bookId}|${page}`) | `bookId` | `{id, bookId, page /* 1-based */, scene, highlights: TextHl[], updated}` |
+| `bookfiles` | `id` | — | `{id, blob}` — the PDF bytes, kept apart so position/metadata saves never rewrite a large blob (internal; not in `ALL_STORES`; `bookRepo.get()` joins it) |
 Images use `mediaRepo` with `qid: 'book:<bookId>'`; voice clips use `voiceRepo` with `qid: 'book:<bookId>|<page>'`.
 `TextHl = { id, color, rects: [x, y, w, h][] /* fractions of the page */, quote }`.
 ```js
@@ -1136,7 +1138,17 @@ export const pdfNotesRepo = { get(bookId, page), byBook(bookId), set(bookId, pag
                               removeBook(bookId) }
 ```
 Backup: `pdfnotes` always; `books` (PDF blobs) only with the new option `includeBooks` (default **false**: the files
-are large and the user still has the originals); images/voice of the book follow `includeMedia`.
+are large and the user still has the originals; Settings > Data has an "Include book PDFs" toggle); images/voice of the book
+follow `includeMedia`. Header gains `includesBooks`; import result gains `keptBooks`; exports `BOOK_STORES`, `decodeBookRecord`;
+`mediaKeptText(hasVoice, hasImages, keepBooks = false)`.
+
+`features/book/library.js`: `matchChapter(fileName, {chapters?})`, `importPdfFiles(files, {chapterFor?, chapters?, onProgress?})`
+→ `[{file, name, chapterId, status /* added|replaced|unchanged|unmatched|duplicate|invalid|too-large|no-space|error */,
+record?, previous?, error?, message?}]` (never throws), `undoImport(results)`, `storageEstimate()`, `loadBookData()`,
+`normalizeBookData`, `pdfPageFor(bookPage, firstPage)`, `bookPageFor`, `formatBytes`. `bookRepo.put` validates `%PDF-`
+and ≤ 300 MB (`BOOK_MAX_BYTES`); `data/book.json` is precached with the data and validated by `scripts/validate.mjs`
+(sections inside the chapter's page range). The Book tab lists all 55 chapters via `loadIndex({ includeUnpublished: true })`
+(the one non-dev use of that option: chapter *titles* only, never unpublished questions).
 
 Modules:
 ```js
