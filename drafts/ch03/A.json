@@ -1,0 +1,2879 @@
+[
+  {
+    "id": "A-01",
+    "version": 1,
+    "topic": "Introduction",
+    "tags": [
+      "myocardial management",
+      "assessment",
+      "TEE"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "Two centers report conflicting results for the **same** myocardial protection technique, each judged only by clinical outcomes. According to the chapter, how should the quality of myocardial management be **routinely assessed**?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "By hospital mortality and other overall clinical outcomes"
+      },
+      {
+        "id": "b",
+        "text": "By isolated cardiac parameters, such as intraoperative TEE return of septal contractility"
+      },
+      {
+        "id": "c",
+        "text": "By the time to ischemic contracture of the left ventricle"
+      },
+      {
+        "id": "d",
+        "text": "By the extent of the surgical incision and the number of transfusions"
+      },
+      {
+        "id": "e",
+        "text": "By the duration of postoperative sleep deprivation and noise exposure"
+      }
+    ],
+    "answer": "b",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Myocardial management **can and should be routinely assessed by isolated cardiac parameters** — e.g. ==intraoperative TEE return of septal contractility==, aortocoronary sinus enzyme measurements and cellular functional parameters."
+      },
+      {
+        "id": "why",
+        "type": "flow",
+        "title": "Why clinical outcomes alone mislead",
+        "steps": [
+          {
+            "text": "Clinical result = **sum of its parts** (preoperative energy status, anesthesia, extracorporeal circulation, organ protection, procedure length, transfusions, postoperative care)"
+          },
+          {
+            "label": "but",
+            "text": "Another step **cannot compensate** for an imperfect step (perfect protection cannot counteract imperfect surgical technique, and vice versa)"
+          },
+          {
+            "label": "→",
+            "text": "Much **variation** in results for the same technique, especially if **only clinical parameters** are used"
+          }
+        ]
+      },
+      {
+        "id": "phases",
+        "type": "table",
+        "caption": "Operative phases critical for myocardial management (Fig. 3.1)",
+        "head": [
+          "Phase",
+          "Factors"
+        ],
+        "rows": [
+          [
+            "Preoperative",
+            "Redox balance, physical exercise status"
+          ],
+          [
+            "Intraoperative",
+            "Anesthesia, surgical incision, extracorporeal circulation, organ ischemia (e.g. myocardial management), surgical technique, transfusion"
+          ],
+          [
+            "Postoperative",
+            "Transfusion, re-intervention, sleep deprivation, noise, drug interactions"
+          ]
+        ]
+      },
+      {
+        "id": "pitfall",
+        "type": "callout",
+        "kind": "pitfall",
+        "text": "Phase factors (incision, transfusions, sleep deprivation) **influence** cellular homeostasis; they are not measures of the quality of myocardial management."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "The quality of myocardial management can and should be routinely assessed by isolated cardiac parameters, such as intraoperative transesophageal echocardiography (TEE) assessment of the return of septal contractility, aortocoronary sinus measurements of enzymes, and cellular functional parameters",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 85"
+      }
+    ],
+    "choiceNotes": {
+      "a": "Variation in results is greatest when **only clinical parameters** are used, because the outcome is the sum of all phases.",
+      "c": "Time to contracture is a laboratory endpoint (isolated rat hearts); it is species dependent and unknown in humans.",
+      "d": "Incision extent and transfusions are intraoperative **influences** on cellular homeostasis, not measures of protection quality.",
+      "e": "These are postoperative factors that may impair cellular homeostasis, not assessment parameters."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 85, Introduction"
+      },
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 85, Fig. 3.1"
+      }
+    ]
+  },
+  {
+    "id": "A-02",
+    "version": 1,
+    "topic": "Historical Note",
+    "tags": [
+      "perioperative myocardial necrosis",
+      "history",
+      "enzymes"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "Which finding about perioperative **myocardial necrosis** is supported by the early clinical studies of conventional cardiac surgery?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It was limited to coronary artery bypass grafting"
+      },
+      {
+        "id": "b",
+        "text": "It was absent after simple repair of an uncomplicated atrial septal defect"
+      },
+      {
+        "id": "c",
+        "text": "After isolated aortic valve replacement, about 70% of patients had isoenzymatic evidence of it"
+      },
+      {
+        "id": "d",
+        "text": "It did not occur in children undergoing repair of congenital defects"
+      },
+      {
+        "id": "e",
+        "text": "It did not occur in patients with normal coronary arteries"
+      }
+    ],
+    "answer": "c",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Myocardial necrosis proved an **important and frequent** complication: in a 1974 isolated AVR study, hospital mortality was only 2%, yet ==70% had isoenzymatic evidence of necrosis== and 15% had ECG evidence of transmural infarction."
+      },
+      {
+        "id": "evidence",
+        "type": "table",
+        "caption": "Early evidence that the operation itself damages the myocardium",
+        "head": [
+          "Setting",
+          "Finding"
+        ],
+        "rows": [
+          [
+            "Isolated AVR (1974)",
+            "Mortality 2%; **15%** ECG transmural MI; **70%** isoenzymatic necrosis"
+          ],
+          [
+            "Uncomplicated ASD repair (1974)",
+            "Isoenzymatic necrosis in **adults and children**"
+          ],
+          [
+            "Congenital defects in children",
+            "Necrosis shown by enzymatic methods"
+          ],
+          [
+            "Normal coronary arteries (1973)",
+            "**7%** acute transmural MI after various open operations"
+          ],
+          [
+            "CABG (early 1970s)",
+            "High proportion with perioperative transmural MI — soon shown for cardiac surgery **in general**"
+          ]
+        ],
+        "emphasis": {
+          "row": 0
+        }
+      },
+      {
+        "id": "outcome",
+        "type": "flow",
+        "steps": [
+          {
+            "text": "More myocardial necrosis"
+          },
+          {
+            "label": "1975 study",
+            "text": "Lower early postoperative cardiac output (**inversely proportional**)"
+          },
+          {
+            "label": "→",
+            "text": "Determines early condition and **probability of survival**"
+          }
+        ]
+      },
+      {
+        "id": "pearl",
+        "type": "callout",
+        "kind": "pearl",
+        "text": "Necrosis was found even in patients **convalescing well** — a low mortality does not mean the myocardium was protected."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "Although hospital mortality was low (2%), 15% of the patients developed electrocardiographic evidence of transmural myocardial infarction, and 70% developed isoenzymatic evidence of myocardial necrosis.",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 86"
+      }
+    ],
+    "choiceNotes": {
+      "a": "First publicized with CABG, transmural infarction was soon shown to be a complication of cardiac surgery **in general**.",
+      "b": "Even after short, simple uncomplicated ASD repair, adults and children developed isoenzymatic evidence of necrosis.",
+      "d": "Necrosis was demonstrated by enzymatic methods in children undergoing surgery for a number of congenital defects.",
+      "e": "In 1973 a 7% occurrence of acute transmural MI was documented in patients with **normal coronary arteries**."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 85, Historical Note"
+      },
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 86, Historical Note"
+      }
+    ]
+  },
+  {
+    "id": "A-03",
+    "version": 1,
+    "topic": "Historical Note",
+    "tags": [
+      "troponin",
+      "biomarkers",
+      "ischemic time"
+    ],
+    "difficulty": 1,
+    "reviewed": false,
+    "stem": "Serum **troponin I and T** isoforms after cardiopulmonary bypass were found to be related to which operative variable?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The cardiopulmonary bypass flow rate"
+      },
+      {
+        "id": "b",
+        "text": "The degree of systemic hypothermia"
+      },
+      {
+        "id": "c",
+        "text": "The volume of noncoronary collateral flow"
+      },
+      {
+        "id": "d",
+        "text": "The extent of the surgical incision"
+      },
+      {
+        "id": "e",
+        "text": "The duration of ischemic time during cardioplegia"
+      }
+    ],
+    "answer": "e",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Troponin I and T — **sensitive and somewhat specific** markers of myocardial injury after CPB — were related to ==duration of ischemic time during cardioplegia==."
+      },
+      {
+        "id": "chain",
+        "type": "flow",
+        "steps": [
+          {
+            "text": "Longer ischemic time during cardioplegia"
+          },
+          {
+            "label": "→",
+            "text": "**Elevated** troponin I / T"
+          },
+          {
+            "label": "associated with",
+            "text": "**Delayed post-clamp recovery** of ventricular function"
+          }
+        ]
+      },
+      {
+        "id": "tools",
+        "type": "list",
+        "items": [
+          "**ECG** criteria for transmural infarction and ischemic changes",
+          "**Cardiac-specific enzymes**: concentrations correlate directly with amount of necrotic muscle",
+          "**Troponin I and T**: related to ischemic time",
+          "**Radionuclide imaging**: presence and extent of perioperative infarction"
+        ]
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "Isoforms of troponin I and T, sensitive and somewhat specific serum markers of myocardial injury following CPB, were found to be related to duration of ischemic time during cardioplegia",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 86"
+      }
+    ],
+    "choiceNotes": {
+      "a": "The source relates troponin isoforms to **ischemic time during cardioplegia**, not to bypass flow rate.",
+      "b": "Systemic temperature is not the variable the source links to troponin release; ischemic time is.",
+      "c": "Noncoronary collateral flow is not linked to troponin in the source; troponin tracks **ischemic time during cardioplegia**.",
+      "d": "Incision extent affects redox homeostasis, but the troponin relation described is with **ischemic time**."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 86, Historical Note"
+      }
+    ]
+  },
+  {
+    "id": "A-04",
+    "version": 1,
+    "topic": "Historical Note",
+    "tags": [
+      "cardioplegia",
+      "K-ATP channel openers",
+      "hyperpolarization"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "**Aprikalim** and **pinacidil** were studied as alternatives to conventional cardioplegic arrest. On which principle is this approach based?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Membrane hyperpolarization via ATP-sensitive K^+^ channel opening"
+      },
+      {
+        "id": "b",
+        "text": "Hyperkalemic cell membrane depolarization"
+      },
+      {
+        "id": "c",
+        "text": "Calcium channel blockade, as with nifedipine"
+      },
+      {
+        "id": "d",
+        "text": "Scavenging of oxygen-derived free radicals"
+      },
+      {
+        "id": "e",
+        "text": "Procaine-magnesium membrane stabilization"
+      }
+    ],
+    "answer": "a",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Aprikalim and pinacidil are **K^+^ channel openers**: they arrest the heart by ==membrane hyperpolarization (nearer the resting state)== via ATP-sensitive K^+^ channels, **rather than** hyperkalemic depolarization."
+      },
+      {
+        "id": "compare",
+        "type": "table",
+        "caption": "Pharmacologic approaches in the history of cardioplegia",
+        "head": [
+          "Approach",
+          "Example in the source"
+        ],
+        "rows": [
+          [
+            "**Hyperpolarization** (K-ATP channel openers)",
+            "Aprikalim, pinacidil (Wechsler, 1990s)"
+          ],
+          [
+            "Hyperkalemic **depolarization**",
+            "Potassium-induced cardioplegia (Gay and Ebert 1973; Roe 1977)"
+          ],
+          [
+            "Calcium channel blockade",
+            "Nifedipine (Clark, late 1970s)"
+          ],
+          [
+            "Procaine-magnesium cardioplegia",
+            "Kirsch solution (cold)"
+          ]
+        ],
+        "emphasis": {
+          "row": 0
+        }
+      },
+      {
+        "id": "pitfall",
+        "type": "callout",
+        "kind": "pitfall",
+        "text": "Standard potassium cardioplegia **depolarizes** the membrane; K^+^ channel openers keep it **hyperpolarized** — opposite membrane states."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "In the 1990s Wechsler and colleagues began experiments using concepts of membrane hyperpolarization (nearer the resting state) via adenosine triphosphate (ATP)-sensitive K+ channels rather than hyperkalemic cell membrane depolarization",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 87"
+      }
+    ],
+    "choiceNotes": {
+      "b": "Hyperkalemic depolarization is the conventional approach these agents were meant to **replace**.",
+      "c": "Nifedipine is the calcium channel blocker whose favorable effect Clark reported; aprikalim and pinacidil are K^+^ channel openers.",
+      "d": "Free radical scavengers are superoxide dismutase and catalase, not K^+^ channel openers.",
+      "e": "Procaine-magnesium cardioplegia was used by Kirsch’s group; it is not the K-ATP mechanism."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 87, Historical Note"
+      }
+    ]
+  },
+  {
+    "id": "A-05",
+    "version": 1,
+    "topic": "Historical Note",
+    "tags": [
+      "controlled reperfusion",
+      "hyperkalemic reperfusate",
+      "warm cardioplegia"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "After aortic unclamping, a surgeon gives an **initially hyperkalemic reperfusate** so that electromechanical quiescence continues for a few minutes into reperfusion. This practice grew from which key observation?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Blood is the optimal vehicle for cardioplegic solution"
+      },
+      {
+        "id": "b",
+        "text": "Profound topical cooling with ice slush protects the myocardium"
+      },
+      {
+        "id": "c",
+        "text": "Retrograde infusion is effective in valvar and coronary surgery"
+      },
+      {
+        "id": "d",
+        "text": "Energy supply is replenished rapidly when quiescence continues into reperfusion"
+      },
+      {
+        "id": "e",
+        "text": "Noncoronary collateral flow is usually less than 3% of coronary flow"
+      }
+    ],
+    "answer": "d",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "In 1960 Danforth showed the **rapidity** with which myocardial energy supply is replenished after ischemia ==when electromechanical quiescence is continued for a few minutes into reperfusion==."
+      },
+      {
+        "id": "history",
+        "type": "flow",
+        "title": "From observation to controlled reperfusion",
+        "steps": [
+          {
+            "text": "**1960** Danforth: rapid energy repletion with continued quiescence"
+          },
+          {
+            "label": "unused until 1978",
+            "text": "Buckberg: improved outcome with an **initially hyperkalemic reperfusate** (experimental)"
+          },
+          {
+            "label": "then",
+            "text": "Modified reperfusate; **warm induction** with enriched, modified hyperkalemic blood for **acutely energy-deficient** hearts"
+          },
+          {
+            "label": "plus",
+            "text": "Control of **perfusion pressure** and continued controlled reperfusion until full recovery"
+          }
+        ]
+      },
+      {
+        "id": "warm",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "Related concept",
+        "text": "Sustained potassium arrest reduced metabolic demands by about **85%**, even at normothermia — the basis of Lichtenstein and Salerno’s **warm continuous blood cardioplegia** with minimal potassium."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "In 1960, Danforth and colleagues showed the rapidity with which myocardial energy supply is replenished after ischemia when electromechanical quiescence is continued for a few minutes into the reperfusion period.",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 87"
+      }
+    ],
+    "choiceNotes": {
+      "a": "Buckberg identified blood as the optimal cardioplegic vehicle (1979), but that concerns the arrest solution, not the hyperkalemic reperfusate.",
+      "b": "Ice slush (Hufnagel, 1961) was an early cooling method, unrelated to reperfusion strategy.",
+      "c": "Retrograde and combined delivery concern the **mode of delivery** of cardioplegia, not continued quiescence during reperfusion.",
+      "e": "Collateral flow explains return of activity during clamping in some patients; it is not the basis of hyperkalemic reperfusion."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 87, Historical Note"
+      }
+    ]
+  },
+  {
+    "id": "A-06",
+    "version": 1,
+    "topic": "Conditions During Cardiopulmonary Bypass",
+    "tags": [
+      "coronary physiology",
+      "subendocardium",
+      "transmural flow"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "In a normal heart with intact circulation, which statement about **transmural myocardial blood flow** is correct?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "The subendocardial-to-subepicardial flow ratio is normally about 0.5"
+      },
+      {
+        "id": "b",
+        "text": "Subepicardial flow occurs almost exclusively during systole"
+      },
+      {
+        "id": "c",
+        "text": "Subendocardial flow occurs almost exclusively during diastole"
+      },
+      {
+        "id": "d",
+        "text": "The subendocardium consumes oxygen at a lower rate than outer layers"
+      },
+      {
+        "id": "e",
+        "text": "Myocardial flow is independent of tension in the myocardial layers"
+      }
+    ],
+    "answer": "c",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Subendocardial flow occurs ==almost exclusively during diastole==, because systolic intramyocardial tension closes the coronary branches that pass **perpendicularly** through the myocardium to arborize in the subendocardium."
+      },
+      {
+        "id": "layers",
+        "type": "table",
+        "head": [
+          "",
+          "Subepicardium (outer ¼)",
+          "Subendocardium (inner ¼)"
+        ],
+        "rows": [
+          [
+            "Timing of flow",
+            "Systole **and** diastole",
+            "Almost exclusively **diastole**"
+          ],
+          [
+            "Flow relative to the other layer",
+            "Reference (1.0)",
+            "**1.0 or a little greater**"
+          ],
+          [
+            "Oxygen consumption",
+            "—",
+            "**Higher**"
+          ]
+        ]
+      },
+      {
+        "id": "determinants",
+        "type": "mindmap",
+        "center": "Myocardial blood flow",
+        "branches": [
+          {
+            "text": "Coronary perfusion pressure",
+            "children": [
+              "Aortic pressure"
+            ]
+          },
+          {
+            "text": "Tension in myocardial layers",
+            "children": [
+              "Related to wall thickness and size"
+            ]
+          },
+          {
+            "text": "Coronary vascular resistance",
+            "children": [
+              "Depends on endothelium and smooth muscle"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "pearl",
+        "type": "callout",
+        "kind": "pearl",
+        "text": "This diastolic dependence, plus higher oxygen consumption, explains the **subendocardial vulnerability** in shock, hypertrophy, coronary disease and cardiac surgery."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "blood flow to the subendocardial layer occurs almost exclusively during diastole because intramyocardial tension during systole closes the branches of the coronary arteries that pass perpendicularly through the myocardium",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 87"
+      }
+    ],
+    "choiceNotes": {
+      "a": "The normal inner-to-outer flow ratio is **1.0 or a little greater**.",
+      "b": "Subepicardial flow occurs during **both** systole and diastole.",
+      "d": "The subendocardial layer has a **higher** rate of oxygen consumption.",
+      "e": "Flow is determined in part by tension in the myocardial layers (related to wall thickness and size)."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 87, Conditions During Cardiopulmonary Bypass"
+      }
+    ]
+  },
+  {
+    "id": "A-07",
+    "version": 1,
+    "topic": "Conditions During Cardiopulmonary Bypass",
+    "tags": [
+      "CPB",
+      "empty heart",
+      "subendocardial perfusion",
+      "ventricular fibrillation"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "A small heart is decompressed and cooled on **total cardiopulmonary bypass**, still perfused and unclamped. How does the empty state affect **subendocardial perfusion**?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It lowers intramyocardial tension and increases subendocardial flow"
+      },
+      {
+        "id": "b",
+        "text": "It has little effect, because coronary flow is maintained by pulsatile pressure"
+      },
+      {
+        "id": "c",
+        "text": "It has little effect, because coronary flow comes antegrade from the left ventricle"
+      },
+      {
+        "id": "d",
+        "text": "It lowers subendocardial resistance, an effect enhanced by ventricular fibrillation"
+      },
+      {
+        "id": "e",
+        "text": "It raises intramyocardial tension and subendocardial resistance, decreasing flow"
+      }
+    ],
+    "answer": "e",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "The empty heart is **smaller**, which ==increases intramyocardial tension and subendocardial vascular resistance== and **decreases** subendocardial flow — especially powerful in the **small** and **hypothermic** heart."
+      },
+      {
+        "id": "chain",
+        "type": "flow",
+        "steps": [
+          {
+            "text": "Heart **empty** on CPB → smaller"
+          },
+          {
+            "label": "→",
+            "text": "↑ Intramyocardial tension"
+          },
+          {
+            "label": "→",
+            "text": "↑ Transmural and subendocardial vascular resistance"
+          },
+          {
+            "label": "→",
+            "text": "↓ **Subendocardial flow**"
+          },
+          {
+            "label": "worse with",
+            "text": "Ventricular fibrillation (↑ tension still more)"
+          }
+        ]
+      },
+      {
+        "id": "cpb",
+        "type": "list",
+        "items": [
+          "Blood enters via the aortic cannula and passes **retrogradely** into the proximal aorta to the coronary ostia",
+          "Pulse pressure narrow — **essentially nonpulsatile**; mean pressure variable",
+          "Perfusate: **diluted blood** with abnormal physiochemical properties, possible microemboli, altered leukocytes and platelets",
+          "Circulating **vasoactive agents** alter coronary resistance"
+        ]
+      },
+      {
+        "id": "pitfall",
+        "type": "callout",
+        "kind": "pitfall",
+        "text": "An empty, perfused heart on CPB — **even when beating** — is not managed optimally; clinical experience refutes that view."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "The heart is usually more or less empty and thus smaller than usual, thereby increasing intramyocardial tension and transmural and subendocardial vascular resistance, and decreasing flow to the subendocardial layer.",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 87"
+      }
+    ],
+    "choiceNotes": {
+      "a": "The smaller empty heart has **increased**, not decreased, intramyocardial tension.",
+      "b": "Arterial pulse pressure on CPB is narrow (**essentially nonpulsatile**).",
+      "c": "On total CPB, blood passes **retrogradely** from the aortic cannula into the proximal aorta and coronary ostia.",
+      "d": "Ventricular fibrillation **increases** intramyocardial tension still more."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 87, Conditions During Cardiopulmonary Bypass"
+      }
+    ]
+  },
+  {
+    "id": "A-08",
+    "version": 1,
+    "topic": "Vulnerability of the Diseased Heart",
+    "tags": [
+      "hypertrophy",
+      "free radicals",
+      "xanthine oxidase",
+      "superoxide dismutase"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "A patient with severe aortic stenosis and a **markedly hypertrophied** left ventricle is scheduled for valve replacement. Which feature makes this ventricle more susceptible to ischemic and reperfusion damage?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Elevated xanthine oxidase and decreased superoxide dismutase levels"
+      },
+      {
+        "id": "b",
+        "text": "Decreased xanthine oxidase and elevated superoxide dismutase levels"
+      },
+      {
+        "id": "c",
+        "text": "Reduced transmural gradients of energy substrate utilization"
+      },
+      {
+        "id": "d",
+        "text": "Delayed onset of ischemic contracture compared with normal hearts"
+      },
+      {
+        "id": "e",
+        "text": "Wall characteristics that make subendocardial reperfusion easier"
+      }
+    ],
+    "answer": "a",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "In hypertrophy, ==xanthine oxidase is markedly elevated== (more free radical generation) and ==superoxide dismutase markedly decreased== (weaker natural defenses)."
+      },
+      {
+        "id": "lvh",
+        "type": "mindmap",
+        "center": "Hypertrophied ventricle",
+        "branches": [
+          {
+            "text": "Energy",
+            "children": [
+              "Transmural gradients of substrate utilization **markedly elevated**",
+              "Subendocardium more vulnerable"
+            ]
+          },
+          {
+            "text": "Free radicals",
+            "children": [
+              "↑ Xanthine oxidase",
+              "↓ Superoxide dismutase"
+            ]
+          },
+          {
+            "text": "Wall",
+            "children": [
+              "Subendocardial reperfusion **more difficult**"
+            ]
+          },
+          {
+            "text": "Contracture",
+            "children": [
+              "Develops **more rapidly** than in normal hearts"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "others",
+        "type": "table",
+        "caption": "Other hearts the source calls especially vulnerable",
+        "head": [
+          "Heart",
+          "Why"
+        ],
+        "rows": [
+          [
+            "Chronic heart failure",
+            "Chronically depleted energy charge"
+          ],
+          [
+            "Cyanotic (experimental)",
+            "Considerably more susceptible to ischemic and reperfusion damage"
+          ],
+          [
+            "Unstable / cardiogenic shock",
+            "Highly sensitive to global myocardial ischemia"
+          ]
+        ]
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "Xanthine oxidase levels are markedly elevated, increasing the opportunity for the elaboration of oxygen-derived free radicals. Superoxide dismutase levels are markedly decreased, reducing the natural defenses against oxygen-derived free radicals.",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 88"
+      }
+    ],
+    "choiceNotes": {
+      "b": "This reverses the source: xanthine oxidase is **elevated** and superoxide dismutase **decreased**.",
+      "c": "Transmural gradients of energy substrate utilization are markedly **elevated** in hypertrophy.",
+      "d": "Contracture develops **more rapidly** in hypertrophied than in normal hearts.",
+      "e": "The hypertrophied wall makes subendocardial reperfusion **more difficult** than normal."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 87, Vulnerability of the Diseased Heart"
+      },
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 88, Vulnerability of the Diseased Heart"
+      },
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 89, Myocardial Cell Necrosis"
+      }
+    ]
+  },
+  {
+    "id": "A-09",
+    "version": 1,
+    "topic": "Vulnerability of the Diseased Heart",
+    "tags": [
+      "energy charge",
+      "heart failure",
+      "adenine nucleotides"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "The heart of a patient with **chronic heart failure** is described as chronically depleted in **energy charge**. Which statement about energy charge is correct?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It is normally 1.0 and falls to 0.85 when nucleotides are all ADP"
+      },
+      {
+        "id": "b",
+        "text": "It is normally 0.85 and would be 1.0 if nucleotides were all AMP"
+      },
+      {
+        "id": "c",
+        "text": "It is normally 0.5 and reflects the myocardial glycogen content"
+      },
+      {
+        "id": "d",
+        "text": "It is normally 0.85 and would be 1.0 if nucleotides were all ATP"
+      },
+      {
+        "id": "e",
+        "text": "It is normally 0.85 and would be 1.0 if nucleotides were all adenosine"
+      }
+    ],
+    "answer": "d",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Energy charge = energy-producing capacity of the **adenine nucleotide** mix in mitochondria and cytoplasm: ==normally 0.85==; **1.0** if present only as ATP; **0.0** if only as AMP."
+      },
+      {
+        "id": "scale",
+        "type": "table",
+        "head": [
+          "Nucleotides present as",
+          "Energy charge"
+        ],
+        "rows": [
+          [
+            "Only **ATP**",
+            "1.0"
+          ],
+          [
+            "**Normal** myocyte mix",
+            "0.85"
+          ],
+          [
+            "Only **AMP**",
+            "0.0"
+          ]
+        ],
+        "emphasis": {
+          "row": 1
+        }
+      },
+      {
+        "id": "pearl",
+        "type": "callout",
+        "kind": "pearl",
+        "text": "The failing heart starts **already depleted** and is particularly susceptible to further acute depletion during ischemia and reperfusion."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "Normally, it is 0.85. It would be 1.0 if the nucleotides were present only as ATP but 0.0 if they were present only as adenosine monophosphate.",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 88"
+      }
+    ],
+    "choiceNotes": {
+      "a": "Normal energy charge is **0.85**; 1.0 applies only if all nucleotides were ATP.",
+      "b": "All-AMP gives an energy charge of **0.0**, not 1.0.",
+      "c": "Normal value is 0.85, and it describes adenine nucleotides, not glycogen.",
+      "e": "The value of 1.0 corresponds to nucleotides present only as **ATP**."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 88, Vulnerability of the Diseased Heart (footnote 1)"
+      }
+    ]
+  },
+  {
+    "id": "A-10",
+    "version": 1,
+    "topic": "Vulnerability of the Diseased Heart",
+    "tags": [
+      "noncoronary collateral flow",
+      "cyanotic heart disease",
+      "cardioplegia"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "During aortic cross-clamping in a patient with **cyanotic congenital heart disease**, the heart repeatedly resumes electromechanical activity despite cardioplegia. Which explanation fits the source?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Early recovery of specialized conduction cells ahead of myocytes"
+      },
+      {
+        "id": "b",
+        "text": "Calcium influx typical of uncontrolled reperfusion"
+      },
+      {
+        "id": "c",
+        "text": "Noncoronary collateral flow, enough to restart activity but not to prevent ischemia"
+      },
+      {
+        "id": "d",
+        "text": "Normal noncoronary collateral flow, which is about one-third of coronary flow"
+      },
+      {
+        "id": "e",
+        "text": "A hyperpolarized membrane state produced by potassium cardioplegia"
+      }
+    ],
+    "answer": "c",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Even with the aorta clamped, **noncoronary collateral flow** from **mediastinal arteries** continues. In some patients it is ==sufficient to initiate electromechanical activity but insufficient to prevent continuing and important ischemia==."
+      },
+      {
+        "id": "facts",
+        "type": "table",
+        "head": [
+          "",
+          "Noncoronary collateral flow"
+        ],
+        "rows": [
+          [
+            "Origin",
+            "Mediastinal arteries"
+          ],
+          [
+            "Usual amount",
+            "**< 3%** of total coronary flow"
+          ],
+          [
+            "Larger in",
+            "Cyanotic congenital heart disease, advanced ischemic heart disease, extensive pericarditis, other conditions"
+          ]
+        ]
+      },
+      {
+        "id": "pitfall",
+        "type": "callout",
+        "kind": "pitfall",
+        "text": "“Global” ischemia is not truly zero flow — but collateral flow that restarts the heart still leaves it **ischemic**."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "coronary collateral flow may be sufficient to initiate electromechanical activity in the heart rendered quiescent by cardioplegia but insufficient to prevent continuing and important ischemia",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 88"
+      }
+    ],
+    "choiceNotes": {
+      "a": "Specialized conduction cells may be the **last** to recover, not the first.",
+      "b": "Calcium influx is a feature of reperfusion injury; the heart here is still clamped.",
+      "d": "Noncoronary collateral flow is generally **less than 3%** of total coronary flow.",
+      "e": "Hyperkalemic cardioplegia **depolarizes** the membrane; hyperpolarization is the K^+^ channel opener concept."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 88, Vulnerability of the Diseased Heart"
+      }
+    ]
+  },
+  {
+    "id": "A-11",
+    "version": 1,
+    "topic": "Surgical Requirements",
+    "tags": [
+      "global myocardial ischemia",
+      "air embolism",
+      "operative conditions"
+    ],
+    "difficulty": 1,
+    "reviewed": false,
+    "stem": "Why is a period of **global myocardial ischemia** (aortic clamping) commonly accepted for intracardiac procedures?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Cardiac operations cannot be performed on a perfused beating heart"
+      },
+      {
+        "id": "b",
+        "text": "It removes the need for any special myocardial management"
+      },
+      {
+        "id": "c",
+        "text": "A perfused fibrillating heart is the bloodless field of choice"
+      },
+      {
+        "id": "d",
+        "text": "Ischemia and reperfusion cannot be controlled as separate events"
+      },
+      {
+        "id": "e",
+        "text": "A bloodless, quiescent heart best allows precise repair without air embolization"
+      }
+    ],
+    "answer": "e",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "A precise, complete procedure **without air embolization** is most likely when the heart is ==bloodless and mechanically quiescent== — conditions provided by global myocardial ischemia."
+      },
+      {
+        "id": "options",
+        "type": "flow",
+        "steps": [
+          {
+            "text": "Possible: perfused **beating**, **fibrillating**, or **diastolic arrest**"
+          },
+          {
+            "label": "optimal field",
+            "text": "**Global myocardial ischemia** (bloodless + quiescent)"
+          },
+          {
+            "label": "requires",
+            "text": "Appropriate **myocardial management** to limit ischemic damage"
+          }
+        ]
+      },
+      {
+        "id": "pearl",
+        "type": "callout",
+        "kind": "pearl",
+        "text": "The surgeon has a unique opportunity to **control ischemia and reperfusion separately** — which is why the chapter discusses them separately."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "the probability of a precise and complete surgical procedure without air embolization is greatest when the heart is bloodless and mechanically quiescent",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 88"
+      }
+    ],
+    "choiceNotes": {
+      "a": "Operations **can** be performed with the heart perfused and beating, fibrillating or in diastolic arrest.",
+      "b": "Global ischemia **necessitates** appropriate myocardial management to limit damage.",
+      "c": "The optimal field is bloodless **and mechanically quiescent**; a perfused fibrillating heart is neither.",
+      "d": "The surgeon has a **unique opportunity** to control and influence each separately."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 88, Surgical Requirements"
+      }
+    ]
+  },
+  {
+    "id": "A-12",
+    "version": 1,
+    "topic": "Damage from Global Myocardial Ischemia",
+    "tags": [
+      "ischemia timeline",
+      "anaerobic glycolysis",
+      "heterogeneity"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "After the onset of global myocardial ischemia, how quickly does the myocardium switch from **aerobic to anaerobic glycolysis**?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Within about 15 minutes"
+      },
+      {
+        "id": "b",
+        "text": "Within seconds"
+      },
+      {
+        "id": "c",
+        "text": "After about 20 minutes"
+      },
+      {
+        "id": "d",
+        "text": "After about 1 hour"
+      },
+      {
+        "id": "e",
+        "text": "Only after about 6 hours"
+      }
+    ],
+    "answer": "b",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Nayler and Elz stress the **rapidity** of the chain of ischemic events: the switch from aerobic to anaerobic glycolysis occurs ==within seconds== of onset of ischemia."
+      },
+      {
+        "id": "timeline",
+        "type": "table",
+        "caption": "Times stated in the source",
+        "head": [
+          "Time",
+          "Event"
+        ],
+        "rows": [
+          [
+            "Seconds",
+            "Switch from aerobic to **anaerobic glycolysis**"
+          ],
+          [
+            "Within 15 min",
+            "Loss of control of **sarcolemmal membrane permeability** begins"
+          ],
+          [
+            "As little as 20 min (normothermic)",
+            "Subendocardial necrosis in some investigations"
+          ],
+          [
+            "At least 6 h (normothermic)",
+            "Compatible with myocyte survival in other evidence"
+          ]
+        ],
+        "emphasis": {
+          "row": 0
+        }
+      },
+      {
+        "id": "pitfall",
+        "type": "callout",
+        "kind": "pitfall",
+        "text": "There is **extreme heterogeneity** among cells (and by implication among hearts) in the rate of progression of ischemic damage — no single safe time applies to every heart."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "the switch from aerobic to anaerobic glycolysis occurs within seconds of onset of ischemia",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 88"
+      }
+    ],
+    "choiceNotes": {
+      "a": "Fifteen minutes is when loss of control of sarcolemmal membrane permeability **begins**.",
+      "c": "Twenty minutes of normothermic ischemia is the shortest time reported for **subendocardial necrosis**.",
+      "d": "One hour is not the time the source gives for this metabolic switch, which occurs within seconds.",
+      "e": "Six hours is the longest normothermic ischemia reported **compatible with cell survival**."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 88, Damage from Global Myocardial Ischemia"
+      },
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 89, Myocardial Cell Necrosis"
+      }
+    ]
+  },
+  {
+    "id": "A-13",
+    "version": 1,
+    "topic": "Myocardial Cell Stunning",
+    "tags": [
+      "stunning",
+      "hibernation",
+      "calcium"
+    ],
+    "difficulty": 3,
+    "reviewed": false,
+    "stem": "Which statement correctly distinguishes **myocardial stunning** from **myocardial hibernation**?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Stunning is a chronic state with low perfusion and low contraction"
+      },
+      {
+        "id": "b",
+        "text": "Hibernation follows brief ischemia and resolves after reperfusion"
+      },
+      {
+        "id": "c",
+        "text": "Stunning is a perfusion/contraction mismatch; hibernation is a match, both low"
+      },
+      {
+        "id": "d",
+        "text": "Stunning reflects reduced Ca^2+^ transients; hibernation reflects reduced myofilament Ca^2+^ responsiveness"
+      },
+      {
+        "id": "e",
+        "text": "Stunning, unlike hibernation, requires myocardial necrosis"
+      }
+    ],
+    "answer": "c",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Stunning = ==perfusion/contraction **mismatch**== (flow restored, contractility still low). Hibernation = perfusion/contraction **match** (both low)."
+      },
+      {
+        "id": "compare",
+        "type": "table",
+        "head": [
+          "",
+          "Stunning",
+          "Hibernation"
+        ],
+        "rows": [
+          [
+            "Perfusion vs contraction",
+            "**Mismatch**: normal flow, reduced contractility",
+            "**Match**: both low"
+          ],
+          [
+            "Setting",
+            "After acutely diminished flow + adequate reperfusion",
+            "**Chronic**, potentially reversible; segmental (less often global)"
+          ],
+          [
+            "Necrosis",
+            "Absent",
+            "—"
+          ],
+          [
+            "Cellular basis (Marban)",
+            "↓ Myofilament Ca^2+^ **responsiveness** (EC decoupling)",
+            "↓ Ca^2+^ **transients**"
+          ]
+        ]
+      },
+      {
+        "id": "pitfall",
+        "type": "callout",
+        "kind": "pitfall",
+        "text": "The difference between stunned and hibernating segments **may be vague** clinically."
+      },
+      {
+        "id": "mnemonic",
+        "type": "callout",
+        "kind": "mnemonic",
+        "text": "**S**tunned = **S**plit (flow and function mismatched); **H**ibernating = **H**and in hand (both low)."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "If stunning is characterized as a perfusion/contraction mismatch, hibernation is a perfusion/contraction match; in the latter, both are low.",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 88"
+      }
+    ],
+    "choiceNotes": {
+      "a": "The chronic state with both perfusion and contraction low is **hibernation**.",
+      "b": "Stunning, not hibernation, follows diminished flow with adequate reperfusion; hibernation is chronic.",
+      "d": "Reversed: reduced Ca^2+^ transients are proposed for **hibernation**, reduced myofilament responsiveness for **stunning**.",
+      "e": "Stunning is dysfunction **in the absence of** myocardial necrosis."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 88, Myocardial Cell Stunning (footnote 2)"
+      }
+    ]
+  },
+  {
+    "id": "A-14",
+    "version": 1,
+    "topic": "Myocardial Cell Stunning",
+    "tags": [
+      "stunning",
+      "mechanism",
+      "inotropes",
+      "ATP"
+    ],
+    "difficulty": 3,
+    "reviewed": false,
+    "stem": "It has been suggested that myocardial stunning results from abnormal energy transduction secondary to **depletion of high-energy phosphates**. Which observation argues against this?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Stunned myocardium has a high, not low, oxygen consumption"
+      },
+      {
+        "id": "b",
+        "text": "Superoxide dismutase and catalase given before ischemia restore contraction"
+      },
+      {
+        "id": "c",
+        "text": "Excess intracellular calcium soon leaves cells after short ischemia"
+      },
+      {
+        "id": "d",
+        "text": "Stunned myocardium responds to inotropic stimulation"
+      },
+      {
+        "id": "e",
+        "text": "Stunning begins in the subendocardium and progresses outward"
+      }
+    ],
+    "answer": "d",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Stunned myocardium ==responds to inotropic stimulation==, indicating **adequate ATP** for active contraction — against the high-energy phosphate depletion theory."
+      },
+      {
+        "id": "theories",
+        "type": "table",
+        "caption": "Proposed causes of stunning and the evidence",
+        "head": [
+          "Hypothesis",
+          "Evidence in the source"
+        ],
+        "rows": [
+          [
+            "Reduced O~2~ consumption (protective)",
+            "**Denied**: stunned myocardium has **high** O~2~ consumption"
+          ],
+          [
+            "High-energy phosphate depletion",
+            "**Against**: responds to inotropes (adequate ATP)"
+          ],
+          [
+            "Prolonged energy charge depletion",
+            "**Unlikely** on current information"
+          ],
+          [
+            "Impaired coronary flow / reserve",
+            "**Does not appear** to be the cause"
+          ],
+          [
+            "Oxygen-derived free radicals",
+            "**Supported**: SOD + catalase restore contraction (experimental)"
+          ],
+          [
+            "Calcium influx → EC coupling defect",
+            "Possible; must be reconciled with calcium leaving cells after short ischemia"
+          ]
+        ],
+        "emphasis": {
+          "row": 1
+        }
+      },
+      {
+        "id": "pitfall",
+        "type": "callout",
+        "kind": "pitfall",
+        "text": "Each choice is a real observation — match it to the **hypothesis it addresses**. High O~2~ consumption refutes the **reduced-consumption** theory, not the ATP theory."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "Stunned myocardium, however, responds to inotropic stimulation, indicating the presence of adequate ATP to produce active contraction.",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 88"
+      }
+    ],
+    "choiceNotes": {
+      "a": "High oxygen consumption refutes the **reduced oxygen consumption** hypothesis, not the ATP-depletion theory.",
+      "b": "This supports the **free radical** mechanism; it does not address ATP availability.",
+      "c": "This challenges the **calcium/EC coupling** hypothesis.",
+      "e": "This describes the **pattern** of stunning (like necrosis), not evidence about ATP."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 88, Myocardial Cell Stunning"
+      },
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 89, Myocardial Cell Stunning"
+      }
+    ]
+  },
+  {
+    "id": "A-15",
+    "version": 1,
+    "topic": "Myocardial Cell Stunning",
+    "tags": [
+      "stunning",
+      "free radicals",
+      "neutrophils",
+      "scavengers"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "In experimental studies, which agents given **before** an ischemic period resulted in nearly full restoration of contractile indices on reperfusion, compared with prolonged depression in controls?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Xanthine oxidase and hypoxanthine"
+      },
+      {
+        "id": "b",
+        "text": "Iron and hydrogen peroxide"
+      },
+      {
+        "id": "c",
+        "text": "Nifedipine and procaine"
+      },
+      {
+        "id": "d",
+        "text": "Calcium and potassium"
+      },
+      {
+        "id": "e",
+        "text": "Superoxide dismutase and catalase"
+      }
+    ],
+    "answer": "e",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "**Superoxide dismutase and catalase** (free radical scavengers) before ischemia ==nearly fully restored contractile indices== on reperfusion in experiments."
+      },
+      {
+        "id": "chain",
+        "type": "flow",
+        "title": "Free radical route to stunning",
+        "steps": [
+          {
+            "text": "Ischemia"
+          },
+          {
+            "label": "first few minutes of reperfusion",
+            "text": "**Activated neutrophils** release oxygen-derived free radicals"
+          },
+          {
+            "label": "→",
+            "text": "Myocardial **stunning**"
+          },
+          {
+            "label": "blocked by",
+            "text": "SOD + catalase given **before** ischemia (experimental)"
+          }
+        ]
+      },
+      {
+        "id": "pearl",
+        "type": "callout",
+        "kind": "pearl",
+        "text": "Free radical release occurs to a major degree in the **first few minutes of reperfusion** — the early reperfusion period is the target."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "Experimentally, introduction of superoxide dismutase and catalase (free radical scavengers) before an ischemic period results in nearly full restoration of contractile indices upon reperfusion, compared with prolonged depression in controls.",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 89"
+      }
+    ],
+    "choiceNotes": {
+      "a": "Xanthine oxidase acting on hypoxanthine **generates** free radicals at reperfusion.",
+      "b": "Iron converts superoxide into damaging hydroxyl radicals; hydrogen peroxide is itself a free radical species.",
+      "c": "Nifedipine (calcium channel blocker) and procaine (Kirsch solution) are other historical protective agents, not the scavengers tested here.",
+      "d": "Calcium influx is a proposed **cause** of stunning, not a protective agent here."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 89, Myocardial Cell Stunning"
+      }
+    ]
+  },
+  {
+    "id": "A-16",
+    "version": 1,
+    "topic": "Myocardial Cell Stunning",
+    "tags": [
+      "stunning",
+      "short ischemic time",
+      "myocardial management"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "A surgeon plans a **short aortic cross-clamp time**, well below that expected to cause myocyte death, and asks whether full myocardial management techniques are needed. What does the chapter advise?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Use them, because stunning can follow even brief ischemia and they likely prevent it"
+      },
+      {
+        "id": "b",
+        "text": "Omit them, because stunning occurs only with ischemia long enough to cause necrosis"
+      },
+      {
+        "id": "c",
+        "text": "Omit them, because stunning reflects persistently impaired coronary flow"
+      },
+      {
+        "id": "d",
+        "text": "Omit them unless the ventricle is hypertrophied or failing"
+      },
+      {
+        "id": "e",
+        "text": "Use them only during reperfusion, because ischemia alone does not stun"
+      }
+    ],
+    "answer": "a",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Techniques designed to minimize necrosis are probably **effective against stunning** too, so ==use them even when ischemia is shorter than that expected to cause cell death==."
+      },
+      {
+        "id": "chain",
+        "type": "flow",
+        "steps": [
+          {
+            "text": "Even **brief** ischemia"
+          },
+          {
+            "label": "→",
+            "text": "Stunning: systolic + diastolic dysfunction **without necrosis**"
+          },
+          {
+            "label": "may last",
+            "text": "Minutes to **many days** → prolonged postoperative low cardiac output"
+          }
+        ]
+      },
+      {
+        "id": "features",
+        "type": "list",
+        "items": [
+          "Stunning is a form of myocardial cell damage caused by **ischemia and reperfusion**",
+          "Begins in the **subendocardium** and progresses outward; recovery proceeds in reverse",
+          "Not explained by continuing postischemic impairment of coronary flow or reserve"
+        ]
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "these techniques should be used even when the period of global myocardial ischemia is less than that anticipated to result in myocardial cell death",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 89"
+      }
+    ],
+    "choiceNotes": {
+      "b": "Stunning **can follow even brief periods** of myocardial ischemia, without necrosis.",
+      "c": "Stunning does not appear to result from continuing postischemic impairment of coronary flow or coronary reserve.",
+      "d": "The advice applies generally, not only to vulnerable hearts.",
+      "e": "Stunning is caused by **ischemia and reperfusion**; techniques should be applied to the ischemic period as well."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 88, Myocardial Cell Stunning"
+      },
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 89, Myocardial Cell Stunning"
+      }
+    ]
+  },
+  {
+    "id": "A-17",
+    "version": 1,
+    "topic": "Myocardial Cell Necrosis",
+    "tags": [
+      "ischemic metabolism",
+      "ATP",
+      "nucleotides",
+      "acidosis"
+    ],
+    "difficulty": 3,
+    "reviewed": false,
+    "stem": "Early in global myocardial ischemia, which event removes the **building blocks needed for ATP repletion** from the myocyte?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Leakage of fatty acid acyl-CoA derivatives out of the cell"
+      },
+      {
+        "id": "b",
+        "text": "Loss of adenosine, inosine and other nucleotides from the cell"
+      },
+      {
+        "id": "c",
+        "text": "Stimulation of anaerobic glycolysis by intracellular alkalosis"
+      },
+      {
+        "id": "d",
+        "text": "Increased fatty acid utilization by the mitochondria"
+      },
+      {
+        "id": "e",
+        "text": "Accumulation of glycogen granules in the cytoplasm"
+      }
+    ],
+    "answer": "b",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "**Adenosine, inosine and other nucleotides** — products of ATP catabolism and ==building blocks for ATP repletion== — leave the cell as energy charge and glycogen fall."
+      },
+      {
+        "id": "early",
+        "type": "flow",
+        "title": "Early ischemic events",
+        "steps": [
+          {
+            "text": "Rapid fall in **contractile force** and **pH**"
+          },
+          {
+            "label": "→",
+            "text": "Oxidative phosphorylation declines; some ATP from inefficient **anaerobic glycolysis**"
+          },
+          {
+            "label": "→",
+            "text": "Fatty acid use ↓; **acyl-CoA derivatives accumulate**"
+          },
+          {
+            "label": "→",
+            "text": "Lactate + protons → **acidosis**, which suppresses anaerobic glycolysis"
+          },
+          {
+            "label": "→",
+            "text": "Membrane damage → **swelling**, calcium accumulation"
+          },
+          {
+            "label": "→",
+            "text": "↓ Energy charge and glycogen; **nucleotide precursors leave the cell**"
+          }
+        ]
+      },
+      {
+        "id": "ultra",
+        "type": "callout",
+        "kind": "pearl",
+        "text": "Early ultrastructure: only **loss of glycogen granules** and some intracellular and organelle swelling."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "adenosine, inosine, and other nucleotides that are the results of ATP catabolism and the building blocks for ATP repletion leave the cell",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 89"
+      }
+    ],
+    "choiceNotes": {
+      "a": "Fatty acid acyl-CoA derivatives **accumulate** within the cell.",
+      "c": "Intracellular **acidosis** develops and **suppresses** anaerobic glycolysis.",
+      "d": "Fatty acid utilization is **rapidly reduced**.",
+      "e": "Early ultrastructural change is **loss** of glycogen granules."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 89, Myocardial Cell Necrosis"
+      }
+    ]
+  },
+  {
+    "id": "A-18",
+    "version": 1,
+    "topic": "Myocardial Cell Necrosis",
+    "tags": [
+      "ischemic contracture",
+      "subendocardium",
+      "hypothermia",
+      "hypertrophy"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "Which statement about **ischemic myocardial contracture** is correct?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It first develops in the subepicardium"
+      },
+      {
+        "id": "b",
+        "text": "It develops more slowly in hypertrophied hearts"
+      },
+      {
+        "id": "c",
+        "text": "It first develops in the subendocardium because of its higher metabolic rate"
+      },
+      {
+        "id": "d",
+        "text": "Its onset is hastened by hypothermia"
+      },
+      {
+        "id": "e",
+        "text": "Its timing is similar across species and well defined in humans"
+      }
+    ],
+    "answer": "c",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Contracture signals ATP depleted to a **critically low** level; it ==first develops in the subendocardium== because of its **higher metabolic rate** and faster ATP depletion."
+      },
+      {
+        "id": "map",
+        "type": "mindmap",
+        "center": "Ischemic contracture",
+        "branches": [
+          {
+            "text": "Meaning",
+            "children": [
+              "ATP critically low"
+            ]
+          },
+          {
+            "text": "Where first",
+            "children": [
+              "**Subendocardium**"
+            ]
+          },
+          {
+            "text": "Faster in",
+            "children": [
+              "**Hypertrophied** hearts"
+            ]
+          },
+          {
+            "text": "Delayed by",
+            "children": [
+              "**Hypothermia**"
+            ]
+          },
+          {
+            "text": "Time to contracture",
+            "children": [
+              "Highly species dependent",
+              "Unknown but probably long in humans",
+              "Differs in crystalloid vs blood-perfused rat hearts"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "pitfall",
+        "type": "callout",
+        "kind": "pitfall",
+        "text": "Time-to-contracture, a key endpoint in **isolated rat heart** studies, cannot be transferred directly to human hearts."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "Contracture first develops in the subendocardium because of its higher metabolic rate and consequent more rapid depletion of ATP.",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 89"
+      }
+    ],
+    "choiceNotes": {
+      "a": "Contracture first develops in the **subendocardium**.",
+      "b": "Contracture develops **more rapidly** in hypertrophied hearts.",
+      "d": "Hypothermia **delays** the onset of contracture.",
+      "e": "Time to contracture is **highly species dependent** and unknown in humans."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 89, Myocardial Cell Necrosis"
+      }
+    ]
+  },
+  {
+    "id": "A-19",
+    "version": 1,
+    "topic": "Endothelial Cell Damage (Ischemia)",
+    "tags": [
+      "no-reflow",
+      "endothelium",
+      "neutrophils",
+      "microcirculation"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "After prolonged myocardial ischemia, flow through the large epicardial coronary arteries appears adequate, yet **microcirculatory flow is impaired** (no-reflow). Which combination of mechanisms is described?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Large-vessel endothelial necrosis with epicardial coronary spasm"
+      },
+      {
+        "id": "b",
+        "text": "Excess endothelial relaxing factor with capillary dilation"
+      },
+      {
+        "id": "c",
+        "text": "Reduced leukocyte adhesion molecules with platelet inhibition"
+      },
+      {
+        "id": "d",
+        "text": "Decreased vasomotor tone with collapse of the coronary sinus"
+      },
+      {
+        "id": "e",
+        "text": "Endothelial swelling, neutrophil accumulation, microthrombosis and increased vasomotor tone"
+      }
+    ],
+    "answer": "e",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "No-reflow = ==endothelial swelling, accumulation of neutrophils, microthrombosis and increased vasomotor tone== → impaired microcirculatory flow despite apparently adequate flow in large epicardial arteries."
+      },
+      {
+        "id": "chain",
+        "type": "flow",
+        "title": "Hypoxic endothelial activation (Fig. 3.3)",
+        "steps": [
+          {
+            "text": "Hypoxia / ischemia → **endothelial activation**"
+          },
+          {
+            "label": "→",
+            "text": "Leukocyte **adhesion molecules** (selectins, ICAM) → neutrophil accumulation"
+          },
+          {
+            "label": "→",
+            "text": "Swelling, platelet activation, microthrombosis, ↑ vasomotor tone"
+          },
+          {
+            "label": "→",
+            "text": "Neutrophils infiltrate myocardium: lipid peroxidation, membrane degradation, **calcium overload**, EC uncoupling"
+          },
+          {
+            "label": "→",
+            "text": "**Mechanical dysfunction**"
+          }
+        ]
+      },
+      {
+        "id": "where",
+        "type": "callout",
+        "kind": "pearl",
+        "text": "No-reflow is seen after prolonged ischemia, particularly in the **inner half** of the myocardium."
+      },
+      {
+        "id": "peds",
+        "type": "p",
+        "text": "In children, **IL-8** is liberated during CPB, and P-selectin, E-selectin and ICAM are expressed in myocardial biopsies during cardioplegic arrest in infants; how much this contributes to dysfunction is **unknown**."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "This contributes to impaired microcirculatory flow, despite what appears to be adequate perfusion through the large epicardial arteries.",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 90"
+      }
+    ],
+    "choiceNotes": {
+      "a": "The endothelium of large coronary arteries appears **little affected**; the problem is microcirculatory.",
+      "b": "Vasomotor tone is **increased**, not decreased by excess relaxing factor.",
+      "c": "Activated endothelium **induces** leukocyte adhesion molecules, and platelets are **activated**.",
+      "d": "Vasomotor tone is **increased** in no-reflow."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 89, Endothelial Cell Damage"
+      },
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 90, Fig. 3.3"
+      },
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 90, Endothelial Cell Damage"
+      }
+    ]
+  },
+  {
+    "id": "A-20",
+    "version": 1,
+    "topic": "Endothelial Cell Damage (Ischemia)",
+    "tags": [
+      "neutrophil adhesion",
+      "selectins",
+      "ICAM-1",
+      "integrins"
+    ],
+    "difficulty": 3,
+    "reviewed": false,
+    "stem": "Neutrophil adhesion to hypoxic, activated coronary endothelium is a multistep process. Which interaction forms the **firm bond**?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Neutrophil integrins (CD11/18) with endothelial ICAM-1"
+      },
+      {
+        "id": "b",
+        "text": "Endothelial P-selectin with passing neutrophils"
+      },
+      {
+        "id": "c",
+        "text": "Endothelial E-selectin with passing neutrophils"
+      },
+      {
+        "id": "d",
+        "text": "Endothelial tissue factor with circulating platelets"
+      },
+      {
+        "id": "e",
+        "text": "Endothelial NF-κB with neutrophil interleukin-8"
+      }
+    ],
+    "answer": "a",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "The **firm bond** forms between ==integrins on the leukocyte (CD11/18)== and endothelial adhesion molecules (**ICAM-1**, VCAM, PECAM)."
+      },
+      {
+        "id": "steps",
+        "type": "flow",
+        "title": "Neutrophil adhesion (Fig. 3.3B)",
+        "steps": [
+          {
+            "text": "Hypoxia → Weibel-Palade bodies release **P-selectin**; NF-κB activated"
+          },
+          {
+            "label": "NF-κB promotes",
+            "text": "Transcription of E-selectin, ICAM, tissue factor, IL-8, IL-1"
+          },
+          {
+            "label": "low-affinity",
+            "text": "**Selectins** (P, E) → neutrophil **rolling** and slowing"
+          },
+          {
+            "label": "activation",
+            "text": "**Firm adherence**: CD11/18 ↔ ICAM-1"
+          },
+          {
+            "label": "→",
+            "text": "Transendothelial migration"
+          }
+        ]
+      },
+      {
+        "id": "pitfall",
+        "type": "callout",
+        "kind": "pitfall",
+        "text": "Selectins mediate **rolling** (low-affinity); integrin–ICAM binding mediates **firm** adhesion."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "neutrophils become activated, and a firm bond forms between integrins on the leukocyte surface (i.e., CD 11/18) and adhesion molecules on the endothelium (i.e., ICAM-1, vascular cell adhesion molecule, platelet-endothelial cell adhesion molecule)",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 90"
+      }
+    ],
+    "choiceNotes": {
+      "b": "P-selectin forms **low-affinity** bonds that cause rolling and slowing, not the firm bond.",
+      "c": "E-selectin, like P-selectin, mediates low-affinity rolling.",
+      "d": "Tissue factor is a product transcribed under NF-κB; it is not the firm neutrophil bond.",
+      "e": "NF-κB is an endothelial transcription factor; IL-8 is one of its products, not an adhesion bond."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 90, Fig. 3.3"
+      }
+    ]
+  },
+  {
+    "id": "A-21",
+    "version": 1,
+    "topic": "Specialized Conduction Cell Damage",
+    "tags": [
+      "conduction system",
+      "AV block",
+      "pacing",
+      "stunning"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "Five minutes after initially hyperkalemic reperfusion, the ventricle responds strongly to **direct ventricular pacing** but is quiescent with atrial pacing; sinus rhythm appears some minutes later. Which interpretation fits the source?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Necrosis of specialized conduction cells, needing permanent pacing"
+      },
+      {
+        "id": "b",
+        "text": "Conduction-cell stunning, recovering later than the myocytes"
+      },
+      {
+        "id": "c",
+        "text": "Myocyte stunning, with conduction cells recovering first"
+      },
+      {
+        "id": "d",
+        "text": "Noncoronary collateral flow reactivating the ventricle only"
+      },
+      {
+        "id": "e",
+        "text": "Well-defined reperfusion injury of conduction cells"
+      }
+    ],
+    "answer": "b",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Specialized conduction cells become nonfunctional **early** during ischemia, and their recovery may take ==longer than recovery of myocytes== — a form of **stunning rather than necrosis**."
+      },
+      {
+        "id": "sequence",
+        "type": "flow",
+        "title": "Typical recovery after hyperkalemic reperfusion",
+        "steps": [
+          {
+            "text": "**~5 min**: ventricle responds to **direct ventricular pacing**; quiescent with atrial pacing or no pacing"
+          },
+          {
+            "label": "~5 more min",
+            "text": "**Sinus rhythm** may appear"
+          }
+        ]
+      },
+      {
+        "id": "avblock",
+        "type": "table",
+        "caption": "AV conduction after blood cardioplegia + uncontrolled normokalemic reperfusion",
+        "head": [
+          "Finding",
+          "Detail"
+        ],
+        "rows": [
+          [
+            "Incidence at end of CPB",
+            "About **50%** have AV conduction disturbances"
+          ],
+          [
+            "Course",
+            "Disappear by **hospital discharge** in most"
+          ],
+          [
+            "Extreme",
+            "**Third-degree** AV block persisting up to **2 months** gave way to sinus rhythm"
+          ]
+        ]
+      },
+      {
+        "id": "pitfall",
+        "type": "callout",
+        "kind": "pitfall",
+        "text": "This remains **speculation** awaiting validation; sensitivity of conduction fibers to chemical components of the cardioplegic infusate is an alternative explanation. Little is known about **reperfusion** injury of conduction cells."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "This appears to be a form of specialized conduction cell stunning rather than necrosis because these disappear by the time of hospital discharge in most of the patients in whom it had developed.",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 90"
+      }
+    ],
+    "choiceNotes": {
+      "a": "AV disturbances disappear by discharge in most patients, even third-degree block up to 2 months — stunning, not necrosis.",
+      "c": "Myocytes respond (to ventricular pacing) **before** conduction tissue, which may be the last to recover.",
+      "d": "Collateral flow during clamping is unrelated to this post-reperfusion pacing pattern.",
+      "e": "Little specific information is available about reperfusion injury to the specialized conduction cells."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 88, Damage from Global Myocardial Ischemia"
+      },
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 90, Specialized Conduction Cell Damage"
+      },
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 92, Specialized Conduction Cell Damage"
+      }
+    ]
+  },
+  {
+    "id": "A-22",
+    "version": 1,
+    "topic": "Damage from Uncontrolled Reperfusion",
+    "tags": [
+      "stone heart",
+      "reperfusion injury",
+      "reperfusion arrhythmias"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "After a long ischemic period followed by **uncontrolled reperfusion**, the heart becomes rigid and fibrillating (“stone heart”). Which statement is correct?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "It always means the point of no return has been passed"
+      },
+      {
+        "id": "b",
+        "text": "It is a massive infarction that is complete before reperfusion begins"
+      },
+      {
+        "id": "c",
+        "text": "It may be regional, typically the basilar left ventricle and subendocardium"
+      },
+      {
+        "id": "d",
+        "text": "It typically spares the subendocardium and involves the apical subepicardium"
+      },
+      {
+        "id": "e",
+        "text": "Histology shows a preserved myofibrillar pattern without contraction bands"
+      }
+    ],
+    "answer": "c",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Stone heart may involve only some regions — ==typically the basilar portion of the left ventricle and the subendocardium== — and is, at least sometimes, **capable of recovery**."
+      },
+      {
+        "id": "spectrum",
+        "type": "flow",
+        "title": "Response to uncontrolled reperfusion, by severity",
+        "steps": [
+          {
+            "text": "Limited ischemia → **stunning** only"
+          },
+          {
+            "label": "more severe",
+            "text": "**Reperfusion arrhythmias** (VT, VF) — more with longer and larger ischemia"
+          },
+          {
+            "label": "most severe",
+            "text": "**Stone heart**: rigid, fibrillating"
+          }
+        ]
+      },
+      {
+        "id": "histo",
+        "type": "list",
+        "items": [
+          "Massive myocardial infarction **developing during reperfusion**",
+          "Histology: **disrupted** myofibrillar pattern, evident **contraction bands**",
+          "Approaches the critical “point of no return” but has not necessarily reached it"
+        ]
+      },
+      {
+        "id": "def",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "Uncontrolled reperfusion",
+        "text": "Reperfusion by **unmodified blood** without control of **pressure or flow**."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "The stone heart phenomenon may involve only some regions of the heart, typically the basilar portion of the left ventricle and the subendocardium.",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 91"
+      }
+    ],
+    "choiceNotes": {
+      "a": "It may have **approached** the point of no return, but is at least under some circumstances capable of recovery.",
+      "b": "Stone heart has been confirmed to be a massive infarction **developing during reperfusion**.",
+      "d": "It typically involves the basilar left ventricle and the **subendocardium**.",
+      "e": "Histology shows **disruption** of the myofibrillar pattern and evident contraction bands."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 86, Historical Note"
+      },
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 91, Damage from Uncontrolled Reperfusion"
+      },
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 91, Myocardial Cell Damage"
+      }
+    ]
+  },
+  {
+    "id": "A-23",
+    "version": 1,
+    "topic": "Myocardial Cell Damage (Reperfusion)",
+    "tags": [
+      "reperfusion injury",
+      "calcium",
+      "mitochondria",
+      "myocardial stiffness"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "What causes the **stiffness** of cardiac muscle produced by uncontrolled reperfusion after a period of ischemia?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Critical ATP depletion during ischemia alone"
+      },
+      {
+        "id": "b",
+        "text": "Hyperkalemic depolarization from residual cardioplegia"
+      },
+      {
+        "id": "c",
+        "text": "Accumulation of fatty acid acyl-CoA in the myocytes"
+      },
+      {
+        "id": "d",
+        "text": "Massive calcium influx into mitochondria and cytoplasm, with edema and capillary disruption"
+      },
+      {
+        "id": "e",
+        "text": "Neutrophil plugging of the large epicardial coronary arteries"
+      }
+    ],
+    "answer": "d",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Reperfusion stiffness is caused by ==massive influx of calcium into mitochondria and cytoplasm== of myocytes, plus **edema** and **capillary disruption**."
+      },
+      {
+        "id": "jr",
+        "type": "mindmap",
+        "center": "Reperfusion of ischemic myocardium (Jennings and Reimer)",
+        "branches": [
+          {
+            "text": "Cells",
+            "children": [
+              "Cell swelling",
+              "Contraction band necrosis"
+            ]
+          },
+          {
+            "text": "Calcium",
+            "children": [
+              "Calcium loading of **mitochondria**"
+            ]
+          },
+          {
+            "text": "Enzymes",
+            "children": [
+              "Accelerated **creatine kinase** washout early in reperfusion"
+            ]
+          },
+          {
+            "text": "Site",
+            "children": [
+              "Particular vulnerability of the **subendocardium**"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "speed",
+        "type": "callout",
+        "kind": "pearl",
+        "text": "Many events are **well underway within 1 or 2 minutes** of uncontrolled reperfusion — the first minutes matter most."
+      },
+      {
+        "id": "pitfall",
+        "type": "callout",
+        "kind": "pitfall",
+        "text": "Ischemic **contracture** (ATP depletion during ischemia) is not the same as reperfusion **stiffness** (calcium influx, edema, capillary disruption)."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "Stiffness of cardiac muscle resulting from uncontrolled reperfusion after a period of ischemia is caused by the massive influx of calcium into mitochondria and cytoplasm of myocytes, as well as by edema and capillary disruption.",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 91"
+      }
+    ],
+    "choiceNotes": {
+      "a": "Critical ATP depletion during ischemia produces **ischemic contracture**, a different process.",
+      "b": "The source does not attribute reperfusion stiffness to cardioplegic depolarization.",
+      "c": "Acyl-CoA accumulation is an early **ischemic** metabolic change, not the cause of reperfusion stiffness.",
+      "e": "Neutrophils plug **capillaries**; stiffness is attributed to calcium influx, edema and capillary disruption."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 91, Damage from Uncontrolled Reperfusion"
+      },
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 91, Myocardial Cell Damage"
+      }
+    ]
+  },
+  {
+    "id": "A-24",
+    "version": 1,
+    "topic": "Myocardial Cell Damage (Reperfusion)",
+    "tags": [
+      "neutrophils",
+      "reperfusion injury",
+      "arachidonic acid",
+      "capillaries"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "Which statement about **neutrophils** in myocardial reperfusion injury is correct?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "They are activated only by the bypass circuit, not by the ischemic myocardium"
+      },
+      {
+        "id": "b",
+        "text": "They plug myocardial capillaries because of large size and adherence to damaged endothelium"
+      },
+      {
+        "id": "c",
+        "text": "Their arachidonic acid metabolites cause vasodilation and inhibit platelets"
+      },
+      {
+        "id": "d",
+        "text": "They act mainly as scavengers of oxygen-derived free radicals"
+      },
+      {
+        "id": "e",
+        "text": "They sustain reperfusion injury but play no role in initiating it"
+      }
+    ],
+    "answer": "b",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Neutrophils ==plug myocardial capillaries== because of their **large size** and **active adherence** to ischemically damaged endothelium."
+      },
+      {
+        "id": "chain",
+        "type": "flow",
+        "steps": [
+          {
+            "text": "Locally generated in ischemic myocardium: chemotactic factors, activated endothelium, **C5a**, cytokines"
+          },
+          {
+            "label": "activate",
+            "text": "Circulating **neutrophils** accumulate (initiate **and** sustain injury)"
+          },
+          {
+            "branches": [
+              {
+                "label": "plug",
+                "text": "Capillaries"
+              },
+              {
+                "label": "release",
+                "text": "Oxygen-derived **free radicals**"
+              },
+              {
+                "label": "release",
+                "text": "Arachidonic acid metabolites → endothelial injury, **vasoconstriction**, **platelet aggregation**"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "more",
+        "type": "callout",
+        "kind": "pearl",
+        "text": "During reperfusion, certain **leukotrienes** are also released from platelets and endothelial cells."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "Neutrophils plug myocardial capillaries as reperfusion continues because of their large size and active adherence to ischemically damaged endothelial cells.",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 91"
+      }
+    ],
+    "choiceNotes": {
+      "a": "Activating factors (chemotactic factors, C5a, cytokines) are **generated locally in ischemic myocardium**.",
+      "c": "Arachidonic acid metabolites cause **vasoconstriction** and **platelet aggregation**, plus endothelial injury.",
+      "d": "Neutrophils **release** large amounts of oxygen-derived free radicals.",
+      "e": "Neutrophils play an important role in **initiating and sustaining** reperfusion injury."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 91, Myocardial Cell Damage"
+      }
+    ]
+  },
+  {
+    "id": "A-25",
+    "version": 1,
+    "topic": "Myocardial Cell Damage (Reperfusion)",
+    "tags": [
+      "free radicals",
+      "hydroxyl radical",
+      "iron",
+      "superoxide dismutase"
+    ],
+    "difficulty": 3,
+    "reviewed": false,
+    "stem": "In the chain reaction of oxygen-derived free radicals at reperfusion, what converts relatively innocuous **superoxide** into highly damaging **hydroxyl radicals**?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Iron"
+      },
+      {
+        "id": "b",
+        "text": "Superoxide dismutase"
+      },
+      {
+        "id": "c",
+        "text": "Catalase"
+      },
+      {
+        "id": "d",
+        "text": "Glutathione peroxidase"
+      },
+      {
+        "id": "e",
+        "text": "Xanthine dehydrogenase"
+      }
+    ],
+    "answer": "a",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "==Iron== plays a key role in converting relatively innocuous **superoxide** radicals into highly damaging **hydroxyl** radicals."
+      },
+      {
+        "id": "handling",
+        "type": "table",
+        "caption": "Who does what with oxygen-derived free radicals",
+        "head": [
+          "Agent",
+          "Action"
+        ],
+        "rows": [
+          [
+            "**Iron**",
+            "Superoxide → **hydroxyl radical** (damaging)"
+          ],
+          [
+            "Superoxide dismutase",
+            "Superoxide → hydrogen peroxide and water"
+          ],
+          [
+            "Catalase / glutathione peroxidase",
+            "Hydrogen peroxide → water and oxygen"
+          ],
+          [
+            "Xanthine oxidase",
+            "Catalyzes reoxygenation of hypoxanthine and xanthine → superoxide at reperfusion"
+          ]
+        ],
+        "emphasis": {
+          "row": 0
+        }
+      },
+      {
+        "id": "species",
+        "type": "list",
+        "items": [
+          "Free radicals have **unpaired electrons**: superoxide (O~2~^-^), hydrogen peroxide (H~2~O~2~), hydroxyl radical (OH^-^)",
+          "Normal sources: mitochondria (95% of O~2~ consumption), cytoplasm, endothelium (xanthine oxidase), activated neutrophils"
+        ]
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "As part of this chain reaction, iron plays a key role in converting relatively innocuous superoxide radicals into highly damaging hydroxyl radicals.",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 91"
+      }
+    ],
+    "choiceNotes": {
+      "b": "Superoxide dismutase converts superoxide to **hydrogen peroxide and water** — a defense.",
+      "c": "Catalase metabolizes hydrogen peroxide to water and oxygen.",
+      "d": "Glutathione peroxidase, like catalase, metabolizes hydrogen peroxide to water and oxygen.",
+      "e": "Xanthine dehydrogenase is the normal enzyme that is **converted to xanthine oxidase** during ischemia."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 91, Myocardial Cell Damage"
+      }
+    ]
+  },
+  {
+    "id": "A-26",
+    "version": 1,
+    "topic": "Myocardial Cell Damage (Reperfusion)",
+    "tags": [
+      "free radicals",
+      "xanthine oxidase",
+      "ischemia",
+      "lipid peroxidation"
+    ],
+    "difficulty": 3,
+    "reviewed": false,
+    "stem": "Which combination of changes during ischemia **primes** the myocardium for a burst of oxygen-derived free radicals at the onset of uncontrolled reperfusion?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Rising superoxide dismutase, falling hypoxanthine, xanthine oxidase → dehydrogenase"
+      },
+      {
+        "id": "b",
+        "text": "Rising superoxide dismutase, rising hypoxanthine, xanthine oxidase → dehydrogenase"
+      },
+      {
+        "id": "c",
+        "text": "Falling superoxide dismutase, falling hypoxanthine, xanthine oxidase → dehydrogenase"
+      },
+      {
+        "id": "d",
+        "text": "Falling superoxide dismutase, rising hypoxanthine, xanthine dehydrogenase → oxidase"
+      },
+      {
+        "id": "e",
+        "text": "Unchanged superoxide dismutase, rising hypoxanthine, loss of xanthine oxidase"
+      }
+    ],
+    "answer": "d",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Ischemia ==decreases superoxide dismutase==, ==increases hypoxanthine and xanthine== (ATP catabolites), and ==converts xanthine dehydrogenase to xanthine oxidase==."
+      },
+      {
+        "id": "chain",
+        "type": "flow",
+        "steps": [
+          {
+            "text": "Ischemia: ↓ SOD, ↑ hypoxanthine/xanthine, dehydrogenase → **xanthine oxidase**"
+          },
+          {
+            "label": "reperfusion (O~2~ returns)",
+            "text": "Xanthine oxidase reoxygenates hypoxanthine/xanthine → **superoxide**"
+          },
+          {
+            "label": "chain reaction",
+            "text": "Other radicals (especially H~2~O~2~); iron → hydroxyl"
+          },
+          {
+            "label": "attack",
+            "text": "**Peroxidation** of unsaturated fatty acids in membranes"
+          },
+          {
+            "branches": [
+              {
+                "text": "↑ Membrane permeability"
+              },
+              {
+                "text": "↓ Ca^2+^ transport into sarcoplasmic reticulum"
+              },
+              {
+                "text": "Altered mitochondrial function"
+              }
+            ]
+          },
+          {
+            "label": "→",
+            "text": "Stage set for **stunning or necrosis**"
+          }
+        ]
+      },
+      {
+        "id": "pitfall",
+        "type": "callout",
+        "kind": "pitfall",
+        "text": "The direction of conversion is **dehydrogenase → oxidase** (ischemia creates the radical-generating enzyme)."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "Ischemia progressively decreases the cellular levels of the scavenger superoxide dismutase and also increases metabolic end products of ATP catabolism, such as hypoxanthine and xanthine.",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 91"
+      }
+    ],
+    "choiceNotes": {
+      "a": "Ischemia **decreases** SOD, **increases** hypoxanthine, and converts dehydrogenase **to** oxidase.",
+      "b": "SOD **falls** during ischemia, and the conversion is dehydrogenase → oxidase.",
+      "c": "Hypoxanthine **rises** (ATP catabolite), and the conversion is dehydrogenase → oxidase.",
+      "e": "SOD progressively **decreases**, and xanthine oxidase is **formed**, not lost."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 91, Myocardial Cell Damage"
+      }
+    ]
+  },
+  {
+    "id": "A-27",
+    "version": 1,
+    "topic": "Endothelial Cell Damage (Reperfusion)",
+    "tags": [
+      "endothelium",
+      "microvasculature",
+      "no-reflow",
+      "reperfusion injury"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "One hour after reperfusion of an ischemic region, myocytes surrounding a necrotic area are viable and contracting, yet several hours later they have become necrotic. What best explains this?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Delayed closure of arterioles and capillaries causing no-reflow"
+      },
+      {
+        "id": "b",
+        "text": "Reperfusion injury of the endothelium of large coronary arteries"
+      },
+      {
+        "id": "c",
+        "text": "Endothelial damage completed during ischemia, before reperfusion"
+      },
+      {
+        "id": "d",
+        "text": "Late contracture from ATP depletion in the subepicardium"
+      },
+      {
+        "id": "e",
+        "text": "Persistent noncoronary collateral flow after unclamping"
+      }
+    ],
+    "answer": "a",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Viable border myocytes can die over hours from ==delayed closure of coronary arterioles and capillaries== — the **no-reflow** phenomenon."
+      },
+      {
+        "id": "compare",
+        "type": "table",
+        "head": [
+          "Vessel level",
+          "Effect of ischemia-reperfusion"
+        ],
+        "rows": [
+          [
+            "Large coronary arteries",
+            "Endothelium **little affected**"
+          ],
+          [
+            "Coronary **microvasculature**",
+            "**Profoundly** affected; dysfunction develops rapidly with onset of reperfusion"
+          ]
+        ],
+        "emphasis": {
+          "row": 1
+        }
+      },
+      {
+        "id": "micro",
+        "type": "list",
+        "items": [
+          "Damage **minimal after ischemia itself**; incited almost exclusively by **reperfusion**",
+          "Endothelial cells swell; activated neutrophils and platelets aggregate and adhere",
+          "**Microvascular obstruction** can develop"
+        ]
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "This damage appears minimal after ischemia itself but is incited almost exclusively by reperfusion.",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 91"
+      }
+    ],
+    "choiceNotes": {
+      "b": "The endothelial cells of **large** coronary arteries appear little affected.",
+      "c": "Microvascular endothelial damage appears **minimal after ischemia itself** and is incited almost exclusively by reperfusion.",
+      "d": "Contracture reflects critical ATP depletion and starts in the **subendocardium**; it does not explain delayed death of reperfused border cells.",
+      "e": "Collateral flow during clamping does not explain delayed necrosis after reperfusion; delayed microvascular closure does."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 91, Endothelial Cell Damage"
+      }
+    ]
+  },
+  {
+    "id": "A-28",
+    "version": 1,
+    "topic": "Endothelial Cell Damage (Reperfusion)",
+    "tags": [
+      "coronary vascular resistance",
+      "endothelium-dependent relaxation",
+      "no-flow",
+      "transplantation"
+    ],
+    "difficulty": 3,
+    "reviewed": false,
+    "stem": "During uncontrolled reperfusion, coronary vascular resistance rises progressively. Which mechanism does the source describe?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Enhanced endothelium-dependent relaxation to acetylcholine and bradykinin"
+      },
+      {
+        "id": "b",
+        "text": "Impaired endothelium-dependent relaxation, exposing smooth muscle to constrictors"
+      },
+      {
+        "id": "c",
+        "text": "Shrinkage of myocardial cells narrowing the intramyocardial vessels"
+      },
+      {
+        "id": "d",
+        "text": "Low wall tension letting coronary vessels collapse"
+      },
+      {
+        "id": "e",
+        "text": "Injury limited to the endothelium of large epicardial arteries"
+      }
+    ],
+    "answer": "b",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "Reperfusion injury ==severely impairs endothelium-dependent relaxation== (to neutrophils, platelets, thrombin, acetylcholine, bradykinin); exposed **smooth muscle** then contracts to additional mediators."
+      },
+      {
+        "id": "map",
+        "type": "mindmap",
+        "center": "↑ Coronary resistance on reperfusion",
+        "branches": [
+          {
+            "text": "Endothelium",
+            "children": [
+              "Impaired endothelium-dependent relaxation"
+            ]
+          },
+          {
+            "text": "Smooth muscle",
+            "children": [
+              "Exposed → direct contraction by mediators"
+            ]
+          },
+          {
+            "text": "Compression",
+            "children": [
+              "High wall tension",
+              "Hemorrhage",
+              "Myocardial cell **swelling**"
+            ]
+          },
+          {
+            "text": "Result",
+            "children": [
+              "Inhomogeneous reperfusate distribution or **“no-flow”**"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "pearl",
+        "type": "callout",
+        "kind": "pearl",
+        "text": "These events are particularly damaging after **prolonged (> 24 hours) cardiac preservation**, as may eventually be required for transplantation."
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "In addition, with damage to endothelial cells, smooth muscle beneath the cells is exposed, allowing additional mediators to induce direct smooth muscle contraction.",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 92"
+      }
+    ],
+    "choiceNotes": {
+      "a": "These endothelium-dependent relaxations are severely **impaired**, not enhanced.",
+      "c": "Vessels are compressed by myocardial cell **swelling**, not shrinkage.",
+      "d": "Vessels are compressed by areas with **high** wall tension.",
+      "e": "Large coronary artery endothelium is little affected; the **microvasculature** is profoundly affected."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 91, Endothelial Cell Damage"
+      },
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 92, Endothelial Cell Damage"
+      }
+    ]
+  }
+]
