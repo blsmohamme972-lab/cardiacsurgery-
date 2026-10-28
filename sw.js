@@ -12,6 +12,10 @@
  * - No automatic skipWaiting: the page shows "Update available" and the user
  *   chooses when to reload (message SKIP_WAITING).
  * - Never touches IndexedDB. User progress survives every update.
+ * - Android share target (manifest `share_target`): a PDF shared to the
+ *   installed app arrives as a POST to `./share-target`; its files are stashed
+ *   in the `cmcq-share-inbox` cache (kept across updates) and the app opens at
+ *   `#/book?import=<id>`, where the Book tab imports them (§7.17).
  *
  * Classic script on purpose (module workers are not supported everywhere).
  * The VERSION line is rewritten by scripts/bump-version.mjs; keep its format.
@@ -24,6 +28,8 @@ const VERSION = '2026.10.28-2';
 const CACHE_PREFIX = 'cmcq-';
 const SHELL_CACHE = CACHE_PREFIX + 'shell-' + VERSION;
 const DATA_CACHE = CACHE_PREFIX + 'data-' + VERSION;
+/** Files shared to the app (share target) wait here until the Book tab imports them. */
+const SHARE_CACHE = CACHE_PREFIX + 'share-inbox';
 /** Caches left by the throwaway install test that preceded the real app. */
 const LEGACY_CACHE_PREFIXES = ['install-test-'];
 
@@ -117,6 +123,8 @@ const APP_SHELL = [
   'js/features/book/pdf.js',
   'js/features/book/viewer.js',
   'js/features/book/library.js',
+  'js/features/book/wholebook.js',
+  'js/features/book/extract.js',
   'vendor/pdfjs/pdf.min.mjs',
   'vendor/pdfjs/pdf.worker.min.mjs',
   'vendor/pdfjs/standard_fonts/FoxitDingbats.pfb',
@@ -496,7 +504,7 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     (async () => {
-      const keep = new Set([SHELL_CACHE, DATA_CACHE]);
+      const keep = new Set([SHELL_CACHE, DATA_CACHE, SHARE_CACHE]);
       const names = await caches.keys();
       const stale = names.filter((name) => name.startsWith(CACHE_PREFIX) && !keep.has(name));
       stale.push(...(await ownLegacyCaches()));
@@ -636,8 +644,49 @@ async function handleAsset(event, url) {
   }
 }
 
+/** Where the manifest's share_target posts shared files. */
+const SHARE_URL = new URL('share-target', BASE).href;
+/** Most files taken from one share. */
+const SHARE_MAX_FILES = 60;
+
+/**
+ * Android share target: stashes the shared PDFs in SHARE_CACHE under
+ * `__share/<id>/<n>` (file name in `X-File-Name`) and opens the Book tab, which
+ * imports them. Never fails the navigation: on any problem it opens the Book
+ * tab with `import=failed`.
+ * @param {FetchEvent} event
+ * @returns {Promise<Response>}
+ */
+async function handleShareTarget(event) {
+  const bookUrl = (id) => BASE + '#/book?import=' + id;
+  try {
+    const form = await event.request.formData();
+    const files = form.getAll('pdf').filter((f) => f && typeof f === 'object' && typeof f.size === 'number' && f.size > 0);
+    if (!files.length) return Response.redirect(bookUrl('failed'), 303);
+    const id = Date.now().toString(36).padStart(9, '0') + Math.random().toString(36).slice(2, 10).padEnd(8, '0');
+    const cache = await caches.open(SHARE_CACHE);
+    let n = 0;
+    for (const file of files.slice(0, SHARE_MAX_FILES)) {
+      const headers = {
+        'Content-Type': file.type || 'application/pdf',
+        'X-File-Name': encodeURIComponent(String(file.name || 'Shared.pdf').slice(0, 255)),
+      };
+      await cache.put(new Request(BASE + '__share/' + id + '/' + n), new Response(file, { headers }));
+      n += 1;
+    }
+    return Response.redirect(bookUrl(id), 303);
+  } catch (err) {
+    console.warn(LOG, 'Shared files could not be kept', err);
+    return Response.redirect(bookUrl('failed'), 303);
+  }
+}
+
 self.addEventListener('fetch', (event) => {
   const { request } = event;
+  if (request.method === 'POST' && request.url === SHARE_URL) {
+    event.respondWith(handleShareTarget(event));
+    return;
+  }
   if (request.method !== 'GET') return;
   // Chrome DevTools quirk: this combination throws when fetched.
   if (request.cache === 'only-if-cached' && request.mode !== 'same-origin') return;
