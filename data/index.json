@@ -78,8 +78,8 @@
       "short": "Myocardium",
       "file": "data/ch03.json",
       "page": 84,
-      "published": false,
-      "count": 0
+      "published": true,
+      "count": 111
     },
     {
       "id": "ch04",
