@@ -23,7 +23,7 @@
    },
    {
     "id": "c",
-    "text": "Myocardial water accumulation, with ventricular distensibility reduced by nearly 50%"
+    "text": "Myocardial water accumulation that reduces ventricular distensibility"
    },
    {
     "id": "d",
@@ -56,7 +56,7 @@
     "type": "callout",
     "kind": "pearl",
     "title": "Still useful when used properly",
-    "text": "The method can serve well for various procedures, often combined with **mild or moderate hypothermia**; a series of **100 consecutive isolated aortic valve replacements** with this method had **no hospital deaths**."
+    "text": "The method can serve well for various procedures and is often combined with **mild or moderate hypothermia**; McGoon and colleagues reported **100 consecutive isolated aortic valve replacements** with this method and **no hospital deaths**."
    },
    {
     "id": "pitfall",
@@ -102,7 +102,7 @@
   ],
   "difficulty": 2,
   "reviewed": false,
-  "stem": "An 82-year-old man with **extensive arteriosclerosis of the ascending aorta** needs CABG. Which approach, combined with the perfused empty beating heart, has been reported to **reduce intraoperative and postoperative strokes** in such patients?",
+  "stem": "An 82-year-old man with **extensive arteriosclerosis of the aorta** needs CABG. Which approach, combined with the perfused empty beating heart, has been reported to **reduce intraoperative and postoperative strokes** in such patients?",
   "choices": [
    {
     "id": "a",
@@ -118,7 +118,7 @@
    },
    {
     "id": "d",
-    "text": "Moderately hypothermic fibrillation with intermittent aortic clamping"
+    "text": "Electrical fibrillation just before each period of aortic clamping"
    },
    {
     "id": "e",
@@ -176,7 +176,7 @@
     "type": "callout",
     "kind": "pearl",
     "title": "Why it helps",
-    "text": "The diseased aorta is neither clamped nor used for grafts, and the technique was reported to **reduce strokes** in such patients."
+    "text": "Tarakji and colleagues report that this technique, **without aortic clamping**, reduces **intraoperative and postoperative strokes** in such patients."
    },
    {
     "id": "quote",
@@ -189,7 +189,7 @@
    "a": "Profound hypothermic global ischemia requires **clamping the aorta**, and pericardial cold saline causes phrenic nerve palsy.",
    "b": "Intermittent ischemia clamps the aorta repeatedly; this is the opposite of the no-touch approach.",
    "c": "An aortic root catheter and cardioplegia need an **aortic clamp**; the no-touch technique avoids clamping.",
-   "d": "Any approach with aortic clamping manipulates the diseased aorta; the reported technique uses **no aortic clamping**."
+   "d": "Electrical fibrillation before each clamp period is part of **moderately hypothermic intermittent ischemia**, which clamps the aorta repeatedly; the reported technique uses **no aortic clamping**."
   },
   "source": [
    {
@@ -411,7 +411,7 @@
    },
    {
     "id": "c",
-    "text": "Coronary perfusion flow above 300 mL per minute"
+    "text": "Coronary perfusion flow of 300 mL per minute"
    },
    {
     "id": "d",
@@ -473,7 +473,7 @@
   ],
   "choiceNotes": {
    "a": "Repeated coronary air embolization is a drawback of **intermittent aortic clamping**, not the cause of ostial stenosis.",
-   "c": "Flow above 300 mL per minute can produce **histologic myocardial damage**; it is not the stated cause of ostial stenosis.",
+   "c": "Flow of 300 mL per minute can, under some circumstances, produce **histologic myocardial damage**; it is not the stated cause of ostial stenosis.",
    "d": "Persistent fibrillation raised the risk of perioperative **infarction and death**, not late ostial stenosis.",
    "e": "Underperfusion from vasoconstriction is a reason to keep flow adequate; it is not linked to ostial stenosis."
   },
@@ -532,16 +532,12 @@
     "caption": "The flow window",
     "head": [
      "Flow",
-     "Effect"
+     "What the source says"
     ],
     "rows": [
      [
-      "Too low",
-      "**Vasoconstriction** leaves part of the microcirculation without flow or underperfused"
-     ],
-     [
-      "**200–250 mL·min^-1^**",
-      "Optimal (at least at 30°C)"
+      "**200–250 mL·min^-1^** (120–150 mL·min^-1^·m^-2^)",
+      "Optimal, at least at 30°C; **sufficient to prevent** undesirable vasoconstriction that leaves part of the microcirculation without flow or underperfused"
      ],
      [
       "300 mL·min^-1^",
@@ -567,8 +563,8 @@
    }
   ],
   "choiceNotes": {
-   "a": "Such low flow risks **vasoconstriction** that leaves part of the microcirculation without flow or underperfused.",
-   "b": "Below the optimal 200–250; the source warns that too little flow allows undesirable vasoconstriction.",
+   "a": "Below the 200–250 mL·min^-1^ that the source calls optimal and **sufficient to prevent** undesirable vasoconstriction.",
+   "b": "Below the 200–250 mL·min^-1^ that the source calls optimal and **sufficient to prevent** undesirable vasoconstriction.",
    "d": "Flow of 300 mL·min^-1^ can, under some circumstances, produce **histologic myocardial damage**.",
    "e": "Above 300 mL·min^-1^, the level that can produce histologic myocardial damage."
   },
@@ -640,7 +636,7 @@
      },
      {
       "label": "result",
-      "text": "Higher risk of perioperative **infarction and death** than with a beating heart"
+      "text": "Higher risk of perioperative **infarction and death** than with a beating heart (Spanos and colleagues)"
      }
     ]
    },
@@ -922,7 +918,7 @@
     "type": "callout",
     "kind": "pearl",
     "title": "Evidence of damage",
-    "text": "In one group of **468** patients with valved extracardiac conduits, there was no relationship between non-survivors and cumulative clamp time, but **35%** had low cardiac output (mortality **52%** in that subset), so the method **must have been producing myocardial damage**."
+    "text": "In McGoon's analysis of **468** patients receiving valved extracardiac conduits, there was no relationship between non-survivors and cumulative clamp time, but **35%** had low cardiac output (mortality **52%** in that subset), so the method **must have been producing myocardial damage**."
    },
    {
     "id": "quote",
@@ -1054,7 +1050,7 @@
   ],
   "difficulty": 3,
   "reviewed": false,
-  "stem": "In patients undergoing **aortic valve replacement**, how did myocardial necrosis with **profoundly hypothermic global ischemia (cold ischemic arrest)** compare with **continuous individual coronary artery perfusion**?",
+  "stem": "A randomized study compared **profoundly hypothermic global ischemia** with **continuous individual coronary artery perfusion** in patients undergoing **aortic valve replacement**. What did it show about myocardial necrosis?",
   "choices": [
    {
     "id": "a",
@@ -1083,19 +1079,19 @@
     "id": "key",
     "type": "callout",
     "kind": "key",
-    "text": "A randomized study in AVR showed that profound hypothermic ischemia causes **as much myocardial necrosis** as continuous individual coronary perfusion."
+    "text": "A randomized study of patients undergoing AVR showed that profoundly hypothermic global ischemia results in **as much myocardial necrosis** as continuous individual coronary perfusion (p. 97)."
    },
    {
     "id": "data",
     "type": "table",
-    "caption": "Individual coronary perfusion for AVR",
+    "caption": "Individual coronary perfusion for AVR (p. 96)",
     "head": [
      "Finding",
      "Proportion"
     ],
     "rows": [
      [
-      "**Transmural myocardial infarction**",
+      "**Transmural myocardial infarction** (reported)",
       "**15%**"
      ],
      [
@@ -1103,8 +1099,8 @@
       "**70%**"
      ],
      [
-      "Compared with cold ischemic arrest",
-      "**As high** (randomized)"
+      "Compared with patients randomly assigned to **cold ischemic arrest**",
+      "Proportions **as high**"
      ]
     ],
     "emphasis": {
@@ -1116,7 +1112,7 @@
     "type": "callout",
     "kind": "pitfall",
     "title": "Neither is necrosis-free",
-    "text": "Perfusing the coronaries continuously did **not** prevent necrosis better than profound hypothermic arrest in this comparison."
+    "text": "Continuous individual coronary perfusion did **not** produce less necrosis than profoundly hypothermic global ischemia in this randomized comparison."
    },
    {
     "id": "quote",
@@ -1127,7 +1123,7 @@
   ],
   "choiceNotes": {
    "a": "Necrosis was **as much** with profound hypothermic arrest as with individual perfusion, not less.",
-   "b": "With individual perfusion, transmural infarction was **15%** and isoenzymatic necrosis **70%**, proportions as high as with cold ischemic arrest.",
+   "b": "On p. 96, individual perfusion for AVR was reported with transmural infarction in **15%** and isoenzymatic necrosis in **70%**, proportions as high as in patients randomly assigned to cold ischemic arrest.",
    "d": "Isoenzymatic evidence of necrosis was found in **70%** of patients with individual coronary perfusion.",
    "e": "Necrosis was found with both techniques; the comparison was not limited to fibrillating hearts."
   },
@@ -1170,7 +1166,7 @@
    },
    {
     "id": "d",
-    "text": "They impair subendocardial flow by inducing fibrillation"
+    "text": "They add no demonstrated protection to blood cardioplegia"
    },
    {
     "id": "e",
@@ -1221,7 +1217,7 @@
   "choiceNotes": {
    "a": "Nucleotide transport inhibition with adenosine accumulation describes **lidoflazine**.",
    "c": "Hyperkalemia needing glucose and insulin is a rare result of **multidose cardioplegia**.",
-   "d": "These drugs are not described as inducing fibrillation; their limitation is negative inotropy and prolonged quiescence.",
+   "d": "Lack of demonstrated additional protection with blood cardioplegia is stated for **free radical scavengers**, not for verapamil and diltiazem.",
    "e": "Reinfusion about every 20 minutes refers to **cold cardioplegic solution**, not to these drugs."
   },
   "source": [
@@ -1259,7 +1255,7 @@
    },
    {
     "id": "d",
-    "text": "Intermittent moderately hypothermic ischemia; as a nucleotide transport inhibitor"
+    "text": "Intermittent ischemia; as a nucleotide transport inhibitor"
    },
    {
     "id": "e",
@@ -1414,6 +1410,10 @@
    {
     "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
     "loc": "p. 97, Cold Cardioplegia: Cardioplegic Solution"
+   },
+   {
+    "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+    "loc": "p. 98, Box 3.2"
    }
   ]
  },
@@ -1535,7 +1535,7 @@
    },
    {
     "id": "b",
-    "text": "Cold oxygenated hyperkalemic blood-crystalloid, low free calcium, glucose, buffer"
+    "text": "Oxygenated hyperkalemic blood-crystalloid with low Ca, glucose, buffer"
    },
    {
     "id": "c",
@@ -1643,11 +1643,11 @@
    },
    {
     "id": "c",
-    "text": "It limits sodium and calcium influx in reperfusion-prone immature myocardium"
+    "text": "It limits sodium and calcium influx into immature myocardium"
    },
    {
     "id": "d",
-    "text": "It is delivered only retrograde, the preferred route in neonates"
+    "text": "A simple hyperkalemic blood solution without lidocaine"
    },
    {
     "id": "e",
@@ -1705,7 +1705,7 @@
     "type": "callout",
     "kind": "pitfall",
     "title": "Ratio",
-    "text": "In adult comparisons del Nido was used at a **1:4 ratio of blood to crystalloid**: mostly crystalloid, hence the concern about **hemodilution**."
+    "text": "In adult comparisons del Nido was used at a **1:4 ratio of blood to crystalloid**; to avoid **hemodilution**, hemoconcentration has been recommended."
    },
    {
     "id": "quote",
@@ -1717,7 +1717,7 @@
   "choiceNotes": {
    "a": "Del Nido solution contains **low** calcium, not high calcium.",
    "b": "A single dose is given **without the need for redosing for up to 90 minutes**.",
-   "d": "Del Nido is not described as a retrograde-only solution; direct retrograde catheter placement is a separate pediatric technique point.",
+   "d": "Lidocaine is one of the **main components** of del Nido solution, with histidine, low calcium, potassium and adenosine.",
    "e": "Its ratio is **1:4 blood to crystalloid**, and hemodilution is a recognized problem needing ultrafiltration or micro del Nido."
   },
   "source": [
@@ -1755,7 +1755,7 @@
    },
    {
     "id": "d",
-    "text": "Evidence is lacking in low-EF, energy-depleted hearts, and redosing timing is unclear"
+    "text": "Evidence is lacking in low-EF and energy-depleted hearts"
    },
    {
     "id": "e",
@@ -1777,7 +1777,7 @@
      "Prolonged cross-clamp time: is it safe, and **when to redose**?",
      "Reduced **RV function**, **low EF**, **energy-depleted** hearts: lack of evidence",
      "**Second cross-clamp** period needing more cardioplegia: what to do?",
-     "**Hemodilution**: hemoconcentration recommended; **ultrafiltration** used in **83.7%** of del Nido cases; **micro del Nido** suggested"
+     "**Hemodilution**: hemoconcentration recommended; **ultrafiltration** reported in **83.7%** of del Nido cases; **micro del Nido** suggested"
     ]
    },
    {
@@ -1797,7 +1797,7 @@
   "choiceNotes": {
    "a": "Comparisons with other blood-based solutions showed **almost no statistically significant differences** in most parameters.",
    "b": "In isolated CABG or valve operations a **single dose will suffice** for the entire operation.",
-   "c": "Ultrafiltration was used in **83.7%** of del Nido cases, and hemoconcentration has been recommended.",
+   "c": "Ultrafiltration has been reported in **83.7%** of del Nido cases, and hemoconcentration has been recommended.",
    "e": "It has been used extensively in congenital heart surgery at Children's Hospital Boston since 1994."
   },
   "source": [
@@ -1940,7 +1940,7 @@
   "choices": [
    {
     "id": "a",
-    "text": "Exclude aortic regurgitation hidden by the vent; if absent, raise the flow but not the total dose"
+    "text": "Exclude AR hidden by the vent, then raise flow but not total dose"
    },
    {
     "id": "b",
@@ -1991,7 +1991,7 @@
     "type": "callout",
     "kind": "pitfall",
     "title": "The vent can hide the leak",
-    "text": "Cardioplegia regurgitating into the LV is removed by the vent, so the leak shows only as **low root pressure**."
+    "text": "Low aortic root perfusion pressure may be caused by **aortic regurgitation hidden by the action of a left ventricular vent**."
    },
    {
     "id": "quote",
@@ -2003,7 +2003,7 @@
   "choiceNotes": {
    "b": "Only the **flow rate** is increased, **not the total dose**; 75 mmHg is the level sometimes seen in severe ischemic disease, not a target.",
    "c": "With pressure below 30 mmHg the flow is **increased**, not reduced.",
-   "d": "Root pressure is monitored precisely so that a pressure below 30 mmHg prompts action.",
+   "d": "With root pressure below 30 mmHg the **flow rate** (not the total dose) is increased.",
    "e": "The source's response is to exclude hidden AR and raise flow, not to switch methods."
   },
   "source": [
@@ -2033,7 +2033,7 @@
    },
    {
     "id": "b",
-    "text": "About every 20 min, for 1–2 min, at the initial flow with the aortic valve closed"
+    "text": "About every 20 min, for 1–2 min, at the initial flow"
    },
    {
     "id": "c",
@@ -2118,7 +2118,7 @@
    },
    {
     "id": "c",
-    "text": "Glucose 400 mg/kg (as 50%) with insulin 0.2 unit/kg after reperfusion begins, or ultrafiltration"
+    "text": "Glucose 400 mg/kg with insulin 0.2 unit/kg after reperfusion begins"
    },
    {
     "id": "d",
@@ -2210,7 +2210,7 @@
    },
    {
     "id": "d",
-    "text": "The right ventricle, especially its midportion, and the right atrium"
+    "text": "The right ventricle and right atrium"
    },
    {
     "id": "e",
@@ -2280,23 +2280,19 @@
   "choices": [
    {
     "id": "a",
-    "text": "Advance the catheter firmly with the stylet still in place"
+    "text": "Push the catheter in under digital control with firmer pressure"
    },
    {
     "id": "b",
-    "text": "Bicaval cannulation, open the RA, purse string around the sinus orifice, insert under direct vision"
+    "text": "Bicaval cannulation, open the RA, and insert it under direct vision"
    },
    {
     "id": "c",
-    "text": "Insert the catheter through a right pulmonary vein, as for an LV vent"
+    "text": "Open the right atrium with a single atrial venous cannula in place"
    },
    {
     "id": "d",
-    "text": "Fill the pericardium with cold saline and retry by digital control"
-   },
-   {
-    "id": "e",
-    "text": "Insert the catheter through the aortic root alongside the antegrade catheter"
+    "text": "Abandon retrograde delivery, as direct placement is only for children"
    }
   ],
   "answer": "b",
@@ -2347,10 +2343,9 @@
    }
   ],
   "choiceNotes": {
-   "a": "The catheter must always be inserted **smoothly and without any force**.",
-   "c": "A right pulmonary vein is the route for the **left ventricular vent**, not the coronary sinus catheter.",
-   "d": "Cold pericardial saline is part of profound hypothermia (and causes phrenic palsy); it is not a step for catheter placement.",
-   "e": "The aortic root catheter delivers **antegrade** cardioplegia; the retrograde catheter enters the coronary sinus from the right atrium."
+   "a": "Insertion of the retrograde catheter should **always** be done very smoothly and **without any force**.",
+   "c": "The source calls for **bicaval venous cannulation** before the right atrium is opened.",
+   "d": "Direct placement is the **preferred** method in neonatal and pediatric patients, but it is also the described next step in adults when digital and visual placement fail."
   },
   "source": [
    {
@@ -2457,45 +2452,45 @@
  {
   "id": "C-27",
   "version": 1,
-  "topic": "Cold Cardioplegia: Results",
+  "topic": "Cold Cardioplegia: Retrograde Delivery",
   "tags": [
    "retrograde cardioplegia",
-   "aortic regurgitation",
-   "CABG",
-   "redo CABG"
+   "left main",
+   "acute coronary syndrome",
+   "coronary sinus"
   ],
   "difficulty": 2,
   "reviewed": false,
-  "stem": "A patient with **mild aortic regurgitation** (valve not to be replaced) is undergoing CABG. Which cardioplegic strategy is **optimal for induction and maintenance**?",
+  "stem": "Which group of conditions does the source call **perhaps the best example** of the potential superiority of **retrograde cardioplegia**?",
   "choices": [
    {
     "id": "a",
-    "text": "Antegrade aortic root infusion at a higher flow rate"
+    "text": "Elective operations in low-risk patients"
    },
    {
     "id": "b",
-    "text": "Antegrade root induction, then direct ostial infusion"
+    "text": "Severe left ventricular hypertrophy"
    },
    {
     "id": "c",
-    "text": "Profound hypothermia with cold pericardial saline"
+    "text": "Cardiac operations in neonates"
    },
    {
     "id": "d",
-    "text": "A single dose of del Nido solution via the aortic root"
+    "text": "Left main lesions and acute coronary syndromes"
    },
    {
     "id": "e",
-    "text": "Retrograde cardioplegia through the coronary sinus"
+    "text": "Hearts with a left superior vena cava"
    }
   ],
-  "answer": "e",
+  "answer": "d",
   "explanation": [
    {
     "id": "key",
     "type": "callout",
     "kind": "key",
-    "text": "When CABG is planned with **mild aortic regurgitation** (valve not replaced), **retrograde cardioplegia is optimal for induction and maintenance**; the same applies to other procedures with mild AR where the aorta need not be opened."
+    "text": "**Severe obstructive manifestations of coronary artery disease**, including **left main lesions** and **acute coronary syndromes**, are perhaps the best example of the potential superiority of retrograde cardioplegia."
    },
    {
     "id": "retro",
@@ -2528,30 +2523,30 @@
     "id": "pitfall",
     "type": "callout",
     "kind": "pitfall",
-    "title": "Why not antegrade",
-    "text": "During antegrade root infusion, low aortic root pressure may be caused by **aortic regurgitation hidden by the LV vent**."
+    "title": "Where retrograde falls short",
+    "text": "No clear advantage over antegrade in **elective** operations; maybe **less satisfactory** protection in **severe LV hypertrophy**; difficult in children and **sometimes impossible in neonates**; an **unrecognized left superior vena cava** is an occasional problem."
    },
    {
     "id": "quote",
     "type": "quote",
-    "text": "When CABG is planned in the presence of mild aortic regurgitation (valve not replaced), retrograde cardioplegia is optimal for induction and maintenance.",
+    "text": "Severe obstructive manifestations of coronary artery disease are perhaps the best example of the potential superiority of retrograde cardioplegia.",
     "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 99"
    }
   ],
   "choiceNotes": {
-   "a": "For mild AR without valve replacement the source names **retrograde** cardioplegia as optimal.",
-   "b": "Direct ostial infusion needs an opened aorta; retrograde is optimal when the aorta **need not be opened**.",
-   "c": "Profound hypothermia with pericardial cold saline causes **phrenic nerve palsy** and is not the recommended strategy here.",
-   "d": "For CABG with mild AR (valve not replaced), the source names **retrograde** cardioplegia as optimal for induction and maintenance."
+   "a": "No clear advantage of retrograde over antegrade infusion has been identified in patients undergoing **elective** operations.",
+   "b": "There may be **less satisfactory** protection with retrograde cardioplegia in hearts with severe LV hypertrophy.",
+   "c": "Retrograde application may be difficult in children and **sometimes impossible in neonates**.",
+   "e": "An unrecognized **left superior vena cava** is listed among the **disadvantages** of retrograde cardioplegia."
   },
   "source": [
    {
     "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
-    "loc": "p. 99, Results of Cold Cardioplegia"
+    "loc": "p. 99, Technique of Retrograde Cardioplegic Delivery"
    },
    {
     "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
-    "loc": "p. 99, Technique of Retrograde Cardioplegic Delivery"
+    "loc": "p. 99, Results of Cold Cardioplegia"
    }
   ]
  },
@@ -2640,7 +2635,7 @@
     "id": "quote",
     "type": "quote",
     "text": "retrograde cardioplegia is better viewed as synergistic and complementary to antegrade cardioplegia rather than as the sole method of myocardial management.",
-    "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 98–99"
+    "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 99"
    }
   ],
   "choiceNotes": {
@@ -2652,7 +2647,7 @@
   "source": [
    {
     "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
-    "loc": "p. 98–99, Technique of Retrograde Cardioplegic Delivery"
+    "loc": "p. 99, Technique of Retrograde Cardioplegic Delivery"
    }
   ]
  },
@@ -2750,6 +2745,201 @@
    {
     "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
     "loc": "p. 99, Results of Cold Cardioplegia"
+   }
+  ]
+ },
+ {
+  "id": "C-N1",
+  "version": 1,
+  "topic": "Cold Cardioplegia: Cardioplegic Solution",
+  "tags": [
+   "cardioplegia",
+   "principles",
+   "diastolic arrest",
+   "Box 3.1"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "Which statement matches the **principles of myocardial protection using cardioplegia** listed in Box 3.1?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "A slow, gradual induction of arrest to spare ATP"
+   },
+   {
+    "id": "b",
+    "text": "Some electrical activity kept to preserve tone"
+   },
+   {
+    "id": "c",
+    "text": "A long half-life so that redosing is unnecessary"
+   },
+   {
+    "id": "d",
+    "text": "Arrest that persists after washout of the solution"
+   },
+   {
+    "id": "e",
+    "text": "Rapid induction of diastolic arrest to minimize ATP use"
+   }
+  ],
+  "answer": "e",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "Cardiac arrest: a **rapid and effective induction of diastolic arrest** keeps the myocardium relaxed and **minimizes cellular use of ATP**."
+   },
+   {
+    "id": "box",
+    "type": "table",
+    "caption": "Box 3.1: principles of myocardial protection using cardioplegia",
+    "head": [
+     "Principle",
+     "Purpose"
+    ],
+    "rows": [
+     [
+      "**Cardiac arrest**",
+      "Rapid, effective induction of **diastolic** arrest; myocardium relaxed, ATP use minimized"
+     ],
+     [
+      "**Electrical silence and cooling**",
+      "Reduce the **oxygen requirement** during ischemia after aortic cross-clamping"
+     ],
+     [
+      "**Reversibility**",
+      "Effects readily reversed on **washout**, with prompt resumption of heart function"
+     ],
+     [
+      "**Low toxicity**",
+      "**Short half-life**, no toxic effects on other organs after CPB ends"
+     ]
+    ]
+   },
+   {
+    "id": "mn",
+    "type": "callout",
+    "kind": "mnemonic",
+    "title": "Arrest, Silence, Reverse, Safe",
+    "text": "**A**rrest fast · **S**ilence and cool · **R**eversible on washout · **S**hort half-life, low toxicity"
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "A rapid and effective induction of diastolic arrest to keep the myocardium relaxed and minimize cellular use of ATP",
+    "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 97"
+   }
+  ],
+  "choiceNotes": {
+   "a": "Box 3.1 calls for a **rapid and effective** induction of diastolic arrest.",
+   "b": "Box 3.1 calls for **electrical silence** (with cooling) to reduce the oxygen requirement.",
+   "c": "Low toxicity means a **short half-life** with no toxic effects on other organs after CPB.",
+   "d": "Cardioplegic effects should be **readily reversible** on washout, with prompt resumption of heart function."
+  },
+  "source": [
+   {
+    "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+    "loc": "p. 97, Box 3.1 Principles of Myocardial Protection Using Cardioplegia"
+   }
+  ]
+ },
+ {
+  "id": "C-N2",
+  "version": 1,
+  "topic": "Methods of Myocardial Management",
+  "tags": [
+   "myocardial protection",
+   "method choice",
+   "experimental vs clinical"
+  ],
+  "difficulty": 2,
+  "reviewed": false,
+  "stem": "Which statement about **choosing a method of myocardial management** during CPB matches the source?",
+  "choices": [
+   {
+    "id": "a",
+    "text": "Rigorous comparisons between methods now guide most choices"
+   },
+   {
+    "id": "b",
+    "text": "Experimental models vary more than patients do between studies"
+   },
+   {
+    "id": "c",
+    "text": "A perfused, empty, beating heart on CPB suffers no damage"
+   },
+   {
+    "id": "d",
+    "text": "Costs and institutional environment do not affect the choice"
+   },
+   {
+    "id": "e",
+    "text": "No single method is unequivocally best; preference often decides"
+   }
+  ],
+  "answer": "e",
+  "explanation": [
+   {
+    "id": "key",
+    "type": "callout",
+    "kind": "key",
+    "text": "**No single method** of myocardial management is unequivocally the best; surgeons often choose based on **\"preferences\"** rather than rigorous comparisons between methods."
+   },
+   {
+    "id": "factors",
+    "type": "list",
+    "items": [
+     "Surgical technique or operative sequencing that affects **aortic clamp duration**",
+     "Strength of the desire for a **quiet, bloodless heart**",
+     "Conviction that surgery **without necrosis or residual stunning** is desirable and possible",
+     "**Institutional environment**",
+     "**Costs**"
+    ]
+   },
+   {
+    "id": "why",
+    "type": "flow",
+    "title": "Why lab and clinical results differ",
+    "steps": [
+     {
+      "text": "Experimental models: preoperative, intraoperative and postoperative conditions **very much comparable**"
+     },
+     {
+      "label": "but in patients",
+      "text": "Comorbidities, resilience to stress, **CPB and clamp length**, anesthesia, transfusions, postoperative care **may change**"
+     },
+     {
+      "label": "so",
+      "text": "Often-seen **differences between experimental and clinical results**, even with the same technique"
+     }
+    ]
+   },
+   {
+    "id": "pitfall",
+    "type": "callout",
+    "kind": "pitfall",
+    "title": "Beating is not harmless",
+    "text": "CPB per se, with the heart perfused and beating empty, **already produces some damage**."
+   },
+   {
+    "id": "quote",
+    "type": "quote",
+    "text": "no single method of myocardial management is unequivocally the best.",
+    "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 95"
+   }
+  ],
+  "choiceNotes": {
+   "a": "Surgeons choose often based on **\"preferences\"** rather than on rigorous comparisons between methods.",
+   "b": "Experimental models are usually **very much comparable**; in patients all these variables may change.",
+   "c": "CPB per se, with the heart perfused and beating empty, **already produces some damage**.",
+   "d": "**Institutional environment** and **costs** are listed among the factors influencing the surgeon's preference."
+  },
+  "source": [
+   {
+    "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+    "loc": "p. 95, Methods of Myocardial Management During Cardiac Surgery"
    }
   ]
  }
