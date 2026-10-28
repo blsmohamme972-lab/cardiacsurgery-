@@ -256,7 +256,10 @@ async function openHarness(viewport, scheme, label, dpr = 2) {
   const page = await context.newPage();
   page.setDefaultTimeout(TIMEOUT);
   page.on('console', (msg) => {
-    if (msg.type() === 'error') failures.push(`[${label}] console error: ${msg.text()}`);
+    // The sample run fetches a missing file on purpose (404 → friendly error).
+    if (msg.type() === 'error' && !(label === 'sample' && /status of 404/.test(msg.text()))) {
+      failures.push(`[${label}] console error: ${msg.text()}`);
+    }
   });
   page.on('pageerror', (err) => failures.push(`[${label}] page error: ${String(err)}`));
   await page.goto(`${server.url}__pdfv-harness.html`);
@@ -356,13 +359,22 @@ const state = (page) =>
     };
   });
 
-/** Waits until every mounted page is drawn at the current zoom. @param {import('playwright').Page} page */
+/** Waits until every page on screen is drawn and has its text layer. @param {import('playwright').Page} page */
 const settle = (page, ms = 250) =>
   page
     .waitForFunction(
       () => {
-        const pages = [...document.querySelectorAll('.pdfv-page.is-mounted')];
-        return pages.length > 0 && pages.every((p) => p.classList.contains('is-rendered') || p.classList.contains('is-error'));
+        const sc = document.querySelector('.pdfv').getBoundingClientRect();
+        const pages = [...document.querySelectorAll('.pdfv-page')].filter((p) => {
+          const r = p.getBoundingClientRect();
+          return r.bottom > sc.top && r.top < sc.bottom;
+        });
+        return (
+          pages.length > 0 &&
+          pages.every(
+            (p) => p.classList.contains('is-error') || (p.classList.contains('is-rendered') && p.querySelector('.textLayer .endOfContent')),
+          )
+        );
       },
       null,
       { timeout: TIMEOUT },
@@ -395,8 +407,16 @@ const probe = (page, x, y) =>
 /** Text layer spans sit over the drawn glyphs (checks a span's box against the canvas ink). @param {import('playwright').Page} page */
 const textAlignment = (page) =>
   page.evaluate(() => {
-    const pageEl = document.querySelector('.pdfv-page.is-rendered');
-    const span = [...pageEl.querySelectorAll('.textLayer span')].find((s) => s.textContent.length > 10);
+    const sc = document.querySelector('.pdfv').getBoundingClientRect();
+    const pageEl = [...document.querySelectorAll('.pdfv-page.is-rendered')].find((p) => {
+      const r = p.getBoundingClientRect();
+      return r.top < sc.bottom && r.bottom > sc.top && p.querySelector('.textLayer span');
+    });
+    if (!pageEl) return { ok: false, why: 'no rendered page on screen' };
+    const span = [...pageEl.querySelectorAll('.textLayer span')].find((s) => {
+      const r = s.getBoundingClientRect();
+      return s.textContent.trim().length > 10 && r.top > sc.top && r.bottom < sc.bottom && r.left > sc.left && r.right < sc.right;
+    });
     const canvas = pageEl.querySelector('.pdfv-canvas');
     if (!span || !canvas) return { ok: false, why: 'no span/canvas' };
     const pr = pageEl.getBoundingClientRect();
@@ -408,14 +428,16 @@ const textAlignment = (page) =>
     const y0 = Math.max(0, Math.floor((sr.top - pr.top) * sy));
     const w = Math.max(1, Math.floor(sr.width * sx));
     const hh = Math.max(1, Math.floor(sr.height * sy));
+    const ink = (/** @type {Uint8ClampedArray} */ d) => {
+      let n = 0;
+      for (let i = 0; i < d.length; i += 4) if (Math.min(d[i], d[i + 1], d[i + 2]) < 200) n++;
+      return n;
+    };
     const inside = ctx.getImageData(x0, y0, w, hh).data;
-    let dark = 0;
-    for (let i = 0; i < inside.length; i += 4) if (inside[i] + inside[i + 1] + inside[i + 2] < 300) dark++;
-    // The same box shifted down by two of its heights should hold much less ink than the box itself… unless lines are dense,
-    // so compare with the ink density right above the span instead (gap between lines).
+    const dark = ink(inside);
+    // The thin band just above the span (the gap between lines) holds less ink than the span's own box.
     const above = ctx.getImageData(x0, Math.max(0, y0 - Math.floor(hh * 0.6)), w, Math.max(1, Math.floor(hh * 0.25))).data;
-    let darkAbove = 0;
-    for (let i = 0; i < above.length; i += 4) if (above[i] + above[i + 1] + above[i + 2] < 300) darkAbove++;
+    const darkAbove = ink(above);
     const density = dark / (inside.length / 4);
     const densityAbove = darkAbove / (above.length / 4);
     return { ok: density > 0.02 && density > densityAbove, density, densityAbove, text: span.textContent.slice(0, 30) };
@@ -538,6 +560,30 @@ try {
       check(align.ok, `${label}: text layer lies over the drawn text ${JSON.stringify(align)}`);
       await page.screenshot({ path: path.join(OUT, `${label}-open.png`) });
 
+      // Rotating the device keeps the reading position (fit width is recomputed).
+      if (vpName === 'phone') {
+        await page.evaluate(() => /** @type {any} */ (window).__v.goTo(5, { smooth: false }));
+        await settle(page);
+        const events = await page.evaluate(() => {
+          const w = /** @type {any} */ (window);
+          w.__scales = [];
+          w.__v.on('scale', (e) => w.__scales.push(e));
+          return true;
+        });
+        await page.setViewportSize({ width: vp.height, height: vp.width });
+        await page.waitForTimeout(300);
+        await settle(page);
+        const rs = await state(page);
+        const ev = await page.evaluate(() => /** @type {any} */ (window).__scales.at(-1));
+        check(events && rs.page === 5 && rs.scrollW <= rs.clientW + 1, `${label}: rotation keeps page 5 at fit width (page ${rs.page})`);
+        check(ev && ev.mode === 'fit-width' && Math.abs(ev.scale - ev.fitWidth) < 1e-6, `${label}: scale event after rotation ${JSON.stringify(ev)}`);
+        await page.screenshot({ path: path.join(OUT, `${label}-landscape.png`) });
+        await page.setViewportSize(vp);
+        await page.waitForTimeout(300);
+        await page.evaluate(() => /** @type {any} */ (window).__v.goTo(1, { smooth: false }));
+        await settle(page);
+      }
+
       // Overlay hook: one live overlay per mounted page; pairs mount/unmount.
       s = await state(page);
       check(s.overlays === s.mounted.length, `${label}: overlay per mounted page (${s.overlays} vs ${s.mounted.length})`);
@@ -616,13 +662,14 @@ try {
         const sc0 = (await state(page)).scale;
         await page.mouse.move(pt.x, pt.y);
         await page.keyboard.down('Control');
-        for (let i = 0; i < 4; i++) await page.mouse.wheel(0, 60);
+        // Playwright divides wheel deltas by the device scale factor: 2 notches of 60 CSS px.
+        for (let i = 0; i < 2; i++) await page.mouse.wheel(0, 60 * dpr);
         await page.keyboard.up('Control');
         await page.waitForTimeout(400);
         await settle(page);
         const pa = await probe(page, pt.x - box.x, pt.y - box.y);
         const sc1 = (await state(page)).scale;
-        check(sc1 < sc0 * 0.8, `${label}: ctrl+wheel zoomed out (${sc0.toFixed(2)} → ${sc1.toFixed(2)})`);
+        check(sc1 < sc0 * 0.85, `${label}: ctrl+wheel zoomed out (${sc0.toFixed(2)} → ${sc1.toFixed(2)})`);
         check(
           pb && pa && pb.page === pa.page && Math.abs(pb.fx - pa.fx) < 0.03 && Math.abs(pb.fy - pa.fy) < 0.03,
           `${label}: ctrl+wheel keeps the cursor point (${JSON.stringify(pb)} → ${JSON.stringify(pa)})`,

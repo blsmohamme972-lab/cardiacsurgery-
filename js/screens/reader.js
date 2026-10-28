@@ -284,6 +284,8 @@ export default {
       if (destroyed) return;
       loading.remove();
       showPage(viewer.page());
+      // Reloading should resume where the reader is, not at the page of the link that opened it.
+      if (ctx.query.page) navigate(`/book/${ch.id}`, { replace: true, silent: true });
       for (const b of [searchBtn, sectionsBtn, moreBtn]) b.disabled = false;
       editFab.hidden = false;
       root.dataset.ready = 'true';

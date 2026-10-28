@@ -23,7 +23,15 @@ import {
   normalizeAngle,
   round1,
   makeItem,
+  pageSize,
+  sizeScale,
+  scaleItem,
+  voiceIds,
+  ITEM_TYPES,
+  MIN_PAGE_SIDE,
+  MAX_PAGE_SIDE,
 } from '../../js/features/scratch/scene.js';
+import { itemBox, itemBounds, hitItem, lassoSelect, scaleItems, insertBox } from '../../js/features/scratch/geometry.js';
 
 let n = 0;
 const idFn = () => `id${++n}`;
@@ -255,5 +263,113 @@ describe('createHistory', () => {
     assert.deepEqual(h.scene.items.map((i) => i.id), ['a', 'c']);
     h.undo();
     assert.deepEqual(h.scene.items.map((i) => i.id), ['a', 'b', 'c']);
+  });
+});
+
+/* ---------------- book pages (§7.17): page size + point items ---------------- */
+
+const note = (id, extra = {}) => ({ id, type: 'note', x: 100, y: 200, text: 'Placeholder', color: '#eab308', ...extra });
+const audio = (id, extra = {}) => ({ id, type: 'audio', x: 300, y: 400, voice: 'v1', durationMs: 2100, ...extra });
+
+describe('point items: note and audio', () => {
+  test('types are known', () => {
+    assert.ok(ITEM_TYPES.includes('note') && ITEM_TYPES.includes('audio'));
+  });
+  test('sanitize keeps valid notes (empty text allowed) and voice pins', () => {
+    assert.deepEqual(sanitizeItem(note('n', { x: 10.26, extra: 1 })), { id: 'n', type: 'note', x: 10.3, y: 200, text: 'Placeholder', color: '#eab308' });
+    assert.equal(sanitizeItem(note('n', { text: '' })).text, '');
+    assert.equal(sanitizeItem(note('n', { text: 5 })).text, '');
+    assert.equal(sanitizeItem(note('n', { color: 'red' })).color, '#1d4ed8');
+    assert.equal(sanitizeItem(note('n', { text: 'x'.repeat(9000) })).text.length, 5000);
+    assert.deepEqual(sanitizeItem(audio('a', { durationMs: 2100.6 })), { id: 'a', type: 'audio', x: 300, y: 400, voice: 'v1', durationMs: 2101 });
+    assert.equal(sanitizeItem(audio('a', { durationMs: -5 })).durationMs, 0);
+    assert.equal(sanitizeItem(audio('a', { durationMs: 'x' })).durationMs, 0);
+  });
+  test('sanitize rejects broken point items', () => {
+    assert.equal(sanitizeItem(note('n', { x: NaN })), null);
+    assert.equal(sanitizeItem(note('n', { y: 99999 })), null);
+    assert.equal(sanitizeItem(audio('a', { voice: '' })), null);
+    assert.equal(sanitizeItem(audio('a', { voice: 'bad id!' })), null);
+    assert.equal(sanitizeItem(audio('a', { x: undefined })), null);
+  });
+  test('move, clone, style; voiceIds', () => {
+    const n = note('n');
+    const moved = moveItem(n, 5, -10);
+    assert.deepEqual([moved.x, moved.y], [105, 190]);
+    assert.equal(n.x, 100);
+    const c = cloneItem(audio('a'), 10, () => 'c1');
+    assert.equal(c.id, 'c1');
+    assert.equal(c.voice, 'v1');
+    assert.equal(styleItem(note('n'), { color: '#dc2626', size: 9 }).color, '#dc2626');
+    assert.equal(styleItem(note('n'), { size: 9 }).size, undefined);
+    const a = audio('a');
+    assert.equal(styleItem(a, { color: '#dc2626' }), a);
+    assert.deepEqual([...voiceIds(scene(audio('a'), audio('b', { voice: 'v2' }), stroke('s')))], ['v1', 'v2']);
+  });
+  test('commands work with point items (add/remove/update/undo)', () => {
+    const h = createHistory(scene());
+    assert.ok(h.apply({ type: 'add', items: [note('n'), audio('a')] }));
+    assert.ok(h.apply({ type: 'update', items: [{ ...note('n'), text: 'Edited' }] }));
+    assert.ok(h.apply({ type: 'remove', ids: ['a'] }));
+    h.undo();
+    assert.deepEqual(h.scene.items.map((i) => i.id), ['n', 'a']);
+    h.undo();
+    assert.equal(h.scene.items[0].text, 'Placeholder');
+  });
+  test('geometry: zero-size box at the anchor, tap tolerance, lasso, group scale', () => {
+    assert.deepEqual(itemBox(note('n')), { x: 100, y: 200, w: 0, h: 0 });
+    assert.deepEqual(itemBounds(audio('a')), { x: 300, y: 400, w: 0, h: 0 });
+    assert.ok(hitItem(note('n'), 104, 203, 6));
+    assert.ok(!hitItem(note('n'), 120, 200, 6));
+    const poly = [{ x: 50, y: 150 }, { x: 150, y: 150 }, { x: 150, y: 250 }, { x: 50, y: 250 }];
+    assert.deepEqual(lassoSelect([note('n'), audio('a')], poly), ['n']);
+    const [s] = scaleItems([note('n')], { x: 0, y: 0, w: 100, h: 100 }, { x: 0, y: 0, w: 200, h: 50 });
+    assert.deepEqual([s.x, s.y], [200, 100]);
+  });
+});
+
+describe('page size (book pages)', () => {
+  test('pageSize validates; sizeScale follows the page width', () => {
+    assert.deepEqual(pageSize({ w: 612, h: 792 }), { w: 612, h: 792 });
+    assert.equal(pageSize({ w: MIN_PAGE_SIDE - 1, h: 792 }), null);
+    assert.equal(pageSize({ w: 612, h: MAX_PAGE_SIDE + 1 }), null);
+    assert.equal(pageSize(null), null);
+    assert.equal(sizeScale({ w: 2000 }), 1);
+    assert.equal(sizeScale({ w: 612 }), 0.306);
+    assert.equal(sizeScale(null), 1);
+    assert.equal(sizeScale({ w: 1 }), 1);
+  });
+  test('emptyScene with a size; the scratchpad default is unchanged', () => {
+    assert.deepEqual(emptyScene('plain', { w: 612, h: 792 }).page, { w: 612, h: 792, bg: 'plain' });
+    assert.deepEqual(emptyScene('plain', { w: 2, h: 2 }).page, { w: PAGE_W, h: PAGE_H, bg: 'plain' });
+    assert.deepEqual(emptyScene().page, { w: PAGE_W, h: PAGE_H, bg: 'dots' });
+  });
+  test('serialize keeps the page size; deserialize reads it back', () => {
+    const s = { ...emptyScene('plain', { w: 612, h: 792 }), items: [note('n'), stroke('s')] };
+    const out = serialize(s);
+    assert.deepEqual(out.page, { w: 612, h: 792, bg: 'plain' });
+    assert.deepEqual(deserialize(JSON.parse(JSON.stringify(out))), s);
+    assert.deepEqual(deserialize(out, { size: { w: 612, h: 792 } }), s);
+  });
+  test('deserialize with another size scales the items to it', () => {
+    const stored = serialize({ ...emptyScene('plain', { w: 600, h: 800 }), items: [stroke('s'), image('i'), text('t'), shape('h'), note('n')] });
+    const s = deserialize(stored, { bg: 'plain', size: { w: 300, h: 400 } });
+    assert.deepEqual(s.page, { w: 300, h: 400, bg: 'plain' });
+    const [st, im, tx, sh, nt] = s.items;
+    assert.deepEqual(st.pts, [5, 5, 0.5, 10, 15, 0.6]);
+    assert.equal(st.size, 5);
+    assert.deepEqual([im.x, im.y, im.w, im.h], [50, 50, 200, 150]);
+    assert.deepEqual([tx.x, tx.w, tx.size], [25, 300, 40]);
+    assert.deepEqual([sh.x2, sh.y2, sh.size], [50, 25, 5]);
+    assert.deepEqual([nt.x, nt.y], [50, 100]);
+  });
+  test('scaleItem returns null when the result is invalid', () => {
+    assert.equal(scaleItem(text('t', { w: 20 }), 0.1, 0.1), null);
+    assert.equal(scaleItem(note('n'), 2, 3).x, 200);
+  });
+  test('insertBox stays on a book page', () => {
+    const b = insertBox(1000, 500, { x: 0, y: 0, w: 612, h: 792 }, 0.6, { w: 612, h: 792 });
+    assert.ok(b.x >= 0 && b.x + b.w <= 612 + 1e-6);
+    assert.ok(Math.abs(b.w / b.h - 2) < 1e-6);
   });
 });

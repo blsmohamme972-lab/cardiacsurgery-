@@ -21,6 +21,7 @@
  *  10. backup export → reset → import (Merge) round trip
  *  11. offline reload works (and a demo quiz starts offline)
  *  12. "Update available" banner after a version bump → Update → new version
+ *  13. book: import a PDF (made here with the vendored pdf-lib), open it, draw, reload → the stroke persists
  *
  * A test fails on any thrown error, any uncaught page error and any
  * console.error (except the small allowlist below). Selectors prefer what the
@@ -570,7 +571,56 @@ const TESTS = [
       assert((await page.getByText('Update available').count()) === 0, 'the update banner is still shown after updating');
     },
   },
+  {
+    name: 'book: import a PDF, open, draw, persists',
+    async run({ page, server }) {
+      await openApp(page, server.url);
+      await page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: 'Book' }).click();
+      await page.getByRole('heading', { name: 'Your book' }).waitFor();
+      const [chooser] = await Promise.all([page.waitForEvent('filechooser'), page.getByRole('button', { name: 'Add PDFs' }).click()]);
+      await chooser.setFiles({ name: 'Chapter-01-Test.pdf', mimeType: 'application/pdf', buffer: await makeTestPdf() });
+      const open = page.locator('.book-ch[data-id="ch01"] a.book-ch-main');
+      await open.waitFor();
+      await open.click();
+      await page.locator('.reader[data-ready="true"]').waitFor();
+      await page.locator('.pdfv-page[data-page="1"].is-rendered').waitFor();
+      await page.getByRole('button', { name: 'Edit', exact: true }).click();
+      const toolbar = page.getByRole('toolbar', { name: 'Annotation tools' });
+      await toolbar.getByRole('button', { name: 'Pen', exact: true }).click();
+      const box = await page.locator('.pdfv-page[data-page="1"]').boundingBox();
+      assert(box && box.width > 100, 'the first page has no size');
+      const b = /** @type {{x:number,y:number,width:number,height:number}} */ (box);
+      await page.mouse.move(b.x + b.width * 0.2, b.y + b.height * 0.3);
+      await page.mouse.down();
+      for (let i = 1; i <= 12; i += 1) await page.mouse.move(b.x + b.width * (0.2 + 0.04 * i), b.y + b.height * (0.3 + 0.03 * Math.sin(i)));
+      await page.mouse.up();
+      const hasStroke = async () =>
+        (await idbAll(page, 'pdfnotes')).some((r) => r.bookId === 'ch01' && r.page === 1 && r.scene?.items?.some((i) => i.type === 'stroke'));
+      await waitUntil(hasStroke, 'the stroke saved in pdfnotes');
+      await toolbar.getByRole('button', { name: 'Done' }).click();
+      await page.reload();
+      await page.locator('.reader[data-ready="true"]').waitFor();
+      await page.locator('.pdfv-page[data-page="1"] canvas.bk-canvas').waitFor({ state: 'attached' });
+      await waitUntil(hasStroke, 'the stroke still stored after reload');
+    },
+  },
 ];
+
+/**
+ * A small 2-page PDF with neutral placeholder text, made with the vendored pdf-lib.
+ * @returns {Promise<Buffer>}
+ */
+async function makeTestPdf() {
+  const { PDFDocument, StandardFonts } = await import(path.join(ROOT, 'vendor/pdf-lib/pdf-lib.esm.min.js'));
+  const doc = await PDFDocument.create();
+  const font = await doc.embedFont(StandardFonts.Helvetica);
+  for (let i = 1; i <= 2; i++) {
+    const p = doc.addPage([612, 792]);
+    p.drawText(`Placeholder page ${i}`, { x: 72, y: 700, size: 24, font });
+    p.drawText('Neutral sample text for the reader test.', { x: 72, y: 660, size: 12, font });
+  }
+  return Buffer.from(await doc.save());
+}
 
 /** @param {string} s */
 function escapeRe(s) {

@@ -349,10 +349,15 @@ export default {
               'span',
               { class: 'book-ch-sub' },
               h('span', { class: 'book-ch-status is-ready' }, pages ? `Page ${page} of ${pages}` : 'Ready to read'),
-              range ? h('span', { class: 'book-ch-range' }, ` · ${range}`) : null,
-              pages ? h('span', { class: 'book-meter', style: { '--p': `${pct}%` }, 'aria-hidden': 'true' }) : null,
+              range ? h('span', { class: 'book-ch-range' }, `· ${range}`) : null,
+              pages ? h('span', { class: 'book-ch-progress', 'aria-hidden': 'true' }, h('span', { class: 'book-meter', style: { '--p': `${pct}%` } })) : null,
             )
-          : h('span', { class: 'book-ch-sub' }, h('span', { class: 'book-ch-status' }, 'PDF not added'), range ? h('span', { class: 'book-ch-range' }, ` · ${range}`) : null);
+          : h(
+              'span',
+              { class: 'book-ch-sub' },
+              h('span', { class: 'book-ch-status is-add' }, icon('plus', { size: 14 }), 'Add PDF'),
+              range ? h('span', { class: 'book-ch-range' }, `· ${range}`) : null,
+            );
         const mainLabel = meta
           ? `Chapter ${ch.number}, ${ch.title}. ${pages ? `Page ${page} of ${pages}.` : ''} Open`
           : `Chapter ${ch.number}, ${ch.title}. PDF not added. Add PDF`;
@@ -403,12 +408,7 @@ export default {
         main.addEventListener('contextmenu', (e) => e.preventDefault());
 
         const actions = h('div', { class: 'book-ch-actions' });
-        if (!meta) {
-          const add = button({ label: 'Add PDF', size: 's', variant: 'secondary', onClick: () => void addFor(ch) });
-          add.classList.add('book-ch-add');
-          add.setAttribute('aria-label', `Add the PDF of Chapter ${ch.number}`);
-          actions.append(add);
-        }
+        li.classList.toggle('has-toggle', hasSections(ch));
         if (hasSections(ch)) {
           const tog = iconButton({ icon: 'chevron-down', label: `${isOpen ? 'Hide' : 'Show'} sections of Chapter ${ch.number}`, onClick: () => toggle() });
           tog.classList.add('book-ch-toggle');

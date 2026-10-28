@@ -1161,6 +1161,15 @@ export function createPdfViewer(container, doc, { initialPage = 1, initialScale 
   → { goTo(page), page(), pageCount(), setScale(s | 'fit-width' | 'fit-page'), scale(), zoomIn(), zoomOut(),
       search(query) → AsyncIterable<{page, rects}>, textOf(page), outline(), thumbnail(page, width) → canvas,
       on(event /* 'page'|'scale'|'textselect' */, fn), destroy() }
+// As built (pdf-viewer): openPdf copies typed arrays and downloads URLs whole; one shared module worker
+//   (closePdfEngine() after the last doc is destroyed); PdfError {.code password|invalid|empty|read|network|engine|
+//   cancelled|unknown, .userMessage}. Viewer extras: `ready` (Promise), `el` (scroller), showMatch(match|index),
+//   clearSearch(), `label` option, overlay hook 4th arg `overlayEl` (.pdfv-overlay, pointer-events none until the editor
+//   enables its own elements), event 'render' {page, scale}; 'scale' → {scale, mode, fitWidth, fitPage};
+//   'textselect' → {page, text, rects [x,y,w,h] fractions, bounds} | null; search() yields {page, rects, index, excerpt};
+//   thumbnail() is async. Scale = CSS px per PDF point, 0.25–6 (MAX_SCALE). Page layers bottom→top: canvas.pdfv-canvas,
+//   canvas.pdfv-detail, .pdfv-hits, .textLayer, .pdfv-overlay. Pages are role="group" aria-label "Page N of M"
+//   (canvas aria-hidden, text layer readable). Off-screen work waits for scroll pauses; destroy() leaves `doc` to the caller.
 // features/book/annotate.js — per-page annotation layer (reuses the scratch engine: scene, geometry, render, tools)
 export function createPageAnnotator(bookId, pageNumber, pageEl, size) → { setTool(..), destroy(), … }
 export function createBookToolbar(controller) → HTMLElement

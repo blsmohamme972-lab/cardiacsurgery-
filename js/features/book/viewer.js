@@ -25,7 +25,8 @@
  * - Zoom gestures (two-finger pinch, ctrl/⌘-wheel, trackpad pinch, Safari gesture events) only
  *   scale the page layer with a CSS transform; on release the layout is recomputed at the new
  *   scale around the focal point and the visible pages are re-rendered crisply.
- * - Text layers are built in small chunks between tasks, so long pages never block scrolling.
+ * - Text layers (and sharp tiles, and off-screen neighbours) wait until scrolling pauses; a text
+ *   layer is then built one adaptive chunk (~8 ms) per frame, so long pages never block scrolling.
  *
  * Every pure helper (layout, fit, ranges, LRU, focal zoom, search text) is exported for
  * tests/unit/viewer.test.mjs; importing this module touches no DOM.
@@ -44,8 +45,8 @@ export const MAX_SCALE = 6;
 export const ZOOM_STEP = 1.25;
 /** Page canvases kept alive (more only when that many pages are on screen at once). */
 export const MAX_ALIVE_PAGES = 6;
-/** Text items handed to the PDF.js text layer per task. */
-export const TEXT_CHUNK = 300;
+/** Text items handed to the PDF.js text layer in its first chunk (later chunks adapt to ~8 ms each). */
+export const TEXT_CHUNK = 64;
 
 const WHEEL_COMMIT_MS = 180;
 /** Quiet time after scrolling before sharp tiles and text layers are built. */
@@ -674,27 +675,49 @@ function isCancel(err) {
   return name === 'RenderingCancelledException' || name === 'AbortException';
 }
 
-/** @returns {Promise<void>} Resolves in a new task (lets input and paint run). */
-function yieldToMain() {
-  const sched = /** @type {any} */ (globalThis).scheduler;
-  if (sched && typeof sched.yield === 'function') return sched.yield();
-  return new Promise((resolve) => setTimeout(resolve, 0));
+/** @returns {Promise<void>} Resolves after the next frame has been painted (one chunk of work per frame). */
+function afterNextFrame() {
+  return new Promise((resolve) => {
+    if (typeof requestAnimationFrame === 'function') requestAnimationFrame(() => setTimeout(resolve, 0));
+    else setTimeout(resolve, 16);
+  });
 }
 
 /**
- * A text-content stream that hands PDF.js the items in chunks, one task each.
+ * Next chunk size for incremental work: grows while chunks are cheap, shrinks when one ran long.
+ * @param {number} size Current chunk size.
+ * @param {number} tookMs Time the last chunk took.
+ * @param {{ target?: number, min?: number, max?: number }} [limits]
+ * @returns {number}
+ */
+export function nextChunkSize(size, tookMs, { target = 8, min = 16, max = 1024 } = {}) {
+  if (tookMs < target / 2) return Math.min(max, size * 2);
+  if (tookMs > target * 1.5) return Math.max(min, Math.floor(size / 2));
+  return size;
+}
+
+/**
+ * A text-content stream that hands PDF.js the items in chunks, at most one per
+ * frame, sized so that each takes about 8 ms (span creation + font measuring).
  * @param {{ items: any[], styles: object, lang?: string | null }} content
  * @returns {ReadableStream}
  */
 function chunkedTextSource(content) {
   let at = 0;
+  let size = TEXT_CHUNK;
+  let sentAt = 0;
   return new ReadableStream(
     {
       async pull(controller) {
-        if (at > 0) await yieldToMain();
-        const items = content.items.slice(at, at + TEXT_CHUNK);
+        if (at > 0) {
+          // PDF.js asks for the next chunk right after processing the previous one.
+          size = nextChunkSize(size, performance.now() - sentAt);
+          await afterNextFrame();
+        }
+        const items = content.items.slice(at, at + size);
         controller.enqueue({ items, styles: at === 0 ? content.styles : {}, lang: content.lang ?? null });
-        at += TEXT_CHUNK;
+        at += size;
+        sentAt = performance.now();
         if (at >= content.items.length) controller.close();
       },
     },
@@ -1190,15 +1213,14 @@ export function createPdfViewer(
     if (destroyed || active) return;
     const job = nextJob();
     if (!job) return;
+    if (job.kind === 'text') {
+      // Text layers build in small tasks of their own; they never hold up a page render.
+      buildTextLayer(job).catch((err) => console.warn('[pdf viewer] text layer', err));
+      schedule();
+      return;
+    }
     active = job;
-    const run =
-      job.kind === 'page'
-        ? renderPage(job)
-        : job.kind === 'text'
-          ? buildTextLayer(job)
-          : job.kind === 'detail'
-            ? renderDetail(job)
-            : renderThumb(job);
+    const run = job.kind === 'page' ? renderPage(job) : job.kind === 'detail' ? renderDetail(job) : renderThumb(job);
     run
       .catch((err) => {
         if (job.kind === 'thumb') job.reject?.(err);
@@ -1279,27 +1301,26 @@ export function createPdfViewer(
    */
   async function buildTextLayer(job) {
     const p = pages[job.index];
+    const div = p.textDiv;
+    if (!div) return;
     p.textState = 'loading';
     let t;
     let pp;
     try {
       [t, pp] = await Promise.all([pageText(p.index), proxy(p.index)]);
     } catch (err) {
-      p.textState = 'failed';
+      if (p.textDiv === div) p.textState = 'failed';
       if (!isCancel(err)) console.warn('[pdf viewer] no text for page', p.index + 1, err);
       return;
     }
-    if (job.cancelled || !p.mounted || !p.textDiv || p.textLayer) {
-      if (!p.textLayer) p.textState = 'none';
-      return;
-    }
+    if (!p.mounted || p.textDiv !== div || p.textLayer) return; // unmounted (state reset) or built meanwhile
     const viewport = pp.getViewport({ scale });
-    const tl = new lib.TextLayer({ textContentSource: chunkedTextSource(t.content), container: p.textDiv, viewport });
+    const tl = new lib.TextLayer({ textContentSource: chunkedTextSource(t.content), container: div, viewport });
     p.textLayer = tl;
     p.rotation = viewport.rotation;
     if (viewport.rotation % 180 === 0) {
-      p.textDiv.style.width = '100%';
-      p.textDiv.style.height = '100%';
+      div.style.width = '100%';
+      div.style.height = '100%';
     }
     try {
       await tl.render();
@@ -1311,9 +1332,9 @@ export function createPdfViewer(
       if (!isCancel(err)) console.warn('[pdf viewer] text layer failed for page', p.index + 1, err);
       return;
     }
-    if (p.textLayer !== tl || !p.textDiv) return;
+    if (p.textLayer !== tl || p.textDiv !== div) return;
     const end = h('div', { class: 'endOfContent' });
-    p.textDiv.append(end);
+    div.append(end);
     p.endOfContent = end;
     registerTextLayer(p);
     p.textState = 'ready';
@@ -1687,7 +1708,8 @@ export function createPdfViewer(
       const clipped = range.cloneRange();
       if (!p.textDiv.contains(range.startContainer)) clipped.setStart(p.textDiv, 0);
       if (!p.textDiv.contains(range.endContainer)) {
-        const lastText = p.endOfContent ? p.endOfContent.previousSibling : p.textDiv.lastChild;
+        let lastText = p.textDiv.lastChild;
+        while (lastText && lastText === p.endOfContent) lastText = lastText.previousSibling;
         if (lastText) clipped.setEndAfter(lastText);
         else clipped.setEnd(p.textDiv, p.textDiv.childNodes.length);
       }
@@ -2024,8 +2046,9 @@ export function createPdfViewer(
     scroller.addEventListener(type, onSafariGesture, { passive: false, signal });
   }
   scroller.addEventListener('keydown', onKeyDown, { signal });
+  // Mouse selection only (as PDF.js does): touch selection is driven by the OS handles.
   scroller.addEventListener(
-    'pointerdown',
+    'mousedown',
     (e) => {
       const host = /** @type {HTMLElement} */ (e.target).closest?.('.pdfv-text');
       if (host) host.classList.add('selecting');

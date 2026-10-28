@@ -411,7 +411,8 @@ export function createBookAnnotator(bookId, { viewer: viewerOpt = null } = {}) {
   /** @type {Map<string, Set<(p: any) => void>>} */
   const listeners = new Map();
 
-  let viewer = viewerOpt;
+  /** @type {any} */
+  let viewer = null;
   let editing = false;
   let tool = normalizeTool(setting('bookTool', 'pen'));
   let lastShape = SHAPE_TOOLS.includes(tool) ? tool : 'rect';
@@ -493,8 +494,10 @@ export function createBookAnnotator(bookId, { viewer: viewerOpt = null } = {}) {
           }
         }
       } catch (err) {
+        // Stay "not loaded": the page then takes no edits, so nothing stored can be overwritten.
         console.warn('[book annotate] could not load page notes', err);
         toast("Your notes on this page couldn't be loaded. Reload the app to try again.", { kind: 'danger' });
+        return;
       }
       mm.loaded = true;
       mm.layer?.sync();
@@ -944,7 +947,7 @@ export function createBookAnnotator(bookId, { viewer: viewerOpt = null } = {}) {
   }
 
   /** @type {(() => void) | null} */
-  let offViewer = viewerOpt && typeof viewerOpt.on === 'function' ? viewerOpt.on('textselect', (/** @type {any} */ info) => onTextSelect(info)) : null;
+  let offViewer = null;
 
   /**
    * The viewer's text selection (`textselect`): `{ page, text, rects, bounds }` or null.
@@ -955,21 +958,52 @@ export function createBookAnnotator(bookId, { viewer: viewerOpt = null } = {}) {
     showTextBar();
   }
 
+  /** @type {(() => void) | null} */
+  let offScroll = null;
+  let scrollTimer = 0;
+  /**
+   * The colour bar is fixed on screen: hide it while the pages scroll, and put
+   * it back next to the selection once scrolling stops.
+   * @param {HTMLElement | null} el The viewer's scroller.
+   */
+  function watchScroll(el) {
+    offScroll?.();
+    offScroll = null;
+    if (!el) return;
+    const onScroll = () => {
+      if (!hlBar.isOpen() && !scrollTimer) return;
+      hlBar.hide();
+      clearTimeout(scrollTimer);
+      scrollTimer = window.setTimeout(() => {
+        scrollTimer = 0;
+        showTextBar();
+      }, 220);
+    };
+    el.addEventListener('scroll', onScroll, { passive: true });
+    offScroll = () => {
+      el.removeEventListener('scroll', onScroll);
+      clearTimeout(scrollTimer);
+      scrollTimer = 0;
+    };
+  }
+
   /** Shows the colour bar for the current text selection (Highlight text tool only). */
   function showTextBar() {
     if (destroyed || !editing || tool !== 'texthl') return hlBar.hide();
     if (!viewer) return checkSelection();
     const info = lastTextSelect;
     const sel = getSelection();
-    if (!info || !sel || sel.isCollapsed) return hlBar.hide();
+    if (!info || !sel || sel.isCollapsed || !sel.rangeCount) return hlBar.hide();
     const rects = mergeLineRects(
       (Array.isArray(info.rects) ? info.rects : []).filter(
         (/** @type {any} */ r) => Array.isArray(r) && r.length >= 4 && r[2] > 0 && r[3] > 0 && r[3] < 0.12,
       ),
     );
     if (!rects.length || !pages.get(info.page)?.loaded) return hlBar.hide();
-    const b = info.bounds;
-    hlBar.show([{ page: info.page, rects }], String(info.text || ''), b instanceof DOMRect ? b : new DOMRect(innerWidth / 2, innerHeight / 2, 0, 0));
+    // Fresh position (the pages may have scrolled since the selection was made).
+    let b = sel.getRangeAt(0).getBoundingClientRect();
+    if (!b.width && !b.height) b = info.bounds instanceof DOMRect ? info.bounds : new DOMRect(innerWidth / 2, innerHeight / 2, 0, 0);
+    hlBar.show([{ page: info.page, rects }], String(info.text || ''), b);
   }
 
   let selTimer = 0;
@@ -1536,6 +1570,7 @@ export function createBookAnnotator(bookId, { viewer: viewerOpt = null } = {}) {
     document.removeEventListener('keyup', onKeyUp, true);
     offViewer?.();
     offViewer = null;
+    offScroll?.();
     if (sessions.get(bookId) === api) sessions.delete(bookId);
     if (ok) await prune();
     listeners.clear();
@@ -1589,6 +1624,7 @@ export function createBookAnnotator(bookId, { viewer: viewerOpt = null } = {}) {
       offViewer?.();
       viewer = v;
       offViewer = typeof v?.on === 'function' ? v.on('textselect', onTextSelect) : null;
+      watchScroll(v?.el || null);
     },
     setEditing,
     isEditing: () => editing,
@@ -1623,6 +1659,7 @@ export function createBookAnnotator(bookId, { viewer: viewerOpt = null } = {}) {
     /** @returns {number[]} pages currently mounted (for tests and the reader). */
     mountedPages: () => [...layers.keys()].sort((a, b) => a - b),
   };
+  if (viewerOpt) api.attachViewer(viewerOpt);
   sessions.set(bookId, api);
   return api;
 }
@@ -1820,8 +1857,6 @@ function mountLayer(s, m, pageEl, slot) {
     if (editor) placeTextEditor();
   }
   const ro = new ResizeObserver(() => resize());
-  ro.observe(pageEl);
-  resize();
 
   /* ---------- scene → layer ---------- */
 
@@ -2288,6 +2323,8 @@ function mountLayer(s, m, pageEl, slot) {
     },
   };
   m.layer = layer;
+  ro.observe(pageEl);
+  resize();
   syncMode();
   sync();
   void m.ready.then(() => {
