@@ -18,7 +18,7 @@
       },
       {
         "id": "b",
-        "text": "By isolated cardiac parameters, such as intraoperative TEE return of septal contractility"
+        "text": "By isolated cardiac parameters, such as TEE return of septal contractility"
       },
       {
         "id": "c",
@@ -127,7 +127,7 @@
     "choices": [
       {
         "id": "a",
-        "text": "It was limited to coronary artery bypass grafting"
+        "text": "It was limited to patients undergoing coronary artery bypass grafting"
       },
       {
         "id": "b",
@@ -139,11 +139,11 @@
       },
       {
         "id": "d",
-        "text": "It did not occur in children undergoing repair of congenital defects"
+        "text": "It did not occur in children undergoing repair of congenital cardiac defects"
       },
       {
         "id": "e",
-        "text": "It did not occur in patients with normal coronary arteries"
+        "text": "It did not occur in patients whose coronary arteries were normal"
       }
     ],
     "answer": "c",
@@ -242,31 +242,32 @@
     "tags": [
       "troponin",
       "biomarkers",
-      "ischemic time"
+      "ischemic time",
+      "myocardial necrosis"
     ],
-    "difficulty": 1,
+    "difficulty": 2,
     "reviewed": false,
-    "stem": "Serum **troponin I and T** isoforms after cardiopulmonary bypass were found to be related to which operative variable?",
+    "stem": "Which statement about the **methods of detecting** perioperative myocardial injury is supported by the chapter?",
     "choices": [
       {
         "id": "a",
-        "text": "The cardiopulmonary bypass flow rate"
+        "text": "Plasma cardiac-specific enzymes correlated poorly with other evidence of necrosis"
       },
       {
         "id": "b",
-        "text": "The degree of systemic hypothermia"
+        "text": "Troponin I and T isoforms are highly specific but insensitive markers after CPB"
       },
       {
         "id": "c",
-        "text": "The volume of noncoronary collateral flow"
+        "text": "Elevated troponin levels were associated with early post-clamp ventricular recovery"
       },
       {
         "id": "d",
-        "text": "The extent of the surgical incision"
+        "text": "Cardiac enzyme concentrations correlated inversely with the amount of necrotic muscle"
       },
       {
         "id": "e",
-        "text": "The duration of ischemic time during cardioplegia"
+        "text": "Troponin I and T isoforms were related to the duration of ischemic time during cardioplegia"
       }
     ],
     "answer": "e",
@@ -312,10 +313,10 @@
       }
     ],
     "choiceNotes": {
-      "a": "The source relates troponin isoforms to **ischemic time during cardioplegia**, not to bypass flow rate.",
-      "b": "Systemic temperature is not the variable the source links to troponin release; ischemic time is.",
-      "c": "Noncoronary collateral flow is not linked to troponin in the source; troponin tracks **ischemic time during cardioplegia**.",
-      "d": "Incision extent affects redox homeostasis, but the troponin relation described is with **ischemic time**."
+      "a": "Appearance of cardiac-specific enzymes in plasma was shown to **correlate well** with other evidence of myocardial necrosis.",
+      "b": "Troponin I and T are described as **sensitive and somewhat specific** serum markers of myocardial injury following CPB.",
+      "c": "Elevated troponin levels were associated with **delayed** post-clamp recovery of ventricular function.",
+      "d": "Enzyme concentrations correlated **directly** with the amount of muscle that had become necrotic."
     },
     "source": [
       {
@@ -364,7 +365,7 @@
         "id": "key",
         "type": "callout",
         "kind": "key",
-        "text": "Aprikalim and pinacidil are **K^+^ channel openers**: they arrest the heart by ==membrane hyperpolarization (nearer the resting state)== via ATP-sensitive K^+^ channels, **rather than** hyperkalemic depolarization."
+        "text": "Aprikalim and pinacidil are **K^+^ channel openers** — examples of the concept of ==membrane hyperpolarization (nearer the resting state)== via ATP-sensitive K^+^ channels, **rather than** hyperkalemic cell membrane depolarization."
       },
       {
         "id": "compare",
@@ -389,7 +390,7 @@
           ],
           [
             "Procaine-magnesium cardioplegia",
-            "Kirsch solution (cold)"
+            "Cold procaine-magnesium cardioplegia (Bleese and colleagues, working with Kirsch’s group, 1979)"
           ]
         ],
         "emphasis": {
@@ -413,7 +414,7 @@
       "b": "Hyperkalemic depolarization is the conventional approach these agents were meant to **replace**.",
       "c": "Nifedipine is the calcium channel blocker whose favorable effect Clark reported; aprikalim and pinacidil are K^+^ channel openers.",
       "d": "Free radical scavengers are superoxide dismutase and catalase, not K^+^ channel openers.",
-      "e": "Procaine-magnesium cardioplegia was used by Kirsch’s group; it is not the K-ATP mechanism."
+      "e": "Cold procaine-magnesium cardioplegia was used by Bleese and colleagues (with Kirsch’s group); it is not the K-ATP channel concept."
     },
     "source": [
       {
@@ -427,33 +428,34 @@
     "version": 1,
     "topic": "Historical Note",
     "tags": [
-      "controlled reperfusion",
-      "hyperkalemic reperfusate",
-      "warm cardioplegia"
+      "potassium arrest",
+      "metabolic demand",
+      "warm cardioplegia",
+      "history"
     ],
     "difficulty": 2,
     "reviewed": false,
-    "stem": "After aortic unclamping, a surgeon gives an **initially hyperkalemic reperfusate** so that electromechanical quiescence continues for a few minutes into reperfusion. This practice grew from which key observation?",
+    "stem": "Lichtenstein and Salerno reasoned that **warm, continuously delivered blood cardioplegia** with minimal potassium would adequately supply the arrested, nonworking heart, because sustained potassium arrest lowers myocardial metabolic demand **even at normothermia**. By approximately how much?",
     "choices": [
       {
         "id": "a",
-        "text": "Blood is the optimal vehicle for cardioplegic solution"
+        "text": "About 15%"
       },
       {
         "id": "b",
-        "text": "Profound topical cooling with ice slush protects the myocardium"
+        "text": "About 30%"
       },
       {
         "id": "c",
-        "text": "Retrograde infusion is effective in valvar and coronary surgery"
+        "text": "About 50%"
       },
       {
         "id": "d",
-        "text": "Energy supply is replenished rapidly when quiescence continues into reperfusion"
+        "text": "About 85%"
       },
       {
         "id": "e",
-        "text": "Noncoronary collateral flow is usually less than 3% of coronary flow"
+        "text": "About 95%"
       }
     ],
     "answer": "d",
@@ -462,49 +464,48 @@
         "id": "key",
         "type": "callout",
         "kind": "key",
-        "text": "In 1960 Danforth showed the **rapidity** with which myocardial energy supply is replenished after ischemia ==when electromechanical quiescence is continued for a few minutes into reperfusion==."
+        "text": "Metabolic demands of the heart were reduced by ==approximately 85%== by sustained potassium arrest, **even at normothermia**."
       },
       {
-        "id": "history",
+        "id": "chain",
         "type": "flow",
-        "title": "From observation to controlled reperfusion",
+        "title": "From potassium arrest to warm continuous cardioplegia",
         "steps": [
           {
-            "text": "**1960** Danforth: rapid energy repletion with continued quiescence"
+            "text": "Sustained **potassium arrest**: metabolic demand ↓ about **85%**, even at normothermia"
           },
           {
-            "label": "unused until 1978",
-            "text": "Buckberg: improved outcome with an **initially hyperkalemic reperfusate** (experimental)"
+            "label": "therefore",
+            "text": "Using the delivery concepts of **Buckberg and Menasché**, Lichtenstein and Salerno reasoned that"
           },
           {
-            "label": "then",
-            "text": "Modified reperfusate; **warm induction** with enriched, modified hyperkalemic blood for **acutely energy-deficient** hearts"
+            "label": "→",
+            "text": "**Warm, continuously delivered blood cardioplegia** with **minimal potassium** would provide adequate oxygen, substrate and buffer"
           },
           {
-            "label": "plus",
-            "text": "Control of **perfusion pressure** and continued controlled reperfusion until full recovery"
+            "label": "→",
+            "text": "Aorta occluded; heart kept **quiet and flaccid but perfused**"
           }
         ]
       },
       {
-        "id": "warm",
+        "id": "delivery",
         "type": "callout",
         "kind": "pearl",
-        "title": "Related concept",
-        "text": "Sustained potassium arrest reduced metabolic demands by about **85%**, even at normothermia — the basis of Lichtenstein and Salerno’s **warm continuous blood cardioplegia** with minimal potassium."
+        "text": "The **mode of delivery** was the latest contribution to cardioplegic management: Buckberg (North America) and Menasché (Europe) documented the efficacy and safety of **retrograde** and **combined antegrade-retrograde** infusion in valvar and coronary surgery."
       },
       {
         "id": "quote",
         "type": "quote",
-        "text": "In 1960, Danforth and colleagues showed the rapidity with which myocardial energy supply is replenished after ischemia when electromechanical quiescence is continued for a few minutes into the reperfusion period.",
+        "text": "Metabolic demands of the heart were reduced by approximately 85% by sustained potassium arrest, even at normothermia.",
         "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 87"
       }
     ],
     "choiceNotes": {
-      "a": "Buckberg identified blood as the optimal cardioplegic vehicle (1979), but that concerns the arrest solution, not the hyperkalemic reperfusate.",
-      "b": "Ice slush (Hufnagel, 1961) was an early cooling method, unrelated to reperfusion strategy.",
-      "c": "Retrograde and combined delivery concern the **mode of delivery** of cardioplegia, not continued quiescence during reperfusion.",
-      "e": "Collateral flow explains return of activity during clamping in some patients; it is not the basis of hyperkalemic reperfusion."
+      "a": "15% is the proportion with ECG evidence of transmural infarction in the 1974 isolated aortic valve replacement study.",
+      "b": "About 30% is the estimated share of left ventricular myocardium with scattered necrosis in the 1967 autopsy report of Taber, Morales and Fine.",
+      "c": "About 50% is the proportion with AV conduction disturbances after blood cardioplegia and uncontrolled normokalemic reperfusion.",
+      "e": "95% is the share of oxygen consumption that occurs in **mitochondria**."
     },
     "source": [
       {
@@ -1057,7 +1058,7 @@
     ],
     "difficulty": 1,
     "reviewed": false,
-    "stem": "Why is a period of **global myocardial ischemia** (aortic clamping) commonly accepted for intracardiac procedures?",
+    "stem": "Why does the chapter regard a period of **global myocardial ischemia** (aortic clamping) as providing the optimal operating conditions?",
     "choices": [
       {
         "id": "a",
@@ -1158,7 +1159,7 @@
       },
       {
         "id": "d",
-        "text": "After about 1 hour"
+        "text": "Only after diastolic arrest has occurred"
       },
       {
         "id": "e",
@@ -1197,6 +1198,10 @@
           [
             "At least 6 h (normothermic)",
             "Compatible with myocyte survival in other evidence"
+          ],
+          [
+            "Later, as ischemia lengthens",
+            "More fatty acids accumulate; **diastolic arrest** occurs"
           ]
         ],
         "emphasis": {
@@ -1207,7 +1212,7 @@
         "id": "pitfall",
         "type": "callout",
         "kind": "pitfall",
-        "text": "There is **extreme heterogeneity** among cells (and by implication among hearts) in the rate of progression of ischemic damage — no single safe time applies to every heart."
+        "text": "Nayler and Elz also stress the **extreme heterogeneity** among cells (and by implication among hearts) in the rate of progression of ischemic damage."
       },
       {
         "id": "quote",
@@ -1218,9 +1223,9 @@
     ],
     "choiceNotes": {
       "a": "Fifteen minutes is when loss of control of sarcolemmal membrane permeability **begins**.",
-      "c": "Twenty minutes of normothermic ischemia is the shortest time reported for **subendocardial necrosis**.",
-      "d": "One hour is not the time the source gives for this metabolic switch, which occurs within seconds.",
-      "e": "Six hours is the longest normothermic ischemia reported **compatible with cell survival**."
+      "c": "Some investigators found **subendocardial necrosis** after as little as 20 minutes of normothermic ischemia.",
+      "d": "**Diastolic arrest** occurs later, as the duration of ischemia lengthens; the switch to anaerobic glycolysis occurs within seconds.",
+      "e": "Others found that **at least 6 hours** of normothermic ischemia is compatible with myocardial cell survival."
     },
     "source": [
       {
@@ -1502,7 +1507,7 @@
           },
           {
             "label": "first few minutes of reperfusion",
-            "text": "**Activated neutrophils** release oxygen-derived free radicals"
+            "text": "Oxygen-derived free radicals released, **presumably by activated neutrophils**"
           },
           {
             "label": "→",
@@ -1518,7 +1523,7 @@
         "id": "pearl",
         "type": "callout",
         "kind": "pearl",
-        "text": "Free radical release occurs to a major degree in the **first few minutes of reperfusion** — the early reperfusion period is the target."
+        "text": "Free radical release **probably** occurs to a major degree during the **first few minutes of reperfusion**."
       },
       {
         "id": "quote",
@@ -1530,7 +1535,7 @@
     "choiceNotes": {
       "a": "Xanthine oxidase acting on hypoxanthine **generates** free radicals at reperfusion.",
       "b": "Iron converts superoxide into damaging hydroxyl radicals; hydrogen peroxide is itself a free radical species.",
-      "c": "Nifedipine (calcium channel blocker) and procaine (Kirsch solution) are other historical protective agents, not the scavengers tested here.",
+      "c": "Nifedipine (calcium channel blocker) and procaine (cold procaine-magnesium cardioplegia) are other historical protective agents, not the scavengers tested here.",
       "d": "Calcium influx is a proposed **cause** of stunning, not a protective agent here."
     },
     "source": [
@@ -1855,23 +1860,23 @@
     "choices": [
       {
         "id": "a",
-        "text": "Large-vessel endothelial necrosis with epicardial coronary spasm"
+        "text": "Large-artery endothelial necrosis with epicardial coronary spasm"
       },
       {
         "id": "b",
-        "text": "Excess endothelial relaxing factor with capillary dilation"
+        "text": "Endothelial shrinkage with capillary dilation"
       },
       {
         "id": "c",
-        "text": "Reduced leukocyte adhesion molecules with platelet inhibition"
+        "text": "Reduced leukocyte adhesion with platelet inhibition"
       },
       {
         "id": "d",
-        "text": "Decreased vasomotor tone with collapse of the coronary sinus"
+        "text": "Neutrophil accumulation with decreased vasomotor tone"
       },
       {
         "id": "e",
-        "text": "Endothelial swelling, neutrophil accumulation, microthrombosis and increased vasomotor tone"
+        "text": "Endothelial swelling, microthrombosis and increased vasomotor tone"
       }
     ],
     "answer": "e",
@@ -1927,10 +1932,10 @@
       }
     ],
     "choiceNotes": {
-      "a": "The endothelium of large coronary arteries appears **little affected**; the problem is microcirculatory.",
-      "b": "Vasomotor tone is **increased**, not decreased by excess relaxing factor.",
-      "c": "Activated endothelium **induces** leukocyte adhesion molecules, and platelets are **activated**.",
-      "d": "Vasomotor tone is **increased** in no-reflow."
+      "a": "Perfusion through the large epicardial arteries **appears adequate**, and the endothelium of large coronary arteries appears little affected; the problem is microcirculatory.",
+      "b": "The endothelium **swells**, and vasomotor tone is **increased**.",
+      "c": "Activated endothelium **promotes** leukocyte adhesion, and platelets are **activated**.",
+      "d": "Neutrophils do accumulate, but vasomotor tone is **increased**, not decreased."
     },
     "source": [
       {
@@ -2280,7 +2285,7 @@
       },
       {
         "id": "b",
-        "text": "Hyperkalemic depolarization from residual cardioplegia"
+        "text": "Calcium efflux from myocytes, with cellular shrinkage"
       },
       {
         "id": "c",
@@ -2288,7 +2293,7 @@
       },
       {
         "id": "d",
-        "text": "Massive calcium influx into mitochondria and cytoplasm, with edema and capillary disruption"
+        "text": "Massive calcium influx, edema and capillary disruption"
       },
       {
         "id": "e",
@@ -2339,7 +2344,7 @@
         "id": "speed",
         "type": "callout",
         "kind": "pearl",
-        "text": "Many events are **well underway within 1 or 2 minutes** of uncontrolled reperfusion — the first minutes matter most."
+        "text": "Many other events are **well underway within 1 or 2 minutes** of uncontrolled reperfusion."
       },
       {
         "id": "pitfall",
@@ -2356,7 +2361,7 @@
     ],
     "choiceNotes": {
       "a": "Critical ATP depletion during ischemia produces **ischemic contracture**, a different process.",
-      "b": "The source does not attribute reperfusion stiffness to cardioplegic depolarization.",
+      "b": "Calcium floods **into** the mitochondria and cytoplasm of myocytes, and **edema** (not shrinkage) contributes.",
       "c": "Acyl-CoA accumulation is an early **ischemic** metabolic change, not the cause of reperfusion stiffness.",
       "e": "Neutrophils plug **capillaries**; stiffness is attributed to calcium influx, edema and capillary disruption."
     },
@@ -2474,34 +2479,33 @@
     "version": 1,
     "topic": "Myocardial Cell Damage (Reperfusion)",
     "tags": [
-      "free radicals",
-      "hydroxyl radical",
-      "iron",
-      "superoxide dismutase"
+      "oxygen-derived free radicals",
+      "lipid peroxidation",
+      "reperfusion injury"
     ],
-    "difficulty": 3,
+    "difficulty": 2,
     "reviewed": false,
-    "stem": "In the chain reaction of oxygen-derived free radicals at reperfusion, what converts relatively innocuous **superoxide** into highly damaging **hydroxyl radicals**?",
+    "stem": "At the onset of uncontrolled reperfusion, oxygen-derived free radicals attack **unsaturated fatty acids** within cell membranes. What has this **peroxidation of membrane lipids** been shown to cause?",
     "choices": [
       {
         "id": "a",
-        "text": "Iron"
+        "text": "Increased membrane permeability; decreased calcium transport into the sarcoplasmic reticulum"
       },
       {
         "id": "b",
-        "text": "Superoxide dismutase"
+        "text": "Decreased membrane permeability; decreased calcium transport into the sarcoplasmic reticulum"
       },
       {
         "id": "c",
-        "text": "Catalase"
+        "text": "Increased membrane permeability; increased calcium transport into the sarcoplasmic reticulum"
       },
       {
         "id": "d",
-        "text": "Glutathione peroxidase"
+        "text": "Decreased membrane permeability; increased calcium transport into the sarcoplasmic reticulum"
       },
       {
         "id": "e",
-        "text": "Xanthine dehydrogenase"
+        "text": "Increased membrane permeability; unchanged calcium transport into the sarcoplasmic reticulum"
       }
     ],
     "answer": "a",
@@ -2510,21 +2514,51 @@
         "id": "key",
         "type": "callout",
         "kind": "key",
-        "text": "==Iron== plays a key role in converting relatively innocuous **superoxide** radicals into highly damaging **hydroxyl** radicals."
+        "text": "Peroxidation of membrane lipids → ==increased membrane permeability==, ==decreased calcium transport into the sarcoplasmic reticulum== and **altered mitochondrial function** — setting the stage for **stunning or necrosis**."
+      },
+      {
+        "id": "chain",
+        "type": "flow",
+        "steps": [
+          {
+            "text": "Uncontrolled reperfusion: **superoxide** generated (xanthine oxidase)"
+          },
+          {
+            "label": "chain reaction",
+            "text": "Other free radicals, especially **hydrogen peroxide**; iron → **hydroxyl** radicals"
+          },
+          {
+            "label": "attack",
+            "text": "**Unsaturated fatty acids** in cell membranes (lipid peroxidation)"
+          },
+          {
+            "branches": [
+              {
+                "text": "↑ Membrane permeability"
+              },
+              {
+                "text": "↓ Ca^2+^ transport into sarcoplasmic reticulum"
+              },
+              {
+                "text": "Altered mitochondrial function"
+              }
+            ]
+          },
+          {
+            "label": "→",
+            "text": "Stage set for **stunning or necrosis**"
+          }
+        ]
       },
       {
         "id": "handling",
         "type": "table",
-        "caption": "Who does what with oxygen-derived free radicals",
+        "caption": "Normal handling of oxygen-derived free radicals",
         "head": [
           "Agent",
           "Action"
         ],
         "rows": [
-          [
-            "**Iron**",
-            "Superoxide → **hydroxyl radical** (damaging)"
-          ],
           [
             "Superoxide dismutase",
             "Superoxide → hydrogen peroxide and water"
@@ -2532,36 +2566,21 @@
           [
             "Catalase / glutathione peroxidase",
             "Hydrogen peroxide → water and oxygen"
-          ],
-          [
-            "Xanthine oxidase",
-            "Catalyzes reoxygenation of hypoxanthine and xanthine → superoxide at reperfusion"
           ]
-        ],
-        "emphasis": {
-          "row": 0
-        }
-      },
-      {
-        "id": "species",
-        "type": "list",
-        "items": [
-          "Free radicals have **unpaired electrons**: superoxide (O~2~^-^), hydrogen peroxide (H~2~O~2~), hydroxyl radical (OH^-^)",
-          "Normal sources: mitochondria (95% of O~2~ consumption), cytoplasm, endothelium (xanthine oxidase), activated neutrophils"
         ]
       },
       {
         "id": "quote",
         "type": "quote",
-        "text": "As part of this chain reaction, iron plays a key role in converting relatively innocuous superoxide radicals into highly damaging hydroxyl radicals.",
+        "text": "Peroxidation of membrane lipids has been shown to result in increased membrane permeability, decreased calcium transport into the sarcoplasmic reticulum, and altered mitochondrial function, setting the stage for myocardial stunning or necrosis.",
         "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 91"
       }
     ],
     "choiceNotes": {
-      "b": "Superoxide dismutase converts superoxide to **hydrogen peroxide and water** — a defense.",
-      "c": "Catalase metabolizes hydrogen peroxide to water and oxygen.",
-      "d": "Glutathione peroxidase, like catalase, metabolizes hydrogen peroxide to water and oxygen.",
-      "e": "Xanthine dehydrogenase is the normal enzyme that is **converted to xanthine oxidase** during ischemia."
+      "b": "Membrane permeability **increases**.",
+      "c": "Calcium transport into the sarcoplasmic reticulum **decreases**.",
+      "d": "Both directions are reversed: permeability rises and sarcoplasmic reticulum calcium transport falls.",
+      "e": "Calcium transport into the sarcoplasmic reticulum is **decreased**, not unchanged."
     },
     "source": [
       {
@@ -2873,6 +2892,105 @@
       {
         "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
         "loc": "p. 92, Endothelial Cell Damage"
+      }
+    ]
+  },
+  {
+    "id": "A-N1",
+    "version": 1,
+    "topic": "Damage from Uncontrolled Reperfusion",
+    "tags": [
+      "reperfusion injury",
+      "reperfusion arrhythmias",
+      "uncontrolled reperfusion"
+    ],
+    "difficulty": 2,
+    "reviewed": false,
+    "stem": "After global myocardial ischemia, the aortic clamp is removed and the heart is reperfused with **unmodified blood without control of pressure or flow**. Which statement about the myocardial response is correct?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "After limited ischemia, the usual response is a rigid, fibrillating heart"
+      },
+      {
+        "id": "b",
+        "text": "Reperfusion arrhythmias are mainly atrial fibrillation and atrial flutter"
+      },
+      {
+        "id": "c",
+        "text": "Arrhythmias grow more frequent and intractable with longer, larger ischemia"
+      },
+      {
+        "id": "d",
+        "text": "The critical point for an explosive cellular response is well defined"
+      },
+      {
+        "id": "e",
+        "text": "The response is independent of how far ischemia progressed toward cell death"
+      }
+    ],
+    "answer": "c",
+    "explanation": [
+      {
+        "id": "key",
+        "type": "callout",
+        "kind": "key",
+        "text": "The more prolonged and the larger the area of myocardial ischemia, ==the more frequent, severe, and intractable the reperfusion arrhythmias== (particularly ventricular tachycardia and ventricular fibrillation)."
+      },
+      {
+        "id": "def",
+        "type": "callout",
+        "kind": "pearl",
+        "title": "Uncontrolled reperfusion",
+        "text": "Reperfusion by **unmodified blood** without control of **pressure or flow**."
+      },
+      {
+        "id": "spectrum",
+        "type": "flow",
+        "title": "Response to uncontrolled reperfusion, by severity",
+        "steps": [
+          {
+            "text": "Limited global ischemia → may be only **stunning**"
+          },
+          {
+            "label": "more severe",
+            "text": "**Reperfusion arrhythmias**, particularly VT and VF"
+          },
+          {
+            "label": "most severe",
+            "text": "Rigid, fibrillating **stone heart**"
+          }
+        ]
+      },
+      {
+        "id": "depends",
+        "type": "list",
+        "items": [
+          "The response depends largely on the **time-related point along the pathway to cell death** reached during ischemia",
+          "The critical point of the “explosive cellular response” is **uncertain**"
+        ]
+      },
+      {
+        "id": "quote",
+        "type": "quote",
+        "text": "The more prolonged and the larger the area of myocardial ischemia, the more frequent, severe, and intractable the arrhythmias.",
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass, p. 91"
+      }
+    ],
+    "choiceNotes": {
+      "a": "After limited periods of ischemia the response may be **only myocardial stunning**; the stone heart is the most severe damage.",
+      "b": "Reperfusion arrhythmias are **particularly ventricular tachycardia and ventricular fibrillation**.",
+      "d": "The critical point at which the explosive cellular response can be expected is **uncertain**.",
+      "e": "The response depends **largely** on the time-related point along the pathway to cell death reached during ischemia."
+    },
+    "source": [
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 91, Damage from Uncontrolled Reperfusion"
+      },
+      {
+        "ref": "Chapter 3: Myocardial Management During Cardiac Surgery with Cardiopulmonary Bypass",
+        "loc": "p. 91, Myocardial Cell Damage"
       }
     ]
   }
