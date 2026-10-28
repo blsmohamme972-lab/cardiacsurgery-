@@ -408,7 +408,7 @@ Stroke (all coordinates are fractions of the layer's width/height, rounded to 4 
 
 ```js
 export const DB_NAME = 'cardiac-mcq';
-export const DB_VERSION = 3;  // v1 initial; v2 adds `media` (qid, ts); v3 adds `books`, `bookfiles`, `pdfnotes` — additive only
+export const DB_VERSION = 4;  // v1 initial; v2 adds `media` (qid, ts); v3 adds `books`, `bookfiles`, `pdfnotes`; v4 adds `wholebook` (§7.17.1) — additive only
 export function openDB(): Promise<IDBDatabase>            // singleton; runs migrations
 export function tx(stores: string|string[], mode: 'readonly'|'readwrite',
                    fn: (stores: Record<string, IDBObjectStore>) => any): Promise<any>
@@ -1123,7 +1123,7 @@ chapter; stored in IndexedDB (`books`), so they open offline. Optional bundled P
 `data/book.json` (dev-maintained, validated): `{ schemaVersion: 1, chapters: { ch01: { firstPage: 1, sections:
 [{ title, page /* book page */, level: 1|2 }], file?: "books/ch01.pdf" } } }` — PDF page index = book page − firstPage + 1.
 
-Storage (DB version 3, additive migration):
+Storage (DB version 3, additive migration; v4 adds `wholebook`, §7.17.1):
 | store | keyPath | indexes | record |
 |---|---|---|---|
 | `books` | `id` (= chapter id, e.g. `ch01`) | `updated` | `{id, title, fileName, blob, bytes, pages, added, updated, lastPage, lastScale}` |
@@ -1189,6 +1189,80 @@ select/lasso, pen (pressure), highlighter, text highlight (select text → colou
 note, image (Photos/Camera/Files), voice note (record on the page, pin plays it), undo/redo, colours/sizes (remembered).
 Autosave per page (debounced) + on page leave/pagehide. Old phones: only visible pages ±1 are rendered, canvases
 are released when far away, backing store capped. Everything works offline; nothing is ever uploaded.
+
+#### 7.17.1 The whole book once (owner request 2026-10-28)
+The owner has one PDF of the whole book (≈ 425 MB, 1976 pages, front matter first; Volume 2 has its own front
+matter, so Volumes 1 and 2 have different page offsets). "Add the whole book" (Book hero + empty state) stores it
+**once**; every chapter opens as a **page range** of it. A chapter's own PDF (`books`) always wins over the book.
+
+Storage (DB version **4**, additive migration `wholebook`, internal: not in `ALL_STORES`, **never in backups**):
+| store | keyPath | records |
+|---|---|---|
+| `wholebook` | `id` | `{id:'meta', fileName, bytes, pages, added, updated, map: BookMap \| null, outline: [{title, page, level}], positions: {[chapterId]: {lastPage /* within the chapter */, lastScale, updated}}}` and `{id:'file', blob}` |
+`BookMap = { version: 1, pages, detected, chapters: { ch01: { from, to /* 1-based PDF pages, inclusive */, how: 'labels'|'confirmed'|'folio'|'title'|'estimated'|'manual' } } }`.
+`outline` keeps only entries at or after chapter 1's first page (front matter never stored).
+```js
+export const WHOLE_BOOK_MAX_BYTES /* 2 GB */, BOOK_MAP_HOW, normalizeBookMap(map, pages), checkWholeBookInput(blob)
+export const wholeBookRepo = { get() /* meta + lazy blob */, meta(), put({blob, fileName, pages, map?, outline?}) /* keeps positions */,
+                               setMap(map, {outline?}), setPosition(chapterId, {lastPage, lastScale}), remove() }  // store:change 'wholebook'
+```
+**Range loading** (`pdf.js`): `openPdf(blob, { range: true, rangeChunkSize = RANGE_CHUNK_SIZE /* 1 MB */ })` uses a
+`PDFDataRangeTransport` fed by `blob.slice()` (`disableAutoFetch`, `disableStream`), so only the file structure and the
+viewed pages are read (300 MB synthetic book: import + detection read ≈ 3 MB; a read failure → `PdfError 'read'`).
+`pdfInfo(blob, {range})`. Note: PDF.js still reserves a buffer of the file length (lazily committed memory).
+
+**Viewer**: `createPdfViewer(container, doc, { …, pages: {from, to} })` shows only that range through
+`pageRangeDoc(doc, {from, to})` (exported, pure): pages renumbered 1..n ("Page 3 of 21"), search, text, thumbnails,
+outline (refs outside → dropped) never see other pages. `destinationPage` shifts integer page targets by `doc.offset`.
+
+**Annotation key scheme (both sources)**: notes are keyed per **chapter + page within the chapter**:
+`pdfnotes` id `${chapterId}|${n}` with `n = pdfPage − range.from + 1` for the whole book, = the PDF page for a chapter
+PDF (which starts at the chapter's first page, the same assumption `data/book.json` makes). Voice `book:<ch>|<n>`,
+images `book:<ch>`. So notes follow the chapter whichever file is used; nothing existing is migrated or re-keyed.
+
+`features/book/wholebook.js` (pure helpers + drivers): `WHOLE_BOOK_MIN_PAGES` (150), `FOLIO_BAND` (0.12), `TITLE_MIN` (0.75),
+`SHARE_CACHE` ('cmcq-share-inbox'), `wordsOf`, `titleWords`, `titleScore(text, title)`, `pageFacts(items, view)` → `{text,
+folios}` (1–4 digit whole tokens in the top/bottom band), `labelStarts(labels, chapters)`, `estimateMissing`, `computeRanges`
+(a chapter ends before the next start and is never longer than its printed length, so the next volume's front matter
+is excluded; the last chapter runs to the end), `rangeOf(meta, id)`, `outlineFor(outline, range)`,
+`detectChapterStarts({chapters, numPages, readPage, getLabels?, onProgress?, signal?})` → `{starts, reads}`,
+`detectBookMap(doc, chapters, {onProgress, signal})`, `adjustRanges(chapters, ranges, id, from|null, numPages)` (manual start;
+estimated chapters re-estimated), `chapterRefsOf(index)`, `importWholeBook(file, {chapters, requireMatch?, onProgress?, signal?})`
+(errors `code`: bad-input|empty|not-pdf|too-large|too-short|not-book|no-space|password|damaged|error; checks free space;
+stores while detecting, or after a match with `requireMatch`), `redetectWholeBook({chapters, onProgress})`, `pageCountOf(blob)`,
+`isShareId`, `takeSharedFiles(id)`.
+Detection: page labels when present; else per chapter verify `bookPage + offset` (folio on p, p+1, p+2 and the title on p:
+1 folio + title = 'confirmed', 2 folios = 'folio', title only when the pages have no numbers = 'title'); when it fails, probe
+pages after the guess (first chapter: +40, +60, … to skip front matter; later: +1, +3, … +100, −1 …), take offsets from
+folios confirmed by a neighbouring page, verify. Never scans the whole book (synthetic 1985-page book: 173 page reads,
+55/55 at the exact page, Volume 1 front matter never read). Missing chapters get 'estimated' from the nearest found
+chapter of the same volume. **Front matter (before chapter 1) is never shown, searched, listed or stored.**
+
+**Export of a whole-book chapter** (`export.js`): `features/book/extract.js` `extractPageRange(pdfLib, blob, from, to, {onRead})`
+builds a new pdf-lib document with only those pages, reading only their objects with `blob.slice()` (classic xref tables,
+xref streams with PNG/TIFF predictors, object streams, hybrid `/XRefStm`, `/Prev` chains; inherited Resources/MediaBox/
+CropBox/Rotate; links and back-pointers out of the range dropped; encrypted → `ExtractError 'encrypted'`). 300 MB file:
+≈ 170 KB read for one chapter. Fallback when the range copy fails: the whole file through pdf-lib only if
+`canLoadWhole(bytes)` (≈ `deviceMemory × 64 MB`, else 150 MB on touch devices / 600 MB on desktop); otherwise a plain
+message suggesting the chapter's own PDF. Annotations are then drawn exactly as for a chapter PDF.
+
+**Book screen**: hero "Add the whole book" (hidden once added) + "Add PDFs"; empty state with the same button; a
+whole-book card (file, pages, size, "N of 55 chapters found", **Check chapter pages** / **Find chapters**, ⋯: Find again,
+Replace, Remove with Undo — the file is deleted only after the 6.5 s undo window); progress sheet "Finding chapters… 23/55";
+chapter-pages sheet (status Found / Estimated / Set by you / Not found, "Starts on PDF page" field, Undo, Find again);
+rows of whole-book chapters open the reader; chapters not found offer "Set its pages". Add PDFs / drop / share route a
+file with > 300 MB or ≥ 150 pages to the whole-book import with `requireMatch` (≥ 3 chapters found), else per chapter.
+Query: `#/book?pages=<ch>` (sheet at that chapter), `#/book?add=book`, `#/book?import=<shareId>`.
+**Reader**: chapter PDF first, else the book range (positions in `wholebook.positions`); "Page 3 of 21, book page 30"
+labels; jump sheet shows book pages; More: Check this chapter's pages, Use a separate PDF; a chapter missing from the map
+shows "Set this chapter's pages".
+
+**Android share target**: manifest `share_target` (POST multipart to `./share-target`, file field `pdf`, accept
+application/pdf). sw.js stashes the files in Cache Storage `cmcq-share-inbox` (kept by activate) under
+`__share/<id>/<n>` (`X-File-Name` header; id = base36 time (9) + 8 random) and redirects 303 to `#/book?import=<id>`
+(`import=failed` on error). The Book tab takes and deletes them (stale entries > 24 h dropped) and imports them.
+Tests never open the owner's book: `tests/unit/book-fixture.mjs` builds a synthetic two-volume book (titles/pages from
+data/index.json, front matter marked `PRIVATEFRONTMATTER`) and a padded 300 MB copy.
 
 ## 8. Screens (summary of required UX)
 

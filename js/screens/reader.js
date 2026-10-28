@@ -11,9 +11,18 @@
  * plus an **Edit** button in thumb reach. Edit mode: the annotation tool bar
  * docks at the bottom; Done (or Esc) returns to reading.
  *
+ * Source: the chapter's own PDF (`bookRepo`) when it has one; else its page
+ * range of the whole book (`wholeBookRepo`, range-loaded: only the pages being
+ * viewed are read; the viewer's `pages` option shows only the chapter's pages,
+ * numbered within the chapter, so the book's front matter is never shown or
+ * searched). Annotations use the same keys either way (`pdfnotes`
+ * `${chapterId}|${pageWithinChapter}`), so notes follow the chapter whichever
+ * file is used.
+ *
  * The reader opens at `?page=`, else at the last page read, with the last
- * zoom; the position is saved (debounced) to `bookRepo.setPosition`. Without
- * a PDF on the device it shows one friendly button to add it.
+ * zoom; the position is saved (debounced) to `bookRepo.setPosition` (or
+ * `wholeBookRepo.setPosition` for a whole-book chapter). Without a PDF on the
+ * device it shows one friendly button to add it.
  *
  * Keys: Ctrl/⌘+F or / search · G go to page · E edit · +/−/0 zoom · Esc closes
  * search / leaves editing (tool keys while editing: see annotate.js).
@@ -25,12 +34,13 @@ import { h } from '../core/dom.js';
 import { navigate } from '../core/router.js';
 import { loadIndex } from '../core/data.js';
 import { setSetting } from '../core/settings.js';
-import { bookRepo } from '../core/store/repo.js';
+import { bookRepo, wholeBookRepo } from '../core/store/repo.js';
 import { debounce, plural } from '../core/util.js';
 import { setHeader, setTabBarVisible } from '../ui/shell.js';
 import { icon } from '../ui/icons.js';
 import { button, iconButton, sheet, toast, emptyState, spinner } from '../ui/components.js';
 import { importPdfFiles, loadBookData, pdfPageFor, bookPageFor } from '../features/book/library.js';
+import { rangeOf, outlineFor } from '../features/book/wholebook.js';
 import { pickPdfFiles } from './book.js';
 
 /** Position saves are debounced by this much (ms). */
@@ -91,6 +101,9 @@ export default {
     /** @type {number | 'fit-width' | 'fit-page'} */
     let scaleMode = 'fit-width';
     let fitWidth = 1;
+    /** Whole-book source: the chapter's PDF page range and the stored outline (null = the chapter's own PDF). */
+    /** @type {{ from: number, to: number, outline: { title: string, page: number, level: number }[] } | null} */
+    let whole = null;
     /** @type {(() => void)[]} */
     const offs = [];
     const requestedPage = Number.parseInt(ctx.query.page || '', 10);
@@ -174,17 +187,28 @@ export default {
 
     /* ---------------- position ---------------- */
 
+    const storePosition = () => {
+      const pos = { lastPage: pageNow, lastScale: scaleMode };
+      return whole ? wholeBookRepo.setPosition(ch.id, pos) : bookRepo.setPosition(ch.id, pos);
+    };
     const savePosition = debounce(() => {
       if (!pageCount) return;
-      bookRepo.setPosition(ch.id, { lastPage: pageNow, lastScale: scaleMode }).catch((err) => console.warn('[reader] position not saved', err));
+      storePosition().catch((err) => console.warn('[reader] position not saved', err));
     }, POSITION_DELAY_MS);
     const savePositionNow = () => {
       savePosition.cancel?.();
       if (!pageCount) return Promise.resolve();
-      return bookRepo.setPosition(ch.id, { lastPage: pageNow, lastScale: scaleMode }).catch(() => {});
+      return storePosition().catch(() => {});
     };
     const onPageHide = () => void savePositionNow();
     globalThis.addEventListener('pagehide', onPageHide);
+
+    /**
+     * Printed book page of a page of this chapter, when known.
+     * @param {number} p Page within the chapter.
+     * @returns {number | null}
+     */
+    let printedPage = (p) => (whole && Number.isInteger(ch.page) ? bookPageFor(p, ch.page) : null);
 
     /** @param {number} p */
     function showPage(p) {
@@ -192,7 +216,8 @@ export default {
       const txt = `${p} / ${pageCount || '…'}`;
       pagePill.textContent = txt;
       pageFloat.textContent = txt;
-      const label = `Page ${p} of ${pageCount}. Go to page`;
+      const book = printedPage(p);
+      const label = `Page ${p} of ${pageCount}${book ? `, book page ${book}` : ''}. Go to page`;
       pagePill.setAttribute('aria-label', label);
       pageFloat.setAttribute('aria-label', label);
     }
@@ -210,15 +235,31 @@ export default {
     /* ---------------- open ---------------- */
 
     async function open() {
+      /** @type {{ blob: Blob, lastPage?: number, lastScale?: any } | null} */
       let rec = null;
       try {
         rec = await bookRepo.get(ch.id);
+        if (!rec || !rec.blob) {
+          rec = null;
+          const book = await wholeBookRepo.get();
+          if (book?.blob) {
+            const range = rangeOf(book, ch.id);
+            if (!range) {
+              if (destroyed) return;
+              return showNotInBook();
+            }
+            whole = { from: range.from, to: range.to, outline: outlineFor(book.outline || [], range) };
+            const pos = book.positions?.[ch.id];
+            rec = { blob: book.blob, lastPage: pos?.lastPage ?? 1, lastScale: pos?.lastScale ?? null };
+          }
+        }
       } catch (err) {
         console.warn('[reader] read failed', err);
         return showProblem("This chapter's PDF couldn't be read from this device.", 'Please try again, or add the PDF again.');
       }
       if (destroyed) return;
       if (!rec || !rec.blob) return showMissing();
+      if (!whole) printedPage = () => null;
       setSetting('bookLast', ch.id).catch(() => {});
 
       let viewerMod;
@@ -235,7 +276,8 @@ export default {
       }
       if (destroyed) return;
       try {
-        doc = await pdfMod.openPdf(rec.blob);
+        // The whole book is range-loaded: only the pages being viewed are read from storage.
+        doc = await pdfMod.openPdf(rec.blob, { range: Boolean(whole) });
       } catch (err) {
         if (destroyed) return;
         const msg = /** @type {any} */ (err)?.userMessage || 'This PDF couldn’t be opened.';
@@ -245,7 +287,12 @@ export default {
         doc.destroy?.().catch?.(() => {});
         return;
       }
-      pageCount = Number(doc.numPages) || 0;
+      if (whole && whole.to > (Number(doc.numPages) || 0)) {
+        doc.destroy?.().catch?.(() => {});
+        doc = null;
+        return showNotInBook();
+      }
+      pageCount = whole ? whole.to - whole.from + 1 : Number(doc.numPages) || 0;
       annot = annotMod.createBookAnnotator(ch.id);
       const startPage = Number.isInteger(requestedPage) && requestedPage >= 1 ? Math.min(requestedPage, pageCount || requestedPage) : Math.max(1, Number(rec.lastPage) || 1);
       const startScale = rec.lastScale === 'fit-page' || typeof rec.lastScale === 'number' ? rec.lastScale : 'fit-width';
@@ -255,6 +302,7 @@ export default {
         initialScale: startScale,
         overlay: annot.overlay,
         label: `Chapter ${ch.number}, ${ch.title}`,
+        pages: whole ? { from: whole.from, to: whole.to } : null,
       });
       annot.attachViewer(viewer);
       offs.push(
@@ -314,6 +362,7 @@ export default {
       readBar.hidden = true;
       const add = button({ label: 'Add this chapter’s PDF', icon: 'upload', variant: 'primary', size: 'l', onClick: () => void addPdf() });
       add.classList.add('reader-add');
+      const addBook = button({ label: 'Add the whole book', icon: 'book', variant: 'ghost', onClick: () => navigate('/book?add=book') });
       stage.replaceChildren(
         h(
           'div',
@@ -321,8 +370,28 @@ export default {
           emptyState({
             icon: 'book',
             title: `Chapter ${ch.number}: ${ch.title}`,
-            text: 'This chapter’s PDF isn’t on this device yet. Add it once — it stays here and opens offline.',
-            action: add,
+            text: 'This chapter’s PDF isn’t on this device yet. Add it once — or add the whole book once for every chapter. It stays here and opens offline.',
+            action: h('div', { class: 'reader-state-actions' }, add, addBook),
+          }),
+        ),
+      );
+    }
+
+    function showNotInBook() {
+      loading.remove();
+      readBar.hidden = true;
+      const set = button({ label: 'Set this chapter’s pages', icon: 'target', variant: 'primary', size: 'l', onClick: () => navigate(`/book?pages=${ch.id}`) });
+      set.classList.add('reader-add');
+      const add = button({ label: 'Add this chapter’s PDF instead', icon: 'upload', variant: 'ghost', onClick: () => void addPdf() });
+      stage.replaceChildren(
+        h(
+          'div',
+          { class: 'reader-state' },
+          emptyState({
+            icon: 'book',
+            title: `Chapter ${ch.number}: ${ch.title}`,
+            text: 'This chapter wasn’t found in your book’s PDF. Tell the app on which page of the PDF it starts, and it opens right away.',
+            action: h('div', { class: 'reader-state-actions' }, set, add),
           }),
         ),
       );
@@ -475,13 +544,18 @@ export default {
           'data-autofocus': '',
         })
       );
-      const msg = h('p', { class: 'reader-jump-msg', role: 'status' }, `1 to ${pageCount}`);
+      const firstBook = printedPage(1);
+      const msg = h(
+        'p',
+        { class: 'reader-jump-msg', role: 'status' },
+        firstBook ? `1 to ${pageCount} (book pages ${firstBook}–${printedPage(pageCount)})` : `1 to ${pageCount}`,
+      );
       /** @type {{ close: (r?: string) => Promise<void> } | null} */
       let ref = null;
       const go = () => {
         const n = Number.parseInt(input.value, 10);
         if (!Number.isInteger(n) || n < 1 || n > pageCount) {
-          msg.textContent = `Type a page from 1 to ${pageCount}.`;
+          msg.textContent = `Type a page from 1 to ${pageCount} (a page of this chapter).`;
           msg.classList.add('is-problem');
           input.focus();
           return;
@@ -513,6 +587,9 @@ export default {
       let source = 'book';
       if (entry && entry.sections.length) {
         items = entry.sections.map((s) => ({ title: s.title, page: Math.min(pageCount, pdfPageFor(s.page, entry.firstPage)), label: `p. ${s.page}`, level: s.level }));
+      } else if (whole) {
+        source = 'pdf';
+        items = whole.outline.map((o) => ({ title: o.title, page: o.page, label: `p. ${bookPageFor(o.page, ch.page)}`, level: Math.min(2, o.level || 1) }));
       } else {
         source = 'pdf';
         try {
@@ -582,7 +659,8 @@ export default {
       const cells = [];
       for (let p = 1; p <= pageCount; p++) {
         const frame = h('span', { class: 'reader-thumb-frame' }, h('span', { class: 'reader-thumb-ph', 'aria-hidden': 'true' }));
-        const label = entry ? `Page ${p} (book p. ${bookPageFor(p, entry.firstPage)})` : `Page ${p}`;
+        const printed = whole ? printedPage(p) : entry ? bookPageFor(p, entry.firstPage) : null;
+        const label = printed ? `Page ${p} (book p. ${printed})` : `Page ${p}`;
         const cell = h(
           'button',
           {
@@ -667,7 +745,12 @@ export default {
             viewer.setScale(scaleMode === 'fit-page' ? 'fit-width' : 'fit-page'),
           ),
           item('download', 'Export annotated copy', 'A new PDF with your notes drawn in. The original stays as it is.', () => void exportCopy()),
-          item('upload', 'Replace PDF', 'Choose a new file for this chapter. Your notes stay.', () => void addPdf()),
+          whole
+            ? item('target', 'Check this chapter’s pages', `Pages ${whole.from}–${whole.to} of your book’s PDF.`, () => navigate(`/book?pages=${ch.id}`))
+            : null,
+          whole
+            ? item('upload', 'Use a separate PDF for this chapter', 'Opens instead of the book’s pages. Your notes stay.', () => void addPdf())
+            : item('upload', 'Replace PDF', 'Choose a new file for this chapter. Your notes stay.', () => void addPdf()),
         ),
         size: 's',
       });

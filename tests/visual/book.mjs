@@ -19,22 +19,29 @@
  *   voice; reload → it all comes back and the reader resumes on the same page;
  * - Export annotated copy → a download that starts with %PDF and has the same
  *   number of pages (checked with the vendored pdf-lib in Node);
+ * - the whole book (§7.17): a 300 MB synthetic two-volume book (tests/unit/book-fixture.mjs;
+ *   the owner's real book is never opened) imported once and never read whole (Blob reads
+ *   counted), 55 chapters detected, a chapter opens as a page range (front matter never
+ *   shown or searched), ink saved as ch27|2, export of the chapter only, resume, adjust +
+ *   Undo, remove + Undo, the share-target inbox and the sw.js share-target handler;
  * - screenshots at 390×844 and 834×1194 (+ 1194×834 for the reader), light and
  *   dark; edit tool bar targets ≥ 44 px; no console errors.
  *
- * Usage: node tests/visual/book.mjs [--out <dir>] [--pdf1 <file>] [--pdf2 <file>]
+ * Usage: node tests/visual/book.mjs [--out <dir>] [--pdf1 <file>] [--pdf2 <file>] [--whole]
+ * (`--whole`: only the whole-book checks)
  * (exit code 1 on any failure)
  *
  * @module tests/visual/book
  */
 
 import { createRequire } from 'node:module';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile, rm } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { deflateSync } from 'node:zlib';
 import path from 'node:path';
 import os from 'node:os';
 import { startServer, ROOT } from '../serve.mjs';
+import { makeSyntheticBook, padPdfFile, PRIVATE_MARKER } from '../unit/book-fixture.mjs';
 
 const { chromium } = createRequire(import.meta.url)('playwright');
 const { PDFDocument, StandardFonts, rgb } = await import(path.join(ROOT, 'vendor/pdf-lib/pdf-lib.esm.min.js'));
@@ -46,6 +53,7 @@ const arg = (name, fallback) => {
   return i >= 0 && args[i + 1] ? args[i + 1] : fallback;
 };
 const OUT = path.resolve(arg('--out', path.join(os.tmpdir(), 'book-shots')));
+const ONLY_WHOLE = args.includes('--whole');
 const UPLOADS = '/root/.claude/uploads/42c09485-4d71-50ae-95c5-8da4e09afaba';
 const PDF1 = arg('--pdf1', path.join(UPLOADS, '9a47a464-Chapter-01-Anatomy-and-Dimensions.pdf'));
 const PDF2 = arg('--pdf2', path.join(UPLOADS, '99ff6cbb-Chapter-02-Hypothermia-Circulatory-Arrest-CPB.pdf'));
@@ -298,9 +306,267 @@ async function tabbarChecks(page, label) {
   check(info.current === 'Book', `${label}: Book tab is current (${info.current})`);
 }
 
+/* ---------------- whole book (synthetic; the owner's real book is never opened here) ---------------- */
+
+/**
+ * "Add the whole book once": import a 300 MB padded synthetic book (two volumes, front
+ * matter marked PRIVATEFRONTMATTER) and prove it is never read whole; the chapter map;
+ * a chapter opens as a page range (front matter never shown or searched); notes; export;
+ * resume; adjust + undo; remove + undo; the share-target inbox and the sw.js handler.
+ */
+async function wholeBookFlow() {
+  console.log('Whole book (390×844 light, 300 MB synthetic)');
+  const book = await makeSyntheticBook({ objectStreams: false });
+  const big = path.join(OUT, 'synthetic-book-300mb.pdf');
+  const size = await padPdfFile(book.bytes, big, 300 * 1024 * 1024);
+  const c27 = book.chapters.find((c) => c.id === 'ch27');
+  const c28 = book.chapters.find((c) => c.id === 'ch28');
+  const len27 = c28.page - c27.page;
+
+  const { context, page } = await openApp({ width: 390, height: 844 }, 'light', 'whole-light');
+  // Count every byte read from big blobs (slice) and any whole read (arrayBuffer/text/stream).
+  await page.evaluate(() => {
+    const stats = { sliced: 0, whole: 0 };
+    /** @type {any} */ (window).__bookReads = stats;
+    const BIG = 100 * 1024 * 1024;
+    const slice = Blob.prototype.slice;
+    Blob.prototype.slice = function (...a) {
+      const out = slice.apply(this, a);
+      if (this.size > BIG) stats.sliced += out.size;
+      return out;
+    };
+    for (const m of ['arrayBuffer', 'text', 'stream', 'bytes']) {
+      const orig = Blob.prototype[m];
+      if (typeof orig !== 'function') continue;
+      Blob.prototype[m] = function (...a) {
+        if (this.size > BIG) stats.whole++;
+        return orig.apply(this, a);
+      };
+    }
+  });
+  await gotoBook(page);
+  check(await page.locator('.book-hero .book-add-whole').isVisible(), 'hero offers “Add the whole book”');
+  check(await page.locator('.book-empty-note .book-empty-add').isVisible(), 'empty state offers “Add the whole book”');
+  await page.screenshot({ path: path.join(OUT, 'whole-empty-phone-light.png') });
+
+  const started = Date.now();
+  const [chooser] = await Promise.all([page.waitForEvent('filechooser'), page.locator('.book-hero .book-add-whole').click()]);
+  await chooser.setFiles(big);
+  await page.waitForSelector('.book-progress-sheet', { timeout: 30000 });
+  await page.waitForFunction(() => /Finding chapters… \d+\/55|Saving/.test(document.querySelector('.book-progress-status')?.textContent || ''), null, { timeout: 60000 }).catch(() => {});
+  await page.screenshot({ path: path.join(OUT, 'whole-progress-phone-light.png') });
+  await page.waitForSelector('.book-map-sheet', { timeout: 180000 });
+  const importMs = Date.now() - started;
+  await page.screenshot({ path: path.join(OUT, 'whole-map-phone-light.png') });
+  const reads = await page.evaluate(() => /** @type {any} */ (window).__bookReads);
+  check(reads.whole === 0, `the 300 MB book is never read whole (${reads.whole} whole reads)`);
+  check(reads.sliced < 48 * 1024 * 1024, `import + detection read ${(reads.sliced / 1048576).toFixed(1)} MB of ${(size / 1048576).toFixed(0)} MB`);
+  const meta = await page.evaluate(async () => {
+    const r = await import('./js/core/store/repo.js');
+    const m = await r.wholeBookRepo.meta();
+    return { pages: m.pages, bytes: m.bytes, map: m.map.chapters };
+  });
+  const wrong = book.chapters.filter((c) => meta.map[c.id]?.from !== book.pdfOf(c.page)).map((c) => c.id);
+  check(wrong.length === 0, `all 55 chapters detected at the right PDF page (wrong: ${wrong.join(',') || 'none'})`);
+  check(meta.bytes === size && meta.pages === book.numPages, `stored once: ${meta.bytes} bytes, ${meta.pages} pages`);
+  const v1last = book.chapters.filter((c) => c.volume === 1).at(-1);
+  const v2first = book.chapters.find((c) => c.volume === 2);
+  check(meta.map[v1last.id].to === book.pdfOf(v2first.page) - book.front2 - 1, `Volume 1 ends before Volume 2’s front matter (${JSON.stringify(meta.map[v1last.id])})`);
+  check(meta.map.ch01.from === book.front1 + 1, 'front matter is before chapter 1 and outside every chapter');
+  check((await page.locator('.book-map-row').count()) === 55, 'the chapter-pages sheet lists 55 chapters');
+  console.log(`  (import of ${(size / 1048576).toFixed(0)} MB: ${importMs} ms, ${(reads.sliced / 1048576).toFixed(1)} MB read)`);
+  await page.locator('.book-map-sheet').getByRole('button', { name: 'Done', exact: true }).click();
+  await page.waitForFunction(() => !document.querySelector('.sheet-root'));
+  check((await page.locator('.book-ch.has-pdf').count()) === 55, 'every chapter is ready to open from the book');
+  await page.screenshot({ path: path.join(OUT, 'whole-library-phone-light.png') });
+
+  // Open a Volume 2 chapter: only its pages, numbered within the chapter.
+  const before = await page.evaluate(() => /** @type {any} */ (window).__bookReads.sliced);
+  const heap0 = await page.evaluate(() => /** @type {any} */ (performance).memory?.usedJSHeapSize || 0);
+  await page.locator('.book-ch[data-id="ch27"] .book-ch-main').click();
+  await waitReader(page);
+  await page.waitForTimeout(400);
+  check((await pageLabel(page)) === `1 / ${len27}`, `chapter pages numbered within the chapter (${await pageLabel(page)})`);
+  check((await page.locator('.pdfv-page').count()) === len27, 'the viewer holds only the chapter’s pages');
+  const opened = await page.evaluate(() => /** @type {any} */ (window).__bookReads);
+  const heap1 = await page.evaluate(() => /** @type {any} */ (performance).memory?.usedJSHeapSize || 0);
+  check(opened.whole === 0 && opened.sliced - before < 24 * 1024 * 1024, `opening a chapter reads ${((opened.sliced - before) / 1048576).toFixed(1)} MB`);
+  console.log(`  (open ch27: ${((opened.sliced - before) / 1048576).toFixed(1)} MB read; JS heap ${(heap0 / 1048576).toFixed(0)} → ${(heap1 / 1048576).toFixed(0)} MB)`);
+  await page.screenshot({ path: path.join(OUT, 'whole-reader-phone-light.png') });
+  await page.getByRole('button', { name: 'Find in this chapter' }).click();
+  await page.locator('.reader-search-input').fill(PRIVATE_MARKER);
+  await page.waitForFunction(() => /No matches/.test(document.querySelector('.reader-search-status')?.textContent || ''), null, { timeout: 30000 });
+  check(true, 'search never finds front-matter text');
+  await page.locator('.reader-search-input').fill('atrium');
+  await page.waitForFunction(() => /^\d+ of \d+$/.test(document.querySelector('.reader-search-status')?.textContent || ''), null, { timeout: 30000 });
+  const found = await page.locator('.reader-search-status').innerText();
+  // Every body page has the word 6 times; the opener has none.
+  check(Number(/of (\d+)/.exec(found)?.[1]) === 6 * (len27 - 1), `search covers exactly the chapter’s pages (${found})`);
+  await page.getByRole('button', { name: 'Close search' }).click();
+  await page.getByRole('button', { name: /^Pages/ }).click();
+  await page.waitForSelector('.reader-thumb-img', { timeout: 30000 });
+  const thumbs = await page.locator('.reader-thumb').count();
+  const thumbLabel = await page.locator('.reader-thumb[data-page="2"]').getAttribute('aria-label');
+  check(thumbs === len27 && thumbLabel === `Page 2 (book p. ${c27.page + 1})`, `thumbnails: ${thumbs} pages, “${thumbLabel}”`);
+  await page.locator('.reader-thumb[data-page="1"]').click();
+  await page.waitForFunction(() => !document.querySelector('.sheet-root'));
+  check(!(await page.evaluate((m) => document.body.innerText.includes(m), PRIVATE_MARKER)), 'front matter text is nowhere on screen');
+
+  // A note on page 2 of the chapter → pdfnotes key ch27|2 (same scheme as a chapter PDF).
+  await page.locator('.reader-page').click();
+  await page.locator('.reader-jump-input').fill('2');
+  await page.locator('.reader-jump-input').press('Enter');
+  await page.waitForSelector('.pdfv-page[data-page="2"].is-rendered');
+  await page.locator('.reader-edit-fab').click();
+  await page.waitForSelector('.bk-toolbar');
+  await page.locator('.bk-toolbar').getByRole('button', { name: 'Pen', exact: true }).click();
+  await drawOnPage(page, 2, [[0.15, 0.3], [0.3, 0.34], [0.45, 0.3], [0.6, 0.35]]);
+  await page.waitForFunction(async () => {
+    const r = await import('./js/core/store/repo.js');
+    return Boolean(await r.pdfNotesRepo.get('ch27', 2));
+  });
+  check(true, 'ink on a whole-book chapter is saved as pdfnotes ch27|2');
+  await page.locator('.bk-toolbar').getByRole('button', { name: 'Done' }).click();
+  await page.waitForTimeout(900);
+  await page.screenshot({ path: path.join(OUT, 'whole-reader-ink-phone-light.png') });
+
+  // Export: only the chapter's pages, read range by range.
+  const beforeExport = await page.evaluate(() => /** @type {any} */ (window).__bookReads);
+  await page.getByRole('button', { name: 'More', exact: true }).click();
+  const [download] = await Promise.all([
+    page.waitForEvent('download', { timeout: 120000 }),
+    page.getByRole('button', { name: /Export annotated copy/ }).click(),
+  ]);
+  const exported = await readFile(await download.path());
+  const doc27 = await PDFDocument.load(exported);
+  check(doc27.getPageCount() === len27, `export holds the chapter’s ${len27} pages (${doc27.getPageCount()})`);
+  const afterExport = await page.evaluate(() => /** @type {any} */ (window).__bookReads);
+  check(afterExport.whole === beforeExport.whole, 'export never reads the whole book');
+  console.log(`  (export ch27: ${((afterExport.sliced - beforeExport.sliced) / 1024).toFixed(0)} KB read)`);
+  await writeFile(path.join(OUT, 'whole-export-ch27.pdf'), exported);
+
+  // Resume after reload.
+  await page.reload();
+  await waitReader(page);
+  await page.waitForTimeout(500);
+  check((await pageLabel(page)).startsWith('2 /'), `whole-book chapter resumes on page 2 (${await pageLabel(page)})`);
+  const pos = await page.evaluate(async () => (await (await import('./js/core/store/repo.js')).wholeBookRepo.meta()).positions.ch27);
+  check(pos?.lastPage === 2, `position stored with the whole book (${JSON.stringify(pos)})`);
+
+  // Adjust a chapter's start (deep link) + Undo.
+  await page.goto(`${server.url}#/book?pages=ch28`);
+  await page.waitForSelector('.book-map-sheet .book-map-input', { timeout: 30000 });
+  check(!/pages=/.test(page.url()), 'the ?pages= link is dropped');
+  const orig28 = meta.map.ch28.from;
+  await page.locator('.book-map-sheet .book-map-input').fill(String(orig28 - 2));
+  await page.screenshot({ path: path.join(OUT, 'whole-adjust-phone-light.png') });
+  await page.locator('.book-map-sheet .book-map-input').press('Enter');
+  await page.waitForFunction(async (f) => {
+    const r = await import('./js/core/store/repo.js');
+    const m = await r.wholeBookRepo.meta();
+    return m.map.chapters.ch28.from === f && m.map.chapters.ch28.how === 'manual';
+  }, orig28 - 2);
+  const after = await page.evaluate(async () => (await (await import('./js/core/store/repo.js')).wholeBookRepo.meta()).map.chapters);
+  check(after.ch27.to === orig28 - 3, `the previous chapter now ends before it (${JSON.stringify(after.ch27)})`);
+  await page.locator('.toast').getByRole('button', { name: 'Undo' }).click();
+  await page.waitForFunction(async (f) => {
+    const r = await import('./js/core/store/repo.js');
+    return (await r.wholeBookRepo.meta()).map.chapters.ch28.from === f;
+  }, orig28);
+  check(true, 'Undo restores the detected pages');
+  await page.locator('.book-map-sheet').getByRole('button', { name: 'Done', exact: true }).click();
+  await page.waitForFunction(() => !document.querySelector('.sheet-root'));
+
+  // Remove the book + Undo (nothing is deleted during the undo window).
+  await page.locator('.book-whole').getByRole('button', { name: /More actions for the whole book/ }).click();
+  await page.locator('.book-menu-sheet').getByRole('button', { name: /Remove the book/ }).click();
+  await page.waitForFunction(() => document.querySelectorAll('.book-ch.has-pdf').length === 0);
+  await page.locator('.toast').getByRole('button', { name: 'Undo' }).click();
+  await page.waitForFunction(() => document.querySelectorAll('.book-ch.has-pdf').length === 55);
+  await page.waitForTimeout(7000);
+  const still = await page.evaluate(async () => Boolean(await (await import('./js/core/store/repo.js')).wholeBookRepo.meta()));
+  check(still, 'Undo keeps the book');
+
+  // Share-target inbox: a small chapter PDF waiting in the cache is imported per chapter.
+  const shareId = `${Date.now().toString(36).padStart(9, '0')}abc12345`;
+  const small = await makePdf(5, 'Shared chapter');
+  await page.evaluate(
+    async ({ id, bytes }) => {
+      const cache = await caches.open('cmcq-share-inbox');
+      const blob = new Blob([new Uint8Array(bytes)], { type: 'application/pdf' });
+      await cache.put(new Request(`./__share/${id}/0`), new Response(blob, { headers: { 'Content-Type': 'application/pdf', 'X-File-Name': encodeURIComponent('Chapter-03-Shared.pdf') } }));
+    },
+    { id: shareId, bytes: [...small] },
+  );
+  await page.goto(`${server.url}#/book?import=${shareId}`);
+  await page.waitForFunction(async () => Boolean(await (await import('./js/core/store/repo.js')).bookRepo.get('ch03')), null, { timeout: 60000 });
+  await page.waitForFunction(async () => (await (await caches.open('cmcq-share-inbox')).keys()).length === 0, null, { timeout: 10000 }).catch(() => {});
+  const left = await page.evaluate(async () => (await (await caches.open('cmcq-share-inbox')).keys()).map((k) => k.url));
+  check(left.length === 0, `shared chapter PDF imported as ch03 and removed from the inbox (${left.join(', ')} left)`);
+  await context.close();
+
+  // Layout + dark mode of the new parts.
+  for (const [name, vp] of [
+    ['phone', { width: 390, height: 844 }],
+    ['ipad', { width: 834, height: 1194 }],
+  ]) {
+    for (const scheme of ['light', 'dark']) {
+      if (name === 'phone' && scheme === 'light') continue;
+      const { context: ctx, page: pg } = await openApp(vp, scheme, `whole-${name}-${scheme}`);
+      await gotoBook(pg);
+      await pg.screenshot({ path: path.join(OUT, `whole-empty-${name}-${scheme}.png`) });
+      const [ch] = await Promise.all([pg.waitForEvent('filechooser'), pg.locator('.book-hero .book-add-whole').click()]);
+      await ch.setFiles({ name: 'Book.pdf', mimeType: 'application/pdf', buffer: Buffer.from(book.bytes) });
+      await pg.waitForSelector('.book-map-sheet', { timeout: 120000 });
+      await pg.locator('.book-map-row[data-id="ch05"] .book-map-fix').click();
+      await pg.screenshot({ path: path.join(OUT, `whole-map-${name}-${scheme}.png`) });
+      await targetsAndOverflow(pg, `${name}/${scheme} map`, '.book-map-sheet');
+      await pg.keyboard.press('Escape');
+      await pg.keyboard.press('Escape');
+      await pg.waitForFunction(() => !document.querySelector('.sheet-root'));
+      await targetsAndOverflow(pg, `${name}/${scheme} library with the book`, '.book');
+      await pg.screenshot({ path: path.join(OUT, `whole-library-${name}-${scheme}.png`) });
+      await ctx.close();
+    }
+  }
+  await rm(big, { force: true });
+}
+
+/**
+ * The sw.js share-target handler (service workers allowed): a POST of a PDF to
+ * ./share-target is stashed in the inbox and redirected to #/book?import=<id>.
+ */
+async function shareTargetSw() {
+  console.log('Share target (service worker)');
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  const page = await context.newPage();
+  page.setDefaultTimeout(TIMEOUT);
+  await page.goto(server.url);
+  await page.waitForSelector('#main > *');
+  await page.evaluate(async () => {
+    const reg = await navigator.serviceWorker.ready;
+    if (!navigator.serviceWorker.controller) await new Promise((r) => navigator.serviceWorker.addEventListener('controllerchange', r, { once: true }));
+    return Boolean(reg.active);
+  });
+  const res = await page.evaluate(async () => {
+    const fd = new FormData();
+    fd.append('pdf', new File([new Uint8Array([37, 80, 68, 70, 45, 49, 46, 55, 10])], 'Chapter-04-Test.pdf', { type: 'application/pdf' }));
+    const r = await fetch('./share-target', { method: 'POST', body: fd, redirect: 'manual' });
+    const keys = (await (await caches.open('cmcq-share-inbox')).keys()).map((k) => new URL(k.url).pathname);
+    return { type: r.type, status: r.status, keys };
+  });
+  check(res.keys.length === 1 && /__share\/[a-z0-9]+\/0$/.test(res.keys[0]), `sw.js stashes a shared PDF in the inbox (${JSON.stringify(res)})`);
+  check(res.type === 'opaqueredirect' || res.status === 303, `sw.js answers with a redirect (${res.type} ${res.status})`);
+  await context.close();
+}
+
 /* ---------------- main flow (phone, light) ---------------- */
 
 try {
+  if (ONLY_WHOLE) {
+    await wholeBookFlow();
+    await shareTargetSw();
+  } else {
   console.log('Main flow (390×844 light)');
   const { context, page } = await openApp({ width: 390, height: 844 }, 'light', 'phone-light');
   await gotoBook(page);
@@ -517,6 +783,9 @@ try {
   check(stored === FILES[0].buffer.length, 'the stored original is unchanged');
   await context.close();
 
+  await wholeBookFlow();
+  await shareTargetSw();
+
   /* ---------------- screenshots + layout at every size ---------------- */
   for (const [name, vp] of [
     ['phone360', { width: 360, height: 760 }],
@@ -583,6 +852,7 @@ try {
       }
       await ctx.close();
     }
+  }
   }
 } catch (err) {
   failures.push(`crashed: ${err?.stack || err}`);

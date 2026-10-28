@@ -10,8 +10,8 @@
  * "CHAPTER n" + the title and no page number; other pages a running head
  * (chapter number + title) and the printed page number at the bottom.
  *
- * {@link padPdfFile} writes a copy padded to any size (comment lines after the
- * header, cross-reference offsets shifted), to prove that big files are never
+ * {@link padPdfFile} writes a copy padded to any size (a big unreferenced stream
+ * after the header, cross-reference offsets shifted), to prove that big files are never
  * read whole.
  *
  * @module tests/unit/book-fixture
@@ -95,8 +95,9 @@ export async function makeSyntheticBook({ front1 = 6, front2 = 4, lastBookPage =
 
 /**
  * Writes `bytes` (a PDF with a classic xref table) to `file`, padded to about
- * `targetBytes` with comment lines right after the header; every xref offset
- * and `startxref` are shifted, so the file stays a valid PDF.
+ * `targetBytes` with one unreferenced stream object right after the header (like
+ * the big picture streams of a real scanned book); every xref offset and
+ * `startxref` are shifted, so the file stays a valid PDF.
  * @param {Uint8Array} bytes
  * @param {string} file
  * @param {number} targetBytes
@@ -111,9 +112,10 @@ export async function padPdfFile(bytes, file, targetBytes) {
   const sx = text.lastIndexOf('startxref');
   const xrefAt = Number(/startxref\s+(\d+)/.exec(text.slice(sx))[1]);
   if (text.slice(xrefAt, xrefAt + 4) !== 'xref') throw new Error('padPdfFile needs a classic xref table (objectStreams: false)');
-  const line = Buffer.from(`%${'x'.repeat(1022)}\n`, 'latin1');
-  const lines = Math.max(0, Math.floor((targetBytes - buf.length) / line.length));
-  const pad = lines * line.length;
+  const dataLen = Math.max(0, targetBytes - buf.length - 128);
+  const head = Buffer.from(`99999 0 obj\n<< /Length ${dataLen} >>\nstream\n`, 'latin1');
+  const foot = Buffer.from('\nendstream\nendobj\n', 'latin1');
+  const pad = head.length + dataLen + foot.length;
   // Shift every in-use entry of the table and startxref.
   const trailerAt = text.indexOf('trailer', xrefAt);
   const table = text.slice(xrefAt, trailerAt).replace(/(\d{10}) (\d{5}) n/g, (_, off, gen) => `${String(Number(off) + pad).padStart(10, '0')} ${gen} n`);
@@ -121,13 +123,15 @@ export async function padPdfFile(bytes, file, targetBytes) {
   const fh = await open(file, 'w');
   try {
     await fh.write(buf.subarray(0, headerEnd));
-    const block = Buffer.concat(Array.from({ length: 1024 }, () => line));
-    let left = lines;
+    await fh.write(head);
+    const block = Buffer.alloc(4 * 1024 * 1024, 0x20);
+    let left = dataLen;
     while (left > 0) {
-      const n = Math.min(1024, left);
-      await fh.write(n === 1024 ? block : block.subarray(0, n * line.length));
+      const n = Math.min(block.length, left);
+      await fh.write(n === block.length ? block : block.subarray(0, n));
       left -= n;
     }
+    await fh.write(foot);
     await fh.write(buf.subarray(headerEnd, xrefAt));
     await fh.write(Buffer.from(table + tail, 'latin1'));
   } finally {
