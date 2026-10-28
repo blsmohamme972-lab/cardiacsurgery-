@@ -262,12 +262,13 @@ function isScene(s) {
   if (!isNum(sc.v) || !isObj(sc.page) || !Array.isArray(sc.items)) return false;
   return sc.items.every(
     (/** @type {any} */ it) =>
-      isObj(it) && isId(it.id) && SCENE_ITEM_TYPES.has(it.type) && (it.type !== 'image' || isId(it.media)),
+      isObj(it) && isId(it.id) && SCENE_ITEM_TYPES.has(it.type) && (it.type !== 'image' || isId(it.media))
+      && (it.type !== 'audio' || isId(it.voice)),
   );
 }
 
-/** Scene item types (§4). */
-const SCENE_ITEM_TYPES = new Set(['stroke', 'image', 'text', 'shape']);
+/** Scene item types (§4, §7.17: book pages add sticky `note` and voice `audio` pins). */
+const SCENE_ITEM_TYPES = new Set(['stroke', 'image', 'text', 'shape', 'note', 'audio']);
 
 /**
  * Per-store record checks (§4). Each returns `null` when the record is fine,

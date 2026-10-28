@@ -1171,8 +1171,14 @@ export function createPdfViewer(container, doc, { initialPage = 1, initialScale 
 //   canvas.pdfv-detail, .pdfv-hits, .textLayer, .pdfv-overlay. Pages are role="group" aria-label "Page N of M"
 //   (canvas aria-hidden, text layer readable). Off-screen work waits for scroll pauses; destroy() leaves `doc` to the caller.
 // features/book/annotate.js — per-page annotation layer (reuses the scratch engine: scene, geometry, render, tools)
-export function createPageAnnotator(bookId, pageNumber, pageEl, size) → { setTool(..), destroy(), … }
-export function createBookToolbar(controller) → HTMLElement
+export function createBookAnnotator(bookId) → session { overlay /* pass to the viewer's overlay option */, attachViewer,
+  setEditing, setTool/setColor/setSize, undo, redo, addImages, clearPage, pagesWithNotes, handleKey, flush, destroy, on }
+export function createPageAnnotator(bookId, pageNumber, pageEl, size)   // thin wrapper kept for the contract
+export function createBookToolbar(session, { onDone }) → HTMLElement
+// Scene additions (scratch/scene.js): point items { type:'note', x, y, text, color } and { type:'audio', x, y, voice, durationMs };
+//   scenes keep their own page size; deserialize(raw, {size}) rescales; renderer paper 'none' + `dark` option (book pages
+//   stay white). Text highlights store a colour name (yellow|green|blue|pink) painted with fixed marker colours.
+//   Setting `bookExpanded` remembers open chapters in the Book list.
 // features/book/export.js  — lazy pdf-lib (vendor/pdf-lib/): annotated copy of the original (strokes as vectors,
 //                            images, text, shapes, highlights; voice clips listed as page notes), never edits the original
 // screens/book.js (/book) and screens/reader.js (/book/:chapterId)

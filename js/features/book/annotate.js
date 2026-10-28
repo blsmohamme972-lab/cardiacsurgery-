@@ -57,6 +57,7 @@ import {
 } from '../scratch/scene.js';
 import { insertBox, itemBounds, unionBounds, TEXT_LINE, TEXT_PAD } from '../scratch/geometry.js';
 import { createRenderer } from '../scratch/render.js';
+import { MIN_SCALE, MAX_SCALE } from './viewer.js';
 import { createTools, frameFor } from '../scratch/tools.js';
 import { importImage, pickImageFile, imageFilesFrom, loadMediaBlob, MediaError } from '../scratch/media.js';
 
@@ -830,7 +831,7 @@ export function createBookAnnotator(bookId, { viewer: viewerOpt = null } = {}) {
     emit('zoomhint', null);
     if (Math.abs(p.ratio - 1) > 0.08 && typeof viewer?.setScale === 'function') {
       try {
-        viewer.setScale(Math.min(8, Math.max(0.25, p.scale * p.ratio)));
+        viewer.setScale(Math.min(MAX_SCALE, Math.max(MIN_SCALE, p.scale * p.ratio)));
       } catch (err) {
         console.warn('[book annotate] zoom failed', err);
       }

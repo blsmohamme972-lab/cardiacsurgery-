@@ -258,6 +258,12 @@ describe('validateBackup', () => {
   test('ink: scratchpad scenes are accepted and checked', () => {
     const base = { id: 'Q|scratch', qid: 'Q', block: 'scratch', qversion: 1, updated: 1 };
     assert.equal(RECORD_CHECKS.ink({ ...base, strokes: [], scene: sampleScene() }), null, 'scene items alone keep it');
+    const pins = { v: 2, page: { w: 612, h: 792, bg: 'plain' }, items: [
+      { id: 'n1', type: 'note', x: 10, y: 10, text: 'hi', color: '#000000' },
+      { id: 'a1', type: 'audio', x: 20, y: 20, voice: 'v1', durationMs: 2000 },
+    ] };
+    assert.equal(RECORD_CHECKS.ink({ ...base, strokes: [], scene: pins }), null, 'book note and voice pins are kept');
+    assert.notEqual(RECORD_CHECKS.ink({ ...base, strokes: [], scene: { ...pins, items: [{ id: 'a2', type: 'audio', x: 1, y: 1 }] } }), null, 'a voice pin needs its clip id');
     assert.equal(RECORD_CHECKS.ink({ ...base, scene: sampleScene() }), null, 'strokes may be missing');
     assert.equal(RECORD_CHECKS.ink({ ...base, strokes: [], scene: { ...sampleScene(), items: [] } }), 'strokes', 'empty');
     assert.equal(RECORD_CHECKS.ink({ ...base, scene: { ...sampleScene(), items: 'x' } }), 'scene');
