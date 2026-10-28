@@ -32,9 +32,19 @@ import * as db from './db.js';
  *   bytes: number, ts: number }} MediaRecord
  * @typedef {{ qid: string, qversion: number, status: 'ok' | 'fix', comment: string, ts: number }} Review
  * @typedef {Record<string, any> & { id: string, updatedAt: number, finishedAt: number | null }} Session
+ * @typedef {{ id: string, title: string, fileName: string, bytes: number, pages: number | null, added: number,
+ *   updated: number, lastPage: number, lastScale: number | 'fit-width' | 'fit-page' | null }} BookMeta
+ * @typedef {BookMeta & { blob: Blob | null }} BookRecord
+ * @typedef {{ id: string, color: string, rects: number[][], quote: string }} TextHl
+ * @typedef {{ id: string, bookId: string, page: number, scene: Scene | null, highlights: TextHl[],
+ *   updated: number }} PdfNote
  */
 
-/** Every object store, in a stable order (used by backup). */
+/**
+ * Every logical store, in a stable order (used by backup). `books` records
+ * carry their PDF `blob`; inside IndexedDB it lives in the internal
+ * `bookfiles` store (see {@link bookRepo}), which is never listed here.
+ */
 export const ALL_STORES = Object.freeze([
   'settings',
   'qstate',
@@ -47,6 +57,8 @@ export const ALL_STORES = Object.freeze([
   'reviews',
   'sessions',
   'media',
+  'books',
+  'pdfnotes',
 ]);
 
 /** Settings keys that a backup import must never overwrite. */
@@ -667,6 +679,378 @@ export const mediaRepo = Object.freeze({
 });
 
 // ---------------------------------------------------------------------------
+// books (Book tab, §7.17)
+// ---------------------------------------------------------------------------
+
+/** Largest chapter PDF accepted (300 MB). */
+export const BOOK_MAX_BYTES = 300 * 1024 * 1024;
+/** Book ids are chapter ids such as `ch01`: letters, digits, `-`, `_` (never `|` or `:`). */
+const BOOK_ID = /^[A-Za-z0-9_-]{1,40}$/;
+/** MIME types browsers give PDF files. */
+const PDF_TYPES = new Set(['application/pdf', 'application/x-pdf', 'application/acrobat', 'text/pdf']);
+/** "%PDF-" */
+const PDF_MAGIC = Object.freeze([0x25, 0x50, 0x44, 0x46, 0x2d]);
+/** Readers accept the PDF header anywhere in the first 1024 bytes. */
+export const PDF_HEADER_WINDOW = 1024;
+/** Named zoom levels a book can remember besides a number. */
+const NAMED_SCALES = new Set(['fit-width', 'fit-page']);
+
+/**
+ * An error whose message is plain language, safe to show as is (`userMessage` too).
+ * @template {ErrorConstructor | TypeErrorConstructor | RangeErrorConstructor} C
+ * @param {C} Kind
+ * @param {string} message
+ * @param {string} code
+ * @returns {Error & { code: string, userMessage: string }}
+ */
+function userError(Kind, message, code) {
+  const err = /** @type {Error & { code: string, userMessage: string }} */ (new Kind(message));
+  err.code = code;
+  err.userMessage = message;
+  return err;
+}
+
+/**
+ * @param {unknown} id
+ * @returns {string}
+ */
+function requireBookId(id) {
+  if (typeof id !== 'string' || !BOOK_ID.test(id)) throw new TypeError('book id must be a chapter id such as "ch01"');
+  return id;
+}
+
+/**
+ * Whether `id` can be a book id (a chapter id such as `ch01`).
+ * @param {unknown} id
+ * @returns {boolean}
+ */
+export function isBookId(id) {
+  return typeof id === 'string' && BOOK_ID.test(id);
+}
+
+/**
+ * Whether the start of a file contains the PDF header `%PDF-` within
+ * {@link PDF_HEADER_WINDOW} bytes.
+ * @param {Uint8Array | ArrayLike<number> | null | undefined} bytes
+ * @returns {boolean}
+ */
+export function hasPdfMagic(bytes) {
+  if (!bytes || typeof bytes.length !== 'number') return false;
+  const end = Math.min(bytes.length, PDF_HEADER_WINDOW) - PDF_MAGIC.length;
+  outer: for (let i = 0; i <= end; i++) {
+    for (let j = 0; j < PDF_MAGIC.length; j++) if (bytes[i + j] !== PDF_MAGIC[j]) continue outer;
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Whether a MIME type names a PDF (parameters and case ignored).
+ * @param {unknown} type
+ * @returns {boolean}
+ */
+export function isPdfType(type) {
+  return PDF_TYPES.has(String(type ?? '').split(';')[0].trim().toLowerCase());
+}
+
+/**
+ * Whether a blob is a PDF: the `%PDF-` header in its first bytes, or (when the
+ * bytes can't be read) a PDF MIME type. Never throws.
+ * @param {unknown} blob
+ * @returns {Promise<boolean>}
+ */
+export async function isPdfBlob(blob) {
+  if (!isBlob(blob)) return false;
+  try {
+    const head = new Uint8Array(await blob.slice(0, PDF_HEADER_WINDOW).arrayBuffer());
+    if (hasPdfMagic(head)) return true;
+  } catch {
+    /* unreadable: fall back to the declared type */
+  }
+  return isPdfType(blob.type);
+}
+
+/**
+ * A remembered page: an integer ≥ 1, at most `pages` when known (1 otherwise).
+ * @param {unknown} page
+ * @param {number | null} pages
+ * @returns {number}
+ */
+function normalizePage(page, pages) {
+  const n = Math.round(Number(page));
+  if (!Number.isFinite(n) || n < 1) return 1;
+  return pages && n > pages ? pages : n;
+}
+
+/**
+ * A remembered zoom: a number in [0.05, 20], `'fit-width'`, `'fit-page'`, or null (viewer default).
+ * @param {unknown} scale
+ * @returns {number | 'fit-width' | 'fit-page' | null}
+ */
+function normalizeScale(scale) {
+  if (typeof scale === 'string' && NAMED_SCALES.has(scale)) return /** @type {'fit-width' | 'fit-page'} */ (scale);
+  const n = Number(scale);
+  if (scale === null || scale === undefined || scale === '' || !Number.isFinite(n)) return null;
+  return Math.min(20, Math.max(0.05, Math.round(n * 1000) / 1000));
+}
+
+/**
+ * The stored metadata of a book (everything but the blob).
+ * @param {any} rec
+ * @param {number} bytes
+ * @param {number} updated
+ * @returns {BookMeta}
+ */
+function bookMeta(rec, bytes, updated) {
+  const pages = Number.isInteger(rec.pages) && rec.pages > 0 ? rec.pages : null;
+  return {
+    id: requireBookId(rec.id),
+    title: String(rec.title ?? '').replace(/\s+/g, ' ').trim().slice(0, 300),
+    fileName: String(rec.fileName ?? '').trim().slice(0, 255),
+    bytes,
+    pages,
+    added: Number.isFinite(rec.added) ? rec.added : updated,
+    updated,
+    lastPage: normalizePage(rec.lastPage, pages),
+    lastScale: normalizeScale(rec.lastScale),
+  };
+}
+
+/**
+ * Checks the input of `bookRepo.put` (reads the first bytes of the blob) and
+ * returns the metadata record to store plus the blob. Errors carry a
+ * plain-language `message`/`userMessage` and a `code`:
+ * TypeError `'bad-input'` / `'empty'` / `'not-pdf'`, RangeError `'too-large'`.
+ * @param {any} rec `{ id, blob, title?, fileName?, pages?, added?, lastPage?, lastScale? }`
+ * @param {number} [now]
+ * @returns {Promise<{ meta: BookMeta, blob: Blob }>}
+ */
+export async function checkBookInput(rec, now = Date.now()) {
+  if (!rec || typeof rec !== 'object') throw new TypeError('book must be an object');
+  requireBookId(rec.id);
+  const blob = rec.blob;
+  if (!isBlob(blob)) throw userError(TypeError, "This file couldn't be read. Please choose it again.", 'bad-input');
+  if (!(blob.size > 0)) throw userError(TypeError, 'This file is empty.', 'empty');
+  if (blob.size > BOOK_MAX_BYTES) {
+    throw userError(RangeError, 'This PDF is larger than 300 MB, too big to keep in the app. Try a smaller copy of the chapter.', 'too-large');
+  }
+  if (!(await isPdfBlob(blob))) throw userError(TypeError, "This file isn't a PDF. Choose the chapter's PDF file.", 'not-pdf');
+  return { meta: bookMeta(rec, blob.size, now), blob };
+}
+
+/**
+ * The imported chapter PDFs. Inside IndexedDB the small metadata record
+ * (`books`) and the PDF blob (`bookfiles`, `{id, blob}`) are separate so that
+ * saving the reading position never rewrites the large file; this API joins
+ * them. Removing a book keeps its annotations (see {@link pdfNotesRepo}).
+ */
+export const bookRepo = Object.freeze({
+  /**
+   * The book with its PDF blob (a lazy handle: nothing is read until used).
+   * @param {string} id Chapter id, e.g. `ch01`.
+   * @returns {Promise<BookRecord | null>} `blob` is null only if the file record is missing.
+   */
+  async get(id) {
+    requireBookId(id);
+    const out = await db.tx(['books', 'bookfiles'], 'readonly', async (s) => {
+      const [meta, file] = await Promise.all([db.reqP(s.books.get(id)), db.reqP(s.bookfiles.get(id))]);
+      return { meta, file };
+    });
+    if (!out?.meta) return null;
+    return { ...out.meta, blob: out.file?.blob ?? null };
+  },
+
+  /**
+   * Metadata of every book (no `blob` field, so no file is touched), in id order.
+   * @returns {Promise<BookMeta[]>}
+   */
+  async all() {
+    const rows = await db.getAll('books');
+    return rows.sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+  },
+
+  /**
+   * Stores (or replaces) a chapter's PDF and metadata in one transaction.
+   * Validates the input with {@link checkBookInput}; sets `bytes`, `updated`
+   * and (when missing) `added`. Putting back a record from `get()` restores it (Undo).
+   * @param {{ id: string, blob: Blob, title?: string, fileName?: string, pages?: number | null,
+   *   added?: number, lastPage?: number, lastScale?: number | string | null }} rec
+   * @returns {Promise<BookRecord>} The stored record.
+   */
+  async put(rec) {
+    const { meta, blob } = await checkBookInput(rec);
+    return withLock(`books:${meta.id}`, async () => {
+      await db.tx(['books', 'bookfiles'], 'readwrite', (s) => {
+        s.books.put(meta);
+        s.bookfiles.put({ id: meta.id, blob });
+      });
+      changed('books', meta.id);
+      return { ...meta, blob };
+    });
+  },
+
+  /**
+   * Deletes a chapter's PDF and metadata (its annotations stay).
+   * @param {string} id
+   * @returns {Promise<void>}
+   */
+  remove(id) {
+    requireBookId(id);
+    return withLock(`books:${id}`, async () => {
+      await db.tx(['books', 'bookfiles'], 'readwrite', (s) => {
+        s.books.delete(id);
+        s.bookfiles.delete(id);
+      });
+      changed('books', id);
+    });
+  },
+
+  /**
+   * Remembers the reading position (metadata only; the PDF is not rewritten).
+   * `lastPage` is clamped to 1..pages; `lastScale` is a number, `'fit-width'`,
+   * `'fit-page'` or null. Omitted fields are kept. Sets `updated`.
+   * @param {string} id
+   * @param {{ lastPage?: number, lastScale?: number | 'fit-width' | 'fit-page' | null }} [pos]
+   * @returns {Promise<BookMeta | null>} The stored metadata, or null when the book is missing.
+   */
+  setPosition(id, pos = {}) {
+    requireBookId(id);
+    const { lastPage, lastScale } = pos && typeof pos === 'object' ? pos : /** @type {any} */ ({});
+    return withLock(`books:${id}`, async () => {
+      const next = await db.tx('books', 'readwrite', async (s) => {
+        const cur = await db.reqP(s.books.get(id));
+        if (!cur) return null;
+        const rec = { ...cur, updated: Date.now() };
+        if (lastPage !== undefined) rec.lastPage = normalizePage(lastPage, cur.pages);
+        if (lastScale !== undefined) rec.lastScale = normalizeScale(lastScale);
+        s.books.put(rec);
+        return rec;
+      });
+      if (next) changed('books', id);
+      return next ?? null;
+    });
+  },
+});
+
+// ---------------------------------------------------------------------------
+// pdfnotes (annotations on book pages)
+// ---------------------------------------------------------------------------
+
+/**
+ * @param {string} bookId
+ * @param {number} page 1-based.
+ * @returns {string}
+ */
+export function pdfNoteId(bookId, page) {
+  return `${bookId}|${page}`;
+}
+
+/**
+ * Whether page annotations have anything worth keeping (scene items or text highlights).
+ * @param {{ scene?: any, highlights?: unknown } | null | undefined} rec
+ * @returns {boolean}
+ */
+export function pdfNoteHasContent(rec) {
+  if (!rec || typeof rec !== 'object') return false;
+  if (Array.isArray(rec.highlights) && rec.highlights.length > 0) return true;
+  const items = rec.scene && typeof rec.scene === 'object' ? rec.scene.items : null;
+  return Array.isArray(items) && items.length > 0;
+}
+
+/**
+ * @param {unknown} page
+ * @returns {number}
+ */
+function requirePage(page) {
+  if (!Number.isInteger(page) || /** @type {number} */ (page) < 1) throw new TypeError('page must be an integer ≥ 1');
+  return /** @type {number} */ (page);
+}
+
+/** Per-page annotations of the book PDFs (one record per book page). */
+export const pdfNotesRepo = Object.freeze({
+  /**
+   * @param {string} bookId
+   * @param {number} page 1-based PDF page.
+   * @returns {Promise<PdfNote | null>}
+   */
+  get(bookId, page) {
+    return db.get('pdfnotes', pdfNoteId(requireBookId(bookId), requirePage(page)));
+  },
+
+  /**
+   * @param {string} bookId
+   * @returns {Promise<PdfNote[]>} In page order.
+   */
+  async byBook(bookId) {
+    return sortBy(await db.getAllByIndex('pdfnotes', 'bookId', requireBookId(bookId)), 'page');
+  },
+
+  /**
+   * Saves a page's annotations. A field left `undefined` keeps its stored
+   * value (`null`/`[]` clear it). The record is deleted when the result has no
+   * scene items and no highlights.
+   * @param {string} bookId
+   * @param {number} page 1-based PDF page.
+   * @param {{ scene?: Scene | null, highlights?: TextHl[] | null }} data
+   * @returns {Promise<PdfNote | null>} The stored record, or null when deleted.
+   */
+  set(bookId, page, data = {}) {
+    requireBookId(bookId);
+    requirePage(page);
+    const { scene, highlights } = data && typeof data === 'object' ? data : /** @type {any} */ ({});
+    if (scene !== undefined && scene !== null && typeof scene !== 'object') throw new TypeError('scene must be an object or null');
+    if (highlights !== undefined && highlights !== null && !Array.isArray(highlights)) {
+      throw new TypeError('highlights must be an array or null');
+    }
+    const id = pdfNoteId(bookId, page);
+    return withLock(`pdfnotes:${id}`, async () => {
+      const rec = await db.tx('pdfnotes', 'readwrite', async (s) => {
+        const cur = scene === undefined || highlights === undefined ? await db.reqP(s.pdfnotes.get(id)) : null;
+        /** @type {PdfNote} */
+        const next = {
+          id,
+          bookId,
+          page,
+          scene: (scene === undefined ? cur?.scene : scene) ?? null,
+          highlights: (highlights === undefined ? cur?.highlights : highlights) ?? [],
+          updated: Date.now(),
+        };
+        if (!pdfNoteHasContent(next)) {
+          s.pdfnotes.delete(id);
+          return null;
+        }
+        s.pdfnotes.put(next);
+        return next;
+      });
+      changed('pdfnotes', id);
+      return rec ?? null;
+    });
+  },
+
+  /**
+   * Deletes every page annotation of a book (one transaction).
+   * @param {string} bookId
+   * @returns {Promise<string[]>} The removed record ids.
+   */
+  async removeBook(bookId) {
+    requireBookId(bookId);
+    const removed = await db.tx('pdfnotes', 'readwrite', async (s) => {
+      const keys = /** @type {string[]} */ (await db.reqP(s.pdfnotes.index('bookId').getAllKeys(bookId)));
+      for (const key of keys) s.pdfnotes.delete(key);
+      return keys;
+    });
+    const list = Array.isArray(removed) ? removed : [];
+    if (list.length) changed('pdfnotes', null);
+    return list;
+  },
+
+  /** @returns {Promise<PdfNote[]>} */
+  all() {
+    return db.getAll('pdfnotes');
+  },
+});
+
+// ---------------------------------------------------------------------------
 // reports
 // ---------------------------------------------------------------------------
 
@@ -882,16 +1266,53 @@ export function importable(name, rec) {
     copy.bytes = copy.blob.size;
     if (!Number.isFinite(copy.ts)) copy.ts = 0;
   }
+  if (name === 'books') {
+    // Needs a non-empty PDF blob within the size limit (a wrong declared type is refused).
+    if (!isBookId(copy.id) || !isBlob(copy.blob)) return null;
+    const { blob } = copy;
+    if (!(blob.size > 0) || blob.size > BOOK_MAX_BYTES) return null;
+    if (blob.type && !isPdfType(blob.type)) return null;
+    return { ...bookMeta(copy, blob.size, Number.isFinite(copy.updated) ? copy.updated : 0), blob };
+  }
+  if (name === 'pdfnotes') {
+    if (!isBookId(copy.bookId) || !Number.isInteger(copy.page) || copy.page < 1) return null;
+    copy.id = pdfNoteId(copy.bookId, copy.page);
+    if (!Array.isArray(copy.highlights)) copy.highlights = [];
+    if (!copy.scene || typeof copy.scene !== 'object' || Array.isArray(copy.scene)) copy.scene = null;
+    if (!pdfNoteHasContent(copy)) return null;
+    if (!Number.isFinite(copy.updated)) copy.updated = 0;
+  }
   return copy;
 }
 
 /**
- * Every record of a store, as stored (voice records keep their Blob).
+ * Splits a joined book record (as `importable('books')` returns it) into its
+ * two IndexedDB records.
+ * @param {BookRecord} rec
+ * @returns {{ meta: BookMeta, file: { id: string, blob: Blob } }}
+ */
+function splitBook(rec) {
+  const { blob, ...meta } = rec;
+  return { meta, file: { id: meta.id, blob: /** @type {Blob} */ (blob) } };
+}
+
+/**
+ * Every record of a store, as stored (voice/media records keep their Blob;
+ * `books` records are joined with their PDF blob).
  * @param {string} name
  * @returns {Promise<any[]>}
  */
 export async function dumpStore(name) {
   assertStore(name);
+  if (name === 'books') {
+    // Joined with their PDF blobs (lazy handles; the caller decides whether to read them).
+    const out = await db.tx(['books', 'bookfiles'], 'readonly', async (s) => {
+      const [metas, files] = await Promise.all([db.reqP(s.books.getAll()), db.reqP(s.bookfiles.getAll())]);
+      return { metas, files };
+    });
+    const blobs = new Map((out?.files ?? []).map((f) => [f.id, f.blob]));
+    return (out?.metas ?? []).map((m) => ({ ...m, blob: blobs.get(m.id) ?? null }));
+  }
   return db.getAll(name);
 }
 
@@ -905,6 +1326,28 @@ export async function dumpStore(name) {
 export async function replaceStore(name, records) {
   assertStore(name);
   const list = Array.isArray(records) ? records : [];
+  if (name === 'books') {
+    const done = await db.tx(['books', 'bookfiles'], 'readwrite', (s) => {
+      s.books.clear();
+      s.bookfiles.clear();
+      let written = 0;
+      let skipped = 0;
+      for (const rec of list) {
+        const copy = importable(name, rec);
+        if (!copy) {
+          skipped++;
+          continue;
+        }
+        const { meta, file } = splitBook(copy);
+        s.books.put(meta);
+        s.bookfiles.put(file);
+        written++;
+      }
+      return { written, skipped };
+    });
+    changed(name, null);
+    return done;
+  }
   const result = await db.tx(name, 'readwrite', async (s) => {
     const store = s[name];
     /** @type {any[]} */
@@ -939,7 +1382,8 @@ export async function replaceStore(name, records) {
  * - `attempts`: added unless one with the same `(qid, ts)` exists (new ids assigned).
  * - `settings`: only keys the device doesn't have yet (never `lastRoute`).
  * - others: added when missing; replaced when the incoming copy is newer
- *   (`updated` / `updatedAt` / `ts` / `lastTs`).
+ *   (`updated` / `updatedAt` / `ts` / `lastTs`). A `books` record is written
+ *   with its PDF blob (metadata and file together).
  * @param {string} name
  * @param {any[]} records
  * @returns {Promise<{ added: number, updated: number, skipped: number }>}
@@ -948,8 +1392,19 @@ export async function mergeStore(name, records) {
   assertStore(name);
   const list = Array.isArray(records) ? records : [];
   const { keyPath } = db.SCHEMA[name];
-  const result = await db.tx(name, 'readwrite', async (s) => {
+  const stores = name === 'books' ? ['books', 'bookfiles'] : [name];
+  const result = await db.tx(stores, 'readwrite', async (s) => {
     const store = s[name];
+    /** @param {any} copy */
+    const write = (copy) => {
+      if (name !== 'books') {
+        store.put(copy);
+        return;
+      }
+      const { meta, file } = splitBook(copy);
+      store.put(meta);
+      s.bookfiles.put(file);
+    };
     const existing = /** @type {any[]} */ (await db.reqP(store.getAll()));
     let added = 0;
     let updated = 0;
@@ -981,11 +1436,11 @@ export async function mergeStore(name, records) {
       }
       const current = byKey.get(copy[keyPath]);
       if (!current) {
-        store.put(copy);
+        write(copy);
         byKey.set(copy[keyPath], copy);
         added++;
       } else if (name !== 'settings' && recordTime(copy) > recordTime(current)) {
-        store.put(copy);
+        write(copy);
         byKey.set(copy[keyPath], copy);
         updated++;
       } else {

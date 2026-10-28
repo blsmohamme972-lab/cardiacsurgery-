@@ -21,11 +21,16 @@
  * The router never writes to the scene: every finished gesture becomes one
  * command handed to `ctx.commit`, so each is one undo step.
  *
+ * Sizes follow the page: {@link SCRATCH_SIZES} are scaled by `sizeScale(page)`
+ * (1 on the 2000-unit scratchpad page). Extra "tap tools" (`ctx.tapTools`,
+ * e.g. the book's sticky note and voice pin) behave like the text tool: a tap
+ * calls `ctx.tapTool(tool, point)`.
+ *
  * @module features/scratch/tools
  */
 
 import { simulatePressure, smoothPoint } from '../annotate/ink.js';
-import { SCRATCH_SIZES, SHAPES, makeItem, moveItem } from './scene.js';
+import { SCRATCH_SIZES, SHAPES, makeItem, moveItem, sizeScale } from './scene.js';
 import {
   itemBox,
   itemBounds,
@@ -89,6 +94,8 @@ let penSeen = false;
  * @property {(s: string, size: number) => number} measure
  * @property {() => void} [onGesture] A drawing gesture started (hide hints, close popovers).
  * @property {() => void} [onIdle] A gesture ended (the shell repositions the action bar).
+ * @property {readonly string[]} [tapTools] Extra tools that act on a tap (like text).
+ * @property {(tool: string, at: Point) => void} [tapTool] Called for a tap with one of `tapTools`.
  */
 
 /**
@@ -97,7 +104,7 @@ let penSeen = false;
  * @param {number} scale CSS px per unit.
  * @param {(s: string, size: number) => number} measure
  * @returns {null | { box: { x: number, y: number, w: number, h: number }, rot: number,
- *   handles: Record<string, Point>, line: boolean, kind: 'image' | 'text' | 'line' | 'shape' | 'group' }}
+ *   handles: Record<string, Point>, line: boolean, kind: 'image' | 'text' | 'line' | 'shape' | 'pin' | 'group' }}
  */
 export function frameFor(items, scale, measure) {
   if (!items.length) return null;
@@ -125,6 +132,10 @@ export function frameFor(items, scale, measure) {
     if (it.type === 'shape') {
       const box = itemBox(it);
       return { box, rot: 0, handles: handlePoints(box, 0), line: false, kind: 'shape' };
+    }
+    if (it.type === 'note' || it.type === 'audio') {
+      // Pins are buttons drawn by their owner: no frame handles (drag moves them).
+      return { box: itemBox(it), rot: 0, handles: {}, line: false, kind: 'pin' };
     }
   }
   const box = /** @type {any} */ (unionBounds(items.map((i) => itemBounds(i, { measure }))));
@@ -157,6 +168,9 @@ export function createTools(ctx) {
     return ctx.selection().map((id) => map.get(id)).filter(Boolean);
   };
 
+  /** @param {string} tool */
+  const isTapTool = (tool) => Array.isArray(ctx.tapTools) && ctx.tapTools.includes(tool);
+
   function fingersDraw() {
     const mode = ctx.drawInput();
     if (mode === 'finger') return true;
@@ -187,8 +201,9 @@ export function createTools(ctx) {
    */
   function beginStroke(e, tool) {
     const { color, size } = ctx.style();
+    const k = sizeScale(ctx.scene().page);
     const stroke = /** @type {import('./scene.js').StrokeItem} */ (
-      makeItem({ type: 'stroke', tool, color, size: tool === 'hl' ? SCRATCH_SIZES.hl[size] : SCRATCH_SIZES.pen[size], pts: [] })
+      makeItem({ type: 'stroke', tool, color, size: (tool === 'hl' ? SCRATCH_SIZES.hl[size] : SCRATCH_SIZES.pen[size]) * k, pts: [] })
     );
     op = { kind: 'stroke', pointerId: e.pointerId, pointerType: e.pointerType || 'mouse', stroke, last: null, lastRaw: null, lastStored: null };
     addStrokePoint(e);
@@ -275,7 +290,7 @@ export function createTools(ctx) {
       x2: p.x,
       y2: p.y,
       color,
-      size: SCRATCH_SIZES.shape[size],
+      size: SCRATCH_SIZES.shape[size] * sizeScale(ctx.scene().page),
       fill: false,
     });
     paintLive({ items: [op.item] });
@@ -350,7 +365,7 @@ export function createTools(ctx) {
       const b = unionBounds(op.items.map((/** @type {Item} */ i) => (i.type === 'image' && !i.rot ? itemBox(i) : itemBounds(i, { measure: ctx.measure }))));
       let guides = null;
       if (b && !e.altKey) {
-        const s = snapBoxToPage({ x: b.x + dx, y: b.y + dy, w: b.w, h: b.h }, SNAP_PX / scale);
+        const s = snapBoxToPage({ x: b.x + dx, y: b.y + dy, w: b.w, h: b.h }, SNAP_PX / scale, ctx.scene().page);
         dx += s.dx;
         dy += s.dy;
         guides = s.guides;
@@ -545,7 +560,9 @@ export function createTools(ctx) {
       op = { kind: 'shape', pointerId: e.pointerId, pointerType: e.pointerType, shape: tool, p0: pt, id: makeItem({ type: 'shape' }).id, item: null };
     } else if (tool === 'text') {
       const hit = hitTest(ctx.scene().items, pt.x, pt.y, TAP_TOL_PX / ctx.scale(), { measure: ctx.measure, filter: (i) => i.type === 'text' });
-      op = { kind: 'textTap', pointerId: e.pointerId, pointerType: e.pointerType, pt, hit, c0: { x: e.clientX, y: e.clientY } };
+      op = { kind: 'textTap', pointerId: e.pointerId, pointerType: e.pointerType, pt, hit, c0: { x: e.clientX, y: e.clientY }, tool };
+    } else if (isTapTool(tool)) {
+      op = { kind: 'textTap', pointerId: e.pointerId, pointerType: e.pointerType, pt, hit: null, c0: { x: e.clientX, y: e.clientY }, tool };
     } else {
       selectDown(e, pt);
     }
@@ -584,7 +601,7 @@ export function createTools(ctx) {
         startPinch([...touches.values()].slice(0, 2));
         return;
       }
-      if (!fingersDraw() && ctx.tool() !== 'select' && ctx.tool() !== 'text') {
+      if (!fingersDraw() && ctx.tool() !== 'select' && ctx.tool() !== 'text' && !isTapTool(ctx.tool())) {
         op = { kind: 'pan', pointerId: e.pointerId, pointerType: 'touch', last: { x: e.clientX, y: e.clientY } };
         return;
       }
@@ -655,7 +672,10 @@ export function createTools(ctx) {
     if (op.kind === 'textTap') {
       const o = op;
       op = null;
-      if (Math.hypot(e.clientX - o.c0.x, e.clientY - o.c0.y) < 10 && e.type !== 'pointercancel') ctx.editText(o.hit, o.pt);
+      if (Math.hypot(e.clientX - o.c0.x, e.clientY - o.c0.y) < 10 && e.type !== 'pointercancel') {
+        if (o.tool === 'text' || !o.tool) ctx.editText(o.hit, o.pt);
+        else ctx.tapTool?.(o.tool, o.pt);
+      }
       return;
     }
     // A cancelled touch stroke is usually a scroll or a palm; a cancelled pen stroke is kept.

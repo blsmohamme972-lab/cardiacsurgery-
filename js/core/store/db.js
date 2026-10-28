@@ -21,7 +21,7 @@
 import { bus } from '../events.js';
 
 export const DB_NAME = 'cardiac-mcq';
-export const DB_VERSION = 2;
+export const DB_VERSION = 3;
 
 /** Time allowed for one open attempt before it is treated as hung. */
 const OPEN_TIMEOUT_MS = 8000;
@@ -46,6 +46,9 @@ export const SCHEMA = Object.freeze({
   reviews: Object.freeze({ keyPath: 'qid', indexes: Object.freeze([]) }),
   sessions: Object.freeze({ keyPath: 'id', indexes: Object.freeze(['updatedAt']) }),
   media: Object.freeze({ keyPath: 'id', indexes: Object.freeze(['qid', 'ts']) }),
+  books: Object.freeze({ keyPath: 'id', indexes: Object.freeze(['updated']) }),
+  bookfiles: Object.freeze({ keyPath: 'id', indexes: Object.freeze([]) }),
+  pdfnotes: Object.freeze({ keyPath: 'id', indexes: Object.freeze(['bookId']) }),
 });
 
 /**
@@ -117,6 +120,16 @@ export const migrations = [
   // Additive only: every v1 store and record is left untouched. Idempotent.
   (db, tx) => {
     ensureStore(db, tx, 'media', { keyPath: 'id' }, ['qid', 'ts']);
+  },
+  // v3: the Book tab (§7.17). `books` holds each imported chapter PDF's small
+  // metadata record (reading position included), `bookfiles` its PDF blob
+  // (`{id, blob}`, same id) so saving the position never rewrites the large
+  // file, and `pdfnotes` the per-page annotations. Additive only: every v1/v2
+  // store and record is left untouched. Idempotent.
+  (db, tx) => {
+    ensureStore(db, tx, 'books', { keyPath: 'id' }, ['updated']);
+    ensureStore(db, tx, 'bookfiles', { keyPath: 'id' }, []);
+    ensureStore(db, tx, 'pdfnotes', { keyPath: 'id' }, ['bookId']);
   },
 ];
 

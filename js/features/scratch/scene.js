@@ -17,8 +17,12 @@
  * - `{ type: 'page', bg }`                  page template
  * - `{ type: 'insert', entries }`           internal inverse of remove/clear
  *
- * Item coordinates are page units (2000 × 3000 page), rounded to 1 decimal
- * when serialized. Importing this module touches no DOM.
+ * Item coordinates are page units, rounded to 1 decimal when serialized. The
+ * scratchpad page is 2000 × 3000 units; a book page (§7.17) uses its PDF size
+ * in points (`scene.page.w/h`), and tool sizes scale with {@link sizeScale}.
+ * Book pages also hold two point items drawn as pins by the book layer:
+ * `note` (sticky note) and `audio` (voice note pin). Importing this module
+ * touches no DOM.
  *
  * @module features/scratch/scene
  */
@@ -35,8 +39,11 @@ export const SCENE_VERSION = 2;
 export const BACKGROUNDS = Object.freeze(['plain', 'dots', 'grid', 'lines']);
 /** Shape kinds. */
 export const SHAPES = Object.freeze(['line', 'arrow', 'rect', 'ellipse']);
-/** Item types. */
-export const ITEM_TYPES = Object.freeze(['stroke', 'image', 'text', 'shape']);
+/** Item types (`note` and `audio` are point items used on book pages). */
+export const ITEM_TYPES = Object.freeze(['stroke', 'image', 'text', 'shape', 'note', 'audio']);
+/** Smallest / largest page side a stored scene may declare (page units). */
+export const MIN_PAGE_SIDE = 50;
+export const MAX_PAGE_SIDE = 20000;
 /** Undo steps kept. */
 export const HISTORY_LIMIT = 300;
 /** Most items one scene keeps (a corrupt record can never freeze the app). */
@@ -45,6 +52,10 @@ export const MAX_ITEMS = 20000;
 export const MAX_STROKE_POINTS = 6000;
 /** Longest text box content. */
 export const MAX_TEXT = 5000;
+/** Longest sticky note. */
+export const MAX_NOTE_TEXT = 5000;
+/** Longest voice note a pin may describe (ms). */
+export const MAX_AUDIO_MS = 60 * 60 * 1000;
 
 /**
  * The eight scratchpad colours: stored `hex`, and a lighter `dark` twin used
@@ -84,7 +95,11 @@ const DEFAULT_COLOR = '#1d4ed8';
  * @typedef {{ id: string, type: 'text', x: number, y: number, w: number, text: string, color: string, size: number }} TextItem
  * @typedef {{ id: string, type: 'shape', shape: 'line' | 'arrow' | 'rect' | 'ellipse', x1: number, y1: number,
  *   x2: number, y2: number, color: string, size: number, fill: boolean }} ShapeItem
- * @typedef {StrokeItem | ImageItem | TextItem | ShapeItem} Item
+ * @typedef {{ id: string, type: 'note', x: number, y: number, text: string, color: string }} NoteItem
+ *   A sticky note anchored at (x, y); an empty text is allowed (the note was just placed).
+ * @typedef {{ id: string, type: 'audio', x: number, y: number, voice: string, durationMs: number }} AudioItem
+ *   A voice note pin at (x, y); `voice` is the voiceRepo record id.
+ * @typedef {StrokeItem | ImageItem | TextItem | ShapeItem | NoteItem | AudioItem} Item
  * @typedef {{ w: number, h: number, bg: 'plain' | 'dots' | 'grid' | 'lines' }} Page
  * @typedef {{ v: 2, page: Page, items: Item[] }} Scene
  * @typedef {Record<string, any> & { type: string }} Command
@@ -142,12 +157,44 @@ export function sizeIndex(v) {
 }
 
 /**
+ * Is `n` a usable page side?
+ * @param {unknown} n
+ * @returns {boolean}
+ */
+function pageSide(n) {
+  return typeof n === 'number' && Number.isFinite(n) && n >= MIN_PAGE_SIDE && n <= MAX_PAGE_SIDE;
+}
+
+/**
+ * A valid page size, or null.
+ * @param {any} size
+ * @returns {{ w: number, h: number } | null}
+ */
+export function pageSize(size) {
+  if (!size || typeof size !== 'object' || !pageSide(size.w) || !pageSide(size.h)) return null;
+  return { w: Math.round(size.w * 100) / 100, h: Math.round(size.h * 100) / 100 };
+}
+
+/**
+ * How much tool sizes (pen width, font size, …) are scaled on a page: the
+ * {@link SCRATCH_SIZES} are made for the 2000-unit scratchpad page, so a
+ * 612-pt book page gets 612 / 2000 of them (the same look relative to the page).
+ * @param {{ w?: number } | null | undefined} page
+ * @returns {number}
+ */
+export function sizeScale(page) {
+  return page && pageSide(page.w) ? /** @type {number} */ (page.w) / PAGE_W : 1;
+}
+
+/**
  * An empty scene.
  * @param {Page['bg']} [bg='dots']
+ * @param {{ w: number, h: number }} [size] Page size (default 2000 × 3000, the scratchpad page).
  * @returns {Scene}
  */
-export function emptyScene(bg = 'dots') {
-  return { v: SCENE_VERSION, page: { w: PAGE_W, h: PAGE_H, bg: BACKGROUNDS.includes(bg) ? bg : 'dots' }, items: [] };
+export function emptyScene(bg = 'dots', size) {
+  const sz = pageSize(size) || { w: PAGE_W, h: PAGE_H };
+  return { v: SCENE_VERSION, page: { w: sz.w, h: sz.h, bg: BACKGROUNDS.includes(bg) ? bg : 'dots' }, items: [] };
 }
 
 /* ------------------------------------------------------------------ */
@@ -217,6 +264,21 @@ export function sanitizeItem(raw) {
       if (!shape || x1 === null || y1 === null || x2 === null || y2 === null || !size) return null;
       return { id, type: 'shape', shape, x1, y1, x2, y2, color, size, fill: raw.fill === true };
     }
+    case 'note': {
+      const x = coord(raw.x);
+      const y = coord(raw.y);
+      if (x === null || y === null) return null;
+      const text = typeof raw.text === 'string' ? raw.text.slice(0, MAX_NOTE_TEXT) : '';
+      return { id, type: 'note', x, y, text, color };
+    }
+    case 'audio': {
+      const x = coord(raw.x);
+      const y = coord(raw.y);
+      const voice = typeof raw.voice === 'string' && ID_RE.test(raw.voice) ? raw.voice : null;
+      if (x === null || y === null || !voice) return null;
+      const durationMs = finite(raw.durationMs) ? Math.round(clampNum(raw.durationMs, 0, MAX_AUDIO_MS)) : 0;
+      return { id, type: 'audio', x, y, voice, durationMs };
+    }
     default:
       return null;
   }
@@ -239,12 +301,19 @@ export function normalizeAngle(a) {
  * Reads a stored scene: validates every item (bad ones are dropped, never
  * thrown), drops duplicate ids, keeps the z-order. Anything unusable gives an
  * empty scene.
+ *
+ * Page size: `size` when given (a book page); else the stored size when it is
+ * valid ({@link MIN_PAGE_SIDE}–{@link MAX_PAGE_SIDE}); else 2000 × 3000. When
+ * `size` is given and the stored page had another valid size, the items are
+ * scaled to the new size (so annotations stay on the same spot).
  * @param {any} raw
- * @param {{ bg?: Page['bg'] }} [opts] Template for a missing/invalid page.
+ * @param {{ bg?: Page['bg'], size?: { w: number, h: number } }} [opts] Template for a missing/invalid page, page size.
  * @returns {Scene}
  */
-export function deserialize(raw, { bg = 'dots' } = {}) {
-  const scene = emptyScene(bg);
+export function deserialize(raw, { bg = 'dots', size } = {}) {
+  const want = pageSize(size);
+  const stored = raw && typeof raw === 'object' ? pageSize(raw.page) : null;
+  const scene = emptyScene(bg, want || stored || undefined);
   if (!raw || typeof raw !== 'object') return scene;
   if (raw.page && typeof raw.page === 'object' && BACKGROUNDS.includes(raw.page.bg)) scene.page.bg = raw.page.bg;
   const list = Array.isArray(raw.items) ? raw.items : [];
@@ -256,16 +325,57 @@ export function deserialize(raw, { bg = 'dots' } = {}) {
     seen.add(it.id);
     scene.items.push(it);
   }
+  if (want && stored && (Math.abs(want.w - stored.w) > 0.01 || Math.abs(want.h - stored.h) > 0.01)) {
+    scene.items = scene.items.map((it) => scaleItem(it, want.w / stored.w, want.h / stored.h)).filter(Boolean);
+  }
   return scene;
 }
 
 /**
+ * A copy of an item scaled around the page origin (page resize). Sizes
+ * (line width, font size) scale with the geometric mean of both factors.
+ * @param {Item} it
+ * @param {number} sx
+ * @param {number} sy
+ * @returns {Item | null} null when the result is not a valid item.
+ */
+export function scaleItem(it, sx, sy) {
+  const k = Math.sqrt(Math.abs(sx * sy)) || 1;
+  /** @type {any} */
+  let out;
+  switch (it.type) {
+    case 'stroke': {
+      const pts = it.pts.slice();
+      for (let i = 0; i + 1 < pts.length; i += 3) {
+        pts[i] *= sx;
+        pts[i + 1] *= sy;
+      }
+      out = { ...it, pts, size: it.size * k };
+      break;
+    }
+    case 'shape':
+      out = { ...it, x1: it.x1 * sx, y1: it.y1 * sy, x2: it.x2 * sx, y2: it.y2 * sy, size: it.size * k };
+      break;
+    case 'image':
+      out = { ...it, x: it.x * sx, y: it.y * sy, w: it.w * sx, h: it.h * sy };
+      break;
+    case 'text':
+      out = { ...it, x: it.x * sx, y: it.y * sy, w: it.w * sx, size: it.size * k };
+      break;
+    default:
+      out = { ...it, x: /** @type {any} */ (it).x * sx, y: /** @type {any} */ (it).y * sy };
+  }
+  return sanitizeItem(out);
+}
+
+/**
  * A plain JSON copy of a scene for storage (numbers rounded to 1 decimal).
+ * Keeps the page size (2000 × 3000 when missing or invalid).
  * @param {Scene} scene
  * @returns {Scene}
  */
 export function serialize(scene) {
-  const out = emptyScene(scene?.page?.bg);
+  const out = emptyScene(scene?.page?.bg, pageSize(scene?.page) || undefined);
   for (const it of Array.isArray(scene?.items) ? scene.items : []) {
     const clean = sanitizeItem(it);
     if (clean) out.items.push(clean);
@@ -312,6 +422,17 @@ export function mediaIds(scene) {
   return out;
 }
 
+/**
+ * Voice note ids referenced by a scene's audio pins.
+ * @param {Scene} scene
+ * @returns {Set<string>}
+ */
+export function voiceIds(scene) {
+  const out = new Set();
+  for (const it of scene?.items || []) if (it.type === 'audio') out.add(it.voice);
+  return out;
+}
+
 /* ------------------------------------------------------------------ */
 /* Item helpers                                                        */
 /* ------------------------------------------------------------------ */
@@ -355,17 +476,17 @@ export function cloneItem(it, offset = 40, idFn = uid) {
 
 /**
  * Applies a style patch (`color`, `size`) to an item where it makes sense
- * (images have no colour or size).
+ * (images and voice pins have no colour or size; notes take a colour only).
  * @template {Item} T
  * @param {T} it
  * @param {{ color?: string, size?: number }} patch
  * @returns {T}
  */
 export function styleItem(it, patch) {
-  if (it.type === 'image') return it;
+  if (it.type === 'image' || it.type === 'audio') return it;
   const next = /** @type {any} */ ({ ...it });
   if (typeof patch.color === 'string' && HEX_RE.test(patch.color)) next.color = patch.color.toLowerCase();
-  if (finite(patch.size) && /** @type {number} */ (patch.size) > 0) next.size = patch.size;
+  if (it.type !== 'note' && finite(patch.size) && /** @type {number} */ (patch.size) > 0) next.size = patch.size;
   return next;
 }
 

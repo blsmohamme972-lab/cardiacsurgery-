@@ -16,6 +16,12 @@
  * id); a missing image paints a calm placeholder. Colours come from the CSS
  * tokens, so light and dark mode follow the app theme.
  *
+ * The page size comes from the scene (`scene.page.w/h`: 2000 × 3000 on the
+ * scratchpad, the PDF page size in points on a book page). Paper mode
+ * `'none'` paints no paper at all (a transparent layer over a PDF page).
+ * Point items (`note`, `audio`) are not painted here: the book layer shows
+ * them as buttons.
+ *
  * @module features/scratch/render
  */
 
@@ -82,6 +88,17 @@ function inkStroke(it, dark, live) {
   const s = { tool: it.tool, color: paintColor(it.color, dark), size: it.size / PAGE_W, pts };
   if (!live) inkCache.set(it, { dark, s });
   return s;
+}
+
+/**
+ * The page size of a scene (2000 × 3000 when missing).
+ * @param {Scene | null} scene
+ * @returns {{ w: number, h: number }}
+ */
+function pageOf(scene) {
+  const w = Number(scene?.page?.w);
+  const h = Number(scene?.page?.h);
+  return { w: w > 0 ? w : PAGE_W, h: h > 0 ? h : PAGE_H };
 }
 
 /**
@@ -349,8 +366,12 @@ export function createRenderer({ sceneCanvas, liveCanvas, host, loadMedia }) {
    * @param {{ k: number, px: number, py: number, scale: number }} t
    * @param {{ mode: string, opacity: number }} p
    * @param {{ x0: number, y0: number, x1: number, y1: number }} vis Visible page area.
+   * @param {{ w: number, h: number }} pg Page size.
    */
-  function drawPaper(ctx, bg, t, p, vis) {
+  function drawPaper(ctx, bg, t, p, vis, pg) {
+    if (p.mode === 'none') return;
+    const PAGE_W = pg.w;
+    const PAGE_H = pg.h;
     const c = colors || readColors();
     setT(ctx, t.k, t.px, t.py);
     const over = p.mode === 'over';
@@ -451,7 +472,7 @@ export function createRenderer({ sceneCanvas, liveCanvas, host, loadMedia }) {
     readColors();
     const t = transform();
     const vis = { x0: view.x, y0: view.y, x1: view.x + cssW / view.scale, y1: view.y + cssH / view.scale };
-    drawPaper(ctx, scene.page.bg, t, paper, vis);
+    drawPaper(ctx, scene.page.bg, t, paper, vis, pageOf(scene));
     // Cull items far outside the view (cheap box test on stored coordinates).
     const items = hidden.size ? scene.items.filter((it) => !hidden.has(it.id)) : scene.items;
     drawItems(ctx, items, t);
@@ -469,6 +490,7 @@ export function createRenderer({ sceneCanvas, liveCanvas, host, loadMedia }) {
     if (live.stroke) drawItems(ctx, [live.stroke], { ...t, live: true });
     setT(ctx, t.k, t.px, t.py);
     const px = 1 / view.scale;
+    const { w: PAGE_W, h: PAGE_H } = pageOf(scene);
     if (live.guides && (live.guides.x !== null || live.guides.y !== null)) {
       ctx.strokeStyle = c.accent;
       ctx.lineWidth = px;
@@ -666,14 +688,15 @@ export function createRenderer({ sceneCanvas, liveCanvas, host, loadMedia }) {
       if (!scene) throw new Error('No scene');
       await Promise.all(scene.items.filter((i) => i.type === 'image').map((i) => ensureImage(/** @type {any} */ (i).media)));
       readColors();
-      const scale = width / PAGE_W;
+      const pg = pageOf(scene);
+      const scale = width / pg.w;
       const out = document.createElement('canvas');
-      out.width = Math.round(PAGE_W * scale);
-      out.height = Math.round(PAGE_H * scale);
+      out.width = Math.round(pg.w * scale);
+      out.height = Math.round(pg.h * scale);
       const ctx = out.getContext('2d');
       if (!ctx) throw new Error('No 2D context');
       const t = { k: scale, px: 0, py: 0, scale, d: 1, zoom: scale, dark: isDark() };
-      drawPaper(ctx, scene.page.bg, t, { mode: 'full', opacity: 1 }, { x0: 0, y0: 0, x1: PAGE_W, y1: PAGE_H });
+      drawPaper(ctx, scene.page.bg, t, { mode: 'full', opacity: 1 }, { x0: 0, y0: 0, x1: pg.w, y1: pg.h }, pg);
       drawItems(ctx, scene.items, t);
       return out;
     },

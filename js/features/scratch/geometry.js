@@ -4,7 +4,10 @@
  * containment, selection handles, resize and rotate math (aspect lock),
  * snapping and the view math (fit width, zoom around a point, pan limits).
  *
- * All coordinates are page units unless a parameter says "CSS px".
+ * All coordinates are page units unless a parameter says "CSS px". The page
+ * is 2000 × 3000 units by default (the scratchpad); functions that need the
+ * page take its size as an option (book pages, §7.17). Point items (`note`,
+ * `audio`) have a zero-size box at their anchor.
  *
  * @module features/scratch/geometry
  */
@@ -227,6 +230,9 @@ export function itemBox(it, { measure } = {}) {
   switch (it.type) {
     case 'image':
       return { x: it.x, y: it.y, w: it.w, h: it.h };
+    case 'note':
+    case 'audio':
+      return { x: it.x, y: it.y, w: 0, h: 0 };
     case 'text':
       return { x: it.x, y: it.y, w: it.w, h: textHeight(it, measure) };
     case 'shape':
@@ -316,6 +322,9 @@ export function hitItem(it, x, y, tol, { inside = true, measure } = {}) {
       return pointInBox(itemBox(it), it.rot, x, y, tol);
     case 'text':
       return pointInBox(itemBox(it, { measure }), 0, x, y, tol);
+    case 'note':
+    case 'audio':
+      return Math.hypot(x - it.x, y - it.y) <= tol;
     case 'shape': {
       const reach = tol + it.size / 2;
       if (it.shape === 'line' || it.shape === 'arrow') return distToSegment(x, y, it.x1, it.y1, it.x2, it.y2) <= reach;
@@ -658,6 +667,9 @@ export function scaleItems(items, from, to) {
         const ht = Math.max(MIN_SIDE, it.h * sy);
         return { ...it, x: cx - w / 2, y: cy - ht / 2, w, h: ht };
       }
+      case 'note':
+      case 'audio':
+        return { ...it, x: mx(it.x), y: my(it.y) };
       default:
         return it;
     }
@@ -723,9 +735,10 @@ export function fitWidthScale(viewportW, margin = 0, pageW = PAGE_W) {
  * @param {number} imgH
  * @param {Box} visible Visible page area (units).
  * @param {number} scale CSS px per unit.
+ * @param {{ w?: number, h?: number }} [page] Page size (default 2000 × 3000).
  * @returns {Box}
  */
-export function insertBox(imgW, imgH, visible, scale) {
+export function insertBox(imgW, imgH, visible, scale, { w: pageW = PAGE_W, h: pageH = PAGE_H } = {}) {
   const w0 = Math.max(1, imgW);
   const h0 = Math.max(1, imgH);
   const maxW = visible.w * 0.8;
@@ -733,10 +746,11 @@ export function insertBox(imgW, imgH, visible, scale) {
   const natural = 1 / Math.max(scale, 1e-6); // units per image px at 1:1 on screen
   const fit = Math.min(maxW / w0, maxH / h0);
   // Tiny images grow to a usable size (still inside the visible area).
-  const k = Math.max(Math.min(fit, natural), Math.min(fit, (MIN_SIDE * 4) / Math.min(w0, h0)));
+  const minSide = MIN_SIDE * 4 * Math.min(1, pageW / PAGE_W);
+  const k = Math.max(Math.min(fit, natural), Math.min(fit, minSide / Math.min(w0, h0)));
   const w = w0 * k;
   const h = h0 * k;
-  const cx = clamp(visible.x + visible.w / 2, w / 2, PAGE_W - w / 2);
-  const cy = clamp(visible.y + visible.h / 2, Math.min(h / 2, PAGE_H / 2), Math.max(PAGE_H - h / 2, PAGE_H / 2));
+  const cx = clamp(visible.x + visible.w / 2, w / 2, pageW - w / 2);
+  const cy = clamp(visible.y + visible.h / 2, Math.min(h / 2, pageH / 2), Math.max(pageH - h / 2, pageH / 2));
   return { x: cx - w / 2, y: cy - h / 2, w, h };
 }
